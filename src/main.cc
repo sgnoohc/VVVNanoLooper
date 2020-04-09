@@ -223,6 +223,12 @@ int main(int argc, char** argv)
 
     ana.tx.setTree(ana.tree_intermediate_variable);
 
+//********************************************************************************
+//
+// 3. Main event loop
+//
+//********************************************************************************
+
     Begin();
 
     // Looping input file
