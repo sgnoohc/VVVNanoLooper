@@ -82,6 +82,8 @@ So the pseudocode representation of the order of function call look like the fol
 
 This is where variables, histograms, or event selections needed for the category are defined.
 
+##### Adding variables
+
 When adding variables use the following functions and guidelines:
 
 The naming of the variable should be <category>_<name> to minimize any clashes between different channels.
@@ -100,6 +102,16 @@ If you want to have an list of ints (e.g. index of lepton / jets or some objects
 
 If you want to have an list of lorentzVectors (e.g. list of electron p4s)
     ana.tx.createBranch<vector<LorentzVector>>("<category>_<name>");
+
+##### Adding histograms
+
+Histograms are defined in example like the following:
+
+    ana.histograms.addHistogram("h_Common_nLep", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_electron_idxs").size() + ana.tx.getBranchLazy<vector<int>>("Common_muon_idxs").size(); } );
+
+Note that ```getBranchLazy``` used to access the variables that was defined to determine how the histogram will be filled.
+
+##### Note on common variables that would be shared across different channels
 
 If some variables, histograms, or event selections need to run for all categories, then they should be implemented in ```Common``` equivalent area.
 
@@ -129,6 +141,118 @@ If some variables need to run for all categories, then they should be implemente
 This is where the stuff that runs once after the event loop is done.
 
 If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
+
+### Some tips on debugging
+
+If you encounter an error that starts with something like ```RooUtil:: ERROR blah blah blah```, then approach it like the following using ```gdb```
+
+Start ```gdb``` by ```gdb --args <your usual command>```. -> After the prompt opens run the program via "r" and when it dies, type ```backtrace``` or ```bt``` for short.
+
+In the case shown below, the key point is here:
+
+    #4  0x0000000000490fcf in <lambda()>::operator() (__closure=<optimized out>) at src/Begin_Common.cc:25
+
+The following is the full print out
+
+    $ gdb --args ./doVVVAnalysis -i /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root -t Events -m 0 -o my_output.root -d
+    GNU gdb (GDB) 7.12
+    Copyright (C) 2016 Free Software Foundation, Inc.
+    License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+    This is free software: you are free to change and redistribute it.
+    There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+    and "show warranty" for details.
+    This GDB was configured as "x86_64-pc-linux-gnu".
+    Type "show configuration" for configuration details.
+    For bug reporting instructions, please see:
+    <http://www.gnu.org/software/gdb/bugs/>.
+    Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+    For help, type "help".
+    Type "apropos word" to search for commands related to "word"...
+    Reading symbols from ./doVVVAnalysis...done.
+    (gdb) r
+    Starting program: /home/users/phchang/public_html/analysis/vvv/VVVNanoLooper/doVVVAnalysis -i /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root -t Events -m 0 -o my_output.root -d
+    warning: File "/cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-njopjo/lib64/libstdc++.so.6.0.23-gdb.py" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
+    To enable execution of this file add
+            add-auto-load-safe-path /cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-njopjo/lib64/libstdc++.so.6.0.23-gdb.py
+    line to your configuration file "/home/users/phchang/.gdbinit".
+    To completely disable this security protection add
+            set auto-load safe-path /
+    line to your configuration file "/home/users/phchang/.gdbinit".
+    For more information about this security protection see the
+    "Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:
+            info "(gdb)Auto-loading safe path"
+    [Thread debugging using libthread_db enabled]
+    Using host libthread_db library "/lib64/libthread_db.so.1".
+    =========================================================
+     Setting of the analysis job based on provided arguments
+    ---------------------------------------------------------
+     ana.input_file_list_tstring: /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root
+     ana.output_tfile: debug.root
+     ana.n_events: -1
+     ana.nsplit_jobs: -1
+     ana.job_index: -1
+    =========================================================
+    >>> Hostname is uaf-10.t2.ucsd.edu
+    RooUtil:: Adding /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root
+    RooUtil:: Start EventLooping
+    RooUtil:: System info:
+    uaf-10.t2.ucsd.edu
+    Linux uaf-10.t2.ucsd.edu 2.6.32-754.3.5.el6.x86_64 #1 SMP Tue Aug 14 20:46:41 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+    Thu Apr  9 00:09:46 PDT 2020
+    phchang
+    /home/users/phchang/public_html/analysis/vvv/VVVNanoLooper
+    RooUtil::  _
+    RooUtil:: /\\
+    RooUtil:: \ \\  \__/ \__/
+    RooUtil::  \ \\ (oo) (oo)  Here we come!
+    RooUtil::   \_\\/~~\_/~~\_
+    RooUtil::  _.-~===========~-._
+    RooUtil:: (___________________)
+    RooUtil::       \_______/
+    RooUtil::
+    RooUtil::  Your friendly aliens
+    RooUtil::      Surf & Turf
+    RooUtil::
+    Warning in <TClass::Init>: no dictionary for class ROOT::TIOFeatures is available
+    RooUtil:: Total Events in this Chain to process = 658000
+    RooUtil:: Booked cutflow histogram for cut = 4LepMET_Preselection
+    RooUtil:: Booked rawcutflow histogram for cut = 4LepMET_Preselection
+    RooUtil:: Cut name                                                                                                                                                                                                                |pass|weight|systs
+    RooUtil:: ==================================================================================================================================================================================================================================================================================================================
+    RooUtil:: Root                                                                                                                                                                                                                    | 0 | 0.000000|
+    RooUtil::   Wgt                                                                                                                                                                                                                   | 0 | 0.000000|
+    RooUtil::     VVVCommonCut                                                                                                                                                                                                        | 0 | 0.000000|
+    RooUtil::       4LepMET_Preselection                                                                                                                                                                                              | 0 | 0.000000|
+    RooUtil:: TTreeCache enabled
+    RooUtil:: Looping /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root/TTree:Events
+    RooUtil:: ERROR - branch hasn't been set yet bn = Common_muon_idxs, exiting.
+
+
+    Program received signal SIGABRT, Aborted.
+    0x00000031c76324f5 in raise () from /lib64/libc.so.6
+    (gdb) bt
+    #0  0x00000031c76324f5 in raise () from /lib64/libc.so.6
+    #1  0x00000031c7633cd5 in abort () from /lib64/libc.so.6
+    #2  0x0000000000515751 in RooUtil::error (msg=<incomplete type>, fname=0x3f5765 <error: Cannot access memory at address 0x3f5765>, is_error=6) at rooutil/printutil.cc:50
+    #3  0x0000000000521297 in RooUtil::TTreeX::getBranch<std::vector<int, std::allocator<int> > > (this=0x5bc440 <ana+1888>, bn=<incomplete type>, check=6) at rooutil/ttreex.cc:189
+    #4  0x0000000000490fcf in <lambda()>::operator() (__closure=<optimized out>) at src/Begin_Common.cc:25
+    #5  std::_Function_handler<float(), Begin_Common()::<lambda()> >::_M_invoke(const std::_Any_data &) (__functor=...) at /cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-njopjo/include/c++/7.1.1/bits/std_function.h:301
+    #6  0x000000000054f558 in std::function<float ()>::operator()() const (this=<optimized out>) at /cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-njopjo/include/c++/7.1.1/bits/std_function.h:706
+    #7  RooUtil::CutTree::fillHistograms (this=0x3f5765, syst=<incomplete type>, extrawgt=0) at rooutil/cutflowutil.h:589
+    #8  0x000000000054fc7c in RooUtil::CutTree::fillHistograms (this=0x3f5765, syst=<incomplete type>, extrawgt=0) at rooutil/cutflowutil.h:642
+    #9  0x000000000054fc7c in RooUtil::CutTree::fillHistograms (this=0x3f5765, syst=<incomplete type>, extrawgt=0) at rooutil/cutflowutil.h:642
+    #10 0x000000000052a604 in RooUtil::Cutflow::fillHistograms (this=0x5bbe88 <ana+424>, syst=<incomplete type>, iswgtsyst=6) at rooutil/anautil.cc:612
+    #11 0x000000000052c9fb in RooUtil::Cutflow::fill (this=0x5bbe88 <ana+424>) at rooutil/anautil.cc:496
+    #12 0x0000000000490769 in Process () at src/Process.cc:31
+    #13 0x000000000046951d in main (argc=1, argv=0x7fffffff4f48) at src/main.cc:245
+    (gdb) q
+    A debugging session is active.
+
+            Inferior 1 [process 4151141] will be killed.
+
+    Quit anyway? (y or n) y
+
 
 
 ## RooUtil Framework Notes
