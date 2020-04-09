@@ -40,10 +40,9 @@ void Process_Common()
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
         // Selections
-        if (not (nt.Muon_mediumId()[imu])) // TODO: What is Muon_mediumPromptId in NanoAOD?
-            continue;
-        if (not (nt.Muon_p4()[imu].pt() > 10.))
-            continue;
+        if (not (nt.Muon_mediumId()[imu])) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
+        if (not (nt.Muon_p4()[imu].pt() > 10.)) continue;
+        if (not (nt.Muon_pfRelIso04_all()[imu] < 0.25)) continue;
 
         // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_muon_idxs", imu);
