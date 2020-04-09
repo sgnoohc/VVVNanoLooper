@@ -157,7 +157,7 @@ To submit jobs to the grid, do the following
     cd ProjectMetis
     source setup.sh
     cd ../
-    sh condor/maketar.sh
+    sh condor/maketar.sh # it will make clean; make -j again before tarring up
     python condor/submitMetis.py
 
 ```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.

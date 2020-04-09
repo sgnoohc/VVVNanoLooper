@@ -74,6 +74,8 @@ eval `scramv1 runtime -sh`
 mv ../package.tar.gz package.tar.gz
 tar xf package.tar.gz
 
+cat gitversion.txt
+
 # need this to find the .so files, even though they are in the same
 # directory
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
