@@ -1,0 +1,35 @@
+#include "Process.h"
+
+void Process()
+{
+    //==============================================
+    // Process:
+    // This function gets called during the event looping.
+    // This is where one sets the variables used for the category .
+    //==============================================
+
+    // Process_Common is always called regardless of the category
+    Process_Common();
+
+    // Then depending on the analysis mode, different "Process" runs
+
+    switch (ana.looperMode)
+    {
+        case AnalysisConfig::k4LepMET: Process_4LepMET(); break;
+        case AnalysisConfig::k4Lep2jet: Process_4Lep2jet(); break;
+        case AnalysisConfig::k3LepMET: Process_3LepMET(); break;
+        case AnalysisConfig::k3Lep2jet: Process_3Lep2jet(); break;
+        case AnalysisConfig::kOS4jet: Process_OS4jet(); break;
+        case AnalysisConfig::kOS2jet: Process_OS2jet(); break;
+        case AnalysisConfig::kSS2jet: Process_SS2jet(); break;
+        case AnalysisConfig::k1Lep4jet: Process_1Lep4jet(); break;
+    }
+
+    // At this point, variables are all computed and set
+
+    // Now fill all the histograms that are booked!
+    ana.cutflow.fill();
+
+    // Reset all the variables!
+    ana.tx.clear();
+}

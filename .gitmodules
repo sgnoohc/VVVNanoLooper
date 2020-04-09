@@ -1,0 +1,6 @@
+[submodule "rooutil"]
+	path = rooutil
+	url = git@github.com:sgnoohc/rooutil.git
+[submodule "NanoTools"]
+	path = NanoTools
+	url = git@github.com:cmstas/NanoTools.git
