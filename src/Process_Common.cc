@@ -42,7 +42,7 @@ void Process_Common()
     //---------------------------------------------------------------------------------------------
     // MET selection
     //---------------------------------------------------------------------------------------------
-    ana.tx.setBranch<float>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
+    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
 
     //---------------------------------------------------------------------------------------------
     // Jet selection
@@ -132,7 +132,7 @@ void Process_Common()
         // For now, accept anything above 250 GeV (TODO: is 250 GeV also ok?)
 
         if (nt.FatJet_p4()[ifatjet].pt() > 250.)
-            ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
+            ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);
 
     }
 

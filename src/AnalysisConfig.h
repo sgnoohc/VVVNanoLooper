@@ -55,10 +55,17 @@ public:
     // Custom Histograms object compatible with RooUtil::Cutflow framework
     RooUtil::Histograms histograms;
 
+    // Intermediate TTree that holds variables
     TTree* tree_intermediate_variable;
 
     // Custom TTreeX object to hold various intermediate variables people want
     RooUtil::TTreeX tx;
+
+    // Output TTree
+    TTree* output_tree;
+
+    // Custom TTree object to use to facilitate TTree output writing
+    RooUtil::TTreeX output_tx;
 
 };
 

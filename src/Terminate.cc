@@ -28,6 +28,10 @@ void Terminate()
     // Writing output file
     ana.cutflow.saveOutput();
 
+    // The output TTree is currently not implemented and not being used
+    ana.output_tree->Fill(); // Fill an empty dummy event to pass rigorous sweep root. (So condor jobs don't delete it, because it's empty.)
+    ana.output_tree->Write();
+
     // The below can be sometimes crucial
     delete ana.output_tfile;
 }

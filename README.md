@@ -8,8 +8,8 @@
     cd VVVNanoLooper/
     source rooutil/thisrooutil.sh
     source rooutil/root.sh
-    make clean; // Clean only VVV looper related
-    make cleanall; // Full clean include NanoTools/rooutil related objects
+    make cleansmall; // Clean only VVV looper related
+    make clean; // Full clean include NanoTools/rooutil related objects
     make -j;
 
 ## Quick start
@@ -149,6 +149,16 @@ If some variables need to run for all categories, then they should be implemente
 This is where the stuff that runs once after the event loop is done.
 
 If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
+
+### Grid submission
+
+To submit jobs to the grid, do the following
+
+    cd ProjectMetis
+    source setup.sh
+    cd ../
+    sh condor/maketar.sh
+    python condor/submitMetis.py
 
 ### Some tips on debugging
 

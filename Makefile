@@ -27,9 +27,9 @@ $(EXE): $(OBJECTS)
 %.o: %.cc
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@
 
-clean:
+cleansmall:
 	rm -f src/*.o $(EXE)
 
-cleanall:
+clean:
 	rm -f $(OBJECTS) $(EXE)
 
