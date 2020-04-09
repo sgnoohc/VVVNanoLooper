@@ -160,6 +160,10 @@ To submit jobs to the grid, do the following
     sh condor/maketar.sh
     python condor/submitMetis.py
 
+```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.
+
+See ```condor/submitMetis.py``` to see how it works
+
 ### Some tips on debugging
 
 If you encounter an error that starts with something like ```RooUtil:: ERROR blah blah blah```, then approach it like the following using ```gdb```
