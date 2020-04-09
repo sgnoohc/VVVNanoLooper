@@ -16,8 +16,8 @@ void Begin_SS2jet()
     ana.tx.createBranch<LorentzVector>("SS2jet_LVVar1");
 
     // Define selections
-    // VVVCommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
-    ana.cutflow.getCut("VVVCommonCut");
+    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
+    ana.cutflow.getCut("CommonCut");
     ana.cutflow.addCutToLastActiveCut("SS2jet_Preselection", [&]() { return ana.tx.getBranch<LorentzVector>("SS2jet_LVVar1").pt() > 25.;}, [&]() { return ana.tx.getBranch<float>("SS2jet_floatVar1"); } );
 
     // Create histograms used in this category.

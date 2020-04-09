@@ -111,9 +111,17 @@ Histograms are defined in example like the following:
 
 Note that ```getBranchLazy``` used to access the variables that was defined to determine how the histogram will be filled.
 
+N.B. There is ```getBranchLazy``` and ```getBranch```.  If ```getBranch``` is used and the variable was not set before calling and trying to access, RooUtil will throw an error. (see below the debug tip section for example.)
+
 ##### Note on common variables that would be shared across different channels
 
 If some variables, histograms, or event selections need to run for all categories, then they should be implemented in ```Common``` equivalent area.
+
+Currently in the ```Begin/Process/Terminate_Common.cc/h``` file, a simple muon/electron selection is defined.
+
+The POG Iso MVA electron WP 90% and medium POG muon ID is implemented.
+
+Take a look there to get an idea how things may work.
 
 #### Process
 
@@ -151,6 +159,8 @@ Start ```gdb``` by ```gdb --args <your usual command>```. -> After the prompt op
 In the case shown below, the key point is here:
 
     #4  0x0000000000490fcf in <lambda()>::operator() (__closure=<optimized out>) at src/Begin_Common.cc:25
+
+And in this line 25, I used to have ```getBranch``` instead ```getBranchLazy```. after chaning to ```getBranchLazy``` the error went away.
 
 The following is the full print out
 
