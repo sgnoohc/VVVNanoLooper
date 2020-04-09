@@ -89,18 +89,23 @@ When adding variables use the following functions and guidelines:
 The naming of the variable should be <category>_<name> to minimize any clashes between different channels.
 
 If you want to add float, int, bool, double type variable, use "float" type for simplicity.
+
     ana.tx.createBranch<float>("<category>_<name>");
 
 If you want to add a LorentzVector type, use the following
+
     ana.tx.createBranch<LorentzVector>("<category>_<name>");
 
 If you want to have an list of float
+
     ana.tx.createBranch<vector<float>>("<category>_<name>");
 
 If you want to have an list of ints (e.g. index of lepton / jets or some objects in the NanoAOD)
+
     ana.tx.createBranch<vector<int>>("<category>_<name>");
 
 If you want to have an list of lorentzVectors (e.g. list of electron p4s)
+
     ana.tx.createBranch<vector<LorentzVector>>("<category>_<name>");
 
 ##### Adding histograms
@@ -128,18 +133,23 @@ Take a look there to get an idea how things may work.
 This is where the variables are computed and set
 
 If you want to set float, int, bool, double type variable, that are declared as "float" type for simplicity.
+
     ana.tx.setBranch<float>("<category>_<name>", -999);
 
 If you want to set a LorentzVector type, use the following
+
     ana.tx.setBranch<LorentzVector>("<category>_<name>", lorentzVector);
 
 If you want to add a float to the list of float
+
     ana.tx.pushbackToBranch<float>("<category>_<name>", -999);
 
 If you want to add a int to the list of ints (e.g. index of lepton / jets or some objects in the NanoAOD)
+
     ana.tx.pushbackToBranch<int>("<category>_<name>", -999);
 
 If you want to add a LorentzVector to the list of LorentzVector
+
     ana.tx.pushbackToBranch<LorentzVector>("<category>_<name>", lorentzVector);
 
 If some variables need to run for all categories, then they should be implemented in ```Common``` equivalent area.
