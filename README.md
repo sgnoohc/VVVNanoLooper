@@ -28,6 +28,8 @@ Alternatively, if you want to write it out to ```my_output.root```,
         --mode 0 \
         --output my_output.root
 
+This will create some dummy histograms with dummy variables with dummy selections.  See the actual source code to see what is going on.
+
 ## Code organization
 
 The ```doVVVAnalysis``` executable will take in NanoAOD root file and produce histograms (or TTree--but currently not implemented).
