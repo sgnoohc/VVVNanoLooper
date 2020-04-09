@@ -313,6 +313,11 @@ Copy the command and run it locally.  ```gdb --args``` can also come in handy.
 
 ## RooUtil Framework Notes
 
+See https://github.com/sgnoohc/rooutil_tutorial for some tutorials
+
+Also read below which can also be found in the rooutil_tutorial
+
+
     //********************************************************************************
     //
     // notes on RooUtil framework
