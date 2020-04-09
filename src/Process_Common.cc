@@ -25,8 +25,11 @@ void Process_Common()
     // Loop over electrons and select Fall17V2Iso_WP90 electrons
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
     {
-        if (nt.Electron_mvaFall17V2Iso_WP90()[iel])
-            ana.tx.pushbackToBranch<int>("Common_electron_idxs", iel);
+        if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel]))
+            continue;
+        if (not (nt.Electron_p4()[iel].pt() > 10.))
+            continue;
+        ana.tx.pushbackToBranch<int>("Common_electron_idxs", iel);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -35,8 +38,11 @@ void Process_Common()
     // Loop over muons and select POG medium muons
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
-        if (nt.Muon_looseId()[imu])
-            ana.tx.pushbackToBranch<int>("Common_muon_idxs", imu);
+        if (not (nt.Muon_mediumId()[imu])) // TODO: What is Muon_mediumPromptId in NanoAOD?
+            continue;
+        if (not (nt.Muon_p4()[imu] > 10.))
+            continue;
+        ana.tx.pushbackToBranch<int>("Common_muon_idxs", imu);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -50,6 +56,10 @@ void Process_Common()
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ijet = 0; ijet < nt.Jet_p4().size(); ++ijet)
     {
+
+        // TODO: 30 GeV is OK?
+        if (not (nt.Jet_p4()[ijet].pt() > 30.))
+            continue;
 
         // Because every muon and electron shows up in PF Jet collections
         // Need to check against leptons
@@ -83,11 +93,9 @@ void Process_Common()
 
         // TODO: What is POG recommendation? do we use nt.Jet_jetId()? nt.Jet_puId()??
         // Figure this out
-        // For now, accept anything above 30 GeV
+        // For now, accept anything that reaches this point
 
-        if (nt.Jet_p4()[ijet].pt() > 30.)
-            ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
-
+        ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -96,6 +104,10 @@ void Process_Common()
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
+
+        // For now, accept anything above 250 GeV (TODO: is 250 GeV also ok?)
+        if (not (nt.FatJet_p4()[ifatjet].pt() > 250.))
+            continue;
 
         // Because every muon and electron shows up in PF FatJet collections
         // Need to check against leptons
@@ -129,7 +141,6 @@ void Process_Common()
 
         // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
         // Figure this out
-        // For now, accept anything above 250 GeV (TODO: is 250 GeV also ok?)
 
         if (nt.FatJet_p4()[ifatjet].pt() > 250.)
             ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);

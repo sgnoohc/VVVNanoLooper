@@ -166,6 +166,8 @@ See ```condor/submitMetis.py``` to see how it works
 
 ### Some tips on debugging
 
+#### Local run debugging
+
 If you encounter an error that starts with something like ```RooUtil:: ERROR blah blah blah```, then approach it like the following using ```gdb```
 
 Start ```gdb``` by ```gdb --args <your usual command>```. -> After the prompt opens run the program via "r" and when it dies, type ```backtrace``` or ```bt``` for short.
@@ -277,6 +279,26 @@ The following is the full print out
 
     Quit anyway? (y or n) y
 
+#### Grid jobs debugging
+
+If something is failing on the grid, the fastest way to debug is to run it locally first.
+
+If you look through the log file, (e.g. log files like the form ```tasks/CondorTask_TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2_MINIAODSIM_test/logs/std_logs/1e.10500287.0.out```) there is a line that prints out the exact command used.
+
+                    --- begin running ---
+          
+    this line -->   Executing ./doVVVAnalysis -i /store/mc/RunIIAutumn18MiniAOD/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/00000/006AF719-2610-7E4E-8E0D-A5AD173A6
+                    =========================================================
+                     Setting of the analysis job based on provided arguments
+                    ---------------------------------------------------------
+                     ana.input_file_list_tstring: /store/mc/RunIIAutumn18MiniAOD/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext1-v2/00000/006AF719-2610-7E4E-8E0D-A5AD173A
+                     ana.output_tfile: output.root
+                     ana.n_events: -1
+                     ana.nsplit_jobs: -1
+                     ana.job_index: -1
+                    =========================================================
+
+Copy the command and run it locally.  ```gdb --args``` can also come in handy.
 
 
 ## RooUtil Framework Notes
