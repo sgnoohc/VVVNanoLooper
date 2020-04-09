@@ -225,33 +225,6 @@ int main(int argc, char** argv)
 
     Begin();
 
-    // ana.cutflow.addCut("DiElChannel", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-    // ana.cutflow.addCut("DiMuChannel", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-
-    // ana.cutflow.getCut("DiElChannel");
-    // ana.cutflow.addCutToLastActiveCut("DiElChannelCutA", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-    // ana.cutflow.addCutToLastActiveCut("DiElChannelCutB", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-    // ana.cutflow.addCutToLastActiveCut("DiElChannelCutC", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-
-    // ana.cutflow.getCut("DiMuChannel");
-    // ana.cutflow.addCutToLastActiveCut("DiMuChannelCutA", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-    // ana.cutflow.addCutToLastActiveCut("DiMuChannelCutB", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-    // ana.cutflow.addCutToLastActiveCut("DiMuChannelCutC", [&]() { return 1/*set your cut here*/; }, [&]() { return 1/*set your weight here*/; } );
-
-    // // Print cut structure
-    // ana.cutflow.printCuts();
-
-    // // Histogram utility object that is used to define the histograms
-    // ana.histograms.addHistogram("Mll", 180, 0, 250, [&]() { return 1/* set your variable here*/; } );
-
-    // // Book cutflows
-    // ana.cutflow.bookCutflows();
-
-    // // Book Histograms
-    // ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "DiElChannel");
-    // ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "DiMuChannel");
-    // // ana.cutflow.bookHistograms(ana.histograms); // if just want to book everywhere
-
     // Looping input file
     while (ana.looper.nextEvent())
     {
@@ -265,16 +238,8 @@ int main(int argc, char** argv)
 
         Process();
 
-        ////Do what you need to do in for each event here
-        ////To save use the following function
-        //ana.cutflow.fill();
     }
 
     Terminate();
 
-    // // Writing output file
-    // ana.cutflow.saveOutput();
-
-    // // The below can be sometimes crucial
-    // delete ana.output_tfile;
 }
