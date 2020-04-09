@@ -25,10 +25,11 @@ void Process_Common()
     // Loop over electrons and select Fall17V2Iso_WP90 electrons
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
     {
-        if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel]))
-            continue;
-        if (not (nt.Electron_p4()[iel].pt() > 10.))
-            continue;
+        // Selections
+        if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel])) continue;
+        if (not (nt.Electron_p4()[iel].pt() > 10.)) continue;
+
+        // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_electron_idxs", iel);
     }
 
@@ -38,10 +39,13 @@ void Process_Common()
     // Loop over muons and select POG medium muons
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
+        // Selections
         if (not (nt.Muon_mediumId()[imu])) // TODO: What is Muon_mediumPromptId in NanoAOD?
             continue;
-        if (not (nt.Muon_p4()[imu] > 10.))
+        if (not (nt.Muon_p4()[imu].pt() > 10.))
             continue;
+
+        // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_muon_idxs", imu);
     }
 
