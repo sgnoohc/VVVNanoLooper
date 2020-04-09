@@ -1,0 +1,5 @@
+tasks
+src/*.o
+*.swp
+doVVVAnalysis
+logger_metis.log
