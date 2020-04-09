@@ -9,7 +9,7 @@
     source rooutil/thisrooutil.sh
     source rooutil/root.sh
     make clean; // Clean only VVV looper related
-    make cleanall; // Full clean include NanoTools related objects
+    make cleanall; // Full clean include NanoTools/rooutil related objects
     make -j;
 
 ## Quick start
@@ -20,6 +20,79 @@ Below command will create ```debug.root``` output from the loop
         --tree Events \
         --mode 0 \
         --debug
+
+Alternatively, if you want to write it out to ```my_output.root```,
+
+     ./doAnalysis --input /hadoop/cms/store/group/snt/nanoaod/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/C91570D8-46E6-6A4F-B722-857B9C5FE1F4.root \
+        --tree Events \
+        --mode 0 \
+        --output my_output.root
+
+## Code organization
+
+The ```doVVVAnalysis``` executable will take in NanoAOD root file and produce histograms (or TTree--but currently not implemented).
+
+The development of different VVV channel will be modular by the option ```--mode```.
+
+Currently the implemented catgories are
+
+      -m, --mode arg         Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet,
+                             2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet,
+                             7=k1Lep4jet)
+
+### Begin, Process, Terminate concept
+
+The looper follows the ROOT's TSelector style framework.
+
+There are separate ```Begin_<cateogry>```, ```Process_<catgory>```, and ```Terminate_<cateogry>``` functions defined in ```src/*_<category>.cc/h```.
+
+The ```--mode``` option will determine which one will be called.
+
+Regardless of which mode it is, the ```Begin_Common```, ```Process_Common```, and ```Terminate_Common``` will always run before each channel's relevant function runs.
+
+So the pseudocode representation of the order of function call look like the following:
+
+    main()
+    {
+        ...
+        ...
+
+        Begin_Common();
+        Begin_<category>();
+
+        while (event loop)
+        {
+
+            Process_Common();
+            Process_<category>();
+
+        }
+
+        Terminate_Common();
+        Terminate_<category>();
+
+        ...
+        ...
+            
+    }
+
+#### Begin
+
+This is where variables, histograms, or event selections needed for the category are defined.
+
+If some variables, histograms, or event selections need to run for all categories, then they should be implemented in ```Common``` equivalent area.
+
+#### Process
+
+This is where the variables are computed
+
+If some variables need to run for all categories, then they should be implemented in ```Common``` equivalent area.
+
+#### Terminate
+
+This is where the stuff that runs once after the event loop is done.
+
+If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
 
 
 ## RooUtil Framework Notes

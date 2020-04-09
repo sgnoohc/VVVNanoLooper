@@ -1,6 +1,6 @@
 # Simple makefile
 
-EXE=doAnalysis
+EXE=doVVVAnalysis
 
 SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) rooutil/rooutil.cc
 OBJECTS=$(SOURCES:.cc=.o)
