@@ -1,7 +1,18 @@
 # VVVNanoLooper
 
-## Quick start
+## Installation
 
+    ssh uaf-10.t2.ucsd.edu
+    cd your/favoriate/working/directory
+    git clone --recursive git@github.com:sgnoohc/VVVNanoLooper.git
+    cd VVVNanoLooper/
+    source rooutil/thisrooutil.sh
+    source rooutil/root.sh
+    make clean; // Clean only VVV looper related
+    make cleanall; // Full clean include NanoTools related objects
+    make -j;
+
+## Quick start
 
 Below command will create ```debug.root``` output from the loop
 
