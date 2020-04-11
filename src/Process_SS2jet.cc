@@ -11,8 +11,7 @@ void Process_SS2jet()
     // Set variables used in this category.
     // If histograms are booked with these variables the histograms will be filled automatically.
     // Please follow the convention of <category>_<varname> structure.
-    // N.B. PLEASE USE float TYPE FOR EVERYTHING, UNLESS IT IS LORENTZVECTOR (which is also done in float).
-    ana.tx.setBranch<float>("SS2jet_intVar1", -999);
+    ana.tx.setBranch<int>("SS2jet_intVar1", -999);
     ana.tx.setBranch<float>("SS2jet_floatVar1", -999);
 
     // Example of reading from Nano

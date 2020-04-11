@@ -10,8 +10,7 @@ void Begin_OS2jet()
 
     // Create variables used in this category.
     // Please follow the convention of <category>_<varname> structure.
-    // N.B. PLEASE USE float TYPE FOR EVERYTHING, UNLESS IT IS LORENTZVECTOR (which is also done in float).
-    ana.tx.createBranch<float>("OS2jet_intVar1");
+    ana.tx.createBranch<int>("OS2jet_intVar1");
     ana.tx.createBranch<float>("OS2jet_floatVar1");
     ana.tx.createBranch<LorentzVector>("OS2jet_LVVar1");
 
@@ -23,7 +22,7 @@ void Begin_OS2jet()
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
-    ana.histograms.addHistogram("h_OS2jet_intVar1", 10, 0, 10, [&]() { return ana.tx.getBranch<float>("OS2jet_intVar1"); } );
+    ana.histograms.addHistogram("h_OS2jet_intVar1", 10, 0, 10, [&]() { return ana.tx.getBranch<int>("OS2jet_intVar1"); } );
     ana.histograms.addHistogram("h_OS2jet_floatVar1", 180, 0, 500, [&]() { return ana.tx.getBranch<float>("OS2jet_floatVar1"); } );
     ana.histograms.addHistogram("h_OS2jet_LVVar1_Pt", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("OS2jet_LVVar1").pt(); } );
 

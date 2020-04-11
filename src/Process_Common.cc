@@ -11,7 +11,6 @@ void Process_Common()
     // Set variables used in this category.
     // If histograms are booked with these variables the histograms will be filled automatically.
     // Please follow the convention of <category>_<varname> structure.
-    // N.B. PLEASE USE float TYPE FOR EVERYTHING, UNLESS IT IS LORENTZVECTOR (which is also done in float).
 
     // Example of reading from Nano
     // std::vector<LorentzVector> electron_p4s = nt.Electron_p4(); // nt is a global variable that accesses NanoAOD
@@ -28,9 +27,12 @@ void Process_Common()
         // Selections
         if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel])) continue;
         if (not (nt.Electron_p4()[iel].pt() > 10.)) continue;
+        if (not (abs(nt.Electron_p4()[iel].eta()) < 2.5)) continue;
 
         // If passed up to here add it to the index list
-        ana.tx.pushbackToBranch<int>("Common_electron_idxs", iel);
+        ana.tx.pushbackToBranch<int>("Common_lep_idxs", iel);
+        ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Electron_pdgId()[iel]);
+        ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Electron_p4()[iel]);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -43,15 +45,13 @@ void Process_Common()
         if (not (nt.Muon_mediumId()[imu])) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
         if (not (nt.Muon_p4()[imu].pt() > 10.)) continue;
         if (not (nt.Muon_pfRelIso04_all()[imu] < 0.25)) continue;
+        if (not (abs(nt.Muon_p4()[imu].eta()) < 2.4)) continue;
 
         // If passed up to here add it to the index list
-        ana.tx.pushbackToBranch<int>("Common_muon_idxs", imu);
+        ana.tx.pushbackToBranch<int>("Common_lep_idxs", imu);
+        ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Muon_pdgId()[imu]);
+        ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Muon_p4()[imu]);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // MET selection
-    //---------------------------------------------------------------------------------------------
-    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
 
     //---------------------------------------------------------------------------------------------
     // Jet selection
@@ -61,6 +61,8 @@ void Process_Common()
     {
 
         // TODO: 30 GeV is OK?
+        // TODO: What is POG recommendation? do we use nt.Jet_jetId()? nt.Jet_puId()??
+        // Figure this out
         if (not (nt.Jet_p4()[ijet].pt() > 30.))
             continue;
 
@@ -69,36 +71,34 @@ void Process_Common()
         bool is_overlapping_with_a_lepton = false;
 
         // Overlap check against leptons (electrons)
-        for (auto& iel : ana.tx.getBranchLazy<vector<int>>("Common_electron_idxs"))
+        for (auto& ilep : ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs"))
         {
-            if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Electron_p4()[iel]) < 0.4)
+            // If electron
+            if (abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]) == 11)
             {
-                is_overlapping_with_a_lepton = true;
-                break;
+                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Electron_p4()[ilep]) < 0.4)
+                {
+                    is_overlapping_with_a_lepton = true;
+                    break;
+                }
+            }
+            // else muon
+            else
+            {
+                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Muon_p4()[ilep]) < 0.4)
+                {
+                    is_overlapping_with_a_lepton = true;
+                    break;
+                }
             }
         }
 
         if (is_overlapping_with_a_lepton)
             continue;
 
-        // Overlap check against leptons (muons)
-        for (auto& imu : ana.tx.getBranchLazy<vector<int>>("Common_muon_idxs"))
-        {
-            if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Muon_p4()[imu]) < 0.4)
-            {
-                is_overlapping_with_a_lepton = true;
-                break;
-            }
-        }
-
-        if (is_overlapping_with_a_lepton)
-            continue;
-
-        // TODO: What is POG recommendation? do we use nt.Jet_jetId()? nt.Jet_puId()??
-        // Figure this out
         // For now, accept anything that reaches this point
-
         ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
+        ana.tx.pushbackToBranch<LorentzVector>("Common_jet_p4", nt.Jet_p4()[ijet]);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -108,6 +108,8 @@ void Process_Common()
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
 
+        // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
+        // Figure this out
         // For now, accept anything above 250 GeV (TODO: is 250 GeV also ok?)
         if (not (nt.FatJet_p4()[ifatjet].pt() > 250.))
             continue;
@@ -117,38 +119,68 @@ void Process_Common()
         bool is_overlapping_with_a_lepton = false;
 
         // Overlap check against leptons (electrons)
-        for (auto& iel : ana.tx.getBranchLazy<vector<int>>("Common_electron_idxs"))
+        for (auto& ilep : ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs"))
         {
-            if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[iel]) < 0.4)
+            // If electron
+            if (abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]) == 11)
             {
-                is_overlapping_with_a_lepton = true;
-                break;
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[ilep]) < 0.4)
+                {
+                    is_overlapping_with_a_lepton = true;
+                    break;
+                }
+            }
+            // else muon
+            else
+            {
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[ilep]) < 0.4)
+                {
+                    is_overlapping_with_a_lepton = true;
+                    break;
+                }
             }
         }
 
         if (is_overlapping_with_a_lepton)
             continue;
 
-        // Overlap check against leptons (muons)
-        for (auto& imu : ana.tx.getBranchLazy<vector<int>>("Common_muon_idxs"))
-        {
-            if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[imu]) < 0.4)
-            {
-                is_overlapping_with_a_lepton = true;
-                break;
-            }
-        }
-
-        if (is_overlapping_with_a_lepton)
-            continue;
-
-        // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
-        // Figure this out
-
-        if (nt.FatJet_p4()[ifatjet].pt() > 250.)
-            ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);
+        // For now, accept anything that reaches this point
+        ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);
+        ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_p4", nt.FatJet_p4()[ifatjet]);
 
     }
 
+    //---------------------------------------------------------------------------------------------
+    // MET selection
+    //---------------------------------------------------------------------------------------------
+    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
+
+    //---------------------------------------------------------------------------------------------
+    // Organizing object indices and sorting by Pt
+    //---------------------------------------------------------------------------------------------
+
+    // Sorting lepton branches
+    ana.tx.sortVecBranchesByPt(
+            /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
+            /* names of any associated vector<float> branches to sort along */ {},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid"},
+            /* names of any associated vector<bool>  branches to sort along */ {}
+            );
+
+    // Sorting jet branches
+    ana.tx.sortVecBranchesByPt(
+            /* name of the 4vector branch to use to pt sort by*/               "Common_jet_p4",
+            /* names of any associated vector<float> branches to sort along */ {},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_jet_idxs"},
+            /* names of any associated vector<bool>  branches to sort along */ {}
+            );
+
+    // Sorting fatjet branches
+    ana.tx.sortVecBranchesByPt(
+            /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
+            /* names of any associated vector<float> branches to sort along */ {},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs"},
+            /* names of any associated vector<bool>  branches to sort along */ {}
+            );
 
 }
