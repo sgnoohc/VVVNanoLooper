@@ -39,13 +39,13 @@ void Begin_Common()
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
-    RooUtil::Histograms Common_hists;
-    hists.addHistogram("h_Common_nLep", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); } );
-    hists.addHistogram("h_Common_nJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); } );
-    hists.addHistogram("h_Common_nFatJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); } );
+    RooUtil::Histograms hists_Common;
+    hists_Common.addHistogram("h_Common_nLep", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); } );
+    hists_Common.addHistogram("h_Common_nJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); } );
+    hists_Common.addHistogram("h_Common_nFatJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); } );
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCut(Common_hists, "CommonCut");
+    ana.cutflow.bookHistogramsForCut(hists_Common, "CommonCut");
 
     // Book histograms to Root to count total number of events processed
     RooUtil::Histograms n_event_hist;
