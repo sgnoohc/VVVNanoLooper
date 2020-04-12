@@ -22,15 +22,15 @@ void Begin_4Lep2jet()
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
-    RooUtil::Histograms 4Lep2jet_hists;
-    4Lep2jet_hists.addHistogram("h_4Lep2jet_intVar1", 10, 0, 10, [&]() { return ana.tx.getBranch<int>("4Lep2jet_intVar1"); } );
-    4Lep2jet_hists.addHistogram("h_4Lep2jet_floatVar1", 180, 0, 500, [&]() { return ana.tx.getBranch<float>("4Lep2jet_floatVar1"); } );
-    4Lep2jet_hists.addHistogram("h_4Lep2jet_LVVar1_Pt", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4Lep2jet_LVVar1").pt(); } );
+    RooUtil::Histograms hists_4Lep2jet;
+    hists_4Lep2jet.addHistogram("h_4Lep2jet_intVar1", 10, 0, 10, [&]() { return ana.tx.getBranch<int>("4Lep2jet_intVar1"); } );
+    hists_4Lep2jet.addHistogram("h_4Lep2jet_floatVar1", 180, 0, 500, [&]() { return ana.tx.getBranch<float>("4Lep2jet_floatVar1"); } );
+    hists_4Lep2jet.addHistogram("h_4Lep2jet_LVVar1_Pt", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4Lep2jet_LVVar1").pt(); } );
 
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
     ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCut(4Lep2jet_hists, "4Lep2jet_Preselection");
+    ana.cutflow.bookHistogramsForCut(hists_4Lep2jet, "4Lep2jet_Preselection");
 }

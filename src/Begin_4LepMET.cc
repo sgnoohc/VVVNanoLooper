@@ -93,15 +93,6 @@ void Begin_4LepMET()
                 }
 
                 // Sanity check that it must be 2 leptons
-                // for (auto& ilep : ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs"))
-                // {
-                //     std::cout <<  " ilep: " << ilep <<  std::endl;
-                // }
-                // std::cout <<  " ana.tx.getBranch<int>('4LepMET_Zcand_lep_idx_0'): " << ana.tx.getBranch<int>("4LepMET_Zcand_lep_idx_0") <<  std::endl;
-                // std::cout <<  " ana.tx.getBranch<int>('4LepMET_Zcand_lep_idx_1'): " << ana.tx.getBranch<int>("4LepMET_Zcand_lep_idx_1") <<  std::endl;
-                // std::cout <<  " ana.tx.getBranch<float>('4LepMET_Zcand_mll'): " << ana.tx.getBranch<float>("4LepMET_Zcand_mll") <<  std::endl;
-                // std::cout <<  " other_lep_idxs.size(): " << other_lep_idxs.size() <<  std::endl;
-                // std::cout <<  " ana.tx.getBranchLazy<vector<int>>('Common_lep_pdgid').size(): " << ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size() <<  std::endl;
                 if (other_lep_idxs.size() != 2)
                     RooUtil::error("It should have been 4 leptons! how come you have != 2 other leptons here after accounting for the Z leptons??", __FILE__);
 
@@ -126,6 +117,11 @@ void Begin_4LepMET()
 
     // Add different channels
     ana.cutflow.getCut("4LepMET_Preselection");
+    ana.cutflow.addCutToLastActiveCut("4LepMET_emuChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") * ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1") == -143); }, UNITY);
+    ana.cutflow.getCut("4LepMET_Preselection");
+    ana.cutflow.addCutToLastActiveCut("4LepMET_offzChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) < 10.); }, UNITY);
+    ana.cutflow.getCut("4LepMET_Preselection");
+    ana.cutflow.addCutToLastActiveCut("4LepMET_onzChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) >= 10.); }, UNITY);
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
