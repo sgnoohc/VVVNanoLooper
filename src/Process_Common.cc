@@ -156,6 +156,56 @@ void Process_Common()
     ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
 
     //---------------------------------------------------------------------------------------------
+    // Gen-level particle selection
+    //---------------------------------------------------------------------------------------------
+    // This is only possible when it is MC and has GenPart Branches
+    if (nt.hasGenBranches())
+    {
+        for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
+        {
+            // Preliminary filter on the gen particles
+            if (not (nt.GenPart_statusFlags()[igen]&(1<<8))) continue; // fromHardProcess
+            if (not (abs(nt.GenPart_pdgId()[igen]) <= 25)) continue;
+            if (not (abs(nt.GenPart_pdgId()[igen]) != 21)) continue;
+
+            // If vector boson do a last copy
+            if (abs(nt.GenPart_pdgId()[igen]) == 23 || abs(nt.GenPart_pdgId()[igen]) == 24)
+            {
+                if (not (nt.GenPart_statusFlags()[igen]&(1<<13))) continue; // isLastCopy
+            }
+            else if (abs(nt.GenPart_pdgId()[igen]) >= 11 && abs(nt.GenPart_pdgId()[igen]) <= 16)
+            {
+                if (not (nt.GenPart_statusFlags()[igen]&(1<<12))) continue; // isFirstCopy
+            }
+            else if (abs(nt.GenPart_pdgId()[igen]) >= 1 && abs(nt.GenPart_pdgId()[igen]) <= 5)
+            {
+                if (not (nt.GenPart_statusFlags()[igen]&(1<<12))) continue; // isFirstCopy
+            }
+            else // If not defined in previous line we don't consider the object
+            {
+                continue;
+            }
+
+            ana.tx.pushbackToBranch<int>          ("Common_gen_idx", igen);                                       // Selected gen-particle idx in NanoAOD
+            ana.tx.pushbackToBranch<int>          ("Common_gen_mother_idx", nt.GenPart_genPartIdxMother()[igen]); // Selected gen-particle mother idx in NanoAOD
+            ana.tx.pushbackToBranch<int>          ("Common_gen_pdgid", nt.GenPart_pdgId()[igen]);                 // Selected gen-particle pdgids
+            ana.tx.pushbackToBranch<LorentzVector>("Common_gen_p4s", nt.GenPart_p4()[igen]);                      // Selected gen-particle p4s
+
+            if (abs(nt.GenPart_pdgId()[igen]) >= 11 and abs(nt.GenPart_pdgId()[igen]) <= 16)
+            {
+
+                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_idx", igen);                                       // Selected gen-particle idx in NanoAOD
+                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_mother_idx", nt.GenPart_genPartIdxMother()[igen]); // Selected gen-particle mother idx in NanoAOD
+                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_pdgid", nt.GenPart_pdgId()[igen]);                 // Selected gen-particle pdgids
+                ana.tx.pushbackToBranch<LorentzVector>("Common_gen_lep_p4s", nt.GenPart_p4()[igen]);                      // Selected gen-particle p4s
+
+            }
+
+        }
+
+    }
+
+    //---------------------------------------------------------------------------------------------
     // Organizing object indices and sorting by Pt
     //---------------------------------------------------------------------------------------------
 
@@ -180,6 +230,14 @@ void Process_Common()
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
             /* names of any associated vector<float> branches to sort along */ {},
             /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs"},
+            /* names of any associated vector<bool>  branches to sort along */ {}
+            );
+
+    // Sorting genlep branches
+    ana.tx.sortVecBranchesByPt(
+            /* name of the 4vector branch to use to pt sort by*/               "Common_gen_lep_p4s",
+            /* names of any associated vector<float> branches to sort along */ {},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_gen_lep_idxs", "Common_gen_lep_mother_idx", "Common_gen_lep_pdgid"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
