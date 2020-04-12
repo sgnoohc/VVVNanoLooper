@@ -49,7 +49,7 @@ void Begin_Common()
 
     // Book histograms to Root to count total number of events processed
     RooUtil::Histograms n_event_hist;
-    n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 1; } );
+    n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 0; } );
 
     // Book the counter histogram to the Root
     ana.cutflow.bookHistogramsForCut(n_event_hist, "Root");
