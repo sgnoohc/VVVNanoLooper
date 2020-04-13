@@ -71,7 +71,7 @@ void Begin_4LepMET()
                 return true;
             }, UNITY);
 
-    // Select Z candidate
+    // Apply lepton selection on the two extra leptons
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_OtherLeptons",
             [&]()
             {
@@ -110,6 +110,34 @@ void Begin_4LepMET()
                 if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[other_lep_idxs[0]].pt() > 25.)) return false;
 
                 return true;
+            }, UNITY);
+
+    // Apply min Mll > 12 GeV selection on any opposite sign pair
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_OtherLeptons",
+            [&]()
+            {
+
+                // Loop over every pair of opposite sign charged lepton pairs and require that they have > 12 GeV mass
+                for (unsigned int ilep = 0; ilep < ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size(); ++ilep)
+                {
+                    const LorentzVector& ip4 = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[ilep];
+                    const int& ipdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep];
+                    for (unsigned int jlep = ilep + 1; jlep < ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size(); ++jlep)
+                    {
+                        const LorentzVector& jp4 = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[jlep];
+                        const int& jpdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[jlep];
+
+                        if (ipdgid * jpdgid < 0) // if opposite charge pair
+                        {
+                            if (not ((ip4 + jp4).mass() > 12))
+                                return false;
+                        }
+                    }
+                }
+
+                // If made to this point than it passed
+                return true;
+
             }, UNITY);
 
     // Create a middle point of preselection
