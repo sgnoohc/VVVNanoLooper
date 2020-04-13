@@ -32,5 +32,5 @@ void Begin_4Lep2jet()
     ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCut(hists_4Lep2jet, "4Lep2jet_Preselection");
+    ana.cutflow.bookHistogramsForCut(hists_4Lep2jet, "Cut_4Lep2jet_Preselection");
 }

@@ -168,5 +168,5 @@ void Begin_4LepMET()
     ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "4LepMET_Preselection");
+    ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "Cut_4LepMET_Preselection");
 }

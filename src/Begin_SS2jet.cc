@@ -32,5 +32,5 @@ void Begin_SS2jet()
     ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCut(hists_SS2jet, "SS2jet_Preselection");
+    ana.cutflow.bookHistogramsForCut(hists_SS2jet, "Cut_SS2jet_Preselection");
 }

@@ -32,5 +32,5 @@ void Begin_3LepMET()
     ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCut(hists_3LepMET, "3LepMET_Preselection");
+    ana.cutflow.bookHistogramsForCut(hists_3LepMET, "Cut_3LepMET_Preselection");
 }
