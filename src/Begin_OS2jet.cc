@@ -17,7 +17,7 @@ void Begin_OS2jet()
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.getCut("CommonCut");
-    ana.cutflow.addCutToLastActiveCut("OS2jet_Preselection", [&]() { return ana.tx.getBranch<LorentzVector>("OS2jet_LVVar1").pt() > 25.;}, [&]() { return ana.tx.getBranch<float>("OS2jet_floatVar1"); } );
+    ana.cutflow.addCutToLastActiveCut("Cut_OS2jet_Preselection", [&]() { return ana.tx.getBranch<LorentzVector>("OS2jet_LVVar1").pt() > 25.;}, [&]() { return ana.tx.getBranch<float>("OS2jet_floatVar1"); } );
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.

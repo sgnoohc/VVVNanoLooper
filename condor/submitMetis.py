@@ -30,6 +30,7 @@ if __name__ == "__main__":
 
     # Loop over the dataset provided by the user few lines above, and do the Metis magic
     for dsname,shortname in sample_map.items():
+        skip_tail = False
         task = CondorTask(
                 sample = DBSSample(
                     dataset=dsname,
@@ -49,12 +50,14 @@ if __name__ == "__main__":
                 input_executable = "condor/condor_executable_metis.sh", # your condor executable here
                 tarfile = "condor/package.tar.xz", # your tarfile with assorted goodies here
                 special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
+                min_completion_fraction = 0.90 if skip_tail else 1.0,
         )
         # When babymaking task finishes, fire off a task that takes outputs and merges them locally (hadd)
         # into a file that ends up on nfs (specified by `merged_dir` above)
         merge_task = LocalMergeTask(
                 input_filenames=task.get_outputs(),
-                output_filename="{}/{}.root".format(merged_dir,shortname)
+                output_filename="{}/{}.root".format(merged_dir,shortname),
+                ignore_bad = skip_tail,
                 )
         # Straightforward logic
         if not task.complete():
