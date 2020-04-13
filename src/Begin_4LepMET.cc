@@ -113,7 +113,7 @@ void Begin_4LepMET()
             }, UNITY);
 
     // Apply min Mll > 12 GeV selection on any opposite sign pair
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_OtherLeptons",
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_VetoLowMassResonance",
             [&]()
             {
 
