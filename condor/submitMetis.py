@@ -9,6 +9,8 @@ import samples
 from time import sleep
 import sys
 
+condorpath = os.path.dirname(os.path.realpath(__file__))
+
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
 def split_func(dsname):
@@ -67,8 +69,8 @@ if __name__ == "__main__":
                         },
                     cmssw_version = "CMSSW_9_2_0",
                     scram_arch = "slc6_amd64_gcc700",
-                    input_executable = "condor/condor_executable_metis.sh", # your condor executable here
-                    tarfile = "condor/package.tar.xz", # your tarfile with assorted goodies here
+                    input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
+                    tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,
