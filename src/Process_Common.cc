@@ -56,14 +56,20 @@ void Process_Common()
     //---------------------------------------------------------------------------------------------
     // Jet selection
     //---------------------------------------------------------------------------------------------
+
+    // b-tagging counter (DeepFlavB)
+    int nb_loose = 0;
+    int nb_medium = 0;
+    int nb_tight = 0;
+
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ijet = 0; ijet < nt.Jet_p4().size(); ++ijet)
     {
 
-        // TODO: 30 GeV is OK?
         // TODO: What is POG recommendation? do we use nt.Jet_jetId()? nt.Jet_puId()??
         // Figure this out
-        if (not (nt.Jet_p4()[ijet].pt() > 30.))
+        // For now if less than 20 GeV, don't ever consider
+        if (not (nt.Jet_p4()[ijet].pt() > 20.))
             continue;
 
         // Because every muon and electron shows up in PF Jet collections
@@ -71,12 +77,13 @@ void Process_Common()
         bool is_overlapping_with_a_lepton = false;
 
         // Overlap check against leptons (electrons)
-        for (auto& ilep : ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs"))
+        for (unsigned int ilep = 0; ilep < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); ++ilep)
         {
+            int ilep_idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
             // If electron
             if (abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]) == 11)
             {
-                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Electron_p4()[ilep]) < 0.4)
+                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Electron_p4()[ilep_idx]) < 0.4)
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -85,7 +92,7 @@ void Process_Common()
             // else muon
             else
             {
-                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Muon_p4()[ilep]) < 0.4)
+                if (RooUtil::Calc::DeltaR(nt.Jet_p4()[ijet], nt.Muon_p4()[ilep_idx]) < 0.4)
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -96,10 +103,30 @@ void Process_Common()
         if (is_overlapping_with_a_lepton)
             continue;
 
-        // For now, accept anything that reaches this point
-        ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
-        ana.tx.pushbackToBranch<LorentzVector>("Common_jet_p4", nt.Jet_p4()[ijet]);
+        // For the analysis level jets, consider jets only 30 and above
+        if (nt.Jet_p4()[ijet].pt() > 30.)
+        {
+            // For now, accept anything that reaches this point
+            ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
+            ana.tx.pushbackToBranch<LorentzVector>("Common_jet_p4", nt.Jet_p4()[ijet]);
+        }
+
+        // b-tagged jet counter
+        // For b-tagged jets, consider jets only 20 and above and is central within tracker acceptance
+        if (nt.Jet_p4()[ijet].pt() > 20. and abs(nt.Jet_p4()[ijet].eta()) < 2.4)
+        {
+            if (nt.Jet_btagDeepFlavB()[ijet] > 0.0494) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                nb_loose++;
+            if (nt.Jet_btagDeepFlavB()[ijet] > 0.2770) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                nb_medium++;
+            if (nt.Jet_btagDeepFlavB()[ijet] > 0.7264) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                nb_tight++;
+        }
     }
+
+    ana.tx.setBranch<int>("Common_nb_loose", nb_loose);
+    ana.tx.setBranch<int>("Common_nb_medium", nb_medium);
+    ana.tx.setBranch<int>("Common_nb_tight", nb_tight);
 
     //---------------------------------------------------------------------------------------------
     // Fat Jet selection
@@ -119,12 +146,13 @@ void Process_Common()
         bool is_overlapping_with_a_lepton = false;
 
         // Overlap check against leptons (electrons)
-        for (auto& ilep : ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs"))
+        for (unsigned int ilep = 0; ilep < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); ++ilep)
         {
+            int ilep_idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
             // If electron
             if (abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]) == 11)
             {
-                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[ilep]) < 0.4)
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[ilep_idx]) < 0.4)
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -133,7 +161,7 @@ void Process_Common()
             // else muon
             else
             {
-                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[ilep]) < 0.4)
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[ilep_idx]) < 0.4)
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -161,8 +189,22 @@ void Process_Common()
     // This is only possible when it is MC and has GenPart Branches
     if (nt.hasGenBranches())
     {
+
+        float genHT = 0; // variable to be used to stitch HT-sliced samples
+
+        // Loop over generator particles and do stuff
         for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
         {
+
+            // Following particles are used to compute genHT
+            if ((abs(nt.GenPart_pdgId()[igen]) <  6 || // quarks
+                        abs(nt.GenPart_pdgId()[igen]) == 21)  // gluons
+                    && (nt.GenPart_status()[igen] == 22 || // something to do with "status 3"
+                        nt.GenPart_status()[igen] == 23))
+            {
+                genHT += nt.GenPart_pt()[igen];
+            }
+
             // Preliminary filter on the gen particles
             if (not (nt.GenPart_statusFlags()[igen]&(1<<8))) continue; // fromHardProcess
             if (not (abs(nt.GenPart_pdgId()[igen]) <= 25)) continue;
@@ -202,6 +244,8 @@ void Process_Common()
             }
 
         }
+
+        ana.tx.setBranch<float>("Common_genHT", genHT);
 
     }
 

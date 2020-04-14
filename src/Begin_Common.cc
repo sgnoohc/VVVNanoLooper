@@ -21,6 +21,12 @@ void Begin_Common()
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4");   // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_idxs"); // Pt sorted selected fatjet idxs (To access rest of the fatjet variables in NanoAOD)
 
+    // The n-loose b-tagged jets
+    ana.tx.createBranch<int>                  ("Common_nb_loose");    // DeepFlav-B loose nb
+    ana.tx.createBranch<int>                  ("Common_nb_medium");   // DeepFlav-B medium nb
+    ana.tx.createBranch<int>                  ("Common_nb_tight");    // DeepFlav-B tight nb
+
+    // The gen level information
     ana.tx.createBranch<vector<int>>          ("Common_gen_idx");        // Selected gen-particle idx in NanoAOD
     ana.tx.createBranch<vector<int>>          ("Common_gen_mother_idx"); // Selected gen-particle mother idx in NanoAOD
     ana.tx.createBranch<vector<int>>          ("Common_gen_pdgid");      // Selected gen-particle pdgids
@@ -30,6 +36,8 @@ void Begin_Common()
     ana.tx.createBranch<vector<int>>          ("Common_gen_lep_mother_idx"); // Selected gen-particle mother idx in NanoAOD
     ana.tx.createBranch<vector<int>>          ("Common_gen_lep_pdgid");      // Selected gen-particle pdgids
     ana.tx.createBranch<vector<LorentzVector>>("Common_gen_lep_p4s");        // Selected gen-particle p4s
+
+    ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
 
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.

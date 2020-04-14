@@ -140,6 +140,19 @@ void Begin_4LepMET()
 
             }, UNITY);
 
+    // Apply b-tag veto
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_bVeto",
+            [&]()
+            {
+                for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); ++ijet)
+                {
+                    int jet_idx_nano = ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs")[ijet];
+                    float jet_deepflavb_score = nt.Jet_btagDeepFlavB()[jet_idx_nano];
+                }
+                return true;
+            },
+            [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
+
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", UNITY, UNITY); // This "cut" does not do anything. It works as a middle point
 
