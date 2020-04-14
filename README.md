@@ -174,6 +174,26 @@ To submit jobs to the grid, do the following
 
 See ```condor/submitMetis.py``` to see how it works
 
+### Plotting
+
+There is a plotting script in ```python/```
+
+The histograms saved are going to be weighted by positive or negative weights only and the xsec will be read later to scale them correctly.
+
+Various histogram styling is saved in ```python/style.py``` and for different analysis different grouping should be used.
+
+Example command:
+
+    python python/plot.py --tag test --style 7 --year 2018 --histname Cut_1Lep4jet_Preselection__h_1Lep4jet_nb_medium # '*' will run over everything
+
+Or if you want to loop over all possible histograms in a given cut (Don't forget to escape ```*```)
+
+    python python/plot.py --tag test --style 7 --year 2018 --histname 'Cut_1Lep4jet_Preselection__*'
+
+Or just produce everything (Don't forget to escape ```*```)
+
+    python python/plot.py --tag test --style 7 --year 2018 --histname '*'
+
 ### Some tips on debugging
 
 #### Local run debugging
