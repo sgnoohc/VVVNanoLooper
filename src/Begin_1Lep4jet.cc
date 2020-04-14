@@ -26,8 +26,8 @@ void Begin_1Lep4jet()
                 return true;
             }, UNITY);
     ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_Has2FatJet", [&]() { return (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() >= 2);}, UNITY);
-    // ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_nbVeto", [&]() { return (ana.tx.getBranch<int>("Common_nb_loose") == 0);}, UNITY);
-    ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_FatJetMassPresel", [&]() { return (nt.FatJet_msoftdrop()[ana.tx.getBranch<vector<int>>("Common_fatjet_idxs")[0]] > 40.) and (nt.FatJet_msoftdrop()[ana.tx.getBranch<vector<int>>("Common_fatjet_idxs")[1]] > 40.);}, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_nbVeto", [&]() { return (ana.tx.getBranch<int>("Common_nb_tight") == 0);}, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_FatJetMassPresel", [&]() { return (nt.FatJet_msoftdrop()[ana.tx.getBranch<vector<int>>("Common_fatjet_idxs")[0]] > 20.) and (nt.FatJet_msoftdrop()[ana.tx.getBranch<vector<int>>("Common_fatjet_idxs")[1]] > 20.);}, UNITY);
     ana.cutflow.addCutToLastActiveCut("Cut_1Lep4jet_Preselection", UNITY, UNITY);
 
     // Create histograms used in this category.
