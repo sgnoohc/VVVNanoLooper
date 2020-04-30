@@ -135,8 +135,9 @@ def main(args):
     # Print warning on skipped files
     print("")
     print(">>>  Warning:: following histogram files are skipped. Make sure this is OK.")
-    for f in root_file_groups["NOTUSED"]:
-        print(">>>      {}".format(os.path.basename(f)))
+    if "NOTUSED" in root_file_groups:
+        for f in root_file_groups["NOTUSED"]:
+            print(">>>      {}".format(os.path.basename(f)))
 
     # Print grouping information
     print("")
@@ -266,32 +267,40 @@ def main(args):
         #--------------------------
 
         p.plot_hist(
-                bgs = [ hists[group] for group in bkg_plot_order ],
-                sigs = [ hists[group] for group in sig_plot_order ],
+                bgs = [ hists[group].Clone() for group in bkg_plot_order ],
+                sigs = [ hists[group].Clone() for group in sig_plot_order ],
                 data = None, # Not implemented yet
                 colors = colors,
                 legend_labels = legend_labels,
                 sig_labels = sig_labels,
                 options={
-                    "nbins":30,
+                    "nbins":60,
                     "output_name": "plots/{}.pdf".format(hist_name),
                     "lumi_value": "{:.1f}".format(get_lumi(args)),
                     "print_yield": True,
                     "legend_ncolumns": 3,
                     "legend_scalex": 2,
                     "signal_scale":500,
+                    "yaxis_log":False,
+                    "remove_underflow":False,
+                    "bkg_sort_method":"unsorted",
                     },
                 )
 
 def get_xsec_lumi_scaled_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
+    # print("{} {}".format(tfile.GetName(), name))
     n_eff_events = get_n_eff_events(tfile)
     xsec = get_xsec(args, tfile)
     lumi = get_lumi(args)
     scale1fb = xsec * 1000. / n_eff_events * lumi
+    # print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
+    # print("{}".format(tfile.Get(name).Integral()))
     h = tfile.Get(name).Clone()
+    # print("{}".format(h.Integral()))
     h.Scale(scale1fb)
+    # print("{}".format(h.Integral()))
     return h
 
 def get_n_eff_events(tfile):

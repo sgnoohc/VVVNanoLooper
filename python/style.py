@@ -77,69 +77,76 @@ colors_4LepMET = [2001, 2002, 2003, 2005, 2006]
 #~~~~~~~~~~~~~~~~
 grouping_1Lep4jet = {
         "DY_high.root"           : "Z",
-        "DY_low.root"            : "Z",
+        "DY_low.root"            : "NOTUSED",
         "DYzpt150.root"          : "NOTUSED",
-        "GGHtoZZto4L.root"       : "Other",
+        "GGHtoZZto4L.root"       : "NOTUSED",
         "HHAT_0p0.root"          : "NOTUSED",
         "HHAT_0p08.root"         : "NOTUSED",
         "HHAT_0p12.root"         : "NOTUSED",
         "HHAT_0p16.root"         : "NOTUSED",
-        "QQWW.root"              : "Other",
+        "QQWW.root"              : "VV",
         "STantitop.root"         : "Top",
         "STtop.root"             : "Top",
         "TGext.root"             : "NOTUSED",
-        "TTBAR_PH.root"          : "Top",
-        "TTDL.root"              : "NOTUSED",
+        "TTBAR_PH.root"          : "NOTUSED",
+        "TTDL.root"              : "Top",
         "TTGdilep.root"          : "NOTUSED",
         "TTGsinglelep.root"      : "NOTUSED",
         "TTGsinglelepbar.root"   : "NOTUSED",
-        "TTHH.root"              : "Other",
-        "TTSL.root"              : "NOTUSED",
+        "TTHH.root"              : "NOTUSED",
+        "TTSL.root"              : "Top",
         "TTSLtop.root"           : "NOTUSED",
         "TTSLtopbar.root"        : "NOTUSED",
-        "TTTJ.root"              : "Other",
-        "TTTTnew.root"           : "Other",
-        "TTTW.root"              : "Other",
-        "TTWH.root"              : "Other",
-        "TTWW.root"              : "Other",
-        "TTWZ.root"              : "Other",
-        "TTWnlo.root"            : "Other",
-        "TTZH.root"              : "Other",
-        "TTZLOW.root"            : "Other",
-        "TTZZ.root"              : "Other",
-        "TTZnlo.root"            : "Other",
+        "TTTJ.root"              : "NOTUSED",
+        "TTTTnew.root"           : "NOTUSED",
+        "TTTW.root"              : "NOTUSED",
+        "TTWH.root"              : "NOTUSED",
+        "TTWW.root"              : "NOTUSED",
+        "TTWZ.root"              : "NOTUSED",
+        "TTWnlo.root"            : "NOTUSED",
+        "TTZH.root"              : "NOTUSED",
+        "TTZLOW.root"            : "NOTUSED",
+        "TTZZ.root"              : "NOTUSED",
+        "TTZnlo.root"            : "NOTUSED",
         "TTdilep0jet.root"       : "NOTUSED",
         "TTdilep1jet.root"       : "NOTUSED",
-        "TZQ.root"               : "Other",
-        "VHtoNonBB.root"         : "VH",
+        "TZQ.root"               : "NOTUSED",
+        "VHtoNonBB.root"         : "NOTUSED",
         "W2Jets.root"            : "NOTUSED",
-        "W4Jets.root"            : "NOTUSED",
+        "W4Jets.root"            : "W",
         "WGToLNuGext.root"       : "NOTUSED",
-        "WJets.root"             : "W",
+        "WJets.root"             : "NOTUSED",
         "WJets_HT100To200.root"  : "NOTUSED",
         "WJets_HT200To400.root"  : "NOTUSED", # HT gen level variable not implemented
         "WJets_HT400To600.root"  : "NOTUSED", # HT gen level variable not implemented
         "WJets_HT600To800.root"  : "NOTUSED", # HT gen level variable not implemented
         "WJets_HT800To1200.root" : "NOTUSED", # HT gen level variable not implemented
-        "WW.root"                : "Other",
-        "WWDPS.root"             : "Other",
+        "WW.root"                : "VV",
+        "WWDPS.root"             : "NOTUSED",
         "WWG.root"               : "NOTUSED",
         "WWW.root"               : "VVV",
         "WWZ.root"               : "VVV",
-        "WZ.root"                : "Other",
+        "WZ.root"                : "VV",
         "WZG.root"               : "NOTUSED",
         "WZZ.root"               : "VVV",
         "ZG.root"                : "NOTUSED",
-        "ZZ.root"                : "Other",
+        "ZZ.root"                : "VV",
         "ZZZ.root"               : "VVV",
-        "ZZcontTo2e2mu.root"     : "Other",
-        "ZZcontTo2e2tau.root"    : "Other",
-        "ZZcontTo2mu2tau.root"   : "Other",
-        "ZZcontTo4mu.root"       : "Other",
-        "ZZcontTo4tau.root"      : "Other",
+        "ZZcontTo2e2mu.root"     : "NOTUSED",
+        "ZZcontTo2e2tau.root"    : "NOTUSED",
+        "ZZcontTo2mu2tau.root"   : "NOTUSED",
+        "ZZcontTo4mu.root"       : "NOTUSED",
+        "ZZcontTo4tau.root"      : "NOTUSED",
         }
-bkg_plot_order_1Lep4jet = [ "W", "Z", "Top", "Other" ]
-legend_labels_1Lep4jet = [ "W", "Z", "Top", "Other" ]
-sig_plot_order_1Lep4jet = [ "VVV", "VH" ]
-sig_labels_1Lep4jet = [ "VVV", "VH" ]
-colors_1Lep4jet = [2001, 7004, 7003, 7001]
+# bkg_plot_order_1Lep4jet = [ "W", "Top", "Z", "VV" ]
+# legend_labels_1Lep4jet = [ "W", "Top", "Z", "VV" ]
+# sig_plot_order_1Lep4jet = [ "VVV" ]
+# sig_labels_1Lep4jet = [ "VVV" ]
+# colors_1Lep4jet = [2001, 7003, 7004, 7007 ]
+bkg_plot_order_1Lep4jet = [ "VVV", "W", "Top", "Z", "VV" ]
+legend_labels_1Lep4jet = [ "VVV", "W", "Top", "Z", "VV" ]
+bkg_plot_order_1Lep4jet = [ "VV", "Z", "Top", "W", "VVV" ]
+legend_labels_1Lep4jet = [ "VV", "Z", "Top", "W", "VVV" ]
+sig_plot_order_1Lep4jet = [ "VVV" ]
+sig_labels_1Lep4jet = [ "VVV" ]
+colors_1Lep4jet = [7007, 7004, 7003, 2001, 2]
