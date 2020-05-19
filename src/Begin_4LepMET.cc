@@ -11,6 +11,13 @@ void Begin_4LepMET()
     // Create variables used in this category.
     // Please follow the convention of <category>_<varname> structure.
 
+    // Category flag
+    ana.tx.createBranch<bool>         ("Cut_4LepMET_Preselection");
+    ana.tx.createBranch<bool>         ("Cut_4LepMET_emuChannel");
+    ana.tx.createBranch<bool>         ("Cut_4LepMET_offzChannel");
+    ana.tx.createBranch<bool>         ("Cut_4LepMET_onzChannel");
+    ana.tx.createBranch<bool>         ("Cut_4LepMET_onzChannel_HighMET");
+
     // Z candidate idxs, pdgid, and 4 vectors
     // The Z candidate is the SFOS pair that is closest to the Z mass
     ana.tx.createBranch<int>          ("4LepMET_Zcand_lep_idx_0");    // idxs to the NanoAOD
@@ -154,15 +161,16 @@ void Begin_4LepMET()
             [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
 
     // Create a middle point of preselection
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", UNITY, UNITY); // This "cut" does not do anything. It works as a middle point
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { ana.tx.setBranch<bool>("Cut_4LepMET_Preselection", true); return true; }, UNITY); // This "cut" does not do anything. It works as a middle point
 
     // Add different channels
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_emuChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") * ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1") == -143); }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_emuChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") * ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1") == -143); ana.tx.setBranch<bool>("Cut_4LepMET_emuChannel", pass); return pass; }, UNITY);
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_offzChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) < 10.); }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_offzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) >= 10.); ana.tx.setBranch<bool>("Cut_4LepMET_offzChannel", pass); return pass; }, UNITY);
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel", [&]() { return (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) >= 10.); }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) < 10.); ana.tx.setBranch<bool>("Cut_4LepMET_onzChannel", pass); return pass; }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel_HighMET", [&]() { bool pass = ana.tx.getBranch<LorentzVector>("Common_met_p4").pt() > 120; ana.tx.setBranch<bool>("Cut_4LepMET_onzChannel_HighMET", pass); return pass; }, UNITY);
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.

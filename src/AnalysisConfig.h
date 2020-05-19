@@ -61,6 +61,9 @@ public:
     // Custom TTreeX object to hold various intermediate variables people want
     RooUtil::TTreeX tx;
 
+    // Boolean to trigger output tree writing
+    bool write_tree;
+
     // Output TTree
     TTree* output_tree;
 

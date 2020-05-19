@@ -2,7 +2,7 @@
 
 EXE=doVVVAnalysis
 
-SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) rooutil/rooutil.cc
+SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) rooutil/rooutil.cc $(wildcard NanoTools/NanoCORE/Tools/*.cc)
 OBJECTS=$(SOURCES:.cc=.o)
 HEADERS=$(SOURCES:.cc=.h)
 

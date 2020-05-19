@@ -52,11 +52,11 @@ grouping_4LepMET = {
         "WW.root"                : "Other",
         "WWDPS.root"             : "Other",
         "WWG.root"               : "NOTUSED",
-        "WWW.root"               : "VVV",
-        "WWZ.root"               : "VVV",
+        "WWW.root"               : "NOTUSED",
+        "WWZ.root"               : "NOTUSED",
         "WZ.root"                : "WZ",
         "WZG.root"               : "NOTUSED",
-        "WZZ.root"               : "VVV",
+        "WZZ.root"               : "NOTUSED",
         "ZG.root"                : "NOTUSED",
         "ZZ.root"                : "ZZ",
         "ZZZ.root"               : "VVV",
@@ -66,11 +66,11 @@ grouping_4LepMET = {
         "ZZcontTo4mu.root"       : "ZZ",
         "ZZcontTo4tau.root"      : "ZZ",
         }
-bkg_plot_order_4LepMET = [ "ZZ", "TTZ", "VH", "Other", "WZ" ]
-legend_labels_4LepMET = [ "ZZ", "TTZ", "VH", "Other", "WZ" ]
+bkg_plot_order_4LepMET = [ "WZ", "Other", "VH", "TTZ", "ZZ" ]
+legend_labels_4LepMET = [ "WZ", "Other", "VH", "TTZ", "ZZ" ]
 sig_plot_order_4LepMET = [ "VVV" ]
 sig_labels_4LepMET = [ "VVV" ]
-colors_4LepMET = [2001, 2002, 2003, 2005, 2006]
+colors_4LepMET = [7013, 920, 4024, 4305, 4020]
 
 #~~~~~~~~~~~~~~~~
 # 1Lep 4jet styles

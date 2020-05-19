@@ -280,8 +280,8 @@ def main(args):
                     "print_yield": True,
                     "legend_ncolumns": 3,
                     "legend_scalex": 2,
-                    "signal_scale":500,
-                    "yaxis_log":False,
+                    "signal_scale":50,
+                    "yaxis_log":True,
                     "remove_underflow":False,
                     "bkg_sort_method":"unsorted",
                     },
@@ -290,17 +290,17 @@ def main(args):
 def get_xsec_lumi_scaled_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
-    # print("{} {}".format(tfile.GetName(), name))
+    print("{} {}".format(tfile.GetName(), name))
     n_eff_events = get_n_eff_events(tfile)
     xsec = get_xsec(args, tfile)
     lumi = get_lumi(args)
     scale1fb = xsec * 1000. / n_eff_events * lumi
-    # print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
-    # print("{}".format(tfile.Get(name).Integral()))
+    print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
+    print("{}".format(tfile.Get(name).Integral()))
     h = tfile.Get(name).Clone()
-    # print("{}".format(h.Integral()))
+    print("{}".format(h.Integral()))
     h.Scale(scale1fb)
-    # print("{}".format(h.Integral()))
+    print("{}".format(h.Integral()))
     return h
 
 def get_n_eff_events(tfile):

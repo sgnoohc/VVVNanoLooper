@@ -18,3 +18,20 @@ void Process_4LepMET()
     // Semi-complete list of NanoAOD for 102X can be found here: https://cms-nanoaod-integration.web.cern.ch/integration/master-102X/mc102X_doc.html
     // Also consult here: https://github.com/cmstas/NanoTools/blob/d641a6d6c1aa9ecc8094a1af73d5e1bd7d6502ab/NanoCORE/Nano.h#L4875 (if new variables are added they may show up in master)
 }
+
+void PostProcess_4LepMET()
+{
+    //==============================================
+    // Process_4LepMET:
+    // This function gets called during the event looping after the event processing has been carried out
+    // This is where one may decide to write out TTree
+    //==============================================
+
+    // If it passes the preselection than decide to write the TTree
+    // if (ana.cutflow.getCut("Cut_4LepMET_Preselection").pass)
+    if (ana.cutflow.getCut("CommonCut").pass)
+    {
+        ana.tx.fill();
+    }
+
+}

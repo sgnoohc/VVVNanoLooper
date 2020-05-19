@@ -30,6 +30,23 @@ void Process()
     // Now fill all the histograms that are booked!
     ana.cutflow.fill();
 
+    // If there are certain things people wish to do "Post" processing of the cutflows and histogramming
+    // For example this is where one would write out TTree
+    if (ana.write_tree)
+    {
+        switch (ana.looperMode)
+        {
+            case AnalysisConfig::k4LepMET: PostProcess_4LepMET(); break;
+            case AnalysisConfig::k4Lep2jet: break;
+            case AnalysisConfig::k3LepMET: break;
+            case AnalysisConfig::k3Lep2jet: break;
+            case AnalysisConfig::kOS4jet: break;
+            case AnalysisConfig::kOS2jet: break;
+            case AnalysisConfig::kSS2jet: break;
+            case AnalysisConfig::k1Lep4jet: break;
+        }
+    }
+
     // Reset all the variables!
     ana.tx.clear();
 }

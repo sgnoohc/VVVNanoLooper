@@ -34,7 +34,7 @@ if __name__ == "__main__":
     sample_map = samples.mc_2018 # See condor/samples.py
 
     # submission tag
-    tag = "test"
+    tag = "test_4LepMET"
 
     # Where the merged output will go
     merged_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(os.getenv("USER"),tag)
@@ -64,7 +64,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode 7"]
+                            ["metis_extraargs", "--mode 0"]
                             ]
                         },
                     cmssw_version = "CMSSW_9_2_0",

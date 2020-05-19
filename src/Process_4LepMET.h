@@ -4,5 +4,6 @@
 #include "AnalysisConfig.h"
 
 void Process_4LepMET();
+void PostProcess_4LepMET();
 
 #endif

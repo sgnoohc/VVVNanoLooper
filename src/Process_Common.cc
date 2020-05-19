@@ -233,19 +233,74 @@ void Process_Common()
             ana.tx.pushbackToBranch<int>          ("Common_gen_pdgid", nt.GenPart_pdgId()[igen]);                 // Selected gen-particle pdgids
             ana.tx.pushbackToBranch<LorentzVector>("Common_gen_p4s", nt.GenPart_p4()[igen]);                      // Selected gen-particle p4s
 
-            if (abs(nt.GenPart_pdgId()[igen]) >= 11 and abs(nt.GenPart_pdgId()[igen]) <= 16)
-            {
-
-                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_idx", igen);                                       // Selected gen-particle idx in NanoAOD
-                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_mother_idx", nt.GenPart_genPartIdxMother()[igen]); // Selected gen-particle mother idx in NanoAOD
-                ana.tx.pushbackToBranch<int>          ("Common_gen_lep_pdgid", nt.GenPart_pdgId()[igen]);                 // Selected gen-particle pdgids
-                ana.tx.pushbackToBranch<LorentzVector>("Common_gen_lep_p4s", nt.GenPart_p4()[igen]);                      // Selected gen-particle p4s
-
-            }
-
         }
 
         ana.tx.setBranch<float>("Common_genHT", genHT);
+
+        // Selecting 6 fermions from VVV decays
+        int ngen = 0;
+        vector<int> vvvdecay_candidates; // list of idxs that points to the vvv decays
+        for (unsigned int igen = 0; igen < ana.tx.getBranch<vector<int>>("Common_gen_pdgid").size(); ++igen)
+        {
+            const int& pdgid = ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen];
+            const int& mother_idx = ana.tx.getBranch<vector<int>>("Common_gen_mother_idx")[igen];
+            float pt = ana.tx.getBranch<vector<LorentzVector>>("Common_gen_p4s")[igen].pt();
+            if (abs(pdgid) <= 20 and mother_idx >= 0 and pt >= 1e-8) // pt requirement is added because sometimes the incoming parton gets included ....
+            {
+                vvvdecay_candidates.push_back(igen);
+            }
+        }
+
+        // If we find that there are 6 particles only, then we accept it as good and no need to try to salvage
+        if (vvvdecay_candidates.size() == 6)
+        {
+        }
+        else if (vvvdecay_candidates.size() == 7) // For WWW this seems to be the common case
+        {
+            vvvdecay_candidates.erase(vvvdecay_candidates.begin());
+        }
+        else
+        {
+            std::cout << "did not find 6 ngen" << vvvdecay_candidates.size() << " " << ana.looper.getCurrentEventIndex() << std::endl;
+            for (auto& igen : vvvdecay_candidates)
+            {
+                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_idx")[igen] <<  std::endl;
+                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_mother_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_mother_idx")[igen] <<  std::endl;
+                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_pdgid')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen] <<  std::endl;
+                std::cout <<  " ana.tx.getBranch<vector<LorentzVector>>('Common_gen_p4s')[igen]: " << ana.tx.getBranch<vector<LorentzVector>>("Common_gen_p4s")[igen] <<  std::endl;
+            }
+            std::cout << "=======================" << std::endl;
+            std::cout << "duplicate mother found!" << std::endl;
+            std::cout << "=======================" << std::endl;
+            for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
+            {
+                std::cout <<  " igen: " << igen <<  std::endl;
+                std::cout <<  " nt.GenPart_pdgId()[igen]: " << nt.GenPart_pdgId()[igen] <<  std::endl;
+                std::cout <<  " nt.GenPart_status()[igen]: " << nt.GenPart_status()[igen] <<  std::endl;
+                std::cout <<  " nt.GenPart_statusFlags()[igen]: " << nt.GenPart_statusFlags()[igen] <<  std::endl;
+                std::cout <<  " nt.GenPart_genPartIdxMother()[igen]: " << nt.GenPart_genPartIdxMother()[igen] <<  std::endl;
+                std::cout <<  " nt.GenPart_p4()[igen].pt(): " << nt.GenPart_p4()[igen].pt() <<  std::endl;
+                std::cout <<  " nt.GenPart_p4()[igen].eta(): " << nt.GenPart_p4()[igen].eta() <<  std::endl;
+                std::cout <<  " nt.GenPart_p4()[igen].phi(): " << nt.GenPart_p4()[igen].phi() <<  std::endl;
+            }
+            std::cout << "=======================" << std::endl;
+        }
+
+        int n_light_lepton = 0;
+        for (auto& igen : vvvdecay_candidates)
+        {
+            ana.tx.pushbackToBranch<int>          ("Common_gen_vvvdecay_idx"         , ana.tx.getBranch<vector<int>>          ("Common_gen_idx")[igen]); // Selected gen-particle of vvv decays idx in NanoAOD
+            ana.tx.pushbackToBranch<int>          ("Common_gen_vvvdecay_mother_idx"  , ana.tx.getBranch<vector<int>>          ("Common_gen_mother_idx")[igen]); // Selected gen-particle of vvv decays mother idx in NanoAOD
+            ana.tx.pushbackToBranch<int>          ("Common_gen_vvvdecay_pdgid"       , ana.tx.getBranch<vector<int>>          ("Common_gen_pdgid")[igen]); // Selected gen-particle of vvv decays pdgids
+            ana.tx.pushbackToBranch<LorentzVector>("Common_gen_vvvdecay_p4s"         , ana.tx.getBranch<vector<LorentzVector>>("Common_gen_p4s")[igen]); // Selected gen-particle of vvv decays p4s
+
+            if (abs(ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen]) == 11 or abs(ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen]) == 13)
+            {
+                n_light_lepton++;
+            }
+        }
+
+        ana.tx.setBranch<int>("Common_gen_n_light_lep", n_light_lepton);
 
     }
 
@@ -274,14 +329,6 @@ void Process_Common()
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
             /* names of any associated vector<float> branches to sort along */ {},
             /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs"},
-            /* names of any associated vector<bool>  branches to sort along */ {}
-            );
-
-    // Sorting genlep branches
-    ana.tx.sortVecBranchesByPt(
-            /* name of the 4vector branch to use to pt sort by*/               "Common_gen_lep_p4s",
-            /* names of any associated vector<float> branches to sort along */ {},
-            /* names of any associated vector<int>   branches to sort along */ {"Common_gen_lep_idxs", "Common_gen_lep_mother_idx", "Common_gen_lep_pdgid"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 

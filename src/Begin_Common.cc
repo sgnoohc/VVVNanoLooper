@@ -32,12 +32,13 @@ void Begin_Common()
     ana.tx.createBranch<vector<int>>          ("Common_gen_pdgid");      // Selected gen-particle pdgids
     ana.tx.createBranch<vector<LorentzVector>>("Common_gen_p4s");        // Selected gen-particle p4s
 
-    ana.tx.createBranch<vector<int>>          ("Common_gen_lep_idx");        // Selected gen-particle idx in NanoAOD
-    ana.tx.createBranch<vector<int>>          ("Common_gen_lep_mother_idx"); // Selected gen-particle mother idx in NanoAOD
-    ana.tx.createBranch<vector<int>>          ("Common_gen_lep_pdgid");      // Selected gen-particle pdgids
-    ana.tx.createBranch<vector<LorentzVector>>("Common_gen_lep_p4s");        // Selected gen-particle p4s
+    ana.tx.createBranch<vector<int>>          ("Common_gen_vvvdecay_idx");          // Selected gen-particle of vvv decays idx in NanoAOD
+    ana.tx.createBranch<vector<int>>          ("Common_gen_vvvdecay_mother_idx");   // Selected gen-particle of vvv decays mother idx in NanoAOD
+    ana.tx.createBranch<vector<int>>          ("Common_gen_vvvdecay_pdgid");        // Selected gen-particle of vvv decays pdgids
+    ana.tx.createBranch<vector<LorentzVector>>("Common_gen_vvvdecay_p4s");          // Selected gen-particle of vvv decays p4s
 
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
+    ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
 
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.

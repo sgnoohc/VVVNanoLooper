@@ -25,6 +25,7 @@ int main(int argc, char** argv)
         ("j,nsplit_jobs" , "Enable splitting jobs by N blocks (--job_index must be set)"                                         , cxxopts::value<int>())
         ("I,job_index"   , "job_index of split jobs (--nsplit_jobs must be set. index starts from 0. i.e. 0, 1, 2, 3, etc...)"   , cxxopts::value<int>())
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
+        ("w,write"       , "Write skim tree.")
         ("h,help"        , "Print help")
         ;
 
@@ -117,6 +118,17 @@ int main(int argc, char** argv)
             std::cout << "ERROR: Output file name is not provided! Check your arguments" << std::endl;
             exit(1);
         }
+    }
+
+    //_______________________________________________________________________________
+    // --write
+    if (result.count("write"))
+    {
+        ana.write_tree = true;
+    }
+    else
+    {
+        ana.write_tree = false;
     }
 
     //_______________________________________________________________________________
@@ -220,7 +232,7 @@ int main(int argc, char** argv)
     ana.cutflow.setTFile(ana.output_tfile);
 
     // Create ttree for TTreeX to hold the variables
-    ana.tree_intermediate_variable = new TTree("var", "var");
+    ana.tree_intermediate_variable = new TTree("tree", "tree");
     ana.tx.setTree(ana.tree_intermediate_variable);
 
     // Create output ttree to write to output.root
