@@ -232,7 +232,7 @@ int main(int argc, char** argv)
     ana.cutflow.setTFile(ana.output_tfile);
 
     // Create ttree for TTreeX to hold the variables
-    ana.tree_intermediate_variable = new TTree("tree", "tree");
+    ana.tree_intermediate_variable = new TTree("t", "t");
     ana.tx.setTree(ana.tree_intermediate_variable);
 
     // Create output ttree to write to output.root

@@ -28,8 +28,8 @@ void PostProcess_4LepMET()
     //==============================================
 
     // If it passes the preselection than decide to write the TTree
-    // if (ana.cutflow.getCut("Cut_4LepMET_Preselection").pass)
-    if (ana.cutflow.getCut("CommonCut").pass)
+    if (ana.cutflow.getCut("Cut_4LepMET_Preselection").pass)
+    // if (ana.cutflow.getCut("CommonCut").pass)
     {
         ana.tx.fill();
     }

@@ -31,23 +31,24 @@ def split_func(dsname):
 if __name__ == "__main__":
 
     # Specify a dataset name and a short name for the output root file on nfs
-    sample_map = samples.mc_2018 # See condor/samples.py
+    sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
 
     # submission tag
-    tag = "test_4LepMET"
+    tag = "VVV4L_2016_v0.0.4"
 
     # Where the merged output will go
-    merged_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(os.getenv("USER"),tag)
+    # merged_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(os.getenv("USER"),tag)
+    merged_dir = "/home/users/phchang/public_html/analysis/vvv/VVVNanoLooper/merged/VVV/{}/output/".format(tag)
 
     # Task summary for printing out msummary
     task_summary = {}
 
-    # Boolean to aggregate whether all tasks are complete
-    all_tasks_complete = True
-
     # Infinite loop until all tasks are complete
     # It will sleep every 10 minutes (600 seconds) and re-check automatically
     while True:
+
+        # Boolean to aggregate whether all tasks are complete
+        all_tasks_complete = True
 
         # Loop over the dataset provided by the user few lines above, and do the Metis magic
         for dsname,shortname in sample_map.items():
@@ -64,7 +65,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode 0"]
+                            ["metis_extraargs", "--mode 0 -w"]
                             ]
                         },
                     cmssw_version = "CMSSW_9_2_0",

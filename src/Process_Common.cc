@@ -12,6 +12,187 @@ void Process_Common()
     // If histograms are booked with these variables the histograms will be filled automatically.
     // Please follow the convention of <category>_<varname> structure.
 
+    //---------------------------------------------------------------------------------------------
+    // Event information
+    //---------------------------------------------------------------------------------------------
+    // Event level information
+    ana.tx.setBranch<int>                  ("Common_run", nt.run());
+    ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
+    ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+    if (not nt.isData())
+    {
+        ana.tx.setBranch<float>            ("Common_genWeight", nt.genWeight());
+        if (nt.year() == 2016)
+            ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", 1); // TODO
+        else
+            ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
+    }
+    else
+    {
+        ana.tx.setBranch<float>            ("Common_genWeight", 1);
+        ana.tx.setBranch<float>            ("Common_btagWeight_DeepCSVB", 1);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // Trigger information
+    //---------------------------------------------------------------------------------------------
+
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()); }                catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ" , 0); } // Lowest unprescaled
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                   , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()); }                   catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"    , 0); } // Lowest unprescaled
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8"        , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()); }        catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8"        , 0); } // Lowest unprescaled for >= 2017C
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"          , nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()); }          catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"          , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"             , nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()); }             catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"             , 0); } // Lowest unprescaled
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ" , nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()); } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ" , 0); } // Lowest unprescaled
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL()); }    catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); }  catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , 0); } // Lowest unprescaled
+    try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL()); }     catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , 0); }
+
+    // // 2016 only triggers
+    // ana.tx.setBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ", nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()); // Lowest unprescaled
+    // ana.tx.setBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL", nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()); // Lowest unprescaled
+    // // Rest of the triggers
+    // ana.tx.setBranch<bool>                 ("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ());
+    // ana.tx.setBranch<bool>                 ("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL", nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()); // Lowest unprescaled
+
+    // // Following trigger needs care as depending on the year and period it may not be available
+    // if (nt.isData()) // i.e. data
+    // {
+    //     // The double muon trigger having some year dependence
+    //     if (nt.run() >= 299368) // 299368 is beginning of Run2017C based on https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDataReprocessingNanoAODv6
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8", nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()); // Lowest unprescaled for >= 2017C
+    //     else
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8", 0); // Lowest unprescaled for >= 2017C
+
+    //     // Mu-El trigger has year dependence
+    //     if (nt.run() >= 281613)
+    //     {
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", 0);
+    //     }
+    //     else if (nt.run() >= 277932)
+    //     {
+    //         try
+    //         {
+    //             ana.tx.setBranch<bool>     ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ());
+    //         }
+    //         catch (std::runtime_error)
+    //         {
+    //             ana.tx.setBranch<bool>     ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         }
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //         try
+    //         {
+    //             ana.tx.setBranch<bool>     ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
+    //         }
+    //         catch (std::runtime_error)
+    //         {
+    //             ana.tx.setBranch<bool>     ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         }
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //     }
+    //     else
+    //     {
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());
+    //     }
+    // }
+    // else
+    // {
+    //     if (nt.year() >= 2017)
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8", nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8());
+    //     else
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8", 0);
+
+    //     // Mu-El trigger has year dependence
+    //     if (nt.year() == 2018)
+    //     {
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", 0);
+    //     }
+    //     else if (nt.year() == 2017)
+    //     {
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //     }
+    //     else
+    //     {
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", 0);
+    //         ana.tx.setBranch<bool>         ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());
+    //     }
+    // }
+
+    bool is_pd_ee = (ana.looper.getCurrentFileName().Contains("DoubleEG") || ana.looper.getCurrentFileName().Contains("EGamma"));
+    bool is_pd_em = ana.looper.getCurrentFileName().Contains("MuonEG");
+    bool is_pd_mm = ana.looper.getCurrentFileName().Contains("DoubleMuon");
+    bool pass_duplicate_ee_em_mm = false;
+    bool pass_duplicate_mm_em_ee = false;
+
+    bool trig_ee = false;
+    bool trig_em = false;
+    bool trig_mm = false;
+
+    switch (nt.year())
+    {
+        case 2016:
+            trig_ee = ana.tx.getBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
+            trig_em = ana.tx.getBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL") or ana.tx.getBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL") or
+                      ana.tx.getBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ") or ana.tx.getBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ");
+            trig_mm = ana.tx.getBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ") or
+                      ana.tx.getBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL");
+            break;
+        case 2017:
+            trig_ee = ana.tx.getBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL");
+            trig_em = ana.tx.getBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ") or ana.tx.getBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ");
+            trig_mm = ana.tx.getBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8");
+            break;
+        case 2018:
+            trig_ee = ana.tx.getBranch<bool>("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL");
+            trig_em = ana.tx.getBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ") or ana.tx.getBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ");
+            trig_mm = ana.tx.getBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8");
+            break;
+    }
+
+    ana.tx.setBranch<bool>("Common_HLT_DoubleEl", trig_ee);
+    ana.tx.setBranch<bool>("Common_HLT_MuEG", trig_em);
+    ana.tx.setBranch<bool>("Common_HLT_DoubleMu", trig_mm);
+
+    if (is_pd_ee)
+    {
+        if (trig_ee)
+            pass_duplicate_ee_em_mm = true;
+        if (!trig_mm && !trig_em && trig_ee)
+            pass_duplicate_mm_em_ee = true;
+    }
+    else if (is_pd_em)
+    {
+        if (!trig_ee && trig_em)
+            pass_duplicate_ee_em_mm = true;
+        if (!trig_mm && trig_em)
+            pass_duplicate_mm_em_ee = true;
+    }
+    else if (is_pd_mm)
+    {
+        if (!trig_ee && !trig_em && trig_mm)
+            pass_duplicate_ee_em_mm = true;
+        if (trig_mm)
+            pass_duplicate_mm_em_ee = true;
+    }
+
+
+    ana.tx.setBranch<bool>("Common_pass_duplicate_removal_ee_em_mm", pass_duplicate_ee_em_mm); // Flag to identify whether the event passes duplicate removal
+    ana.tx.setBranch<bool>("Common_pass_duplicate_removal_mm_em_ee", pass_duplicate_mm_em_ee); // Flag to identify whether the event passes duplicate removal
+
+
     // Example of reading from Nano
     // std::vector<LorentzVector> electron_p4s = nt.Electron_p4(); // nt is a global variable that accesses NanoAOD
     // std::vector<float> electron_mvaTTH = nt.Electron_mvaTTH(); // electron ttH MVA scores from NanoAOD
@@ -33,6 +214,9 @@ void Process_Common()
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", iel);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Electron_pdgId()[iel]);
         ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Electron_p4()[iel]);
+        ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Electron_mvaFall17V2Iso_WP80()[iel]);
+        ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Electron_dxy()[iel]);
+        ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -51,6 +235,9 @@ void Process_Common()
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", imu);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Muon_pdgId()[imu]);
         ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Muon_p4()[imu]);
+        ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15);
+        ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Muon_dxy()[imu]);
+        ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -115,12 +302,33 @@ void Process_Common()
         // For b-tagged jets, consider jets only 20 and above and is central within tracker acceptance
         if (nt.Jet_p4()[ijet].pt() > 20. and abs(nt.Jet_p4()[ijet].eta()) < 2.4)
         {
-            if (nt.Jet_btagDeepFlavB()[ijet] > 0.0494) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-                nb_loose++;
-            if (nt.Jet_btagDeepFlavB()[ijet] > 0.2770) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-                nb_medium++;
-            if (nt.Jet_btagDeepFlavB()[ijet] > 0.7264) // TODO: Factorize this for each year and etc. https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-                nb_tight++;
+            if (nt.year() == 2016)
+            {
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.0614) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+                    nb_loose++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.3093) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+                    nb_medium++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.7221) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+                    nb_tight++;
+            }
+            else if (nt.year() == 2017)
+            {
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.0521) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+                    nb_loose++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.3033) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+                    nb_medium++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.7489) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+                    nb_tight++;
+            }
+            else if (nt.year() == 2018)
+            {
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.0494) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                    nb_loose++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.2770) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                    nb_medium++;
+                if (nt.Jet_btagDeepFlavB()[ijet] > 0.7264) // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+                    nb_tight++;
+            }
         }
     }
 
@@ -175,6 +383,23 @@ void Process_Common()
         // For now, accept anything that reaches this point
         ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_p4", nt.FatJet_p4()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop", nt.FatJet_msoftdrop()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_deepMD_W", nt.FatJet_deepTagMD_WvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_deep_W", nt.FatJet_deepTag_WvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_deepMD_T", nt.FatJet_deepTagMD_TvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_deep_T", nt.FatJet_deepTag_TvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_deepMD_bb", nt.FatJet_deepTagMD_bbvsLight()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_tau2", nt.FatJet_tau2()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_tau1", nt.FatJet_tau1()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_tau21", nt.FatJet_tau2()[ifatjet] / nt.FatJet_tau1()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet0_pt", nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? nt.SubJet_pt()[nt.FatJet_subJetIdx1()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet0_eta", nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? nt.SubJet_eta()[nt.FatJet_subJetIdx1()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet0_phi", nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? nt.SubJet_phi()[nt.FatJet_subJetIdx1()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet0_mass", nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? nt.SubJet_mass()[nt.FatJet_subJetIdx1()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_pt", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_pt()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_eta", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_eta()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_phi", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_phi()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_mass", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
 
     }
 
@@ -187,7 +412,7 @@ void Process_Common()
     // Gen-level particle selection
     //---------------------------------------------------------------------------------------------
     // This is only possible when it is MC and has GenPart Branches
-    if (nt.hasGenBranches())
+    if (not nt.isData())
     {
 
         float genHT = 0; // variable to be used to stitch HT-sliced samples
@@ -238,7 +463,7 @@ void Process_Common()
         ana.tx.setBranch<float>("Common_genHT", genHT);
 
         // Selecting 6 fermions from VVV decays
-        int ngen = 0;
+        // int ngen = 0;
         vector<int> vvvdecay_candidates; // list of idxs that points to the vvv decays
         for (unsigned int igen = 0; igen < ana.tx.getBranch<vector<int>>("Common_gen_pdgid").size(); ++igen)
         {
@@ -261,29 +486,29 @@ void Process_Common()
         }
         else
         {
-            std::cout << "did not find 6 ngen" << vvvdecay_candidates.size() << " " << ana.looper.getCurrentEventIndex() << std::endl;
-            for (auto& igen : vvvdecay_candidates)
-            {
-                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_idx")[igen] <<  std::endl;
-                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_mother_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_mother_idx")[igen] <<  std::endl;
-                std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_pdgid')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen] <<  std::endl;
-                std::cout <<  " ana.tx.getBranch<vector<LorentzVector>>('Common_gen_p4s')[igen]: " << ana.tx.getBranch<vector<LorentzVector>>("Common_gen_p4s")[igen] <<  std::endl;
-            }
-            std::cout << "=======================" << std::endl;
-            std::cout << "duplicate mother found!" << std::endl;
-            std::cout << "=======================" << std::endl;
-            for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
-            {
-                std::cout <<  " igen: " << igen <<  std::endl;
-                std::cout <<  " nt.GenPart_pdgId()[igen]: " << nt.GenPart_pdgId()[igen] <<  std::endl;
-                std::cout <<  " nt.GenPart_status()[igen]: " << nt.GenPart_status()[igen] <<  std::endl;
-                std::cout <<  " nt.GenPart_statusFlags()[igen]: " << nt.GenPart_statusFlags()[igen] <<  std::endl;
-                std::cout <<  " nt.GenPart_genPartIdxMother()[igen]: " << nt.GenPart_genPartIdxMother()[igen] <<  std::endl;
-                std::cout <<  " nt.GenPart_p4()[igen].pt(): " << nt.GenPart_p4()[igen].pt() <<  std::endl;
-                std::cout <<  " nt.GenPart_p4()[igen].eta(): " << nt.GenPart_p4()[igen].eta() <<  std::endl;
-                std::cout <<  " nt.GenPart_p4()[igen].phi(): " << nt.GenPart_p4()[igen].phi() <<  std::endl;
-            }
-            std::cout << "=======================" << std::endl;
+            // std::cout << "did not find 6 ngen" << vvvdecay_candidates.size() << " " << ana.looper.getCurrentEventIndex() << std::endl;
+            // for (auto& igen : vvvdecay_candidates)
+            // {
+            //     std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_idx")[igen] <<  std::endl;
+            //     std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_mother_idx')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_mother_idx")[igen] <<  std::endl;
+            //     std::cout <<  " ana.tx.getBranch<vector<int>>('Common_gen_pdgid')[igen]: " << ana.tx.getBranch<vector<int>>("Common_gen_pdgid")[igen] <<  std::endl;
+            //     std::cout <<  " ana.tx.getBranch<vector<LorentzVector>>('Common_gen_p4s')[igen]: " << ana.tx.getBranch<vector<LorentzVector>>("Common_gen_p4s")[igen] <<  std::endl;
+            // }
+            // std::cout << "=======================" << std::endl;
+            // std::cout << "duplicate mother found!" << std::endl;
+            // std::cout << "=======================" << std::endl;
+            // for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
+            // {
+            //     std::cout <<  " igen: " << igen <<  std::endl;
+            //     std::cout <<  " nt.GenPart_pdgId()[igen]: " << nt.GenPart_pdgId()[igen] <<  std::endl;
+            //     std::cout <<  " nt.GenPart_status()[igen]: " << nt.GenPart_status()[igen] <<  std::endl;
+            //     std::cout <<  " nt.GenPart_statusFlags()[igen]: " << nt.GenPart_statusFlags()[igen] <<  std::endl;
+            //     std::cout <<  " nt.GenPart_genPartIdxMother()[igen]: " << nt.GenPart_genPartIdxMother()[igen] <<  std::endl;
+            //     std::cout <<  " nt.GenPart_p4()[igen].pt(): " << nt.GenPart_p4()[igen].pt() <<  std::endl;
+            //     std::cout <<  " nt.GenPart_p4()[igen].eta(): " << nt.GenPart_p4()[igen].eta() <<  std::endl;
+            //     std::cout <<  " nt.GenPart_p4()[igen].phi(): " << nt.GenPart_p4()[igen].phi() <<  std::endl;
+            // }
+            // std::cout << "=======================" << std::endl;
         }
 
         int n_light_lepton = 0;
@@ -311,8 +536,8 @@ void Process_Common()
     // Sorting lepton branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
-            /* names of any associated vector<float> branches to sort along */ {},
-            /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid"},
+            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz"},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
@@ -327,7 +552,10 @@ void Process_Common()
     // Sorting fatjet branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
-            /* names of any associated vector<float> branches to sort along */ {},
+            /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb"
+                                                                                "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi",
+                                                                                "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass",
+                                                                               },
             /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );

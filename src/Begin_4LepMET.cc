@@ -20,22 +20,22 @@ void Begin_4LepMET()
 
     // Z candidate idxs, pdgid, and 4 vectors
     // The Z candidate is the SFOS pair that is closest to the Z mass
-    ana.tx.createBranch<int>          ("4LepMET_Zcand_lep_idx_0");    // idxs to the NanoAOD
-    ana.tx.createBranch<int>          ("4LepMET_Zcand_lep_pdgid_0");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
-    ana.tx.createBranch<LorentzVector>("4LepMET_Zcand_lep_p4_0");     // p4 of the lepton
-    ana.tx.createBranch<int>          ("4LepMET_Zcand_lep_idx_1");    // idxs to the NanoAOD
-    ana.tx.createBranch<int>          ("4LepMET_Zcand_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
-    ana.tx.createBranch<LorentzVector>("4LepMET_Zcand_lep_p4_1");     // p4 of the lepton
-    ana.tx.createBranch<float>        ("4LepMET_Zcand_mll");          // Invariant mass of the Z candidate
+    ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_idx_0");    // idxs to the NanoAOD
+    ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_0");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
+    ana.tx.createBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0");     // p4 of the lepton
+    ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_idx_1");    // idxs to the NanoAOD
+    ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
+    ana.tx.createBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1");     // p4 of the lepton
+    ana.tx.createBranch<float>        ("Var_4LepMET_Zcand_mll");          // Invariant mass of the Z candidate
 
     // The other two leptons from the 4 lepton event (they must be oppositely charged)
-    ana.tx.createBranch<int>          ("4LepMET_other_lep_idx_0");    // idxs to the NanoAOD
-    ana.tx.createBranch<int>          ("4LepMET_other_lep_pdgid_0");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
-    ana.tx.createBranch<LorentzVector>("4LepMET_other_lep_p4_0");     // p4 of the lepton
-    ana.tx.createBranch<int>          ("4LepMET_other_lep_idx_1");    // idxs to the NanoAOD
-    ana.tx.createBranch<int>          ("4LepMET_other_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
-    ana.tx.createBranch<LorentzVector>("4LepMET_other_lep_p4_1");     // p4 of the lepton
-    ana.tx.createBranch<float>        ("4LepMET_other_mll");          // Invariant mass of the Z candidate
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_idx_0");    // idxs to the NanoAOD
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_pdgid_0");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
+    ana.tx.createBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0");     // p4 of the lepton
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_idx_1");    // idxs to the NanoAOD
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
+    ana.tx.createBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1");     // p4 of the lepton
+    ana.tx.createBranch<float>        ("Var_4LepMET_other_mll");          // Invariant mass of the Z candidate
 
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
@@ -63,14 +63,14 @@ void Begin_4LepMET()
                 if (not (abs(mll - 91.1876) < 10.)) return false;
 
                 // If found a Z then set the variables
-                ana.tx.setBranch<int>          ("4LepMET_Zcand_lep_idx_0"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx1]);
-                ana.tx.setBranch<int>          ("4LepMET_Zcand_lep_pdgid_0" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx1]);
-                ana.tx.setBranch<LorentzVector>("4LepMET_Zcand_lep_p4_0"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1]);
-                ana.tx.setBranch<int>          ("4LepMET_Zcand_lep_idx_1"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx2]);
-                ana.tx.setBranch<int>          ("4LepMET_Zcand_lep_pdgid_1" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx2]);
-                ana.tx.setBranch<LorentzVector>("4LepMET_Zcand_lep_p4_1"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx2]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_0"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx1]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_0" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx1]);
+                ana.tx.setBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_1"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx2]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_1" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx2]);
+                ana.tx.setBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx2]);
 
-                ana.tx.setBranch<float>("4LepMET_Zcand_mll", mll);
+                ana.tx.setBranch<float>("Var_4LepMET_Zcand_mll", mll);
 
                 // The leading one has to pass 25 GeV
                 if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1].pt() > 25.)) return false;
@@ -92,8 +92,8 @@ void Begin_4LepMET()
                 {
                     int idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
                     int pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep];
-                    if (idx == ana.tx.getBranchLazy<int>("4LepMET_Zcand_lep_idx_0") and pdgid == ana.tx.getBranchLazy<int>("4LepMET_Zcand_lep_pdgid_0")) continue;
-                    if (idx == ana.tx.getBranchLazy<int>("4LepMET_Zcand_lep_idx_1") and pdgid == ana.tx.getBranchLazy<int>("4LepMET_Zcand_lep_pdgid_1")) continue;
+                    if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_0") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_0")) continue;
+                    if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_1") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_1")) continue;
                     other_lep_idxs  .push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep]);
                     other_lep_pdgids.push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]);
                     other_lep_p4s   .push_back(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[ilep]);
@@ -104,14 +104,14 @@ void Begin_4LepMET()
                     RooUtil::error("It should have been 4 leptons! how come you have != 2 other leptons here after accounting for the Z leptons??", __FILE__);
 
                 // set the idxs
-                ana.tx.setBranch<int>          ("4LepMET_other_lep_idx_0"   , other_lep_idxs[0]);
-                ana.tx.setBranch<int>          ("4LepMET_other_lep_pdgid_0" , other_lep_pdgids[0]);
-                ana.tx.setBranch<LorentzVector>("4LepMET_other_lep_p4_0"    , other_lep_p4s[0]);
-                ana.tx.setBranch<int>          ("4LepMET_other_lep_idx_1"   , other_lep_idxs[1]);
-                ana.tx.setBranch<int>          ("4LepMET_other_lep_pdgid_1" , other_lep_pdgids[1]);
-                ana.tx.setBranch<LorentzVector>("4LepMET_other_lep_p4_1"    , other_lep_p4s[1]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_0"   , other_lep_idxs[0]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_pdgid_0" , other_lep_pdgids[0]);
+                ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"    , other_lep_p4s[0]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_1"   , other_lep_idxs[1]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_pdgid_1" , other_lep_pdgids[1]);
+                ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"    , other_lep_p4s[1]);
 
-                ana.tx.setBranch<float>("4LepMET_other_mll", (other_lep_p4s[0] + other_lep_p4s[1]).mass());
+                ana.tx.setBranch<float>("Var_4LepMET_other_mll", (other_lep_p4s[0] + other_lep_p4s[1]).mass());
 
                 // The leading one has to pass 25 GeV
                 if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[other_lep_idxs[0]].pt() > 25.)) return false;
@@ -151,11 +151,11 @@ void Begin_4LepMET()
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_bVeto",
             [&]()
             {
-                for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); ++ijet)
-                {
-                    int jet_idx_nano = ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs")[ijet];
-                    float jet_deepflavb_score = nt.Jet_btagDeepFlavB()[jet_idx_nano];
-                }
+                // for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); ++ijet)
+                // {
+                //     int jet_idx_nano = ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs")[ijet];
+                //     float jet_deepflavb_score = nt.Jet_btagDeepFlavB()[jet_idx_nano];
+                // }
                 return true;
             },
             [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
@@ -165,22 +165,22 @@ void Begin_4LepMET()
 
     // Add different channels
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_emuChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") * ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1") == -143); ana.tx.setBranch<bool>("Cut_4LepMET_emuChannel", pass); return pass; }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_emuChannel", [&]() { bool pass = (ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_0") * ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_1") == -143); ana.tx.setBranch<bool>("Cut_4LepMET_emuChannel", pass); return pass; }, UNITY);
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_offzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) >= 10.); ana.tx.setBranch<bool>("Cut_4LepMET_offzChannel", pass); return pass; }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_offzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("Var_4LepMET_other_mll") - 91.1876) >= 10.); ana.tx.setBranch<bool>("Cut_4LepMET_offzChannel", pass); return pass; }, UNITY);
     ana.cutflow.getCut("Cut_4LepMET_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("4LepMET_other_mll") - 91.1876) < 10.); ana.tx.setBranch<bool>("Cut_4LepMET_onzChannel", pass); return pass; }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel", [&]() { bool pass = (ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_0") == -ana.tx.getBranch<int>("Var_4LepMET_other_lep_pdgid_1")) and (abs(ana.tx.getBranch<float>("Var_4LepMET_other_mll") - 91.1876) < 10.); ana.tx.setBranch<bool>("Cut_4LepMET_onzChannel", pass); return pass; }, UNITY);
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_onzChannel_HighMET", [&]() { bool pass = ana.tx.getBranch<LorentzVector>("Common_met_p4").pt() > 120; ana.tx.setBranch<bool>("Cut_4LepMET_onzChannel_HighMET", pass); return pass; }, UNITY);
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
-    ana.histograms.addHistogram("h_4LepMET_Zcand_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4LepMET_Zcand_lep_p4_0").pt(); } );
-    ana.histograms.addHistogram("h_4LepMET_Zcand_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4LepMET_Zcand_lep_p4_1").pt(); } );
-    ana.histograms.addHistogram("h_4LepMET_Zcand_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("4LepMET_Zcand_mll"); } );
-    ana.histograms.addHistogram("h_4LepMET_other_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4LepMET_other_lep_p4_0").pt(); } );
-    ana.histograms.addHistogram("h_4LepMET_other_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("4LepMET_other_lep_p4_1").pt(); } );
-    ana.histograms.addHistogram("h_4LepMET_other_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("4LepMET_other_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_other_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_other_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_other_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_met", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").phi(); } );
 
