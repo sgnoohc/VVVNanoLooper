@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR/../
 
 make clean;
-make -j;
+make -j4;
 
 git status > gitversion.txt
 git rev-parse HEAD >> gitversion.txt

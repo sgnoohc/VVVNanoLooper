@@ -21,9 +21,21 @@ def main(args):
     print ("     -----------")
     print ("")
 
+    yearstring = ""
+    if args.year == 0:
+        yearstring = "combined"
+    elif args.year >= 2016 and args.year <= 2018:
+        yearstring = str(args.year)
+    elif args.year == -1:
+        yearstring = "" #for backwards compatibility
+    else:
+        print("The year you selected ("+str(args.year)+") does not exist.")
+        return
+
     # Constructing input directory name
     username = os.environ['USER']
-    input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(username, args.tag)
+    #input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(username, args.tag)
+    input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/{}/".format(username, args.tag,yearstring)
 
     # Printing input directory name
     print(">>>  Input directory: {}".format(input_dir))
@@ -108,6 +120,8 @@ def main(args):
 
     # If user wants to use different grouping use the following hooks
     if args.style == 0: grouping_setting = style.grouping_4LepMET
+    if args.style == 1: grouping_setting = style.grouping_3LepMET
+    if args.style == 5: grouping_setting = style.grouping_OS2jet
     if args.style == 7: grouping_setting = style.grouping_1Lep4jet
 
     # Now loop over files to check the grouping and print a warning that it is skipping some stuff
@@ -117,6 +131,7 @@ def main(args):
     for f in list_of_root_files:
 
         f_basename = os.path.basename(f)
+        #add here check for data
         if f_basename not in grouping_setting.keys():
             print("")
             print(">>>  Warning::  {} was not defined in the group setting!! {} is pushed to NOTUSED category.".format(f, f))
@@ -166,6 +181,18 @@ def main(args):
         legend_labels = style.legend_labels_4LepMET
         sig_labels = style.sig_labels_4LepMET
         colors = style.colors_4LepMET
+    if args.style == 1: # 3LepMET style
+        bkg_plot_order = style.bkg_plot_order_3LepMET
+        sig_plot_order = style.sig_plot_order_3LepMET
+        legend_labels = style.legend_labels_3LepMET
+        sig_labels = style.sig_labels_3LepMET
+        colors = style.colors_3LepMET
+    if args.style == 5: # OS+jets style
+        bkg_plot_order = style.bkg_plot_order_OS2jet
+        sig_plot_order = style.sig_plot_order_OS2jet
+        legend_labels = style.legend_labels_OS2jet
+        sig_labels = style.sig_labels_OS2jet
+        colors = style.colors_OS2jet
     if args.style == 7: # 1Lep4jet style
         bkg_plot_order = style.bkg_plot_order_1Lep4jet
         sig_plot_order = style.sig_plot_order_1Lep4jet
@@ -236,7 +263,10 @@ def main(args):
             for f in tfiles_by_group[group]:
 
                 # Retrieve the histogram after scaling it appropriately according to its cross section and lumi of the year
-                thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name))
+                if "Data" in group:
+                     thists_by_group[group].append(get_raw_histogram(f, hist_name))
+                else:
+                    thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name))
 
         # Now create a list of histogram one per each grouping
         hists = {}
@@ -256,6 +286,14 @@ def main(args):
                 else:
                     hists[group].Add(h)
 
+                if "Data" in group:
+                    if args.year==2016 and group != "Data_2016": continue
+                    if args.year==2017 and group != "Data_2017": continue
+                    if args.year==2018 and group != "Data_2018": continue
+                    if "Data" not in hists:
+                        hists["Data"] = h.Clone("Data")
+                    else: hists["Data"].Add(h)
+
         # # Printing histograms we have
         # for group in hists:
         #     hists[group].Print("all")
@@ -264,43 +302,48 @@ def main(args):
         #
         # Now actual plotting
         #
-        #--------------------------
+        #-------------get_xsec-------------
 
         p.plot_hist(
                 bgs = [ hists[group].Clone() for group in bkg_plot_order ],
                 sigs = [ hists[group].Clone() for group in sig_plot_order ],
-                data = None, # Not implemented yet
+                data = hists["Data"] if args.data else None,
                 colors = colors,
                 legend_labels = legend_labels,
                 sig_labels = sig_labels,
                 options={
-                    "nbins":60,
-                    "output_name": "plots/{}.pdf".format(hist_name),
+                    "yaxis_log":args.yaxis_log,
+                    "nbins":args.nbins,
+                    "output_name": "plots/{}/{}/{}.pdf".format(args.tag,yearstring,hist_name),#"output_name": "plots/{}/{}.pdf".format(args.tag,hist_name),
                     "lumi_value": "{:.1f}".format(get_lumi(args)),
                     "print_yield": True,
                     "legend_ncolumns": 3,
                     "legend_scalex": 2,
-                    "signal_scale":50,
-                    "yaxis_log":True,
                     "remove_underflow":False,
                     "bkg_sort_method":"unsorted",
+                    "signal_scale":args.scale,
                     },
                 )
 
 def get_xsec_lumi_scaled_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
-    print("{} {}".format(tfile.GetName(), name))
+    #print("{} {}".format(tfile.GetName(), name))
     n_eff_events = get_n_eff_events(tfile)
     xsec = get_xsec(args, tfile)
     lumi = get_lumi(args)
     scale1fb = xsec * 1000. / n_eff_events * lumi
-    print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
-    print("{}".format(tfile.Get(name).Integral()))
+    #print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
+    #print("{}".format(tfile.Get(name).Integral()))
     h = tfile.Get(name).Clone()
-    print("{}".format(h.Integral()))
+    #print("{}".format(h.Integral()))
     h.Scale(scale1fb)
-    print("{}".format(h.Integral()))
+    #print("{}".format(h.Integral()))
+    return h
+def get_raw_histogram(tfile, name):
+    # The Wgt__h_nevents holds the information about the total number of events processed for this sample
+    # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
+    h = tfile.Get(name).Clone()
     return h
 
 def get_n_eff_events(tfile):
@@ -337,7 +380,9 @@ def get_lumi(args):
     elif args.year == 2017:
         return 41.3
     elif args.year == 2018:
-        return 59.74
+        return 59.7
+    elif args.year == 0:
+        return 137.
     else:
         sys.exit("ERROR - Year is not recognized. You said the year is {}".format(args.year))
 
@@ -345,11 +390,14 @@ if __name__ == "__main__":
 
     # Define options
     parser = argparse.ArgumentParser(description="Plotter for VVV analysis")
-    parser.add_argument('-t' , '--tag'      , dest='tag'      , help='tag of the job submitted to condor', required=True)
+    parser.add_argument('-t' , '--tag'      , dest='tag'      , help='tag of the job submitted to condor'   , required=True)
+    parser.add_argument('-s' , '--scale'    , dest='scale'    , help='signal scale'  ,type=float, default=1., required=False)
+    parser.add_argument('-b' , '--nbins'    , dest='nbins'    , help='number of bins',type=int,   default=30, required=False)
     parser.add_argument('-g' , '--style'    , dest='style'    , help='Style option to specify MC grouping/color/etc (-1 = default, 0 = 4LepMET grouping, 1 = ... TODO)', type=int, default=-1)
     parser.add_argument('-y' , '--year'     , dest='year'     , help='data year', type=int, required=True)
+    parser.add_argument('-d' , '--data'     , dest='data'     , help='plot data',           default=False, action='store_true')
     parser.add_argument('-n' , '--histname' , dest='histname' , help='name of the histogram OR type "all" to plot everything', required=True)
-
+    parser.add_argument('-l' , '--yaxis_log', dest='yaxis_log', help='Y-axis set to log' ,  default=False, action='store_true') 
     # Argument parser
     args = parser.parse_args()
     args.tag

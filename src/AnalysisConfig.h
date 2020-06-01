@@ -3,6 +3,8 @@
 
 #include "rooutil.h"
 #include "Nano.h"
+#include "math.h"
+#include <algorithm>
 
 class AnalysisConfig {
 
