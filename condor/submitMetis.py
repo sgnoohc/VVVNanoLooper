@@ -5,6 +5,7 @@ from metis.LocalMergeTask import LocalMergeTask
 from metis.CondorTask import CondorTask
 from metis.StatsParser import StatsParser
 import samples
+import argparse
 
 from time import sleep
 import sys
@@ -30,15 +31,38 @@ def split_func(dsname):
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(description="Submit jobs for VVV analysis")
+    parser.add_argument('-m' , '--mode'        , dest='mode'      , help='tag of the job'            , type=int, required=True                                     )
+    parser.add_argument('-a' , '--addflags'    , dest='addflags'  , help='adding flags to metis'     , type=str,                default=""                         )
+    parser.add_argument('-d' , '--datamc'      , dest='datamc'    , help='data or mc'                ,                          default=False , action='store_true')
+    parser.add_argument('-y' , '--year'        , dest='year'      , help='data year'                 , type=int, required=True                                     )
+    parser.add_argument('-t' , '--thetag'      , dest='thetag'    , help='tag'                       , type=str,                default="test"                     )
+    parser.add_argument('-s' , '--mysample'    , dest='mysample'  , help='don\'t do autmoated sample',                          default=False , action='store_true')
+    # Argument parser
+    args = parser.parse_args()
+    args.mode
+    
     # Specify a dataset name and a short name for the output root file on nfs
-    sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
+    sample_map = samples.mc_2018 # See condor/samples.py
+    if args.year==2017:
+        sample_map = samples.mc_2017 # See condor/samples.py
+    elif args.year==2016:
+        sample_map = samples.mc_2016 # See condor/samples.py
+    if args.datamc:
+        sample_map = samples.data_2018 # See condor/samples.py
+        if args.year==2017:
+            sample_map = samples.data_2017 # See condor/samples.py
+        elif args.year==2016:
+            sample_map = samples.data_2016 # See condor/samples.py
+    if args.mysample:
+        sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
+        
 
     # submission tag
-    tag = "VVV4L_2016_v0.0.4"
+    tag = args.thetag 
 
     # Where the merged output will go
-    # merged_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(os.getenv("USER"),tag)
-    merged_dir = "/home/users/phchang/public_html/analysis/vvv/VVVNanoLooper/merged/VVV/{}/output/".format(tag)
+    merged_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/{}".format(os.getenv("USER"),tag,args.year)
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -65,14 +89,14 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode 0 -w"]
+                            ["metis_extraargs", "--mode {} {}".format(args.mode,args.addflags)]
                             ]
                         },
                     cmssw_version = "CMSSW_9_2_0",
                     scram_arch = "slc6_amd64_gcc700",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
-                    special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
+                    special_dir = "VVVAnalysis/{}/{}".format(tag,args.year), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,
             )
