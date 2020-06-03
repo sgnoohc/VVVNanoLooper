@@ -1,6 +1,7 @@
 tasks
 src/*.o
 *.swp
+*.root
 doVVVAnalysis
 logger_metis.log
 condor/samples.pyc
