@@ -160,7 +160,7 @@ This is where the stuff that runs once after the event loop is done.
 
 If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
 
-### Grid submission
+### Grid submission (TODO: outdated. needs update.)
 
 To submit jobs to the grid, do the following
 
