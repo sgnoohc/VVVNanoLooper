@@ -191,6 +191,25 @@ void Process_Common()
 
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_ee_em_mm", pass_duplicate_ee_em_mm); // Flag to identify whether the event passes duplicate removal
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_mm_em_ee", pass_duplicate_mm_em_ee); // Flag to identify whether the event passes duplicate removal
+    bool filterflag   = false;
+    bool filterflagMC = false;
+    switch (nt.year())
+    {
+        case 2016:
+          filterflag   = nt.Flag_goodVertices() && nt.Flag_globalSuperTightHalo2016Filter() && nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter();
+          filterflagMC = nt.Flag_goodVertices() &&                                             nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter();
+            break;
+        case 2017:
+          filterflag   = nt.Flag_goodVertices() && nt.Flag_globalSuperTightHalo2016Filter() && nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter() && nt.Flag_ecalBadCalibFilterV2();
+          filterflagMC = nt.Flag_goodVertices() &&                                             nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter() && nt.Flag_ecalBadCalibFilterV2();
+          break;
+        case 2018:
+          filterflag   = nt.Flag_goodVertices() && nt.Flag_globalSuperTightHalo2016Filter() && nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter() && nt.Flag_ecalBadCalibFilterV2();
+          filterflagMC = nt.Flag_goodVertices() &&                                             nt.Flag_HBHENoiseFilter() && nt.Flag_HBHENoiseIsoFilter() && nt.Flag_EcalDeadCellTriggerPrimitiveFilter() && nt.Flag_BadPFMuonFilter() && nt.Flag_ecalBadCalibFilterV2();
+          break;
+    }
+    ana.tx.setBranch<bool>("Common_noiseFlag"  , filterflag  ); // Flag to identify whether the event passes duplicate removal
+    ana.tx.setBranch<bool>("Common_noiseFlagMC", filterflagMC); // Flag to identify whether the event passes duplicate removal
 
 
     // Example of reading from Nano
@@ -198,7 +217,7 @@ void Process_Common()
     // std::vector<float> electron_mvaTTH = nt.Electron_mvaTTH(); // electron ttH MVA scores from NanoAOD
     // Semi-complete list of NanoAOD for 102X can be found here: https://cms-nanoaod-integration.web.cern.ch/integration/master-102X/mc102X_doc.html
     // Also consult here: https://github.com/cmstas/NanoTools/blob/d641a6d6c1aa9ecc8094a1af73d5e1bd7d6502ab/NanoCORE/Nano.h#L4875 (if new variables are added they may show up in master)
-
+    float lepSFc(1.), lepSFue(1.), lepSFde(1.), lepSFum(1.), lepSFdm(1.);
     //---------------------------------------------------------------------------------------------
     // Electron selection
     //---------------------------------------------------------------------------------------------
@@ -217,6 +236,22 @@ void Process_Common()
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Electron_mvaFall17V2Iso_WP80()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Electron_dxy()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
+        float sf = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(), 0,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists//WP doesn't mean anything right now
+        lepSFc  *= sf;
+        lepSFum *= sf;
+        lepSFdm *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        sf       = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(),+1,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists
+        lepSFue *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        sf       = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(),-1,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists
+        lepSFde *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
+        
+
     }
 
     //---------------------------------------------------------------------------------------------
@@ -238,7 +273,30 @@ void Process_Common()
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Muon_dxy()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
+        string period = "X";
+        if(nt.year()==2016 && nt.run()<=278808) period = "BCDEF";
+        else if(nt.year()==2016) period = "GH";
+        float sf = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(), 0,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());//WP doesn't mean anything right now
+        lepSFc  *= sf;
+        lepSFue *= sf;
+        lepSFde *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        sf       = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(),+1,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());
+        lepSFum *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        sf       = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(),-1,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());
+        lepSFdm *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
     }
+
+    ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc ); 
+    ana.tx.setBranch<float>("Common_event_lepSFelup"  , lepSFue); 
+    ana.tx.setBranch<float>("Common_event_lepSFeldn"  , lepSFde); 
+    ana.tx.setBranch<float>("Common_event_lepSFmuup"  , lepSFum); 
+    ana.tx.setBranch<float>("Common_event_lepSFmudn"  , lepSFdm); 
 
     //---------------------------------------------------------------------------------------------
     // Jet selection
@@ -342,8 +400,25 @@ void Process_Common()
     // Fat Jet selection
     //---------------------------------------------------------------------------------------------
     // Loop over jets and do a simple overlap removal against leptons
+    float fjSFvlc(1.), fjSFvlu(1.), fjSFvld(1.), fjSFlc(1.), fjSFlu(1.), fjSFld(1.), fjSFmc(1.), fjSFmu(1.), fjSFmd(1.), fjSFtc(1.), fjSFtu(1.), fjSFtd(1.);
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
+      float fjWPvloose = 0.274; //https://twiki.cern.ch/twiki/bin/view/CMS/DeepAK8Tagging2018WPsSFs
+      float fjWPloose  = 0.506;
+      float fjWPmedium = 0.731;
+      float fjWPtight  = 0.828;
+      if(nt.year() == 2017){
+        fjWPvloose = 0.258;
+        fjWPloose  = 0.506;
+        fjWPmedium = 0.739;
+        fjWPtight  = 0.838;
+      }
+      if(nt.year() == 2018){
+        fjWPvloose = 0.245;
+        fjWPloose  = 0.479;
+        fjWPmedium = 0.704;
+        fjWPtight  = 0.806;
+      }
 
         // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
         // Figure this out
@@ -410,7 +485,59 @@ void Process_Common()
         ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_mass", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet0_p4",  nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx1()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet1_p4",  nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
-
+        float WPtemp = 0;
+        int WPid = -999;
+        if(nt.FatJet_msoftdrop()[ifatjet]>=65. && nt.FatJet_msoftdrop()[ifatjet]<=105.){
+          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPvloose) WPid = 0;
+          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPloose)  WPid = 1;
+          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPmedium) WPid = 2;
+          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPtight)  WPid = 3;
+        }
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+        if(WPid>=0){
+          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFvlc *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFVLoose"  , WPtemp);
+          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFvld *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnVLoose", WPtemp);
+          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFvlu *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFupVLoose", WPtemp);
+        }
+        if(WPid>=1){
+          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFlc *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFLoose"  , WPtemp);
+          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFld *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnLoose", WPtemp);
+          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFlu *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFupLoose", WPtemp);
+        }
+        if(WPid>=2){
+          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFmc *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFMedium"  , WPtemp);
+          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFmd *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnMedium", WPtemp);
+          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFmu *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFupMedium", WPtemp);
+        }
+        if(WPid>=3){
+          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFtc *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFTight"  , WPtemp);
+          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFtd *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnTight", WPtemp);
+          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          fjSFtu *= WPtemp;
+          ana.tx.pushbackToBranch<float>("Common_fatjet_SFupTight", WPtemp);
+        }
     }
     for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); ++ijet)
     {
@@ -425,6 +552,18 @@ void Process_Common()
         }
         ana.tx.pushbackToBranch<int>("Common_jet_overlapfatjet", overlap_with_fatjet);
     }
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFVLoose",   fjSFvlc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFLoose",     fjSFlc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFMedium",    fjSFmc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFTight",     fjSFtc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupVLoose", fjSFvlu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupLoose",   fjSFlu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupMedium",  fjSFmu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupTight",   fjSFtu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnVLoose", fjSFvld);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnLoose",   fjSFld);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnMedium",  fjSFmd);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnTight",   fjSFtd);
 
 
 
@@ -634,7 +773,7 @@ void Process_Common()
     // Sorting lepton branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
-            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz"},
+            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_SF", "Common_lep_SFTight","Common_lep_SFdn","Common_lep_SFdnTight","Common_lep_SFup","Common_lep_SFupTight"},
             /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
@@ -650,11 +789,9 @@ void Process_Common()
     // Sorting fatjet branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
-            /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb",
-                                                                                "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi",
-                                                                                 "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass"/*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/
+            /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb", "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi", "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass", "Common_fatjet_SFVLoose", "Common_fatjet_SFLoose", "Common_fatjet_SFMedium", "Common_fatjet_SFTight", "Common_fatjet_SFdnVLoose", "Common_fatjet_SFdnLoose", "Common_fatjet_SFdnMedium", "Common_fatjet_SFdnTight", "Common_fatjet_SFupVLoose", "Common_fatjet_SFupLoose", "Common_fatjet_SFupMedium", "Common_fatjet_SFupTight"/*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/
                                                                                },
-            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs"},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs","Common_fatjet_WP"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
