@@ -508,6 +508,7 @@ void Process_Common()
         if(WPid>=1){
           WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
           fjSFlc *= WPtemp;
+          //cout << "SF fatjet loose " << WPtemp << " eventSF " << fjSFlc << endl;//test debug
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFLoose"  , WPtemp);
           WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
           fjSFld *= WPtemp;

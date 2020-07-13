@@ -633,7 +633,7 @@ void Begin_OS2jet()
     
     //top CR
     ana.cutflow.getCut("Cut_OS2jet_Preselection");
-    ana.cutflow.addCutToLastActiveCut("Cut_OS2jet_topCRPreselection",               [&]() { return ana.tx.getBranch<int>("OS2jet_Nbjetsmedv1")>=1;}, UNITY);
+    ana.cutflow.addCutToLastActiveCut("Cut_OS2jet_topCRPreselection",               [&]() { return ana.tx.getBranch<int>("OS2jet_Nbjetsmedv1")>=1;},  [&]() { return ana.tx.getBranchLazy<float>("Common_btagWeight_DeepCSVB");});
     ana.cutflow.addCutToLastActiveCut("Cut_OS2jet_topCR2jets",                      [&]() { return ana.tx.getBranch<int>("OS2jet_Jetcontent")==0;}, UNITY);
     // ____________________
     // *** OS2jet_topCR1fatjet
@@ -756,10 +756,11 @@ void Begin_OS2jet()
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
-    ana.histograms.addHistogram("LeptonSF"     , 500, -10,    10, [&]() { return      ana.tx.getBranch<float>("Common_event_lepSF"             )   ; } );
-    ana.histograms.addHistogram("FatjetSFvl"   , 500, -10,    10, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_vloose"        )   ; } );
-    ana.histograms.addHistogram("FatjetSFl"    , 500, -10,    10, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_loose"         )   ; } );
-    ana.histograms.addHistogram("FatjetSFm"    , 500, -10,    10, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_medium"        )   ; } );
+    ana.histograms.addHistogram("LeptonSF"     , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("Common_event_lepSF"             )   ; } );
+    ana.histograms.addHistogram("FatjetSFvl"   , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_vloose"        )   ; } );
+    ana.histograms.addHistogram("FatjetSFl"    , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_loose"         )   ; } );
+    ana.histograms.addHistogram("FatjetSFm"    , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_medium"        )   ; } );
+    ana.histograms.addHistogram("BtagSF"       , 500,   0,     2, [&]() { return      ana.tx.getBranchLazy<float>("Common_btagWeight_DeepCSVB" )   ; } );
     ana.histograms.addHistogram("SFcontent"    ,   3,   0,     3, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_SFcontent"               )   ; } );
     ana.histograms.addHistogram("Jetcontent"   ,   3,   0,     3, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_Jetcontent"              )   ; } );
     ana.histograms.addHistogram("Nfatjets"     ,   5,   0,     5, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_Nfatjets"                )   ; } );

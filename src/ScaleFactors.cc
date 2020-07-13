@@ -17,11 +17,11 @@ namespace sf {
     else if(id==13) etaminCut = 0;
     float etamaxCut = 2.5;
     if(id==13) etamaxCut = 2.4;
-    ifstream file("scalefactors/LeptonSF.csv");
+    ifstream file("src/scalefactors/LeptonSF.csv");
     string line = "";
     float SF = 1;
     while(getline(file,line)){
-      std::cout << line << endl;
+      //std::cout << line << endl;
       if(char(line[0])==char('P')) continue;//skip first line
       string tagger, theperiod, theWP, temp;
       int theyear;
@@ -70,7 +70,7 @@ namespace sf {
       dn = stof(temp);
       getline(ss,temp,',');
       up = stof(temp);
-      std::cout << cent << " " << up << " " << dn << std::endl;
+      //std::cout << cent << " " << up << " " << dn << std::endl;
       if(updown==0) SF = cent;
       if(updown >0) SF = cent+up;
       if(updown <0) SF = cent-dn;
@@ -106,7 +106,7 @@ namespace sf {
   float FatjetWSF(int WP, int year,  bool isdata, int updown, float pt){//semi hard-coded
     if(isdata)
       return 1.;
-    ifstream file("scalefactors/DeepAK8V2_Top_W_SFs.csv");
+    ifstream file("src/scalefactors/DeepAK8V2_Top_W_SFs.csv");
     string line = "";
     float SF = 1;
     while(getline(file,line)){
@@ -156,6 +156,7 @@ namespace sf {
       if(updown==0) SF = cent;
       if(updown >0) SF = cent+up;
       if(updown <0) SF = cent-dn;
+      //std::cout << cent << " " << up << " " << dn << std::endl;
       break;
     }
     return SF;
