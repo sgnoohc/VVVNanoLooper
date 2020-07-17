@@ -21,6 +21,10 @@ void Process_SS2jet(){
 
     //LorentzVector LV_SS2jet_LVVar1 = RooUtil::Calc::getLV(34.5, 1.2, 3.123, 0.105); // RooUtil::Calc::getLV() creates 4 vector
     //ana.tx.setBranch<LorentzVector>("SS2jet_LVVar1", LV_SS2jet_LVVar1);
+    ana.tx.setBranch<int>       ("SS2jet_raw_nlep",nt.Muon_p4().size()+nt.Electron_p4().size());
+    ana.tx.setBranch<int>	("SS2jet_raw_njet",nt.Jet_p4().size());
+    ana.tx.setBranch<int>       ("SS2jet_raw_nfatjet",nt.FatJet_p4().size());
+
     ana.tx.setBranch<int>	("SS2jet_nIsoTrack",nt.nIsoTrack());
     //loop over all common leptons    
     int nloose=0;
@@ -33,7 +37,6 @@ void Process_SS2jet(){
 	if(!(nt.Electron_ip3d().at(iel)<0.01)) continue;
 	if(!(fabs(nt.Electron_dxy().at(iel))<0.05)) continue;
 	if(!(fabs(nt.Electron_dz().at(iel))<0.1)) continue;
-	
 	nloose++;
 	ana.tx.pushbackToBranch<int>("SS2jet_lep_idx", iel);
 	ana.tx.pushbackToBranch<int>("SS2jet_lep_pdgid", nt.Electron_pdgId().at(iel));
@@ -50,17 +53,62 @@ void Process_SS2jet(){
 	if(!(fabs(nt.Muon_dz().at(imu))<0.1)) continue;
 	if(nt.Muon_pfRelIso03_all().at(imu)<0.4) nloose++;
 	if(!(nt.Muon_pfRelIso03_all().at(imu)<0.04)) continue;
-	
 	ana.tx.pushbackToBranch<int>("SS2jet_lep_idx", imu);
 	ana.tx.pushbackToBranch<int>("SS2jet_lep_pdgid", nt.Muon_pdgId().at(imu));
         ana.tx.pushbackToBranch<LorentzVector>("SS2jet_lep_p4", nt.Muon_p4().at(imu));
    }
-   ana.tx.setBranch<int>	("nloose",nloose);
+   ana.tx.setBranch<int>	("SS2jet_nloose",nloose);
+   //b-tagging counter for SS1FatJet
+   float bWPloose  = 0.0614;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+   float bWPmedium = 0.3093;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+   float bWPtight  = 0.7221;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+   if(nt.year() == 2017){
+	bWPloose  = 0.0521;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+	bWPmedium = 0.3033;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+	bWPtight  = 0.7489;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+   }
+   if(nt.year() == 2018){
+	bWPloose  = 0.0494;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+	bWPmedium = 0.2770;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+	bWPtight  = 0.7264;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+   }
+   int SS2jet_nb_loose = 0;
+   int SS2jet_nb_medium = 0;
+   int SS2jet_nb_tight = 0;
+   //loop over all jets
+   for(unsigned int ijet=0;ijet<nt.Jet_p4().size();ijet++){
+	if(!(nt.Jet_p4().at(ijet).pt()>20)) continue;
+        if(!(fabs(nt.Jet_p4().at(ijet).eta())<2.4)) continue;
+	bool overlap=false;
+	//overlap removal of jet in dR=0.4 of lepton
+	for(unsigned int ilep=0;ilep<ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_idx").size();ilep++){
+                int lepidx=     ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_idx").at(ilep);
+                int leppdgid=   ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_pdgid").at(ilep);
+                LorentzVector lepp4=    fabs(leppdgid)==11?nt.Electron_p4().at(lepidx):nt.Muon_p4().at(lepidx);
+
+                if(RooUtil::Calc::DeltaR(nt.Jet_p4().at(ijet),lepp4)<0.4){
+                        overlap=true;break;
+                }
+        }
+	if(overlap==true) continue;
+        ana.tx.pushbackToBranch<int>("SS2jet_jet_idx", ijet);
+        ana.tx.pushbackToBranch<LorentzVector>("SS2jet_jet_p4", nt.Jet_p4()[ijet]);
+        ana.tx.pushbackToBranch<bool>("SS2jet_jet_passBloose" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose );
+        ana.tx.pushbackToBranch<bool>("SS2jet_jet_passBmedium", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium);
+        ana.tx.pushbackToBranch<bool>("SS2jet_jet_passBtight" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight );
+        if (nt.Jet_btagDeepFlavB()[ijet] > bWPloose)	SS2jet_nb_loose++;
+        if (nt.Jet_btagDeepFlavB()[ijet] > bWPmedium)	SS2jet_nb_medium++;
+        if (nt.Jet_btagDeepFlavB()[ijet] > bWPtight)	SS2jet_nb_tight++;
+   }
+   ana.tx.setBranch<int>("SS2jet_nb_loose", SS2jet_nb_loose);
+   ana.tx.setBranch<int>("SS2jet_nb_medium", SS2jet_nb_medium);
+   ana.tx.setBranch<int>("SS2jet_nb_tight", SS2jet_nb_tight);
    //loop over all fatjets
    for(unsigned int ifatjet=0;ifatjet<nt.FatJet_p4().size();ifatjet++){
 	if(!(nt.FatJet_p4().at(ifatjet).pt()>180)) continue;
 	if(!(fabs(nt.FatJet_p4().at(ifatjet).eta())<2.4)) continue;
 	bool overlap=false;
+	//overlap removal of fatjet in dR=0.8 of lepton
 	for(unsigned int ilep=0;ilep<ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_idx").size();ilep++){
 		int lepidx=	ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_idx").at(ilep);
 		int leppdgid=	ana.tx.getBranchLazy<vector<int>>("SS2jet_lep_pdgid").at(ilep);
@@ -105,6 +153,14 @@ void Process_SS2jet(){
    /* names of any associated vector<int>   branches to sort along */ {"SS2jet_lep_idx", "SS2jet_lep_pdgid"},
    /* names of any associated vector<bool>  branches to sort along */ {}
    );
+   //sort the jets by pt
+   ana.tx.sortVecBranchesByPt(
+   /* name of the 4vector branch to use to pt sort by*/               "SS2jet_jet_p4",
+   /* names of any associated vector<float> branches to sort along */ {},
+   /* names of any associated vector<int>   branches to sort along */ {"SS2jet_jet_idx"},
+   /* names of any associated vector<bool>  branches to sort along */ {"SS2jet_jet_passBloose","SS2jet_jet_passBmedium","SS2jet_jet_passBtight"}
+   );
+
    //not sorting the fatjet since requiring nfatjet==1
 }
 

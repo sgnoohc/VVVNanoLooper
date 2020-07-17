@@ -13,15 +13,29 @@ void Begin_SS2jet()
     //ana.tx.createBranch<int>("SS2jet_intVar1");
     //ana.tx.createBranch<float>("SS2jet_floatVar1");
     //ana.tx.createBranch<LorentzVector>("SS2jet_LVVar1");
- 
-    //isotrack info
+    
+    //raw NanoAOD info    
+    ana.tx.createBranch<int>			("SS2jet_raw_nlep");
+    ana.tx.createBranch<int>			("SS2jet_raw_njet");
+    ana.tx.createBranch<int>			("SS2jet_raw_nfatjet");
+    //iso track info
     ana.tx.createBranch<int>			("SS2jet_nIsoTrack");	//number of isotrack    
     //lep info for SS1FatJet
-    ana.tx.createBranch<int>		 	("SS2jet_nloose");	// number of loose leptons
-      
+    ana.tx.createBranch<int>		 	("SS2jet_nloose");	// number of loose leptons  
     ana.tx.createBranch<vector<LorentzVector>>	("SS2jet_lep_p4");      // Pt sorted selected lepton p4s (electrons and muons together)
     ana.tx.createBranch<vector<int>>          	("SS2jet_lep_idx");     // Pt sorted selected lepton idx (electrons and muons together)
     ana.tx.createBranch<vector<int>>          	("SS2jet_lep_pdgid");   // Pt sorted selected lepton pdgids (electrons and muons together)
+    //b-tagging info
+    ana.tx.createBranch<int>			("SS2jet_nb_loose");
+    ana.tx.createBranch<int>			("SS2jet_nb_medium");
+    ana.tx.createBranch<int>			("SS2jet_nb_tight");
+
+    //jet info for SS1FatJet
+    ana.tx.createBranch<vector<LorentzVector>>	("SS2jet_jet_p4");            // Pt sorted selected jet p4s
+    ana.tx.createBranch<vector<int>>		("SS2jet_jet_idx");           // Pt sorted selected jet idx (To access rest of the jet variables in NanoAOD)
+    ana.tx.createBranch<vector<bool>>		("SS2jet_jet_passBloose");    // Pt sorted boolean value jet pass loose b-tagging
+    ana.tx.createBranch<vector<bool>>		("SS2jet_jet_passBmedium");   // Pt sorted boolean value jet pass medium b-tagging
+    ana.tx.createBranch<vector<bool>>		("SS2jet_jet_passBtight");    // Pt sorted boolean value jet pass medium b-tagging
     //fatjet info for SS1FatJet
     ana.tx.createBranch<vector<LorentzVector>>	("SS2jet_fatjet_p4");            // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          	("SS2jet_fatjet_idx");           // Pt sorted selected fatjet idx (To access rest of the fatjet variables in NanoAOD)
@@ -54,6 +68,7 @@ void Begin_SS2jet()
     ana.cutflow.getCut("CommonCut");
     //ana.cutflow.addCutToLastActiveCut("Cut_SS2jet_Preselection", [&]() { return ana.tx.getBranch<LorentzVector>("SS2jet_LVVar1").pt() > 25.;}, [&]() { return ana.tx.getBranch<float>("SS2jet_floatVar1"); } );
     //This cut is to get the event with WWW->SS+1FatJet at genlevel
+    
     ana.cutflow.addCutToLastActiveCut("SS2jet_GenSS1FatJet",
 					[&](){
 					int nboost=0;
@@ -100,8 +115,8 @@ void Begin_SS2jet()
     //This cut is to get the events with no b-tagged jet
     ana.cutflow.addCutToLastActiveCut("SS2jet_bVeto",
 					[&](){
-					int		nbloose=	ana.tx.getBranchLazy<int	>("Common_nb_loose");
-					if(nbloose==0) return true;
+					int		nb=	ana.tx.getBranchLazy<int	>("SS2jet_nb_medium");
+					if(nb==0) return true;
 					return false;
 					},UNITY);
     //This cut is to get the events with 1 fat jet
@@ -121,8 +136,10 @@ void Begin_SS2jet()
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
     ana.cutflow.bookCutflows();
-    ana.cutflow.bookHistogramsForCutAndBelow(hists_SS2jet, "SS2jet_GenSS1FatJet");
+    //ana.cutflow.bookHistogramsForCutAndBelow(hists_SS2jet, "SS2jet_GenSS1FatJet");
 
     // Book histograms to cuts that user wants for this category.
     //ana.cutflow.bookHistogramsForCut(hists_SS2jet, "Cut_SS2jet_Preselection");
+    ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "SS2jet_GenSS1FatJet");
+
 }
