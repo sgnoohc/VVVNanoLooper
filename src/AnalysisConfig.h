@@ -4,6 +4,7 @@
 #include "rooutil.h"
 #include "Nano.h"
 #include "math.h"
+#include "ScaleFactors.h"
 #include <algorithm>
 
 class AnalysisConfig {
