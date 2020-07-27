@@ -439,7 +439,7 @@ void Process_Common()
             // If electron
             if (abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]) == 11)
             {
-                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[ilep_idx]) < 0.4)//SHOULD THIS BE 0.8?
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Electron_p4()[ilep_idx]) < 0.8)//SHOULD THIS BE 0.8? - try it
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -448,7 +448,7 @@ void Process_Common()
             // else muon
             else
             {
-                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[ilep_idx]) < 0.4)//SHOULD THIS BE 0.8?
+                if (RooUtil::Calc::DeltaR(nt.FatJet_p4()[ifatjet], nt.Muon_p4()[ilep_idx]) < 0.8)//SHOULD THIS BE 0.8? - try it
                 {
                     is_overlapping_with_a_lepton = true;
                     break;
@@ -571,7 +571,7 @@ void Process_Common()
                 break;
             }
         }
-        ana.tx.pushbackToBranch<int>("Common_jet_overlapfatjet", overlap_with_fatjet);
+        ana.tx.pushbackToBranch<int>("Common_jet_overlapfatjet", overlap_with_fatjet);//not actually applied - be careful with counters!
     }
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFVLoose",   fjSFvlc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFLoose",     fjSFlc);

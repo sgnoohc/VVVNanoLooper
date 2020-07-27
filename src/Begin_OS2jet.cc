@@ -87,6 +87,8 @@ void Begin_OS2jet()
     ana.tx.createBranch<float>("OS2jet_MET_ll_DPhi"           );
     ana.tx.createBranch<int>  ("OS2jet_fatjet1_genmatching"   );
     ana.tx.createBranch<int>  ("OS2jet_fatjet2_genmatching"   );
+    ana.tx.createBranch<int>  ("OS2jet_fatjet1_genmatchingv2" );
+    ana.tx.createBranch<int>  ("OS2jet_fatjet2_genmatchingv2" );
     ana.tx.createBranch<float>("OS2jet_genMVVV"               );
     ana.tx.createBranch<float>("OS2jet_genpTVVV"              );
     ana.tx.createBranch<float>("OS2jet_Mfatjetsleptons"       );
@@ -256,6 +258,8 @@ void Begin_OS2jet()
                                         ana.tx.setBranch<float>("OS2jet_jet12_DEta",            -999.);
                                         ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatching",   -999.);
                                         ana.tx.setBranch<int>  ("OS2jet_fatjet2_genmatching",   -999.);
+                                        ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", -999.);
+                                        ana.tx.setBranch<int>  ("OS2jet_fatjet2_genmatchingv2", -999.);
                                         ana.tx.setBranch<float>("OS2jet_genMVVV",               -999.);
                                         ana.tx.setBranch<float>("OS2jet_genpTVVV",              -999.);
                                         ana.tx.setBranch<float>("OS2jet_Mfatjetsleptons",       -999.);
@@ -351,6 +355,52 @@ void Begin_OS2jet()
                                           ana.tx.setBranch<float>("OS2jet_fatjet1_ll_DR",         RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0]+ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1]));
                                           ana.tx.setBranch<float>("OS2jet_fatjet12_ll_DRmax",     RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0]+ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1]));
                                           if(!nt.isData()){
+                                            //gen matching v2:
+                                            //1: match to bqq from t + W/Z
+                                            //2: match to qq from W/Z
+                                            //3: match to bq from t
+                                            //4: match to bl from t
+                                            //5: match to bb from ttbar
+                                            //6: match to bq+ from ttbar
+                                            //7: match to bl from ttbar
+                                            int idb1 (-1), idb2 (-1), idq1(-1), idqp1(-1), idq2(-1), idqp2(-1), idl1(-1), idl2(-1);
+                                            bool dRb1 (false), dRb2 (false), dRq1(false), dRqp1(false), dRq2(false), dRqp2(false), dRl1(false), dRl2(false);
+                                            for(unsigned int ig = 0; ig<=ana.tx.getBranchLazy<vector<int>>("Common_gen_idx").size(); ++ig){
+                                              bool tempDR = (RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_gen_p4s")[ig])<0.8);
+                                              //if (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]>65.&&ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]<105.) cout << "fatjet eta/phi " << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Eta() << "/" << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Phi() << " genpart eta/phi " << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_gen_p4s")[ig].Eta() << "/" << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_gen_p4s")[ig].Phi() << " dR " <<  RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_gen_p4s")[ig]) << " bool " << tempDR << " --- ID " << ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig] << " motherID " << ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig] << endl;
+                                              if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==5 && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==6) {
+                                                idb1 = ig; dRb1 = tempDR;
+                                              }
+                                              if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])<=4 && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==24) {
+                                                if(idq1<0) { idq1  = ig; dRq1  = tempDR; }
+                                                else       { idqp1 = ig; dRqp1 = tempDR; }
+                                              }
+                                              if((abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==11 || abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==13 || abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==15)  && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==24){ 
+                                                idl1 = ig; dRl1 = tempDR;
+                                              }
+                                              if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==5 && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==-6) {
+                                                idb2 = ig; dRb2 = tempDR;
+                                              }
+                                              if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])<=4 && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==-24) {
+                                                if(idq1<0) { idq2  = ig; dRq2  = tempDR; }
+                                                else       { idqp2 = ig; dRqp2 = tempDR; }
+                                              }
+                                              if((abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==11 || abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==13 || abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])==15)  && (ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id")[ig])==-24) {
+                                                idl2 = ig; dRl2 = tempDR;
+                                              }
+                                            }
+                                            if((dRb1&&dRq1&&dRqp1)||(dRb2&&dRq2&&dRqp2))                      ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 1);
+                                            else if((dRq1&&dRqp1)||(dRq2&&dRqp2))                             ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 2);
+                                            else if((dRb1&&dRq1)||(dRb1&&dRqp1)||(dRb2&&dRq2)||(dRb2&&dRqp2)) ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 3);
+                                            else if((dRb1&&dRl1)||(dRb1&&dRl2))                               ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 4);
+                                            else if((dRb1&&dRb2))                                             ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 5);
+                                            else if((dRb1&&dRq2)||(dRb1&&dRqp2)||(dRb2&&dRq1)||(dRb2&&dRqp1)) ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 6);
+                                            else if((dRb1&&dRl2)||(dRb1&&dRl1))                               ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 7);
+                                            else if((dRb1||dRb2))                                             ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 8);
+                                            else if((dRq1||dRqp1)||(dRq2||dRqp2))                             ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 9);
+                                            else if((dRl1||dRl2))                                             ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2",10);
+                                            else                                                              ana.tx.setBranch<int>  ("OS2jet_fatjet1_genmatchingv2", 0);
+                                            //if (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]>65.&&ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]<105.) cout << "bool map " << dRb1 << " " << dRq1 << " " << dRqp1 << " " << dRl1 << "  " << dRb2 << " " << dRq2 << " " << dRqp2 << " " << dRl2 <<  " -- " <<  ana.tx.getBranch<int>("OS2jet_fatjet1_genmatchingv2")  << endl;
                                             for(unsigned int ig = 0; ig<=ana.tx.getBranchLazy<vector<int>>("Common_gen_idx").size(); ++ig){
                                               if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])!=23 && abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])!=24)
                                                 continue;
@@ -786,6 +836,7 @@ void Begin_OS2jet()
     ana.histograms.addHistogram("Fat1_Ztag"    , 400,   0,     1, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet1_Ztag"            )   ; } );
     ana.histograms.addHistogram("Fat1_Zbbtag"  , 400,   0,     1, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet1_Zbbtag"          )   ; } );
     ana.histograms.addHistogram("Fat1_toptag"  , 400,   0,     1, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet1_toptag"          )   ; } );
+    ana.histograms.addHistogram("Fat1_genmatch",  11,   0,    11, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_fatjet1_genmatchingv2"   )   ; } );
     //ana.histograms.addHistogram("Fat1_WpZtag"  , 400,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet1_WpZtag"          )   ; } );
     //ana.histograms.addHistogram("Fat1_WtZtag"  , 400,   0,     1, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet1_WtZtag"          )   ; } );
     ana.histograms.addHistogram("Fat2_pt"      , 300, 200,  2000, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjet2_pt"              )   ; } );
