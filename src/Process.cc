@@ -42,7 +42,7 @@ void Process()
             case AnalysisConfig::k3Lep2jet: break;
             case AnalysisConfig::kOS4jet: break;
             case AnalysisConfig::kOS2jet: break;
-            case AnalysisConfig::kSS2jet: break;
+            case AnalysisConfig::kSS2jet: PostProcess_SS2jet(); break;
             case AnalysisConfig::k1Lep4jet: break;
         }
     }
