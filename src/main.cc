@@ -27,7 +27,7 @@ int main(int argc, char** argv)
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
         ("w,write"       , "Write skim tree.")
         ("h,help"        , "Print help")
-	("r,region"	 , "Region"												 , cxxopts::value<int>())
+        ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
         ;
 
     auto result = options.parse(argc, argv);
@@ -68,11 +68,12 @@ int main(int argc, char** argv)
     }
     //_______________________________________________________________________________
     // --region
-    if(result.count("region"))
+    if (result.count("region"))
     {
-	ana.region=result["region"].as<int>();
+	ana.region = result["region"].as<int>();
     }
-    else{
+    else
+    {
 	ana.region=0;
     }
     //_______________________________________________________________________________
