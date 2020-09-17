@@ -4,7 +4,6 @@
 #include "rooutil.h"
 #include "Nano.h"
 #include "math.h"
-#include "ScaleFactors.h"
 #include <algorithm>
 
 class AnalysisConfig {
@@ -23,6 +22,7 @@ public:
     };
 
     LooperMode looperMode;
+    int region;
 
     // TString that holds the input file list (comma separated)
     TString input_file_list_tstring;
