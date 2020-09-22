@@ -42,6 +42,8 @@ Currently the implemented catgories are
                              2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet,
                              7=k1Lep4jet)
 
+Note by Hannsjorg: I abuse kOS2jet to also include >=1 fatjet options. 
+
 ### Begin, Process, Terminate concept
 
 The looper follows the ROOT's TSelector style framework.
@@ -160,7 +162,7 @@ This is where the stuff that runs once after the event loop is done.
 
 If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
 
-### Grid submission
+### Grid submission (TODO: outdated. needs update.)
 
 To submit jobs to the grid, do the following
 
@@ -168,11 +170,19 @@ To submit jobs to the grid, do the following
     source setup.sh
     cd ../condor
     sh maketar.sh # it will make clean; make -j again before tarring up
-    python submitMetis.py
+    python submitMetis.py -y year -t tag -m mode #(-d)
 
 ```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.
 
 See ```condor/submitMetis.py``` to see how it works
+
+The flages needed are ```-y``` for year (2016, 2017, 2018), ```-t```
+is the tag name you give to the code you run. ```-m``` for the mode
+see 'Code organization' above. Nominally, the code runs on simulation,
+use ```-d``` flag to run on data.
+
+Besides these standard flags, you can define the samples you run over
+by using the ```-s``` flag, and you can add input flags to Metis using ```-a```.
 
 ### Plotting
 
@@ -192,7 +202,16 @@ Or if you want to loop over all possible histograms in a given cut (Don't forget
 
 Or just produce everything (Don't forget to escape ```*```)
 
-    python python/plot.py --tag test --style 7 --year 2018 --histname '*'
+    python python/plot.py --tag test --style 7 --year 2018 --histname
+    '*'
+
+Additional flags are:
+```-s``` signal scale (default = 1)
+```-b``` number of bins (default = 30)
+```-d``` include data (default is no data)
+```-l``` set y axis to log scale (default is linear scale)
+```-xn``` and ```-xx``` minimal and maximal value of x axis (using
+SetUserRange function).
 
 ### Some tips on debugging
 

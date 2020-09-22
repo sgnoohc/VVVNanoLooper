@@ -303,7 +303,9 @@ def main(args):
         # Now actual plotting
         #
         #-------------get_xsec-------------
-
+        xminimum = args.xMin if args.xMin!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(1)
+        xmaximum = args.xMax if args.xMax!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(hists[bkg_plot_order[0] ].GetNbinsX()+1)
+        x_range = [] if (args.xMin==-999 and args.xMax==-999) else [xminimum,xmaximum]
         p.plot_hist(
                 bgs = [ hists[group].Clone() for group in bkg_plot_order ],
                 sigs = [ hists[group].Clone() for group in sig_plot_order ],
@@ -319,6 +321,7 @@ def main(args):
                     "print_yield": True,
                     "legend_ncolumns": 3,
                     "legend_scalex": 2,
+                    "xaxis_range" : x_range,
                     "remove_underflow":False,
                     "bkg_sort_method":"unsorted",
                     "signal_scale":args.scale,
@@ -398,6 +401,8 @@ if __name__ == "__main__":
     parser.add_argument('-d' , '--data'     , dest='data'     , help='plot data',           default=False, action='store_true')
     parser.add_argument('-n' , '--histname' , dest='histname' , help='name of the histogram OR type "all" to plot everything', required=True)
     parser.add_argument('-l' , '--yaxis_log', dest='yaxis_log', help='Y-axis set to log' ,  default=False, action='store_true') 
+    parser.add_argument('-xn', '--xMin'     , dest='xMin'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
+    parser.add_argument('-xx', '--xMax'     , dest='xMax'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
     # Argument parser
     args = parser.parse_args()
     args.tag

@@ -27,6 +27,7 @@ int main(int argc, char** argv)
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
         ("w,write"       , "Write skim tree.")
         ("h,help"        , "Print help")
+        ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
         ;
 
     auto result = options.parse(argc, argv);
@@ -65,7 +66,16 @@ int main(int argc, char** argv)
         std::cout << "ERROR: Looper mode is not provided! Check your arguments" << std::endl;
         exit(1);
     }
-
+    //_______________________________________________________________________________
+    // --region
+    if (result.count("region"))
+    {
+	ana.region = result["region"].as<int>();
+    }
+    else
+    {
+	ana.region=0;
+    }
     //_______________________________________________________________________________
     // --input
     if (result.count("input"))
