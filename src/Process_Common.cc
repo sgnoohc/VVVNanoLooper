@@ -26,6 +26,7 @@ void Process_Common()
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", 1); // TODO
         else
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
+        ana.tx.setBranch<vector<float>>    ("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
     }
     else
     {
