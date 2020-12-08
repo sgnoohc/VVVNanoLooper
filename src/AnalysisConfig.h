@@ -74,6 +74,9 @@ public:
     // Custom TTree object to use to facilitate TTree output writing
     RooUtil::TTreeX output_tx;
 
+    LeptonScaleFactor leptonscalefactors = LeptonScaleFactor();
+
+
 };
 
 extern AnalysisConfig ana;
