@@ -648,6 +648,9 @@ void Begin_OS2jet()
     ana.histograms.addHistogram("FatjetSFvl"   , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_vloose"        )   ; } );
     ana.histograms.addHistogram("FatjetSFl"    , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_loose"         )   ; } );
     ana.histograms.addHistogram("FatjetSFm"    , 500,   0,     2, [&]() { return      ana.tx.getBranch<float>("OS2jet_fatjetwgt_medium"        )   ; } );
+    ana.histograms.addHistogram("comFatjetSFvl", 500,   0,     2, [&]() { return      ana.tx.getBranchLazy<float>("Common_eventweight_fatjet_SFVLoose")   ; } );
+    ana.histograms.addHistogram("comFatjetSFl" , 500,   0,     2, [&]() { return      ana.tx.getBranchLazy<float>("Common_eventweight_fatjet_SFLoose" )   ; } );
+    ana.histograms.addHistogram("comFatjetSFm" , 500,   0,     2, [&]() { return      ana.tx.getBranchLazy<float>("Common_eventweight_fatjet_SFMedium")   ; } );
     ana.histograms.addHistogram("SFcontent"    ,   3,   0,     3, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_SFcontent"               )   ; } );
     ana.histograms.addHistogram("Jetcontent"   ,   3,   0,     3, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_Jetcontent"              )   ; } );
     ana.histograms.addHistogram("Nfatjets"     ,   5,   0,     5, [&]() { return      ana.tx.getBranch<int>  ("OS2jet_Nfatjets"                )   ; } );

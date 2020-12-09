@@ -75,6 +75,7 @@ public:
     RooUtil::TTreeX output_tx;
 
     LeptonScaleFactor leptonscalefactors = LeptonScaleFactor();
+    FatJetScaleFactor fatjetscalefactors = FatJetScaleFactor();
 
 
 };
