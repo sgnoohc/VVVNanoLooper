@@ -735,7 +735,7 @@ void Process_Common()
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
             /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb", "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi", "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass", "Common_fatjet_SFVLoose", "Common_fatjet_SFLoose", "Common_fatjet_SFMedium", "Common_fatjet_SFTight", "Common_fatjet_SFdnVLoose", "Common_fatjet_SFdnLoose", "Common_fatjet_SFdnMedium", "Common_fatjet_SFdnTight", "Common_fatjet_SFupVLoose", "Common_fatjet_SFupLoose", "Common_fatjet_SFupMedium", "Common_fatjet_SFupTight"/*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/
                                                                                },
-            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs","Common_fatjet_WP"},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs","Common_fatjet_WP","Common_fatjet_WP_antimasscut"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
