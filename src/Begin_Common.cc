@@ -108,6 +108,7 @@ void Begin_Common()
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet0_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet1_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFVLoose");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFLoose");       // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFMedium");      // single fatjet SF
@@ -170,6 +171,8 @@ void Begin_Common()
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
+    //ana.cutflow.addCutToLastActiveCut("SignalWeight_SM", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[0]*nt.genWeight(); } );
+    //ana.cutflow.addCutToLastActiveCut("SignalWeight_EFT_FT0_10", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[6]*nt.genWeight(); } );//I think that should do it
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
 
     // Create histograms used in this category.
@@ -196,7 +199,9 @@ void Begin_Common()
 
     // EFT reweighting histogram
     RooUtil::Histograms n_lhe_weight;
-    n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
+    n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
+    n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+    n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
 
     // Book the EFT reweighting histogram counter
     ana.cutflow.bookHistogramsForCut(n_lhe_weight, "Root");

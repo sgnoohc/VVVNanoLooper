@@ -153,17 +153,17 @@ void Process_Common()
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Electron_mvaFall17V2Iso_WP80()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Electron_dxy()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
-        float sf = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(), 0,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists//WP doesn't mean anything right now
+        float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(), 0);
         lepSFc  *= sf;
         lepSFum *= sf;
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(),+1,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists
+        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),+1);
         lepSFue *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = sf::LeptonSFtot(11,1,nt.year(),"",nt.isData(),-1,nt.Electron_p4()[iel].pt(),nt.Electron_p4()[iel].eta());//no SC eta exists
+        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),-1);
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
@@ -193,17 +193,17 @@ void Process_Common()
         string period = "X";
         if(nt.year()==2016 && nt.run()<=278808) period = "BCDEF";
         else if(nt.year()==2016) period = "GH";
-        float sf = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(), 0,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());//WP doesn't mean anything right now
+        float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(), 0);
         lepSFc  *= sf;
         lepSFue *= sf;
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(),+1,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());
+        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),+1);
         lepSFum *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = sf::LeptonSFtot(13,1,nt.year(),period,nt.isData(),-1,nt.Muon_p4()[imu].pt(),nt.Muon_p4()[imu].eta());
+        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),-1);
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
@@ -404,21 +404,27 @@ void Process_Common()
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet1_p4",  nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
         float WPtemp = 0;
         int WPid = -999;
+        if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPvloose) WPid = 0;
+        if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPloose)  WPid = 1;
+        if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPmedium) WPid = 2;
+        if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPtight)  WPid = 3;
         if(nt.FatJet_msoftdrop()[ifatjet]>=65. && nt.FatJet_msoftdrop()[ifatjet]<=105.){
-          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPvloose) WPid = 0;
-          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPloose)  WPid = 1;
-          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPmedium) WPid = 2;
-          if(nt.FatJet_deepTagMD_WvsQCD()[ifatjet]>fjWPtight)  WPid = 3;
+          ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+          ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
         }
-        ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+        else{
+          ana.tx.pushbackToBranch<int>("Common_fatjet_WP", -999);
+          ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", WPid);//store W DNN cut even off mass peak
+          WPid = -999.;//I reset WPid to not store the fatjet SF for offmass peak
+        }
         if(WPid>=0){
-          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(),  0);
           fjSFvlc *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFVLoose"  , WPtemp);
-          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), -1);
           fjSFvld *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnVLoose", WPtemp);
-          WPtemp = sf::FatjetWSF(0,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), +1);
           fjSFvlu *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupVLoose", WPtemp);
         }
@@ -428,14 +434,14 @@ void Process_Common()
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupVLoose", 0);
         }
         if(WPid>=1){
-          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(),  0);
           fjSFlc *= WPtemp;
           // cout << "SF fatjet loose " << WPtemp << " eventSF " << fjSFlc << endl;//test debug
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFLoose"  , WPtemp);
-          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), -1);
           fjSFld *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnLoose", WPtemp);
-          WPtemp = sf::FatjetWSF(1,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), +1);
           fjSFlu *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupLoose", WPtemp);
         }
@@ -445,13 +451,13 @@ void Process_Common()
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupLoose", 0);
         }
         if(WPid>=2){
-          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(),  0);
           fjSFmc *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFMedium"  , WPtemp);
-          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), -1);
           fjSFmd *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnMedium", WPtemp);
-          WPtemp = sf::FatjetWSF(2,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), +1);
           fjSFmu *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupMedium", WPtemp);
         }
@@ -461,13 +467,13 @@ void Process_Common()
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupMedium", 0);
         }
         if(WPid>=3){
-          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(), 0,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), 0);
           fjSFtc *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFTight"  , WPtemp);
-          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(),-1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), -1);
           fjSFtd *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnTight", WPtemp);
-          WPtemp = sf::FatjetWSF(3,nt.year(),nt.isData(),+1,nt.FatJet_p4()[ifatjet].Pt());
+          WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, nt.FatJet_p4()[ifatjet].eta(), nt.FatJet_p4()[ifatjet].pt(), +1);
           fjSFtu *= WPtemp;
           ana.tx.pushbackToBranch<float>("Common_fatjet_SFupTight", WPtemp);
         }
@@ -729,7 +735,7 @@ void Process_Common()
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
             /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb", "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi", "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass", "Common_fatjet_SFVLoose", "Common_fatjet_SFLoose", "Common_fatjet_SFMedium", "Common_fatjet_SFTight", "Common_fatjet_SFdnVLoose", "Common_fatjet_SFdnLoose", "Common_fatjet_SFdnMedium", "Common_fatjet_SFdnTight", "Common_fatjet_SFupVLoose", "Common_fatjet_SFupLoose", "Common_fatjet_SFupMedium", "Common_fatjet_SFupTight"/*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/
                                                                                },
-            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs","Common_fatjet_WP"},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs","Common_fatjet_WP","Common_fatjet_WP_antimasscut"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
