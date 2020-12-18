@@ -8,6 +8,16 @@ void Begin_Common()
     // This is where one declares variables, histograms, event selections for the category Common.
     //==============================================
 
+    // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+    ana.is_EFT_sample = false; // default is false
+    TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+    for (unsigned int ibr = 0; ibr < brobjArray->GetEntries(); ++ibr)
+    {
+        TString brname = brobjArray->At(ibr)->GetName();
+        if (brname.EqualTo("LHEWeight_mg_reweighting"))
+            ana.is_EFT_sample = true; // if it has the branch it is set to true
+    }
+
     // Create variables used in this category.
     // Please follow the convention of <category>_<varname> structure.
 
@@ -19,7 +29,7 @@ void Begin_Common()
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
 
     // EFT weightings
-    ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
+    ana.tx.createBranch<vector<float>>        ("Common_N");
 
     // 2016 only triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"); // Lowest unprescaled
@@ -153,17 +163,17 @@ void Begin_Common()
     ana.tx.createBranch<vector<LorentzVector>>("Common_gen_vvvdecay_p4s");          // Selected gen-particle of vvv decays p4s
     ana.tx.createBranch<vector<int>>          ("Common_gen_vvvdecay_taudecayid");   // If gentau - flag the decay of the gentau
 
-    ana.tx.createBranch<int>                  ("n_W");
-    ana.tx.createBranch<int>                  ("n_Z");
-    ana.tx.createBranch<int>                  ("n_lep_Z");
-    ana.tx.createBranch<int>                  ("n_leptau_Z");
-    ana.tx.createBranch<int>                  ("n_hadtau_Z");
-    ana.tx.createBranch<int>                  ("n_nu_Z");
-    ana.tx.createBranch<int>                  ("n_b_Z");
-    ana.tx.createBranch<int>                  ("n_lep_W");
-    ana.tx.createBranch<int>                  ("n_leptau_W");
-    ana.tx.createBranch<int>                  ("n_hadtau_W");
-    ana.tx.createBranch<bool>                 ("haslepWSS");  // includes leptonic tau decays
+    ana.tx.createBranch<int>                  ("Common_n_W");
+    ana.tx.createBranch<int>                  ("Common_n_Z");
+    ana.tx.createBranch<int>                  ("Common_n_lep_Z");
+    ana.tx.createBranch<int>                  ("Common_n_leptau_Z");
+    ana.tx.createBranch<int>                  ("Common_n_hadtau_Z");
+    ana.tx.createBranch<int>                  ("Common_n_nu_Z");
+    ana.tx.createBranch<int>                  ("Common_n_b_Z");
+    ana.tx.createBranch<int>                  ("Common_n_lep_W");
+    ana.tx.createBranch<int>                  ("Common_n_leptau_W");
+    ana.tx.createBranch<int>                  ("Common_n_hadtau_W");
+    ana.tx.createBranch<bool>                 ("Common_haslepWSS");  // includes leptonic tau decays
 
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
     ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
@@ -182,9 +192,9 @@ void Begin_Common()
     hists_Common.addHistogram("h_Common_nLep", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); } );
     hists_Common.addHistogram("h_Common_nJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); } );
     hists_Common.addHistogram("h_Common_nFatJet", 10, 0, 10, [&]() { return ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); } );
-    hists_Common.addHistogram("h_Common_nGenW", 100, 0, 100, [&]() { return (ana.tx.getBranchLazy<int>("n_W")>=0 ? (ana.tx.getBranchLazy<int>("n_W") +ana.tx.getBranchLazy<int>("n_lep_W")+ana.tx.getBranchLazy<int>("n_leptau_W")+ana.tx.getBranchLazy<int>("n_hadtau_W")+ (ana.tx.getBranchLazy<int>("n_lep_W")>0 ? 3:0) + (ana.tx.getBranchLazy<int>("n_leptau_W")>0 ? 9:0) + (ana.tx.getBranchLazy<int>("n_hadtau_W")>0 ? 21:0) +(ana.tx.getBranchLazy<bool>("haslepWSS") ? 46:0)) : -999); });
-    hists_Common.addHistogram("h_Common_nGenZ", 300, 0, 300, [&]() { return (ana.tx.getBranchLazy<int>("n_Z")>=0 ? (ana.tx.getBranchLazy<int>("n_Z") +ana.tx.getBranchLazy<int>("n_lep_Z")+ana.tx.getBranchLazy<int>("n_leptau_Z")+ana.tx.getBranchLazy<int>("n_hadtau_Z")+ana.tx.getBranchLazy<int>("n_nu_Z")+ana.tx.getBranchLazy<int>("n_b_Z")+ (ana.tx.getBranchLazy<int>("n_lep_Z")>0 ? 3:0) + (ana.tx.getBranchLazy<int>("n_leptau_Z")>0 ? 12:0) + (ana.tx.getBranchLazy<int>("n_hadtau_Z")>0 ? 30:0) + (ana.tx.getBranchLazy<int>("n_nu_Z")>0 ? 67:0) + (ana.tx.getBranchLazy<int>("n_b_Z")>0 ? 140:0) ) : -999); });
-    hists_Common.addHistogram("h_Common_isSS", 2, 0, 2, [&]() { return (ana.tx.getBranchLazy<int>("n_W")>=0 ? (ana.tx.getBranchLazy<bool>("haslepWSS") ? 1. : 0.) : -999.); } );
+    hists_Common.addHistogram("h_Common_nGenW", 100, 0, 100, [&]() { return (ana.tx.getBranchLazy<int>("Common_n_W")>=0 ? (ana.tx.getBranchLazy<int>("Common_n_W") +ana.tx.getBranchLazy<int>("Common_n_lep_W")+ana.tx.getBranchLazy<int>("Common_n_leptau_W")+ana.tx.getBranchLazy<int>("Common_n_hadtau_W")+ (ana.tx.getBranchLazy<int>("Common_n_lep_W")>0 ? 3:0) + (ana.tx.getBranchLazy<int>("Common_n_leptau_W")>0 ? 9:0) + (ana.tx.getBranchLazy<int>("Common_n_hadtau_W")>0 ? 21:0) +(ana.tx.getBranchLazy<bool>("haslepWSS") ? 46:0)) : -999); });
+    hists_Common.addHistogram("h_Common_nGenZ", 300, 0, 300, [&]() { return (ana.tx.getBranchLazy<int>("Common_n_Z")>=0 ? (ana.tx.getBranchLazy<int>("Common_n_Z") +ana.tx.getBranchLazy<int>("Common_n_lep_Z")+ana.tx.getBranchLazy<int>("Common_n_leptau_Z")+ana.tx.getBranchLazy<int>("Common_n_hadtau_Z")+ana.tx.getBranchLazy<int>("Common_n_nu_Z")+ana.tx.getBranchLazy<int>("Common_n_b_Z")+ (ana.tx.getBranchLazy<int>("Common_n_lep_Z")>0 ? 3:0) + (ana.tx.getBranchLazy<int>("Common_n_leptau_Z")>0 ? 12:0) + (ana.tx.getBranchLazy<int>("Common_n_hadtau_Z")>0 ? 30:0) + (ana.tx.getBranchLazy<int>("Common_n_nu_Z")>0 ? 67:0) + (ana.tx.getBranchLazy<int>("Common_n_b_Z")>0 ? 140:0) ) : -999); });
+    hists_Common.addHistogram("h_Common_isSS", 2, 0, 2, [&]() { return (ana.tx.getBranchLazy<int>("Common_n_W")>=0 ? (ana.tx.getBranchLazy<bool>("Common_haslepWSS") ? 1. : 0.) : -999.); } );
 
     // Book histograms to cuts that user wants for this category.
     ana.cutflow.bookHistogramsForCut(hists_Common, "CommonCut");
@@ -199,8 +209,11 @@ void Begin_Common()
 
     // EFT reweighting histogram
     RooUtil::Histograms n_lhe_weight;
-    n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
-    n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+    if (ana.is_EFT_sample)
+    {
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+    }
     n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
 
     // Book the EFT reweighting histogram counter

@@ -70,11 +70,11 @@ int main(int argc, char** argv)
     // --region
     if (result.count("region"))
     {
-	ana.region = result["region"].as<int>();
+        ana.region = result["region"].as<int>();
     }
     else
     {
-	ana.region=0;
+        ana.region=0;
     }
     //_______________________________________________________________________________
     // --input

@@ -26,7 +26,8 @@ void Process_Common()
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", 1); // TODO
         else
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
-        ana.tx.setBranch<vector<float>>    ("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
+        if (ana.is_EFT_sample)
+            ana.tx.setBranch<vector<float>>    ("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
     }
     else
     {
@@ -661,53 +662,100 @@ void Process_Common()
 
         ana.tx.setBranch<int>("Common_gen_n_light_lep", n_light_lepton);
 
-        int nW = 0; int nZ = 0;
-        int nlepW = 0; int ntaulepW = 0; int ntauhadW = 0;
-        int nlepZ = 0; int ntaulepZ = 0; int ntauhadZ = 0; int nnuZ = 0; int nbZ = 0;
-        int W1 = -1; int W2 = -1; bool isSS = false;
+        int nW = 0;
+        int nZ = 0;
+        int nlepW = 0;
+        int ntaulepW = 0;
+        int ntauhadW = 0;
+        int nlepZ = 0;
+        int ntaulepZ = 0;
+        int ntauhadZ = 0;
+        int nnuZ = 0;
+        int nbZ = 0;
+        int W1 = -1;
+        int W2 = -1;
+        bool isSS = false;
+
         for (unsigned int igen = 0; igen < ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx").size(); ++igen)
         {
-            int decay  = ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_pdgid")[igen];
+            int decay = ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_pdgid")[igen];
             int mother = ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_id")[igen];
             int leptau = ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_taudecayid")[igen];
-            if(abs(mother)==24)
+            if (abs(mother) == 24)
             {
                 ++nW;
-                if(abs(decay)==11 || abs(decay)==13) ++nlepW;
-                else if(abs(decay)==15 && (abs(leptau)==11 || abs(leptau)==13)) ++ntaulepW;
-                else if(abs(decay)==15 && abs(leptau)==211) ++ntauhadW;
-                if(abs(decay)==11 || abs(decay)==13 || (abs(decay)==15 && (abs(leptau)==11 || abs(leptau)==13)))
+                if (abs(decay) == 11 || abs(decay) == 13)
                 {
-                    if(W1<0) W1 = igen;//first W
+                    ++nlepW;
+                }
+                else if (abs(decay) == 15 && (abs(leptau) == 11 || abs(leptau) == 13))
+                {
+                    ++ntaulepW;
+                }
+                else if (abs(decay) == 15 && abs(leptau) == 211)
+                {
+                    ++ntauhadW;
+                }
+                if (abs(decay) == 11 || abs(decay) == 13 || (abs(decay) == 15 && (abs(leptau) == 11 || abs(leptau) == 13)))
+                {
+                    if (W1 < 0)
+                    {
+                        W1 = igen; // first W
+                    }
                     else
                     {
-                        if(mother == ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_id")[W1]) isSS = true;//first and this W are SS
-                        else if(W2<0) W2 = igen;//second W
-                        else if(mother == ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_id")[W2]) isSS = true;//second and this W are SS
+                        if (mother == ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_id")[W1])
+                        {
+                            isSS = true; // first and this W are SS
+                        }
+                        else if (W2 < 0)
+                        {
+                            W2 = igen; // second W
+                        }
+                        else if (mother == ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_id")[W2])
+                        {
+                            isSS = true; // second and this W are SS
+                        }
                     }
                 }
             }
-            if(abs(mother)==23)
+            if (abs(mother) == 23)
             {
                 ++nZ;
-                if(abs(decay)==11 || abs(decay)==13) ++nlepZ;
-                else if(abs(decay)==15 && (abs(leptau)==11 || abs(leptau)==13)) ++ntaulepZ;
-                else if(abs(decay)==15 && abs(leptau)==211) ++ntauhadZ;
-                else if(abs(decay)==12 || abs(decay)==14 || abs(decay)==16) ++nnuZ;
-                else if(abs(decay)==5) ++nbZ;
+                if (abs(decay) == 11 || abs(decay) == 13)
+                {
+                    ++nlepZ;
+                }
+                else if (abs(decay) == 15 && (abs(leptau) == 11 || abs(leptau) == 13))
+                {
+                    ++ntaulepZ;
+                }
+                else if (abs(decay) == 15 && abs(leptau) == 211)
+                {
+                    ++ntauhadZ;
+                }
+                else if (abs(decay) == 12 || abs(decay) == 14 || abs(decay) == 16)
+                {
+                    ++nnuZ;
+                }
+                else if (abs(decay) == 5)
+                {
+                    ++nbZ;
+                }
             }
         }
-        ana.tx.setBranch<int> ("n_W",        nW      );
-        ana.tx.setBranch<int> ("n_lep_W",    nlepW   );
-        ana.tx.setBranch<int> ("n_leptau_W", ntaulepW);
-        ana.tx.setBranch<int> ("n_hadtau_W", ntauhadW);
-        ana.tx.setBranch<int> ("n_Z",        nZ      );
-        ana.tx.setBranch<int> ("n_lep_Z",    nlepZ   );
-        ana.tx.setBranch<int> ("n_leptau_Z", ntaulepZ);
-        ana.tx.setBranch<int> ("n_hadtau_Z", ntauhadZ);
-        ana.tx.setBranch<int> ("n_nu_Z",     nnuZ    );
-        ana.tx.setBranch<int> ("n_b_Z",      nbZ     );
-        ana.tx.setBranch<bool>("haslepWSS",  isSS    );
+
+        ana.tx.setBranch<int> ("Common_n_W",        nW      );
+        ana.tx.setBranch<int> ("Common_n_lep_W",    nlepW   );
+        ana.tx.setBranch<int> ("Common_n_leptau_W", ntaulepW);
+        ana.tx.setBranch<int> ("Common_n_hadtau_W", ntauhadW);
+        ana.tx.setBranch<int> ("Common_n_Z",        nZ      );
+        ana.tx.setBranch<int> ("Common_n_lep_Z",    nlepZ   );
+        ana.tx.setBranch<int> ("Common_n_leptau_Z", ntaulepZ);
+        ana.tx.setBranch<int> ("Common_n_hadtau_Z", ntauhadZ);
+        ana.tx.setBranch<int> ("Common_n_nu_Z",     nnuZ    );
+        ana.tx.setBranch<int> ("Common_n_b_Z",      nbZ     );
+        ana.tx.setBranch<bool>("Common_haslepWSS",  isSS    );
     }
 
     //---------------------------------------------------------------------------------------------

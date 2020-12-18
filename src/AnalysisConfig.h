@@ -68,6 +68,9 @@ public:
     // Boolean to trigger output tree writing
     bool write_tree;
 
+    // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
+    bool is_EFT_sample;
+
     // Output TTree
     TTree* output_tree;
 

@@ -6,8 +6,7 @@
     cd your/favoriate/working/directory
     git clone --recursive git@github.com:sgnoohc/VVVNanoLooper.git
     cd VVVNanoLooper/
-    source rooutil/thisrooutil.sh
-    source rooutil/root.sh
+    source source_all.sh
     make cleansmall; // Clean only VVV looper related
     make clean; // Full clean include NanoTools/rooutil related objects
     make -j;
