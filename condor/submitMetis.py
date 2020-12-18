@@ -79,14 +79,12 @@ if __name__ == "__main__":
         all_tasks_complete = True
 
         # Loop over the dataset provided by the user few lines above, and do the Metis magic
-        for dsname,shortname in sample_map.items():
+        for ds,shortname in sample_map.items():
             # skip_tail = True
             skip_tail = False
             task = CondorTask(
-                    sample = DBSSample(
-                        dataset=dsname,
-                        ),
-                    files_per_output = split_func(dsname),
+                    sample = ds,
+                    files_per_output = split_func(ds.get_datasetname()),
                     output_name = "output.root",
                     tag = tag,
                     condor_submit_params = {
