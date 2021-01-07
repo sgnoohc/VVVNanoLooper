@@ -29,7 +29,7 @@ void Begin_Common()
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
 
     // EFT weightings
-    ana.tx.createBranch<vector<float>>        ("Common_N");
+    ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
 
     // 2016 only triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"); // Lowest unprescaled
