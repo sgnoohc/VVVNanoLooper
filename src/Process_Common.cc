@@ -793,6 +793,7 @@ void Process_Common()
 void Process_Common_VVVTree()
 {
     // Event level information
+    ana.tx.setBranch<int>                  ("Common_isData", vvv.Common_isData());
     ana.tx.setBranch<int>                  ("Common_run", vvv.Common_run());
     ana.tx.setBranch<int>                  ("Common_lumi", vvv.Common_lumi());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", vvv.Common_evt());
