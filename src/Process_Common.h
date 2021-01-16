@@ -4,5 +4,6 @@
 #include "AnalysisConfig.h"
 
 void Process_Common();
+void Process_Common_VVVTree();
 
 #endif

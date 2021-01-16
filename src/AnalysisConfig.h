@@ -3,6 +3,7 @@
 
 #include "rooutil.h"
 #include "Nano.h"
+#include "VVVTree.h"
 #include "math.h"
 #include "ScaleFactors.h"
 #include <algorithm>
@@ -53,6 +54,9 @@ public:
     // Custom Looper object to facilitate looping over many files
     RooUtil::Looper<Nano> looper;
 
+    // Custom Looper object to facilitate looping over many files
+    RooUtil::Looper<VVVTree> looper_vvvtree;
+
     // Custom Cutflow framework
     RooUtil::Cutflow cutflow;
 
@@ -67,6 +71,9 @@ public:
 
     // Boolean to trigger output tree writing
     bool write_tree;
+
+    // Boolean to trigger output tree writing
+    bool run_VVVTree;
 
     // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
     bool is_EFT_sample;

@@ -8,19 +8,33 @@ void Begin_Common()
     // This is where one declares variables, histograms, event selections for the category Common.
     //==============================================
 
-    // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
-    ana.is_EFT_sample = false; // default is false
-    TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
-    for (unsigned int ibr = 0; ibr < brobjArray->GetEntries(); ++ibr)
-    {
-        TString brname = brobjArray->At(ibr)->GetName();
-        if (brname.EqualTo("LHEWeight_mg_reweighting"))
-            ana.is_EFT_sample = true; // if it has the branch it is set to true
-    }
-
     // Create variables used in this category.
     // Please follow the convention of <category>_<varname> structure.
+    Begin_Common_Create_Branches();
 
+    // Define basic selections
+    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
+    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+
+    // Determine whether it is EFT or not
+    Begin_Common_Determine_Is_EFT();
+
+    // The framework may run over NanoAOD directly or, it may run over VVVTree.
+    // ana.run_VVVTree boolean determines this.
+    if (ana.run_VVVTree)
+    {
+        Begin_Common_VVVTree();
+    }
+    else
+    {
+        Begin_Common_NanoAOD();
+    }
+
+}
+
+void Begin_Common_Create_Branches()
+{
     // Event level information
     ana.tx.createBranch<int>                  ("Common_run");
     ana.tx.createBranch<int>                  ("Common_lumi");
@@ -178,12 +192,40 @@ void Begin_Common()
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
     ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
 
-    // Define selections
-    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
-    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
-    //ana.cutflow.addCutToLastActiveCut("SignalWeight_SM", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[0]*nt.genWeight(); } );
-    //ana.cutflow.addCutToLastActiveCut("SignalWeight_EFT_FT0_10", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[6]*nt.genWeight(); } );//I think that should do it
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+}
+
+void Begin_Common_Determine_Is_EFT()
+{
+    if (ana.run_VVVTree)
+    {
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        ana.is_EFT_sample = vvv.Common_LHEWeight_mg_reweighting().size() > 0; // If there are weights it's is EFT
+    }
+    else
+    {
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        ana.is_EFT_sample = false; // default is false
+        TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+        for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
+        {
+            TString brname = brobjArray->At(ibr)->GetName();
+            if (brname.EqualTo("LHEWeight_mg_reweighting"))
+                ana.is_EFT_sample = true; // if it has the branch it is set to true
+        }
+    }
+
+}
+
+void Begin_Common_VVVTree()
+{
+
+}
+
+void Begin_Common_NanoAOD()
+{
+
+    // Various book keeping variables are included here.
+    // TODO: Define some diagnostic basic plots
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
@@ -214,7 +256,10 @@ void Begin_Common()
         n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
         n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
     }
-    n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
+    if (not nt.isData())
+    {
+        n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
+    }
 
     // Book the EFT reweighting histogram counter
     ana.cutflow.bookHistogramsForCut(n_lhe_weight, "Root");
