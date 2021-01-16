@@ -16,6 +16,7 @@ void Process_Common()
     // Event information
     //---------------------------------------------------------------------------------------------
     // Event level information
+    ana.tx.setBranch<int>                  ("Common_isData", nt.isData());
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());

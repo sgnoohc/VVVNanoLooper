@@ -12,11 +12,6 @@ void Begin_Common()
     // Please follow the convention of <category>_<varname> structure.
     Begin_Common_Create_Branches();
 
-    // Define basic selections
-    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
-    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
-
     // Determine whether it is EFT or not
     Begin_Common_Determine_Is_EFT();
 
@@ -36,6 +31,7 @@ void Begin_Common()
 void Begin_Common_Create_Branches()
 {
     // Event level information
+    ana.tx.createBranch<int>                  ("Common_isData");
     ana.tx.createBranch<int>                  ("Common_run");
     ana.tx.createBranch<int>                  ("Common_lumi");
     ana.tx.createBranch<unsigned long long>   ("Common_evt");
@@ -219,10 +215,20 @@ void Begin_Common_Determine_Is_EFT()
 void Begin_Common_VVVTree()
 {
 
+    // Define basic selections
+    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
+    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+
 }
 
 void Begin_Common_NanoAOD()
 {
+
+    // Define basic selections
+    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
+    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
 
     // Various book keeping variables are included here.
     // TODO: Define some diagnostic basic plots

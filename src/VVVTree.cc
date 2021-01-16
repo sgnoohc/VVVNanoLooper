@@ -29,6 +29,8 @@ void VVVTree::Init(TTree *tree) {
 
   tree->SetMakeClass(1);
 
+  Common_isData_branch = tree->GetBranch("Common_isData");
+  if (Common_isData_branch) Common_isData_branch->SetAddress(&Common_isData_);
   Common_run_branch = tree->GetBranch("Common_run");
   if (Common_run_branch) Common_run_branch->SetAddress(&Common_run_);
   Common_lumi_branch = tree->GetBranch("Common_lumi");
@@ -298,6 +300,7 @@ void VVVTree::Init(TTree *tree) {
 void VVVTree::GetEntry(unsigned int idx) {
   // this only marks branches as not loaded, saving a lot of time
   index = idx;
+  Common_isData_isLoaded = false;
   Common_run_isLoaded = false;
   Common_lumi_isLoaded = false;
   Common_evt_isLoaded = false;
@@ -445,6 +448,7 @@ void VVVTree::GetEntry(unsigned int idx) {
 
 void VVVTree::LoadAllBranches() {
   // load all branches
+  if (Common_isData_branch != 0) Common_isData();
   if (Common_run_branch != 0) Common_run();
   if (Common_lumi_branch != 0) Common_lumi();
   if (Common_evt_branch != 0) Common_evt();
@@ -588,6 +592,19 @@ void VVVTree::LoadAllBranches() {
   if (Var_4LepMET_other_lep_pdgid_1_branch != 0) Var_4LepMET_other_lep_pdgid_1();
   if (Var_4LepMET_other_lep_p4_1_branch != 0) Var_4LepMET_other_lep_p4_1();
   if (Var_4LepMET_other_mll_branch != 0) Var_4LepMET_other_mll();
+}
+
+const int &VVVTree::Common_isData() {
+  if (not Common_isData_isLoaded) {
+    if (Common_isData_branch != 0) {
+      Common_isData_branch->GetEntry(index);
+    } else {
+      printf("branch Common_isData_branch does not exist!\n");
+      exit(1);
+    }
+    Common_isData_isLoaded = true;
+  }
+  return Common_isData_;
 }
 
 const int &VVVTree::Common_run() {
@@ -2472,6 +2489,7 @@ void VVVTree::progress( int nEventsTotal, int nEventsChain ){
 
 namespace tas {
 
+const int &Common_isData() { return vvv.Common_isData(); }
 const int &Common_run() { return vvv.Common_run(); }
 const int &Common_lumi() { return vvv.Common_lumi(); }
 const unsigned long long &Common_evt() { return vvv.Common_evt(); }

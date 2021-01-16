@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/nfs-7/userdata/phchang/tupler_babies/merged/VVV/v0.0.9/output/2018/WWZ_4l_EFT.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/home/users/phchang/public_html/analysis/vvv/VVVNanoLooper__/debug.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -23,6 +23,9 @@ class VVVTree {
  private: 
  protected: 
   unsigned int index;
+  int      Common_isData_;
+  TBranch *Common_isData_branch;
+  bool     Common_isData_isLoaded;
   int      Common_run_;
   TBranch *Common_run_branch;
   bool     Common_run_isLoaded;
@@ -456,6 +459,7 @@ public:
 void Init(TTree *tree);
 void GetEntry(unsigned int idx); 
 void LoadAllBranches(); 
+  const int &Common_isData();
   const int &Common_run();
   const int &Common_lumi();
   const unsigned long long &Common_evt();
@@ -608,6 +612,7 @@ extern VVVTree vvv;
 #endif
 
 namespace tas {
+  const int &Common_isData();
   const int &Common_run();
   const int &Common_lumi();
   const unsigned long long &Common_evt();
