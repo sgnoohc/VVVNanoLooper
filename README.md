@@ -161,17 +161,31 @@ This is where the stuff that runs once after the event loop is done.
 
 If some action needs to run for all categories, then they should be implemented in ```Common``` equivalent area.
 
-### Grid submission (TODO: outdated. needs update.)
+### Grid submission
 
 To submit jobs to the grid, do the following
 
     cd ProjectMetis
     source setup.sh
+
+Or, if you had done the following the equivalent of above two lines would have already been ran.
+
+    source source_all.sh
+
+Then go to ```condor``` directory.
+
     cd ../condor
     sh maketar.sh # it will make clean; make -j again before tarring up
-    python submitMetis.py -y year -t tag -m mode #(-d)
+    python submitMetis.py -y year -t tag -m mode 
+    python submitMetis.py -m mode -y year -t tag
 
-```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.
+To write out intermediate ntuple with ```Common_*``` branches, add the ``` -a " -w" ``` option
+
+    python submitMetis.py -m mode -y year -t tag -a " -w"
+
+
+#### ```ProjectMetis```
+N.B. ```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.
 
 See ```condor/submitMetis.py``` to see how it works
 
