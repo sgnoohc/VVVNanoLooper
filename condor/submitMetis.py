@@ -130,7 +130,7 @@ if __name__ == "__main__":
 
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
         os.system("rm web_summary.json")
-        webdir="~/public_html/VVVNanoLooperDashboard"
+        webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
         StatsParser(data=task_summary, webdir=webdir).do()
         os.system("chmod -R 755 {}".format(webdir))
         os.system("msummary -r -i {}/web_summary.json".format(webdir))
