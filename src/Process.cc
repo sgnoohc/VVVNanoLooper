@@ -9,14 +9,7 @@ void Process()
     //==============================================
 
     // Process_Common is always called regardless of the category
-    if (ana.run_VVVTree)
-    {
-        Process_Common_VVVTree();
-    }
-    else
-    {
-        Process_Common();
-    }
+    Process_Common();
 
     // Then depending on the analysis mode, different "Process" runs
 

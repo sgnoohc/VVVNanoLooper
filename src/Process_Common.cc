@@ -2,6 +2,18 @@
 
 void Process_Common()
 {
+    if (ana.run_VVVTree)
+    {
+        Process_Common_VVVTree();
+    }
+    else
+    {
+        Process_Common_NanoAOD();
+    }
+}
+
+void Process_Common_NanoAOD()
+{
     //==============================================
     // Process_Common:
     // This function gets called during the event looping.

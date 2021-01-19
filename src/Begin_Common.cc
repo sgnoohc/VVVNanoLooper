@@ -233,6 +233,8 @@ void Begin_Common_NanoAOD()
     // Various book keeping variables are included here.
     // TODO: Define some diagnostic basic plots
 
+    Begin_Common_Book_NEvent_Histograms();
+
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
@@ -246,14 +248,6 @@ void Begin_Common_NanoAOD()
 
     // Book histograms to cuts that user wants for this category.
     ana.cutflow.bookHistogramsForCut(hists_Common, "CommonCut");
-
-    // Book histograms to Root to count total number of events processed
-    RooUtil::Histograms n_event_hist;
-    n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 0; } );
-
-    // Book the counter histogram to the Root
-    ana.cutflow.bookHistogramsForCut(n_event_hist, "Root");
-    ana.cutflow.bookHistogramsForCut(n_event_hist, "Wgt");
 
     // EFT reweighting histogram
     RooUtil::Histograms n_lhe_weight;
@@ -270,4 +264,52 @@ void Begin_Common_NanoAOD()
     // Book the EFT reweighting histogram counter
     ana.cutflow.bookHistogramsForCut(n_lhe_weight, "Root");
 
+}
+
+void Begin_Common_Book_NEvent_Histograms()
+{
+    if (ana.input_file_list_tstring.Contains("NanoSkim"))
+    {
+        ana.output_tfile->cd();
+        TH1F* Root__h_nevents = new TH1F("Root__h_nevents", "Root__h_nevents", 1, 0, 1);
+        TH1F* Wgt__h_nevents = new TH1F("Wgt__h_nevents", "Wgt__h_nevents", 1, 0, 1);
+
+        TObjArray* input_files = ana.input_file_list_tstring.Tokenize(",");
+        int total = 0;
+        int pos_total = 0;
+        int neg_total = 0;
+        for (int ifile = 0; ifile < input_files->GetEntries(); ++ifile)
+        {
+            TString filepath = ((TObjString*)input_files->At(ifile))->GetString();
+
+            // Accessing n events
+            TString nevents_file_path = filepath.ReplaceAll(".root", "_nevents.txt");
+            std::ifstream ifs(nevents_file_path.Data());
+            std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                    (std::istreambuf_iterator<char>()    ) );
+            TString content_tstr = content.c_str();
+            TObjArray* lines = content_tstr.Tokenize("\n");
+            int index_total = lines->GetEntries() - 3;
+            int index_pos_total = lines->GetEntries() - 2;
+            int index_neg_total = lines->GetEntries() - 1;
+            total += ((TObjString*)lines->At(index_total))->GetString().Atoi();
+            pos_total += ((TObjString*)lines->At(index_pos_total))->GetString().Atoi();
+            neg_total += ((TObjString*)lines->At(index_neg_total))->GetString().Atoi();
+        }
+        int eff_total = pos_total != neg_total ? pos_total - neg_total : pos_total;
+        Root__h_nevents->SetBinContent(1, total);
+        Wgt__h_nevents->SetBinContent(1, eff_total);
+        Root__h_nevents->Write();
+        Wgt__h_nevents->Write();
+    }
+    else
+    {
+        // Book histograms to Root to count total number of events processed
+        RooUtil::Histograms n_event_hist;
+        n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 0; } );
+
+        // Book the counter histogram to the Root
+        ana.cutflow.bookHistogramsForCut(n_event_hist, "Root");
+        ana.cutflow.bookHistogramsForCut(n_event_hist, "Wgt");
+    }
 }

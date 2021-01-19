@@ -22,7 +22,7 @@ if __name__ == "__main__":
     samples_list += samples.samples_VVV4L_2018_EFT.keys()
 
     # submission tag
-    tag = "v6"
+    tag = "v7"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -49,7 +49,7 @@ if __name__ == "__main__":
                     condor_submit_params = condor_submit_params_do_fetch,
                     cmssw_version = "CMSSW_10_5_0",
                     input_executable = "condor_executable_skimmer_metis.sh", # your condor executable here
-                    tarfile = "/nfs-7/userdata/phchang/NanoSkimmerPackages/NanoSkimmer_v2.package.tar.gz", # your tarfile with assorted goodies here
+                    tarfile = "/nfs-7/userdata/phchang/NanoSkimmerPackages/NanoSkimmer_v3.package.tar.gz", # your tarfile with assorted goodies here
                     special_dir = "FourLepNanoSkim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
             )
 
