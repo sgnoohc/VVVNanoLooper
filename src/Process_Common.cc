@@ -167,6 +167,8 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Electron_mvaFall17V2Iso_WP80()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Electron_dxy()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
+        ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Electron_ip3d()[iel]);
+        ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Electron_sip3d()[iel]);
         float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(), 0);
         lepSFc  *= sf;
         lepSFum *= sf;
@@ -204,6 +206,8 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Muon_dxy()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
+        ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Muon_ip3d()[imu]);
+        ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
         string period = "X";
         if(nt.year()==2016 && nt.run()<=278808) period = "BCDEF";
         else if(nt.year()==2016) period = "GH";
@@ -778,7 +782,7 @@ void Process_Common_NanoAOD()
     // Sorting lepton branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
-            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_SF", "Common_lep_SFTight","Common_lep_SFdn","Common_lep_SFdnTight","Common_lep_SFup","Common_lep_SFupTight"},
+            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_ip3d", "Common_lep_sip3d", "Common_lep_SF", "Common_lep_SFTight","Common_lep_SFdn","Common_lep_SFdnTight","Common_lep_SFup","Common_lep_SFupTight"},
             /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );

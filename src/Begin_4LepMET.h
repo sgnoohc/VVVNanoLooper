@@ -2,6 +2,7 @@
 #define Begin_4LepMET_h
 
 #include "AnalysisConfig.h"
+#include "lester_mt2_bisect.h"
 
 void Begin_4LepMET();
 
@@ -9,5 +10,7 @@ void Begin_4LepMET_Create_Branches();
 
 void Begin_4LepMET_NanoAOD();
 void Begin_4LepMET_VVVTree();
+
+float Begin_4LepMET_MT2(int var=0);
 
 #endif

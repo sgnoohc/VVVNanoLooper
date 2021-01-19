@@ -41,8 +41,9 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_nb_loose", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_loose"); } );
     ana.histograms.addHistogram("h_4LepMET_nb_medium", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_medium"); } );
     ana.histograms.addHistogram("h_4LepMET_nb_tight", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_tight"); } );
-    ana.histograms.addHistogram("h_4LepMET_njet", 8, 0, 8, [&]() { return ana.tx.getBranch<vector<LorentzVector>>("Common_jet_p4").size(); } );
-    ana.histograms.addHistogram("h_4LepMET_nfatjet", 8, 0, 8, [&]() { return ana.tx.getBranch<vector<LorentzVector>>("Common_fatjet_p4").size(); } );
+    ana.histograms.addHistogram("h_4LepMET_njet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); } );
+    ana.histograms.addHistogram("h_4LepMET_nfatjet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); } );
+    ana.histograms.addHistogram("h_4LepMET_mt2", 180, 0, 100, [&]() { return ana.tx.getBranch<int>("Var_4LepMET_mt2"); } );
 
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
@@ -187,6 +188,15 @@ void Begin_4LepMET_NanoAOD()
             },
             [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
 
+    // Apply b-tag veto
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_Variables",
+            [&]()
+            {
+                ana.tx.setBranch<float>("Var_4LepMET_mt2", Begin_4LepMET_MT2());
+                return true;
+            },
+            UNITY);
+
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { ana.tx.setBranch<bool>("Cut_4LepMET_Preselection", true); return true; }, UNITY); // This "cut" does not do anything. It works as a middle point
 
@@ -218,6 +228,9 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
     ana.tx.createBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1");     // p4 of the lepton
     ana.tx.createBranch<float>        ("Var_4LepMET_other_mll");          // Invariant mass of the Z candidate
+
+    // Additional variables
+    ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate
 }
 
 
@@ -423,7 +436,29 @@ void Begin_4LepMET_VVVTree()
                        vvv.Var_4LepMET_other_lep_p4_1().pt() > 10.;
             }, UNITY);
 
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_NbVeto", [&]() { return ana.tx.getBranch<int>("Common_nb_loose") == 0; }, UNITY);
+
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { return ana.tx.getBranch<bool>("Cut_4LepMET_Preselection"); }, [&, wgt]() { return (vvv.Common_isData() ? 1. : wgt); } );
 
 }
+
+float Begin_4LepMET_MT2(int var)
+{
+    TLorentzVector lepton1 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"));
+    TLorentzVector lepton2 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"));
+    TLorentzVector misspart = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Common_met_p4"));
+    TLorentzVector rest_WW;
+    rest_WW = lepton1 + lepton2 + misspart;
+    TVector3 beta_from_miss_reverse(rest_WW.BoostVector());
+    TVector3 beta_from_miss(-beta_from_miss_reverse.X(),-beta_from_miss_reverse.Y(),-beta_from_miss_reverse.Z());
+
+    lepton1.Boost(beta_from_miss);
+    lepton2.Boost(beta_from_miss);
+    misspart.Boost(beta_from_miss);
+    asymm_mt2_lester_bisect::disableCopyrightMessage();
+    double MT2_0mass = asymm_mt2_lester_bisect::get_mT2(0,lepton1.Px(),lepton1.Py(),0,lepton2.Px(),lepton2.Py(),misspart.Px(), misspart.Py(),0,0,0);
+
+    return MT2_0mass;
+}
+

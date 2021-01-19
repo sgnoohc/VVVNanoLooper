@@ -69,6 +69,9 @@ void Process_4LepMET_VVVTree()
     ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_pdgid_1" , vvv.Var_4LepMET_other_lep_pdgid_1());  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
     ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"    , vvv.Var_4LepMET_other_lep_p4_1());     // p4 of the lepton
     ana.tx.setBranch<float>        ("Var_4LepMET_other_mll"         , vvv.Var_4LepMET_other_mll());          // Invariant mass of the Z candidate
+
+    // Additional variables
+    ana.tx.setBranch<float>        ("Var_4LepMET_mt2"               , vvv.Var_4LepMET_mt2());                // Invariant mass of the Z candidate
 }
 
 void PostProcess_4LepMET()
