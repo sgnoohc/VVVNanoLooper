@@ -2,7 +2,6 @@
 #define Begin_4LepMET_h
 
 #include "AnalysisConfig.h"
-#include "lester_mt2_bisect.h"
 
 void Begin_4LepMET();
 
