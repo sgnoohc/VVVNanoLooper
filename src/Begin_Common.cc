@@ -189,6 +189,7 @@ void Begin_Common_Create_Branches()
 
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
     ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
+    ana.tx.createBranch<int>                  ("Common_gen_VH_channel"); // VH Channel (0 = WH->WWW, 1 = ZH->ZWW, 2 = WH->WZZ, 3 = ZH->ZZZ, -PDGID = if another channel, and is H->tautau then it would be -15.)
 
 }
 

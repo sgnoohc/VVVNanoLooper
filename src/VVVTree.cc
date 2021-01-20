@@ -400,6 +400,9 @@ void VVVTree::Init(TTree *tree) {
 /*                  Common_gen_n_light_lep*/  Common_gen_n_light_lep_branch = tree->GetBranch("Common_gen_n_light_lep");
 /*                  Common_gen_n_light_lep*/  if (Common_gen_n_light_lep_branch) Common_gen_n_light_lep_branch->SetAddress(&Common_gen_n_light_lep_);
 //---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  Common_gen_VH_channel_branch = tree->GetBranch("Common_gen_VH_channel");
+/*                   Common_gen_VH_channel*/  if (Common_gen_VH_channel_branch) Common_gen_VH_channel_branch->SetAddress(&Common_gen_VH_channel_);
+//---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  Cut_4LepMET_Preselection_branch = tree->GetBranch("Cut_4LepMET_Preselection");
 /*                Cut_4LepMET_Preselection*/  if (Cut_4LepMET_Preselection_branch) Cut_4LepMET_Preselection_branch->SetAddress(&Cut_4LepMET_Preselection_);
 //---------------------------------------------------------------------------------
@@ -710,6 +713,8 @@ void VVVTree::GetEntry(unsigned int idx) {
 //---------------------------------------------------------------------------------
 /*                  Common_gen_n_light_lep*/  Common_gen_n_light_lep_isLoaded = false;
 //---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  Common_gen_VH_channel_isLoaded = false;
+//---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  Cut_4LepMET_Preselection_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*                  Cut_4LepMET_emuChannel*/  Cut_4LepMET_emuChannel_isLoaded = false;
@@ -1008,6 +1013,8 @@ void VVVTree::LoadAllBranches() {
 /*                            Common_genHT*/  if (Common_genHT_branch != 0) Common_genHT();
 //---------------------------------------------------------------------------------
 /*                  Common_gen_n_light_lep*/  if (Common_gen_n_light_lep_branch != 0) Common_gen_n_light_lep();
+//---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  if (Common_gen_VH_channel_branch != 0) Common_gen_VH_channel();
 //---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  if (Cut_4LepMET_Preselection_branch != 0) Cut_4LepMET_Preselection();
 //---------------------------------------------------------------------------------
@@ -2830,6 +2837,20 @@ void VVVTree::LoadAllBranches() {
 /*                  Common_gen_n_light_lep*/}
 
 //---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/const int &VVVTree::Common_gen_VH_channel() {
+/*                   Common_gen_VH_channel*/  if (not Common_gen_VH_channel_isLoaded) {
+/*                   Common_gen_VH_channel*/    if (Common_gen_VH_channel_branch != 0) {
+/*                   Common_gen_VH_channel*/      Common_gen_VH_channel_branch->GetEntry(index);
+/*                   Common_gen_VH_channel*/    } else {
+/*                   Common_gen_VH_channel*/      printf("branch Common_gen_VH_channel_branch does not exist!\n");
+/*                   Common_gen_VH_channel*/      exit(1);
+/*                   Common_gen_VH_channel*/    }
+/*                   Common_gen_VH_channel*/    Common_gen_VH_channel_isLoaded = true;
+/*                   Common_gen_VH_channel*/  }
+/*                   Common_gen_VH_channel*/  return Common_gen_VH_channel_;
+/*                   Common_gen_VH_channel*/}
+
+//---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/const bool &VVVTree::Cut_4LepMET_Preselection() {
 /*                Cut_4LepMET_Preselection*/  if (not Cut_4LepMET_Preselection_isLoaded) {
 /*                Cut_4LepMET_Preselection*/    if (Cut_4LepMET_Preselection_branch != 0) {
@@ -3387,6 +3408,8 @@ namespace tas {
 /*                            Common_genHT*/const float &Common_genHT() { return vvv.Common_genHT(); }
 //---------------------------------------------------------------------------------
 /*                  Common_gen_n_light_lep*/const int &Common_gen_n_light_lep() { return vvv.Common_gen_n_light_lep(); }
+//---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/const int &Common_gen_VH_channel() { return vvv.Common_gen_VH_channel(); }
 //---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/const bool &Cut_4LepMET_Preselection() { return vvv.Cut_4LepMET_Preselection(); }
 //---------------------------------------------------------------------------------

@@ -289,8 +289,8 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
     }
     headerf << "/*" << setw(40) << aliasname << "*/" << "  TBranch *" << Form("%s_branch",aliasname.Data()) << ";" << endl;
     headerf << "/*" << setw(40) << aliasname << "*/" << "  bool     " << Form("%s_isLoaded",aliasname.Data()) << ";" << endl;
-    headerf << "//---------------------------------------------------------------------------------" << endl;
   }
+  headerf << "//---------------------------------------------------------------------------------" << endl;
   headerf << "public: " << endl;
   headerf << "void Init(TTree *tree);" << endl;
 
@@ -345,8 +345,8 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const double &" << aliasname << "();" << endl;
       }
     }
-    headerf << "//---------------------------------------------------------------------------------" << endl;
   } // end of accessor header
+  headerf << "//---------------------------------------------------------------------------------" << endl;
 
   bool haveHLTInfo = false;
   bool haveL1Info  = false;
@@ -408,7 +408,6 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
   // it is healthy to leave those methods as they are
   headerf << "namespace " << nameSpace << " {" << endl;
   for (Int_t i = 0; i< aliasarray->GetSize(); i++) {
-    headerf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     // TBranch *branch = ev->GetBranch(ev->GetAlias(aliasname.Data()));
     TBranch *branch = 0;
@@ -424,6 +423,7 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
         classname = classname(0,classname.Length()-2);
         classname.ReplaceAll("edm::Wrapper<","");
       }
+      headerf << "//---------------------------------------------------------------------------------" << endl;
       headerf << "/*" << setw(40) << aliasname << "*/" << "  const " << classname << " &" << aliasname << "()";
     } else {
       if(classname.Contains("edm::Wrapper<") ) {
@@ -431,30 +431,36 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
         classname.ReplaceAll("edm::Wrapper<","");
       }
       if(classname != "" ) {
+        headerf << "//---------------------------------------------------------------------------------" << endl;
         headerf << "/*" << setw(40) << aliasname << "*/" << "  const " << classname << " &" << aliasname << "()";
       } else {
         if(title.EndsWith("/i")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const unsigned int &" << aliasname << "()";
         }
         if(title.EndsWith("/l")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const unsigned long long &" << aliasname << "()";
         }
         if(title.EndsWith("/F")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const float &" << aliasname << "()";
         }
         if(title.EndsWith("/I")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const int &" << aliasname << "()";
         }
         if(title.EndsWith("/O")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const bool &" << aliasname << "()";
         }
         if(title.EndsWith("/D")){
+          headerf << "//---------------------------------------------------------------------------------" << endl;
           headerf << "/*" << setw(40) << aliasname << "*/" << "  const double &" << aliasname << "()";
         }
       }
     }
     headerf << ";" << endl;
-    headerf << "//---------------------------------------------------------------------------------" << endl;
   }
   if(haveHLTInfo) {
     //functions to return whether or not trigger fired - HLT
@@ -477,6 +483,7 @@ void makeHeaderFile(TFile *f, const string& treeName, bool paranoid, const strin
     headerf << "  " << "float getbtagvalue(TString bDiscriminatorName, unsigned int jetIndx);" << endl;
   }//if(haveTauIDInfo)
 
+  headerf << "//---------------------------------------------------------------------------------" << endl;
   headerf << "}" << endl;
   headerf << "#endif" << endl;
 
@@ -606,16 +613,15 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
           //implf << "    " << Form("%s_branch",aliasname.Data()) << "->SetAddress(&" << aliasname << "_);" << endl << "  }" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << Form("  if (%s) %s->SetAddress(&%s_);", branch_ptr.Data(), branch_ptr.Data(), aliasname.Data()) << endl;
         }
-        implf << "//---------------------------------------------------------------------------------" << endl;
       }
     }
   }
+  implf << "//---------------------------------------------------------------------------------" << endl;
 
   // SetBranchAddresses for everything else
   implf << "" << endl;
   implf << "  tree->SetMakeClass(1);" << endl << endl;
   for (Int_t i = 0; i< aliasarray->GetSize(); i++) {
-    implf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     // TBranch *branch = ev->GetBranch(ev->GetAlias(aliasname.Data()));
     TBranch *branch = 0;
@@ -628,6 +634,7 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
     TString branch_ptr = Form("%s_branch",aliasname.Data());
     if (! (classname.Contains("Lorentz") || classname.Contains("PositionVector") || classname.Contains("TBits")) || classname.Contains("vector<vector") ) {
       // implf << "  " << Form("%s_branch",aliasname.Data()) << " = 0;" << endl;
+      implf << "//---------------------------------------------------------------------------------" << endl;
       if (have_aliases) {
         // implf << "  " << "if (tree->GetAlias(\"" << aliasname << "\") != 0) {" << endl;
         implf << "/*" << setw(40) << aliasname << "*/" << "  " << Form("%s_branch",aliasname.Data()) << " = tree->GetBranch(tree->GetAlias(\"" << aliasname << "\"));" << endl;
@@ -641,8 +648,8 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
         implf << "/*" << setw(40) << aliasname << "*/" << Form("  if (%s) %s->SetAddress(&%s_);", branch_ptr.Data(), branch_ptr.Data(), aliasname.Data()) << endl;
       }
     }
-    implf << "//---------------------------------------------------------------------------------" << endl;
   }
+  implf << "//---------------------------------------------------------------------------------" << endl;
 
   implf << "" << endl;
   implf << "  tree->SetMakeClass(0);" << endl;
@@ -656,8 +663,8 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
     implf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     implf << "/*" << setw(40) << aliasname << "*/" << "  " << Form("%s_isLoaded",aliasname.Data()) << " = false;" << endl;
-    implf << "//---------------------------------------------------------------------------------" << endl;
   }
+  implf << "//---------------------------------------------------------------------------------" << endl;
   implf << "}" << endl << endl;
 
   // LoadAllBranches
@@ -667,13 +674,12 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
     implf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     implf << "/*" << setw(40) << aliasname << "*/" << "  " << "if (" << aliasname.Data() <<  "_branch != 0) " << Form("%s();",aliasname.Data()) << endl;
-    implf << "//---------------------------------------------------------------------------------" << endl;
   }
+  implf << "//---------------------------------------------------------------------------------" << endl;
   implf << "}" << endl << endl;
 
   // accessor functions
   for (Int_t i = 0; i< aliasarray->GetSize(); i++) {
-    implf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     TString funcname = Form("%s::%s",Classname.c_str(),aliasname.Data());
     // TBranch *branch = ev->GetBranch(ev->GetAlias(aliasname.Data()));
@@ -694,6 +700,7 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
         classname = classname(0,classname.Length()-2);
         classname.ReplaceAll("edm::Wrapper<","");
       }
+      implf << "//---------------------------------------------------------------------------------" << endl;
       implf << "/*" << setw(40) << aliasname << "*/" << "const " << classname << " &" << funcname << "() {" << endl;
     } else {
       if (classname.Contains("edm::Wrapper<") ) {
@@ -701,20 +708,39 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
         classname.ReplaceAll("edm::Wrapper<","");
       }
       if (classname != "" ) {
+        implf << "//---------------------------------------------------------------------------------" << endl;
         implf << "/*" << setw(40) << aliasname << "*/" << "const " << classname << " &" << funcname << "() {" << endl;
       } else {
         if (title.EndsWith("/i"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const unsigned int &" << funcname << "() {" << endl;
+        }
         if (title.EndsWith("/l"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const unsigned long long &" << funcname << "() {" << endl;
+        }
         if (title.EndsWith("/F"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const float &" << funcname << "() {" << endl;
+        }
         if (title.EndsWith("/I"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const int &" << funcname << "() {" << endl;
+        }
         if (title.EndsWith("/O"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const bool &" << funcname << "() {" << endl;
+        }
         if (title.EndsWith("/D"))
+        {
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const double &" << funcname << "() {" << endl;
+        }
       }
     }
     aliasname = aliasarray->At(i)->GetName();
@@ -829,8 +855,8 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
     else {
       implf << "/*" << setw(40) << aliasname << "*/" << "  " << "return " << aliasname << "_;" << endl << "/*" << setw(40) << aliasname << "*/" << "}" << endl << endl;
     }
-    implf << "//---------------------------------------------------------------------------------" << endl;
   }
+  implf << "//---------------------------------------------------------------------------------" << endl;
 
   bool haveHLTInfo = false;
   bool haveL1Info  = false;
@@ -1012,7 +1038,6 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
   // it is healthy to leave those methods as they are
   implf << "namespace " << nameSpace << " {" << endl << endl;
   for (Int_t i = 0; i< aliasarray->GetSize(); i++) {
-    implf << "//---------------------------------------------------------------------------------" << endl;
     TString aliasname(aliasarray->At(i)->GetName());
     // TBranch *branch = ev->GetBranch(ev->GetAlias(aliasname.Data()));
     TBranch *branch = 0;
@@ -1028,6 +1053,7 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
         classname = classname(0,classname.Length()-2);
         classname.ReplaceAll("edm::Wrapper<","");
       }
+      implf << "//---------------------------------------------------------------------------------" << endl;
       implf << "/*" << setw(40) << aliasname << "*/" << "const " << classname << " &" << aliasname << "()";
     } else {
       if (classname.Contains("edm::Wrapper<") ) {
@@ -1035,30 +1061,36 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
         classname.ReplaceAll("edm::Wrapper<","");
       }
       if (classname != "" ) {
+        implf << "//---------------------------------------------------------------------------------" << endl;
         implf << "/*" << setw(40) << aliasname << "*/" << "const " << classname << " &" << aliasname << "()";
       } else {
         if (title.EndsWith("/i")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const unsigned int &" << aliasname << "()";
         }
         if (title.EndsWith("/l")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const unsigned long long &" << aliasname << "()";
         }
         if (title.EndsWith("/F")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const float &" << aliasname << "()";
         }
         if (title.EndsWith("/I")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const int &" << aliasname << "()";
         }
         if (title.EndsWith("/O")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const bool &" << aliasname << "()";
         }
         if (title.EndsWith("/D")){
+          implf << "//---------------------------------------------------------------------------------" << endl;
           implf << "/*" << setw(40) << aliasname << "*/" << "const double &" << aliasname << "()";
         }
       }
     }
     implf << " { return " << objName << "." << aliasname << "(); }" << endl;
-    implf << "//---------------------------------------------------------------------------------" << endl;
   }
   if (haveHLTInfo) {
     //functions to return whether or not trigger fired - HLT
@@ -1081,6 +1113,7 @@ void makeCCFile(TFile *f, const string& Classname, const string& nameSpace, cons
     implf << "float getbtagvalue(TString bDiscriminatorName, unsigned int jetIndx) { return " << objName << ".getbtagvalue( bDiscriminatorName, jetIndx); }" << endl;
   }//if (haveTauIDInfo)
 
+  implf << "//---------------------------------------------------------------------------------" << endl;
   implf << endl << "}" << endl;
 
 }

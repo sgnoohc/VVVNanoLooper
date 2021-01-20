@@ -532,6 +532,10 @@ class VVVTree {
 /*                  Common_gen_n_light_lep*/  TBranch *Common_gen_n_light_lep_branch;
 /*                  Common_gen_n_light_lep*/  bool     Common_gen_n_light_lep_isLoaded;
 //---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  int      Common_gen_VH_channel_;
+/*                   Common_gen_VH_channel*/  TBranch *Common_gen_VH_channel_branch;
+/*                   Common_gen_VH_channel*/  bool     Common_gen_VH_channel_isLoaded;
+//---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  bool     Cut_4LepMET_Preselection_;
 /*                Cut_4LepMET_Preselection*/  TBranch *Cut_4LepMET_Preselection_branch;
 /*                Cut_4LepMET_Preselection*/  bool     Cut_4LepMET_Preselection_isLoaded;
@@ -871,6 +875,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                  Common_gen_n_light_lep*/  const int &Common_gen_n_light_lep();
 //---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  const int &Common_gen_VH_channel();
+//---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  const bool &Cut_4LepMET_Preselection();
 //---------------------------------------------------------------------------------
 /*                  Cut_4LepMET_emuChannel*/  const bool &Cut_4LepMET_emuChannel();
@@ -1174,6 +1180,8 @@ namespace tas {
 /*                            Common_genHT*/  const float &Common_genHT();
 //---------------------------------------------------------------------------------
 /*                  Common_gen_n_light_lep*/  const int &Common_gen_n_light_lep();
+//---------------------------------------------------------------------------------
+/*                   Common_gen_VH_channel*/  const int &Common_gen_VH_channel();
 //---------------------------------------------------------------------------------
 /*                Cut_4LepMET_Preselection*/  const bool &Cut_4LepMET_Preselection();
 //---------------------------------------------------------------------------------

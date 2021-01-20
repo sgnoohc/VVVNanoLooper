@@ -773,6 +773,43 @@ void Process_Common_NanoAOD()
         ana.tx.setBranch<int> ("Common_n_nu_Z",     nnuZ    );
         ana.tx.setBranch<int> ("Common_n_b_Z",      nbZ     );
         ana.tx.setBranch<bool>("Common_haslepWSS",  isSS    );
+
+        // If VH ntuple than process Common_gen_VH_channel
+        if (ana.input_file_list_tstring.Contains("VHToNonbb_M125"))
+        {
+
+            // The VHToNonbb_M125 sample's 3rd gen particle is always "V" of the VH
+            // HOWEVER IN THE FUTURE MAKE SURE THIS IS TRUE ALWAYS IF ONE CHANGES SAMPLES!!
+            int V_abspdgid = abs(nt.GenPart_pdgId()[2]);
+            int HXX_abspdgid = 0;
+
+            // Loop over generator particles and do stuff
+            for (unsigned int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
+            {
+
+                // Get the particles with higgs as mother that is not higgs
+                if (
+                        /* I am not Higgs      */ abs(nt.GenPart_pdgId()[igen]) != 25 and
+                        /* But my mom is Higgs */ abs(nt.GenPart_pdgId()[nt.GenPart_genPartIdxMother()[igen]] == 25)
+                   )
+                {
+                    HXX_abspdgid = abs(nt.GenPart_pdgId()[igen]);
+                    break;
+                }
+            }
+
+            if (HXX_abspdgid == 0)
+            {
+                std::cout << "WARNING: Did not find a particle that seems to match H->XX topology!";
+                std::cout  << "event # = " << ana.looper.getCurrentEventIndex() << std::endl;
+            }
+
+            if      (V_abspdgid == 24 and HXX_abspdgid == 24) ana.tx.setBranch<int>("Common_gen_VH_channel", 0);
+            else if (V_abspdgid == 23 and HXX_abspdgid == 24) ana.tx.setBranch<int>("Common_gen_VH_channel", 1);
+            else if (V_abspdgid == 24 and HXX_abspdgid == 23) ana.tx.setBranch<int>("Common_gen_VH_channel", 2);
+            else if (V_abspdgid == 23 and HXX_abspdgid == 23) ana.tx.setBranch<int>("Common_gen_VH_channel", 3);
+            else                                              ana.tx.setBranch<int>("Common_gen_VH_channel", -HXX_abspdgid);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
