@@ -24,7 +24,12 @@ public:
     };
 
     LooperMode looperMode;
+
+    // Integer for users to use to define regions (if needed)
     int region;
+
+    // VH->VVV channel to be selected (if running on VHToNonBB samples)
+    int vhvvv_channel;
 
     // TString that holds the input file list (comma separated)
     TString input_file_list_tstring;

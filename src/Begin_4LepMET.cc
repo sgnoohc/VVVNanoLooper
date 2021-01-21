@@ -31,12 +31,30 @@ void Begin_4LepMET()
     // N.B. Using nbins of size 180 or 360 can provide flexibility as it can be rebinned easily, as 180, 360 are highly composite numbers.
     ana.histograms.addHistogram("h_4LepMET_Zcand_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_sip3d_0", 180, 0, 10, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_sip3d_1", 180, 0, 10, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")]); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_sip3d_max", 180, 0, 10, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_ip3d_0", 180, 0, 0.02, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_ip3d_1", 180, 0, 0.02, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")]); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_ip3d_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_dxy_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_dz_max", 180, 0, 0.05, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_mll_wide", 180, 0, 350, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_leptight", 4, 0, 4, [&]() { return 2 * ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")] + ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")]; } );
     ana.histograms.addHistogram("h_4LepMET_other_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_other_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_other_sip3d_0", 180, 0, 10, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]); } );
+    ana.histograms.addHistogram("h_4LepMET_other_sip3d_1", 180, 0, 10, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")]); } );
+    ana.histograms.addHistogram("h_4LepMET_other_sip3d_max", 180, 0, 10, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_sip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_other_ip3d_0", 180, 0, 0.02, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]); } );
+    ana.histograms.addHistogram("h_4LepMET_other_ip3d_1", 180, 0, 0.02, [&]() { return fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")]); } );
+    ana.histograms.addHistogram("h_4LepMET_other_ip3d_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_ip3d")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_other_dxy_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
+    ana.histograms.addHistogram("h_4LepMET_other_dz_max", 180, 0, 0.05, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_other_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_other_mll_wide", 180, 0, 350, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_other_leptight", 4, 0, 4, [&]() { return 2 * ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")] + ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")]; } );
     ana.histograms.addHistogram("h_4LepMET_met", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").phi(); } );
     ana.histograms.addHistogram("h_4LepMET_nb_loose", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_loose"); } );
@@ -44,7 +62,7 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_nb_tight", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_tight"); } );
     ana.histograms.addHistogram("h_4LepMET_njet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); } );
     ana.histograms.addHistogram("h_4LepMET_nfatjet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); } );
-    ana.histograms.addHistogram("h_4LepMET_mt2", 180, 0, 100, [&]() { return ana.tx.getBranch<int>("Var_4LepMET_mt2"); } );
+    ana.histograms.addHistogram("h_4LepMET_mt2", 180, 0, 100, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_mt2"); } );
 
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
@@ -435,6 +453,19 @@ void Begin_4LepMET_VVVTree()
                        vvv.Var_4LepMET_Zcand_lep_p4_1().pt() > 10. and
                        vvv.Var_4LepMET_other_lep_p4_0().pt() > 25. and
                        vvv.Var_4LepMET_other_lep_p4_1().pt() > 10.;
+            }, UNITY);
+
+    ana.cutflow.addCutToLastActiveCut("CutLeptonTight", [&]()
+            {
+                if (not ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")])
+                    return false;
+                if (not ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])
+                    return false;
+                if (not (fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]) < 0.03))
+                    return false;
+                if (not (fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")]) < 0.03))
+                    return false;
+                return true;
             }, UNITY);
 
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_NbVeto", [&]() { return ana.tx.getBranch<int>("Common_nb_loose") == 0; }, UNITY);

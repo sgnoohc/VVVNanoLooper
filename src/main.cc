@@ -28,6 +28,7 @@ int main(int argc, char** argv)
         ("w,write"       , "Write skim tree.")
         ("V,VVVTree"     , "Input is VVVTree type.")
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
+        ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
         ("h,help"        , "Print help")
         ;
 
@@ -67,6 +68,7 @@ int main(int argc, char** argv)
         std::cout << "ERROR: Looper mode is not provided! Check your arguments" << std::endl;
         exit(1);
     }
+
     //_______________________________________________________________________________
     // --region
     if (result.count("region"))
@@ -75,8 +77,20 @@ int main(int argc, char** argv)
     }
     else
     {
-        ana.region=0;
+        ana.region = 0;
     }
+
+    //_______________________________________________________________________________
+    // --vhvvv
+    if (result.count("vhvvv"))
+    {
+        ana.vhvvv_channel = result["vhvvv"].as<int>();
+    }
+    else
+    {
+        ana.vhvvv_channel = -999;
+    }
+
     //_______________________________________________________________________________
     // --input
     if (result.count("input"))
@@ -227,6 +241,10 @@ int main(int argc, char** argv)
     std::cout <<  " ana.n_events: " << ana.n_events <<  std::endl;
     std::cout <<  " ana.nsplit_jobs: " << ana.nsplit_jobs <<  std::endl;
     std::cout <<  " ana.job_index: " << ana.job_index <<  std::endl;
+    std::cout <<  " ana.write_tree: " << ana.write_tree <<  std::endl;
+    std::cout <<  " ana.region: " << ana.region <<  std::endl;
+    std::cout <<  " ana.vhvvv_channel: " << ana.vhvvv_channel <<  std::endl;
+    std::cout <<  " ana.run_VVVTree: " << ana.run_VVVTree <<  std::endl;
     std::cout <<  "=========================================================" << std::endl;
 
 //********************************************************************************

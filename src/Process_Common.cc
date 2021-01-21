@@ -892,6 +892,8 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<int>>          ("Common_lep_tight", vvv.Common_lep_tight());     // Pt sorted selected lepton tight (Where a tight version of the lepton isolation is used to reduce bkg a bit further if necessary)
     ana.tx.setBranch<vector<float>>        ("Common_lep_dxy", vvv.Common_lep_dxy());       // Pt sorted selected lepton dxy (electrons and muons together)
     ana.tx.setBranch<vector<float>>        ("Common_lep_dz", vvv.Common_lep_dz());        // Pt sorted selected lepton dz (electrons and muons together)
+    ana.tx.setBranch<vector<float>>        ("Common_lep_ip3d", vvv.Common_lep_ip3d());        // Pt sorted selected lepton ip3d (electrons and muons together)
+    ana.tx.setBranch<vector<float>>        ("Common_lep_sip3d", vvv.Common_lep_sip3d());        // Pt sorted selected lepton sip3d (electrons and muons together)
     ana.tx.setBranch<vector<float>>        ("Common_lep_SF", vvv.Common_lep_SF());        // SF
     ana.tx.setBranch<vector<float>>        ("Common_lep_SFTight", vvv.Common_lep_SFTight());   // SF tight iso
     ana.tx.setBranch<vector<float>>        ("Common_lep_SFdn", vvv.Common_lep_SFdn());      // SF
