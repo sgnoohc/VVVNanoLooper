@@ -31,6 +31,9 @@ public:
     // VH->VVV channel to be selected (if running on VHToNonBB samples)
     int vhvvv_channel;
 
+    // EFT reweighting index
+    int eft_reweighting_idx;
+
     // TString that holds the input file list (comma separated)
     TString input_file_list_tstring;
 

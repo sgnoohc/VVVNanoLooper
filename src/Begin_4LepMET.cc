@@ -40,6 +40,8 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_Zcand_dxy_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_dz_max", 180, 0, 0.05, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"))); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1")).pt(); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_mll_wide", 180, 0, 350, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_leptight", 4, 0, 4, [&]() { return 2 * ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")] + ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")]; } );
     ana.histograms.addHistogram("h_4LepMET_other_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0").pt(); } );
@@ -262,6 +264,18 @@ void Begin_4LepMET_VVVTree()
     float n_total_events = h_nevents->GetBinContent(1);
 
     //___________________________________________________________________________________________________________________________________________________
+    int year = -1;
+    if (ana.input_file_list_tstring.Contains("2016")) year = 2016;
+    if (ana.input_file_list_tstring.Contains("2017")) year = 2017;
+    if (ana.input_file_list_tstring.Contains("2018")) year = 2018;
+
+    //___________________________________________________________________________________________________________________________________________________
+    float lumi = 0;
+    if (year == 2016) lumi = 35.9;
+    if (year == 2017) lumi = 41.3;
+    if (year == 2018) lumi = 59.74;
+
+    //___________________________________________________________________________________________________________________________________________________
     float xsecbr = 0;
     if (ana.input_file_list_tstring.Contains("/DY_high.root"         )) xsecbr = 6197.9;
     if (ana.input_file_list_tstring.Contains("/DY_low.root"          )) xsecbr = 20657.0;
@@ -300,18 +314,10 @@ void Begin_4LepMET_VVVTree()
     if (ana.input_file_list_tstring.Contains("/WZZ_4l.root"          )) xsecbr = 0.0002692;
     if (ana.input_file_list_tstring.Contains("/ZZZ_4l.root"          )) xsecbr = 0.0001907;
     if (ana.input_file_list_tstring.Contains("/EFT_WWZ_4l.root"      )) xsecbr = 0.001729;
-
-    //___________________________________________________________________________________________________________________________________________________
-    int year = -1;
-    if (ana.input_file_list_tstring.Contains("2016")) year = 2016;
-    if (ana.input_file_list_tstring.Contains("2017")) year = 2017;
-    if (ana.input_file_list_tstring.Contains("2018")) year = 2018;
-
-    //___________________________________________________________________________________________________________________________________________________
-    float lumi = 0;
-    if (year == 2016) lumi = 35.9;
-    if (year == 2017) lumi = 41.3;
-    if (year == 2018) lumi = 59.74;
+    if (ana.input_file_list_tstring.Contains("/ZHtoWW.root"          )) xsecbr = 0.0018639;
+    if (ana.input_file_list_tstring.Contains("/GGZHtoWW.root"        )) xsecbr = 0.00029975;
+    if (ana.input_file_list_tstring.Contains("/ZHtoWW.root"          ) and year == 2016) xsecbr = 0.0018639 * 9.9601593625; // Fixing BR due to what seems like McM config error. BR of Z->ll / Z->all (calculated from zh_ww_4l_powheg sample itself (is this the correct thing to do? maybe?))
+    if (ana.input_file_list_tstring.Contains("/GGZHtoWW.root"        ) and year == 2016) xsecbr = 0.00029975 * 2.9735355337; // Fixing BR due to what seems like McM config error. BR of Z->ll / Z->ll/vv (calculated from ggzh_ww_4l_powheg sample itself (is this the correct thing to do? maybe?))
 
     //___________________________________________________________________________________________________________________________________________________
     float wgt = xsecbr > 0 ? xsecbr / n_total_events * lumi * 1000.: 1;
@@ -398,7 +404,7 @@ void Begin_4LepMET_VVVTree()
 
     // const int eft_reweighting_idx = result["modifier"].as<int>();
     // const int eft_parameter_multiplication_factor = result["eftmultfac"].as<int>();
-    const int eft_reweighting_idx = 50;
+    const int eft_reweighting_idx = ana.eft_reweighting_idx;
     const int eft_parameter_multiplication_factor = 1;
 
     ana.cutflow.addCutToLastActiveCut("CutEFTWeights", UNITY, [&, isEFT, eft_reweighting_idx, eft_parameter_multiplication_factor, n_total_events, h_mg_reweight]()

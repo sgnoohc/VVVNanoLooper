@@ -29,6 +29,7 @@ int main(int argc, char** argv)
         ("V,VVVTree"     , "Input is VVVTree type.")
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
         ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
+        ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
         ("h,help"        , "Print help")
         ;
 
@@ -89,6 +90,17 @@ int main(int argc, char** argv)
     else
     {
         ana.vhvvv_channel = -999;
+    }
+
+    //_______________________________________________________________________________
+    // --eftidx
+    if (result.count("eftidx"))
+    {
+        ana.eft_reweighting_idx = result["eftidx"].as<int>();
+    }
+    else
+    {
+        ana.eft_reweighting_idx = 0;
     }
 
     //_______________________________________________________________________________
