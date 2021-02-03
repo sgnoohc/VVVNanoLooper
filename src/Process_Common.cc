@@ -313,17 +313,17 @@ void Process_Common_NanoAOD()
         if (nt.Jet_p4()[ijet].pt() > 20. and abs(nt.Jet_p4()[ijet].eta()) < 2.4)
         {
             if (nt.Jet_btagDeepFlavB()[ijet] > bWPloose)
-              {
-                    nb_loose++;
-              }
+            {
+                nb_loose++;
+            }
             if (nt.Jet_btagDeepFlavB()[ijet] > bWPmedium)
-              {
-                    nb_medium++;
-              }
+            {
+                nb_medium++;
+            }
             if (nt.Jet_btagDeepFlavB()[ijet] > bWPtight)
-              {
-                    nb_tight++;
-              }
+            {
+                nb_tight++;
+            }
         }
     }
 
@@ -361,7 +361,7 @@ void Process_Common_NanoAOD()
         // Figure this out
         if (not (nt.FatJet_p4()[ifatjet].pt() > 180.))
             continue;
-        if (not (abs(nt.FatJet_p4()[ifatjet].eta()) < 2.5))
+        if (not (abs(nt.FatJet_p4()[ifatjet].eta()) < 2.4))
             continue;
 
         // Because every muon and electron shows up in PF FatJet collections
