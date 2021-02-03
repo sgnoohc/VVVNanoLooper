@@ -426,6 +426,8 @@ samples_VVV4L_2017_EFT = {
 
 samples_VVV4L_2018_EFT = {
                 DirectorySample(location="/hadoop/cms/store/user/rembserj/samples/WWZ_dim8_extended_20200605_four_lepton_RunIIAutumn18NanoAOD/NanoAODv7/", dataset="/WWZ_4l_EFT_Jonas/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_WWZ_4l",
+                DirectorySample(location="/hadoop/cms/store/user/phchang/samples/WZZ_dim8_RunIIAutumn18NanoAOD/NanoAODv7/", dataset="/WZZ_EFT_Sapta/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_WZZ_incl",
+                DirectorySample(location="/hadoop/cms/store/user/phchang/samples/ZZZ_dim8_RunIIAutumn18NanoAOD/NanoAODv7/", dataset="/ZZZ_EFT_Sapta/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_ZZZ_incl",
         }
 
 
@@ -495,6 +497,8 @@ FourLepNanoSkimDir = "/hadoop/cms/store/user/phchang/FourLepNanoSkim/" + FourLep
 
 samples_VVV4L_2018_EFT_Skimmed = {
                 DirectorySample(location=FourLepNanoSkimDir+"/WWZ_4l_EFT_Jonas_RunIIAutumn18NanoAODv7-v1_NANOAODSIM_{}/".format(FourLepNanoSkimVersion), dataset="/WWZ_4l_EFT_Jonas/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_WWZ_4l",
+                DirectorySample(location=FourLepNanoSkimDir+"/WZZ_EFT_Sapta_RunIIAutumn18NanoAODv7-v1_NANOAODSIM_{}/".format(FourLepNanoSkimDir), dataset="/WZZ_EFT_Sapta/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_WZZ_incl",
+                DirectorySample(location=FourLepNanoSkimDir+"/ZZZ_EFT_Sapta_RunIIAutumn18NanoAODv7-v1_NANOAODSIM_{}/".format(FourLepNanoSkimDir), dataset="/ZZZ_EFT_Sapta/RunIIAutumn18NanoAODv7-v1/NANOAODSIM") : "EFT_ZZZ_2l",
         }
 
 samples_VVV4L_2017_EFT_Skimmed = {

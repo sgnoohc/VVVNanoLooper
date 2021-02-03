@@ -33,4 +33,5 @@ cp src/VVVTree.h .VVVTree_old.h
 cp .VVVTree_new.cc src/VVVTree.cc
 cp .VVVTree_new.h src/VVVTree.h
 
-rm -f VVVTree.cc VVVTree.h
+mv VVVTree.cc .VVVTree_newOnly.cc
+mv VVVTree.h .VVVTree_newOnly.h

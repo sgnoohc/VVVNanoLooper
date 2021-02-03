@@ -43,6 +43,7 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_Zcand_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"))); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1")).pt(); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_mll_wide", 180, 0, 350, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_Zcand_mll_zoom", 180, 70, 110, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_Zcand_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_Zcand_leptight", 4, 0, 4, [&]() { return 2 * ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_0")] + ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_Zcand_lep_idx_1")]; } );
     ana.histograms.addHistogram("h_4LepMET_other_pt_0", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_other_pt_1", 180, 0, 150, [&]() { return ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1").pt(); } );
@@ -55,8 +56,23 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_other_dxy_max", 180, 0, 0.02, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dxy")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_other_dz_max", 180, 0, 0.05, [&]() { return std::max(fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")]), fabs(ana.tx.getBranch<vector<float>>("Common_lep_dz")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")])); } );
     ana.histograms.addHistogram("h_4LepMET_other_mll", 180, 0, 150, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_other_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"))); } );
+    ana.histograms.addHistogram("h_4LepMET_other_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).pt(); } );
     ana.histograms.addHistogram("h_4LepMET_other_mll_wide", 180, 0, 350, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
+    ana.histograms.addHistogram("h_4LepMET_other_mll_zoom", 180, 70, 110, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_other_mll"); } );
     ana.histograms.addHistogram("h_4LepMET_other_leptight", 4, 0, 4, [&]() { return 2 * ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_0")] + ana.tx.getBranch<vector<int>>("Common_lep_tight")[ana.tx.getBranch<int>("Var_4LepMET_other_lep_idx_1")]; } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W0_mll", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0")).mass(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W0_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"))); } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W0_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0")).pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W1_mll", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).mass(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W1_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"))); } );
+    ana.histograms.addHistogram("h_4LepMET_Z0W1_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W0_mll", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0")).mass(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W0_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"))); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W0_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0")).pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W1_mll", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).mass(); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W1_dphi", 180, 0, 3.1416, [&]() { return fabs(RooUtil::Calc::DeltaPhi(ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"), ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"))); } );
+    ana.histograms.addHistogram("h_4LepMET_Z1W1_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").phi(); } );
     ana.histograms.addHistogram("h_4LepMET_nb_loose", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_loose"); } );
@@ -276,6 +292,11 @@ void Begin_4LepMET_VVVTree()
     if (year == 2018) lumi = 59.74;
 
     //___________________________________________________________________________________________________________________________________________________
+    // For samples that don't exist in other years
+    if (year == 2018 and ana.input_file_list_tstring.Contains("/EFT_ZZZ_2l.root"))
+        lumi = 136.94;
+
+    //___________________________________________________________________________________________________________________________________________________
     float xsecbr = 0;
     if (ana.input_file_list_tstring.Contains("/DY_high.root"         )) xsecbr = 6197.9;
     if (ana.input_file_list_tstring.Contains("/DY_low.root"          )) xsecbr = 20657.0;
@@ -313,11 +334,13 @@ void Begin_4LepMET_VVVTree()
     if (ana.input_file_list_tstring.Contains("/WWZ_4l.root"          )) xsecbr = 5.972e-04;
     if (ana.input_file_list_tstring.Contains("/WZZ_4l.root"          )) xsecbr = 0.0002692;
     if (ana.input_file_list_tstring.Contains("/ZZZ_4l.root"          )) xsecbr = 0.0001907;
-    if (ana.input_file_list_tstring.Contains("/EFT_WWZ_4l.root"      )) xsecbr = 0.001729;
+    if (ana.input_file_list_tstring.Contains("/EFT_WWZ_4l.root"      )) xsecbr = 0.001785056782; // ((0.1071+0.1063+0.1138)^2*(0.03363+0.03366+0.03370))*0.1651
     if (ana.input_file_list_tstring.Contains("/ZHtoWW.root"          )) xsecbr = 0.0018639;
     if (ana.input_file_list_tstring.Contains("/GGZHtoWW.root"        )) xsecbr = 0.00029975;
     if (ana.input_file_list_tstring.Contains("/ZHtoWW.root"          ) and year == 2016) xsecbr = 0.0018639 * 9.9601593625; // Fixing BR due to what seems like McM config error. BR of Z->ll / Z->all (calculated from zh_ww_4l_powheg sample itself (is this the correct thing to do? maybe?))
     if (ana.input_file_list_tstring.Contains("/GGZHtoWW.root"        ) and year == 2016) xsecbr = 0.00029975 * 2.9735355337; // Fixing BR due to what seems like McM config error. BR of Z->ll / Z->ll/vv (calculated from ggzh_ww_4l_powheg sample itself (is this the correct thing to do? maybe?))
+    if (ana.input_file_list_tstring.Contains("/EFT_ZZZ_2l.root"      )) xsecbr = 0.0103663118433 * 0.273160562; // 1 - (all had)
+    if (ana.input_file_list_tstring.Contains("/EFT_WZZ_incl.root"    )) xsecbr = 0.05565; // Took same as WZZ_incl from other samples
 
     //___________________________________________________________________________________________________________________________________________________
     float wgt = xsecbr > 0 ? xsecbr / n_total_events * lumi * 1000.: 1;
@@ -338,16 +361,23 @@ void Begin_4LepMET_VVVTree()
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.getCut("CommonCut");
 
-    ana.cutflow.addCutToLastActiveCut("CutGenStitch", [&, year]()
+    ana.cutflow.addCutToLastActiveCut("CutGenStitch", [&, year, isEFT]()
             {
-                if (year == 2017 or year == 2018)
+                if (not isEFT)
                 {
-                    if (ana.input_file_list_tstring.Contains("Z_incl.root")) // **Z_incl.root (viz. WWZ, WZZ, ZZZ)
-                        return vvv.Common_gen_n_light_lep() < 4;
+                    if (year == 2017 or year == 2018)
+                    {
+                        if (ana.input_file_list_tstring.Contains("Z_incl.root")) // **Z_incl.root (viz. WWZ, WZZ, ZZZ)
+                            return vvv.Common_gen_n_light_lep() < 4;
+                    }
+                    if (ana.input_file_list_tstring.Contains("WWW_incl.root"))
+                        return vvv.Common_gen_n_light_lep() < 2;
+                    return true;
                 }
-                if (ana.input_file_list_tstring.Contains("WWW_incl.root"))
-                    return vvv.Common_gen_n_light_lep() < 2;
-                return true;
+                else
+                {
+                    return true;
+                }
             }, UNITY);
 
     // 0          EFT__FM0_1  set param_card anoinputs 4 1e-12 # orig: 0.0\n...
@@ -402,18 +432,61 @@ void Begin_4LepMET_VVVTree()
     // 49        EFT__FT7_m1  set param_card anoinputs 12 0.0 # orig: 5e-12\...
     // 50            EFT__SM    set param_card anoinputs 12 0.0 # orig: 5e-12\n
 
+    // WZZ
+    //id                                               text
+    //    0        EFT_SM    set param_card anoinputs 12 0.0 # orig: 5e-12\n
+    //    1  EFT_FT0_m100  set param_card anoinputs 12 -1e-10 # orig: 5e-...
+    //    2   EFT_FT0_m50  set param_card anoinputs 12 -5e-11 # orig: 5e-...
+    //    3   EFT_FT0_m10  set param_card anoinputs 12 -1e-11 # orig: 5e-...
+    //    4    EFT_FT0_10  set param_card anoinputs 12 1e-11 # orig: 5e-12\n
+    //    5    EFT_FT0_50  set param_card anoinputs 12 5e-11 # orig: 5e-12\n
+    //    6   EFT_FT0_100  set param_card anoinputs 12 1e-10 # orig: 5e-12\n
+
+
+    // ZZZ
+    // id                                               text
+    //     0               EFT_SM    set param_card anoinputs 12 0.0 # orig: 5e-12\n
+    //     1         EFT_FT0_m100  set param_card anoinputs 12 -1e-10 # orig: 5e-...
+    //     2          EFT_FT0_m50  set param_card anoinputs 12 -5e-11 # orig: 5e-...
+    //     3          EFT_FT0_m10  set param_card anoinputs 12 -1e-11 # orig: 5e-...
+    //     4           EFT_FT0_10  set param_card anoinputs 12 1e-11 # orig: 5e-12\n
+    //     5           EFT_FT0_50  set param_card anoinputs 12 5e-11 # orig: 5e-12\n
+    //     6          EFT_FT0_100  set param_card anoinputs 12 1e-10 # orig: 5e-12\n
+    //     7         EFT_FT8_m100  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     8          EFT_FT8_m50  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     9          EFT_FT8_m10  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     10          EFT_FT8_10  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     11          EFT_FT8_50  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     12         EFT_FT8_100  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     13        EFT_FT9_m100  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     14         EFT_FT9_m50  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     15         EFT_FT9_m10  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     16          EFT_FT9_10  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     17          EFT_FT9_50  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     18         EFT_FT9_100  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+    //     19  EFT_FT8_50__FT9_50  set param_card anoinputs 12 0.0 # orig: 5e-12\...
+
+
     // const int eft_reweighting_idx = result["modifier"].as<int>();
     // const int eft_parameter_multiplication_factor = result["eftmultfac"].as<int>();
     const int eft_reweighting_idx = ana.eft_reweighting_idx;
     const int eft_parameter_multiplication_factor = 1;
 
-    ana.cutflow.addCutToLastActiveCut("CutEFTWeights", UNITY, [&, isEFT, eft_reweighting_idx, eft_parameter_multiplication_factor, n_total_events, h_mg_reweight]()
+    // WWZ:
+    // WZZ:
+    // ZZZ: SM index
+
+    int eft_sm_idx = 0;
+    if (ana.input_file_list_tstring.Contains("/EFT_WWZ"))
+        eft_sm_idx = 50;
+
+    ana.cutflow.addCutToLastActiveCut("CutEFTWeights", UNITY, [&, isEFT, eft_reweighting_idx, eft_parameter_multiplication_factor, n_total_events, h_mg_reweight, eft_sm_idx]()
             {
                 if (isEFT)
                 {
                     if (eft_reweighting_idx == 9999)
                     {
-                        float SM_wgt = vvv.Common_LHEWeight_mg_reweighting()[50];
+                        float SM_wgt = vvv.Common_LHEWeight_mg_reweighting()[eft_sm_idx];
                         float EFT_wgt_FT0 = vvv.Common_LHEWeight_mg_reweighting()[20];
                         float EFT_wgt_FT1 = vvv.Common_LHEWeight_mg_reweighting()[32];
                         float parameter = 5;
@@ -424,18 +497,18 @@ void Begin_4LepMET_VVVTree()
                         float newchange_FT0 = change_FT0 * parameter * parameter; // a * x^2;
                         float newchange_FT1 = change_FT1 * parameter * parameter; // a * x^2;
                         float new_EFT_wgt = (newchange_FT0 + newchange_FT1 + 1) * SM_wgt;
-                        return (float) (new_EFT_wgt * n_total_events / h_mg_reweight->GetBinContent(51));
+                        return (float) (new_EFT_wgt * n_total_events / h_mg_reweight->GetBinContent(eft_sm_idx + 1));
                     }
                     else
                     {
-                        float SM_wgt = vvv.Common_LHEWeight_mg_reweighting()[50];
+                        float SM_wgt = vvv.Common_LHEWeight_mg_reweighting()[eft_sm_idx];
                         float EFT_wgt = vvv.Common_LHEWeight_mg_reweighting()[eft_reweighting_idx];
                         float parameter = eft_parameter_multiplication_factor;
                         float growth = EFT_wgt / SM_wgt;
                         float change = (growth - 1);
                         float newchange = change * parameter * parameter; // a * x^2;
                         float new_EFT_wgt = (newchange + 1) * SM_wgt;
-                        return (float) (new_EFT_wgt * n_total_events / h_mg_reweight->GetBinContent(51));
+                        return (float) (new_EFT_wgt * n_total_events / h_mg_reweight->GetBinContent(eft_sm_idx + 1));
                     }
                 }
                 else
@@ -474,7 +547,7 @@ void Begin_4LepMET_VVVTree()
                 return true;
             }, UNITY);
 
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_NbVeto", [&]() { return ana.tx.getBranch<int>("Common_nb_loose") == 0; }, UNITY);
+    // ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_NbVeto", [&]() { return ana.tx.getBranch<int>("Common_nb_loose") == 0; }, UNITY);
 
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { return ana.tx.getBranch<bool>("Cut_4LepMET_Preselection"); }, [&, wgt]() { return (vvv.Common_isData() ? 1. : wgt); } );

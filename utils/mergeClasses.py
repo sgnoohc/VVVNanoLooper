@@ -41,7 +41,7 @@ while ii < total_new or jj < total_orig:
     nc = new_contents[ii]
     oc = orig_contents[jj]
 
-    if nc == oc:
+    if nc == oc or "makeCMS3ClassFiles" in nc:
         merge_contents.append(nc)
         ii += 1
         jj += 1
