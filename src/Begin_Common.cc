@@ -8,20 +8,30 @@ void Begin_Common()
     // This is where one declares variables, histograms, event selections for the category Common.
     //==============================================
 
-    // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
-    ana.is_EFT_sample = false; // default is false
-    TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
-    for (unsigned int ibr = 0; ibr < brobjArray->GetEntries(); ++ibr)
-    {
-        TString brname = brobjArray->At(ibr)->GetName();
-        if (brname.EqualTo("LHEWeight_mg_reweighting"))
-            ana.is_EFT_sample = true; // if it has the branch it is set to true
-    }
-
     // Create variables used in this category.
     // Please follow the convention of <category>_<varname> structure.
+    Begin_Common_Create_Branches();
 
+    // Determine whether it is EFT or not
+    Begin_Common_Determine_Is_EFT();
+
+    // The framework may run over NanoAOD directly or, it may run over VVVTree.
+    // ana.run_VVVTree boolean determines this.
+    if (ana.run_VVVTree)
+    {
+        Begin_Common_VVVTree();
+    }
+    else
+    {
+        Begin_Common_NanoAOD();
+    }
+
+}
+
+void Begin_Common_Create_Branches()
+{
     // Event level information
+    ana.tx.createBranch<int>                  ("Common_isData");
     ana.tx.createBranch<int>                  ("Common_run");
     ana.tx.createBranch<int>                  ("Common_lumi");
     ana.tx.createBranch<unsigned long long>   ("Common_evt");
@@ -67,6 +77,8 @@ void Begin_Common()
     ana.tx.createBranch<vector<int>>          ("Common_lep_tight");     // Pt sorted selected lepton tight (Where a tight version of the lepton isolation is used to reduce bkg a bit further if necessary)
     ana.tx.createBranch<vector<float>>        ("Common_lep_dxy");       // Pt sorted selected lepton dxy (electrons and muons together)
     ana.tx.createBranch<vector<float>>        ("Common_lep_dz");        // Pt sorted selected lepton dz (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_ip3d");      // Pt sorted selected lepton ip3d (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_sip3d");     // Pt sorted selected lepton sip3d (electrons and muons together)
     ana.tx.createBranch<vector<float>>        ("Common_lep_SF");        // SF
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFTight");   // SF tight iso
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFdn");      // SF
@@ -177,13 +189,56 @@ void Begin_Common()
 
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
     ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
+    ana.tx.createBranch<int>                  ("Common_gen_VH_channel"); // VH Channel (0 = WH->WWW, 1 = ZH->ZWW, 2 = WH->WZZ, 3 = ZH->ZZZ, -PDGID = if another channel, and is H->tautau then it would be -15.)
 
-    // Define selections
+}
+
+void Begin_Common_Determine_Is_EFT()
+{
+    if (ana.run_VVVTree)
+    {
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        ana.is_EFT_sample = vvv.Common_LHEWeight_mg_reweighting().size() > 0; // If there are weights it's is EFT
+    }
+    else
+    {
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        ana.is_EFT_sample = false; // default is false
+        TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+        for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
+        {
+            TString brname = brobjArray->At(ibr)->GetName();
+            if (brname.EqualTo("LHEWeight_mg_reweighting"))
+                ana.is_EFT_sample = true; // if it has the branch it is set to true
+        }
+    }
+
+}
+
+void Begin_Common_VVVTree()
+{
+
+    // Define basic selections
+    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
+    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
+    ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == vvv.Common_gen_VH_channel());}, UNITY );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+
+}
+
+void Begin_Common_NanoAOD()
+{
+
+    // Define basic selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
-    //ana.cutflow.addCutToLastActiveCut("SignalWeight_SM", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[0]*nt.genWeight(); } );
-    //ana.cutflow.addCutToLastActiveCut("SignalWeight_EFT_FT0_10", [&]() { return 1;}, [&]() { return nt.LHEWeight_mg_reweighting()[6]*nt.genWeight(); } );//I think that should do it
+    ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == ana.tx.getBranchLazy<int>("Common_gen_VH_channel"));}, UNITY );
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+
+    // Various book keeping variables are included here.
+    // TODO: Define some diagnostic basic plots
+
+    Begin_Common_Book_NEvent_Histograms();
 
     // Create histograms used in this category.
     // Please follow the convention of h_<category>_<varname> structure.
@@ -199,14 +254,6 @@ void Begin_Common()
     // Book histograms to cuts that user wants for this category.
     ana.cutflow.bookHistogramsForCut(hists_Common, "CommonCut");
 
-    // Book histograms to Root to count total number of events processed
-    RooUtil::Histograms n_event_hist;
-    n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 0; } );
-
-    // Book the counter histogram to the Root
-    ana.cutflow.bookHistogramsForCut(n_event_hist, "Root");
-    ana.cutflow.bookHistogramsForCut(n_event_hist, "Wgt");
-
     // EFT reweighting histogram
     RooUtil::Histograms n_lhe_weight;
     if (ana.is_EFT_sample)
@@ -214,9 +261,60 @@ void Begin_Common()
         n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
         n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
     }
-    n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
+    if (not nt.isData())
+    {
+        n_lhe_weight.addVecHistogram("h_Common_genWeight", 1, 0, 1, [&]() { std::vector<float> rtn; rtn.push_back(0); return rtn; }, [&]() { std::vector<float> rtnx; rtnx.push_back(nt.genWeight()); return rtnx; } );
+    }
 
     // Book the EFT reweighting histogram counter
     ana.cutflow.bookHistogramsForCut(n_lhe_weight, "Root");
 
+}
+
+void Begin_Common_Book_NEvent_Histograms()
+{
+    if (ana.input_file_list_tstring.Contains("NanoSkim"))
+    {
+        ana.output_tfile->cd();
+        TH1F* Root__h_nevents = new TH1F("Root__h_nevents", "Root__h_nevents", 1, 0, 1);
+        TH1F* Wgt__h_nevents = new TH1F("Wgt__h_nevents", "Wgt__h_nevents", 1, 0, 1);
+
+        TObjArray* input_files = ana.input_file_list_tstring.Tokenize(",");
+        int total = 0;
+        int pos_total = 0;
+        int neg_total = 0;
+        for (int ifile = 0; ifile < input_files->GetEntries(); ++ifile)
+        {
+            TString filepath = ((TObjString*)input_files->At(ifile))->GetString();
+
+            // Accessing n events
+            TString nevents_file_path = filepath.ReplaceAll(".root", "_nevents.txt");
+            std::ifstream ifs(nevents_file_path.Data());
+            std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                    (std::istreambuf_iterator<char>()    ) );
+            TString content_tstr = content.c_str();
+            TObjArray* lines = content_tstr.Tokenize("\n");
+            int index_total = lines->GetEntries() - 3;
+            int index_pos_total = lines->GetEntries() - 2;
+            int index_neg_total = lines->GetEntries() - 1;
+            total += ((TObjString*)lines->At(index_total))->GetString().Atoi();
+            pos_total += ((TObjString*)lines->At(index_pos_total))->GetString().Atoi();
+            neg_total += ((TObjString*)lines->At(index_neg_total))->GetString().Atoi();
+        }
+        int eff_total = pos_total != neg_total ? pos_total - neg_total : pos_total;
+        Root__h_nevents->SetBinContent(1, total);
+        Wgt__h_nevents->SetBinContent(1, eff_total);
+        Root__h_nevents->Write();
+        Wgt__h_nevents->Write();
+    }
+    else
+    {
+        // Book histograms to Root to count total number of events processed
+        RooUtil::Histograms n_event_hist;
+        n_event_hist.addHistogram("h_nevents", 1, 0, 1, [&]() { return 0; } );
+
+        // Book the counter histogram to the Root
+        ana.cutflow.bookHistogramsForCut(n_event_hist, "Root");
+        ana.cutflow.bookHistogramsForCut(n_event_hist, "Wgt");
+    }
 }

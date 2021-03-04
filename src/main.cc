@@ -26,8 +26,11 @@ int main(int argc, char** argv)
         ("I,job_index"   , "job_index of split jobs (--nsplit_jobs must be set. index starts from 0. i.e. 0, 1, 2, 3, etc...)"   , cxxopts::value<int>())
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
         ("w,write"       , "Write skim tree.")
-        ("h,help"        , "Print help")
+        ("V,VVVTree"     , "Input is VVVTree type.")
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
+        ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
+        ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
+        ("h,help"        , "Print help")
         ;
 
     auto result = options.parse(argc, argv);
@@ -66,6 +69,7 @@ int main(int argc, char** argv)
         std::cout << "ERROR: Looper mode is not provided! Check your arguments" << std::endl;
         exit(1);
     }
+
     //_______________________________________________________________________________
     // --region
     if (result.count("region"))
@@ -74,8 +78,31 @@ int main(int argc, char** argv)
     }
     else
     {
-        ana.region=0;
+        ana.region = 0;
     }
+
+    //_______________________________________________________________________________
+    // --vhvvv
+    if (result.count("vhvvv"))
+    {
+        ana.vhvvv_channel = result["vhvvv"].as<int>();
+    }
+    else
+    {
+        ana.vhvvv_channel = -999;
+    }
+
+    //_______________________________________________________________________________
+    // --eftidx
+    if (result.count("eftidx"))
+    {
+        ana.eft_reweighting_idx = result["eftidx"].as<int>();
+    }
+    else
+    {
+        ana.eft_reweighting_idx = 0;
+    }
+
     //_______________________________________________________________________________
     // --input
     if (result.count("input"))
@@ -139,6 +166,17 @@ int main(int argc, char** argv)
     else
     {
         ana.write_tree = false;
+    }
+
+    //_______________________________________________________________________________
+    // --VVVTree
+    if (result.count("VVVTree"))
+    {
+        ana.run_VVVTree = true;
+    }
+    else
+    {
+        ana.run_VVVTree = false;
     }
 
     //_______________________________________________________________________________
@@ -215,6 +253,10 @@ int main(int argc, char** argv)
     std::cout <<  " ana.n_events: " << ana.n_events <<  std::endl;
     std::cout <<  " ana.nsplit_jobs: " << ana.nsplit_jobs <<  std::endl;
     std::cout <<  " ana.job_index: " << ana.job_index <<  std::endl;
+    std::cout <<  " ana.write_tree: " << ana.write_tree <<  std::endl;
+    std::cout <<  " ana.region: " << ana.region <<  std::endl;
+    std::cout <<  " ana.vhvvv_channel: " << ana.vhvvv_channel <<  std::endl;
+    std::cout <<  " ana.run_VVVTree: " << ana.run_VVVTree <<  std::endl;
     std::cout <<  "=========================================================" << std::endl;
 
 //********************************************************************************
@@ -236,7 +278,14 @@ int main(int argc, char** argv)
     //
     // and no need for "SetBranchAddress" and declaring variable shenanigans necessary
     // This is a standard thing SNT does pretty much every looper we use
-    ana.looper.init(ana.events_tchain, &nt, ana.n_events);
+    if (ana.run_VVVTree)
+    {
+        ana.looper_vvvtree.init(ana.events_tchain, &vvv, ana.n_events);
+    }
+    else
+    {
+        ana.looper.init(ana.events_tchain, &nt, ana.n_events);
+    }
 
     // Set the cutflow object output file
     ana.cutflow.setTFile(ana.output_tfile);
@@ -257,19 +306,39 @@ int main(int argc, char** argv)
 
     Begin();
 
-    // Looping input file
-    while (ana.looper.nextEvent())
+    if (ana.run_VVVTree)
     {
-
-        // If splitting jobs are requested then determine whether to process the event or not based on remainder
-        if (result.count("job_index") and result.count("nsplit_jobs"))
+        // Looping input file
+        while (ana.looper_vvvtree.nextEvent())
         {
-            if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
-                continue;
+
+            // If splitting jobs are requested then determine whether to process the event or not based on remainder
+            if (result.count("job_index") and result.count("nsplit_jobs"))
+            {
+                if (ana.looper_vvvtree.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
+                    continue;
+            }
+
+            Process();
+
         }
+    }
+    else
+    {
+        // Looping input file
+        while (ana.looper.nextEvent())
+        {
 
-        Process();
+            // If splitting jobs are requested then determine whether to process the event or not based on remainder
+            if (result.count("job_index") and result.count("nsplit_jobs"))
+            {
+                if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
+                    continue;
+            }
 
+            Process();
+
+        }
     }
 
     Terminate();

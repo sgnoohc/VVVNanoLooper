@@ -130,9 +130,9 @@ void Begin_OS2jet()
                                       [&]()
                                       {
                                         // test trigger bits
-                                        //if (nt.isData()){// run only on data
+                                        //if (ana.tx.getBranch<int>("Common_isData")){// run only on data
                                         if (true){// run on data and simulation
-                                          if(nt.isData() && !(ana.tx.getBranchLazy<bool>("Common_pass_duplicate_removal_mm_em_ee"))) return false;
+                                          if(ana.tx.getBranch<int>("Common_isData") && !(ana.tx.getBranchLazy<bool>("Common_pass_duplicate_removal_mm_em_ee"))) return false;
                                           if(abs(ana.tx.getBranchLazy<vector<int> >("Common_lep_pdgid")[0]*ana.tx.getBranchLazy<vector<int> >("Common_lep_pdgid")[1])==121){
                                             if(!ana.tx.getBranchLazy<bool>("Common_HLT_DoubleEl")) return false;
                                           }
@@ -251,7 +251,7 @@ void Begin_OS2jet()
                                         ana.tx.setBranch<float>("OS2jet_fatjetwgt_vloose",      -999.);
                                         ana.tx.setBranch<float>("OS2jet_fatjetwgt_loose",       -999.);
                                         ana.tx.setBranch<float>("OS2jet_fatjetwgt_medium",      -999.);
-                                        ana.tx.setBranch<float>("OS2jet_LHEWeightSM",           nt.LHEWeight_mg_reweighting()[0]);
+                                        ana.tx.setBranch<float>("OS2jet_LHEWeightSM",           ana.is_EFT_sample ? ana.tx.getBranch<vector<float>>("Common_LHEWeight_mg_reweighting")[0] : -999);
 
                                         if(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_gen_vvvdecay_p4s").size()>=6){
                                           LorentzVector genVVV = LorentzVector(0.,0.,0.,0.);
@@ -320,7 +320,7 @@ void Begin_OS2jet()
                                           ana.tx.setBranch<float>("OS2jet_fatjet1_Zbbtag",        ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_bb")[0]);
                                           ana.tx.setBranch<float>("OS2jet_fatjet1_ll_DR",         RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0]+ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1]));
                                           ana.tx.setBranch<float>("OS2jet_fatjet12_ll_DRmax",     RooUtil::Calc::DeltaR(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0]+ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1]));
-                                          if(!nt.isData()){
+                                          if(!ana.tx.getBranch<int>("Common_isData")){
                                             //gen matching v2:
                                             //1: match to bqq from t + W/Z
                                             //2: match to qq from W/Z
@@ -405,7 +405,7 @@ void Begin_OS2jet()
                                           ana.tx.setBranch<float>("OS2jet_fatjet12_DEta",          abs(RooUtil::Calc::DeltaEta(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0],ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1])));
                                           ana.tx.setBranch<float>("OS2jet_fatjet12_WtWtag",        ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_W")[0]*ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_W")[1]);
                                           ana.tx.setBranch<float>("OS2jet_fatjet12_WpWtag",        ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_W")[0]+ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_W")[1]);
-                                          if(!nt.isData()){
+                                          if(!ana.tx.getBranch<int>("Common_isData")){
                                             for(unsigned int ig = 0; ig<=ana.tx.getBranchLazy<vector<int>>("Common_gen_idx").size(); ++ig){
                                               if(abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])!=23 && abs(ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid")[ig])!=24)
                                                 continue;

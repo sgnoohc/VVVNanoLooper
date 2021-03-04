@@ -55,11 +55,17 @@ if __name__ == "__main__":
         elif args.year==2016:
             sample_map = samples.data_2016 # See condor/samples.py
     if args.mysample:
-        sample_map = samples.samples_VVV4L_2018 # See condor/samples.py
+        # sample_map = samples.samples_VVV4L_2018 # See condor/samples.py
+        sample_map = samples.samples_VVV4L_2018_Skimmed # See condor/samples.py
+        sample_map.update(samples.samples_VVV4L_2018_EFT) # See condor/samples.py
         if args.year==2017:
-            sample_map = samples.samples_VVV4L_2017 # See condor/samples.py
+            # sample_map = samples.samples_VVV4L_2017 # See condor/samples.py
+            sample_map = samples.samples_VVV4L_2017_Skimmed # See condor/samples.py
+            sample_map.update(samples.samples_VVV4L_2017_EFT) # See condor/samples.py
         elif args.year==2016:
-            sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
+            # sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
+            sample_map = samples.samples_VVV4L_2016_Skimmed # See condor/samples.py
+            sample_map.update(samples.samples_VVV4L_2016_EFT) # See condor/samples.py
         
 
     # submission tag
@@ -123,9 +129,11 @@ if __name__ == "__main__":
             task_summary[task.get_sample().get_datasetname()] = task.get_task_summary()
 
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
-        StatsParser(data=task_summary, webdir="~/public_html/VVVNanoLooperDashboard").do()
-        os.system("chmod -R 755 ~/public_html/VVVNanoLooperDashboard")
-        os.system("msummary -r | tee summary.txt")
+        os.system("rm web_summary.json")
+        webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
+        StatsParser(data=task_summary, webdir=webdir).do()
+        os.system("chmod -R 755 {}".format(webdir))
+        os.system("msummary -r -i {}/web_summary.json".format(webdir))
 
         # If all done exit the loop
         if all_tasks_complete:
