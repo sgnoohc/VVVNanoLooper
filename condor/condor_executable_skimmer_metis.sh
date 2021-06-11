@@ -85,7 +85,7 @@ echo -e "\n--- begin running ---\n" #                           <----- section d
 
 #------------------------------------------------------------------------------------------------------------------------------>
 localpath=$(echo ${INPUTFILENAMES} | sed 's/^.*\(\/store.*\).*$/\1/')
-INPUTFILE=root://xcache-redirector.t2.ucsd.edu:2040/${localpath}
+INPUTFILE=root://xcache-redirector.t2.ucsd.edu:2042/${localpath}
 echo ${INPUTFILE}
 #------------------------------------------------------------------------------------------------------------------------------>
 
@@ -99,7 +99,7 @@ EXTRAARGS="$(getjobad metis_extraargs)" # If force fetch
 echo "EXTRAARGS : ${EXTRAARGS}"
 if grep -q "badread" check_xrd_stderr.txt || [[ "${EXTRAARGS}" == *"fetch_nano"* ]]; then
     #<------------------------------------------------------------------------------------------------------------------------------
-    # Download the file (prefetching) NOTE: The preferred solution is the XCache via "xcache-redirector.t2.ucsd.edu:2040" redirector
+    # Download the file (prefetching) NOTE: The preferred solution is the XCache via "xcache-redirector.t2.ucsd.edu:2042" redirector
     echo -e "\n--- begin downloading via xrdcp ---\n" #                           <----- section division
     input=$(echo "${INPUTFILENAMES}" | sed 's/^.*\(\/store.*\).*$/\1/')
     dest="${input/\/store\//}"
