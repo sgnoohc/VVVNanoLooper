@@ -19,7 +19,7 @@ ROOTCFLAGS  = $(shell root-config --cflags) -INanoTools/NanoCORE/ -DLorentzVecto
 CXXFLAGS   += $(ROOTCFLAGS)
 CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tracking
 EXTRACFLAGS = $(shell rooutil-config)
-EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer
+EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer -lMinuit
 
 $(EXE): $(OBJECTS)
 	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) -o $@
