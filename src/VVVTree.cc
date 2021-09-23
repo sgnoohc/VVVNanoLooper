@@ -106,6 +106,9 @@ void VVVTree::Init(TTree *tree) {
 /*  Common_pass_duplicate_removal_mm_em_ee*/  Common_pass_duplicate_removal_mm_em_ee_branch = tree->GetBranch("Common_pass_duplicate_removal_mm_em_ee");
 /*  Common_pass_duplicate_removal_mm_em_ee*/  if (Common_pass_duplicate_removal_mm_em_ee_branch) Common_pass_duplicate_removal_mm_em_ee_branch->SetAddress(&Common_pass_duplicate_removal_mm_em_ee_);
 //---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  Common_passGoodRun_branch = tree->GetBranch("Common_passGoodRun");
+/*                        Common_passGoodRun*/  if (Common_passGoodRun_branch) Common_passGoodRun_branch->SetAddress(&Common_passGoodRun_);
+//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  Common_noiseFlag_branch = tree->GetBranch("Common_noiseFlag");
 /*                        Common_noiseFlag*/  if (Common_noiseFlag_branch) Common_noiseFlag_branch->SetAddress(&Common_noiseFlag_);
 //---------------------------------------------------------------------------------
@@ -501,6 +504,8 @@ void VVVTree::GetEntry(unsigned int idx) {
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  Common_pass_duplicate_removal_mm_em_ee_isLoaded = false;
 //---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  Common_passGoodRun_isLoaded = false;
+//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  Common_noiseFlag_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*                      Common_noiseFlagMC*/  Common_noiseFlagMC_isLoaded = false;
@@ -801,6 +806,8 @@ void VVVTree::LoadAllBranches() {
 /*  Common_pass_duplicate_removal_ee_em_mm*/  if (Common_pass_duplicate_removal_ee_em_mm_branch != 0) Common_pass_duplicate_removal_ee_em_mm();
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  if (Common_pass_duplicate_removal_mm_em_ee_branch != 0) Common_pass_duplicate_removal_mm_em_ee();
+//---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  if (Common_passGoodRun_branch != 0) Common_passGoodRun();
 //---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  if (Common_noiseFlag_branch != 0) Common_noiseFlag();
 //---------------------------------------------------------------------------------
@@ -1351,6 +1358,20 @@ void VVVTree::LoadAllBranches() {
 /*  Common_pass_duplicate_removal_mm_em_ee*/  }
 /*  Common_pass_duplicate_removal_mm_em_ee*/  return Common_pass_duplicate_removal_mm_em_ee_;
 /*  Common_pass_duplicate_removal_mm_em_ee*/}
+//---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/const bool &VVVTree::Common_passGoodRun() {
+/*                        Common_passGoodRun*/  if (not Common_passGoodRun_isLoaded) {
+/*                        Common_passGoodRun*/    if (Common_passGoodRun_branch != 0) {
+/*                        Common_passGoodRun*/      Common_passGoodRun_branch->GetEntry(index);
+/*                        Common_passGoodRun*/    } else {
+/*                        Common_passGoodRun*/      printf("branch Common_passGoodRun_branch does not exist!\n");
+/*                        Common_passGoodRun*/      exit(1);
+/*                        Common_passGoodRun*/    }
+/*                        Common_passGoodRun*/    Common_passGoodRun_isLoaded = true;
+/*                        Common_passGoodRun*/  }
+/*                        Common_passGoodRun*/  return Common_passGoodRun_;
+/*                        Common_passGoodRun*/}
+
 
 //---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/const bool &VVVTree::Common_noiseFlag() {
@@ -3196,6 +3217,8 @@ namespace tas {
 /*  Common_pass_duplicate_removal_ee_em_mm*/const bool &Common_pass_duplicate_removal_ee_em_mm() { return vvv.Common_pass_duplicate_removal_ee_em_mm(); }
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/const bool &Common_pass_duplicate_removal_mm_em_ee() { return vvv.Common_pass_duplicate_removal_mm_em_ee(); }
+//---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/const bool &Common_passGoodRun() { return vvv.Common_passGoodRun(); }
 //---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/const bool &Common_noiseFlag() { return vvv.Common_noiseFlag(); }
 //---------------------------------------------------------------------------------

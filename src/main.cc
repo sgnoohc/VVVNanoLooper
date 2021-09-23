@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     // Read the options
     options.add_options()
-        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet, 2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet, 7=k1Lep4jet)", cxxopts::value<int>())
+        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet, 2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet, 7=k1Lep4jet, 8=allHad)", cxxopts::value<int>())
         ("i,input"       , "Comma separated input file list OR if just a directory is provided it will glob all in the directory BUT must end with '/' for the path", cxxopts::value<std::string>())
         ("t,tree"        , "Name of the tree in the root file to open and loop over"                                             , cxxopts::value<std::string>())
         ("o,output"      , "Output file name"                                                                                    , cxxopts::value<std::string>())
@@ -61,6 +61,7 @@ int main(int argc, char** argv)
             case AnalysisConfig::kOS2jet: ana.looperMode = AnalysisConfig::kOS2jet; break;
             case AnalysisConfig::kSS2jet: ana.looperMode = AnalysisConfig::kSS2jet; break;
             case AnalysisConfig::k1Lep4jet: ana.looperMode = AnalysisConfig::k1Lep4jet; break;
+            case AnalysisConfig::kallHad: ana.looperMode = AnalysisConfig::kallHad; break;
         }
     }
     else

@@ -11,6 +11,7 @@
 #include "Process_OS2jet.h"
 #include "Process_OS4jet.h"
 #include "Process_SS2jet.h"
+#include "Process_allHad.h"
 
 void Process();
 

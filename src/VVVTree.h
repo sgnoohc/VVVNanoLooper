@@ -108,6 +108,10 @@ class VVVTree {
 /*  Common_pass_duplicate_removal_mm_em_ee*/  TBranch *Common_pass_duplicate_removal_mm_em_ee_branch;
 /*  Common_pass_duplicate_removal_mm_em_ee*/  bool     Common_pass_duplicate_removal_mm_em_ee_isLoaded;
 //---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  bool     Common_passGoodRun_;
+/*                        Common_passGoodRun*/  TBranch *Common_passGoodRun_branch;
+/*                        Common_passGoodRun*/  bool     Common_passGoodRun_isLoaded;
+//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  bool     Common_noiseFlag_;
 /*                        Common_noiseFlag*/  TBranch *Common_noiseFlag_branch;
 /*                        Common_noiseFlag*/  bool     Common_noiseFlag_isLoaded;
@@ -663,6 +667,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  const bool &Common_pass_duplicate_removal_mm_em_ee();
 //---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  const bool &Common_passGoodRun();
+//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  const bool &Common_noiseFlag();
 //---------------------------------------------------------------------------------
 /*                      Common_noiseFlagMC*/  const bool &Common_noiseFlagMC();
@@ -968,6 +974,8 @@ namespace tas {
 /*  Common_pass_duplicate_removal_ee_em_mm*/  const bool &Common_pass_duplicate_removal_ee_em_mm();
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  const bool &Common_pass_duplicate_removal_mm_em_ee();
+//---------------------------------------------------------------------------------
+/*                        Common_passGoodRun*/  const bool &Common_passGoodRun();
 //---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  const bool &Common_noiseFlag();
 //---------------------------------------------------------------------------------

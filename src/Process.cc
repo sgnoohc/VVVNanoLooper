@@ -23,6 +23,7 @@ void Process()
         case AnalysisConfig::kOS2jet: Process_OS2jet(); break;
         case AnalysisConfig::kSS2jet: Process_SS2jet(); break;
         case AnalysisConfig::k1Lep4jet: Process_1Lep4jet(); break;
+        case AnalysisConfig::kallHad: Process_allHad(); break;
     }
 
     // At this point, variables are all computed and set
