@@ -101,7 +101,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        ana.eft_reweighting_idx = 0;
+        ana.eft_reweighting_idx = -999;
     }
 
     //_______________________________________________________________________________

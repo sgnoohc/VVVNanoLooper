@@ -228,13 +228,13 @@ void Begin_Common_Set_Run_List()
     if( (ana.run_VVVTree && vvv.Common_isData()) || nt.isData()){
         std::string list = "";
         if(nt.year() == 2016){
-            list = "config/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt"; //36.773 ifb
+            list = "config/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_formatted.txt"; //36.773 ifb
         }
         if(nt.year() == 2017){
-            list = "config/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt"; //41.53 ifb
+            list = "config/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON_formatted.txt"; //41.53 ifb
         }
         if(nt.year() == 2018){
-            list = "config/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt"; //59.69 ifb
+            list = "config/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON_formatted.txt"; //59.69 ifb
         }
 
         set_goodrun_file(list.c_str());
@@ -273,16 +273,20 @@ void Begin_Common_NanoAOD()
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == ana.tx.getBranchLazy<int>("Common_gen_VH_channel"));}, UNITY );
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { 
         //check golden json -- branch is true if MC
-        //std::cout << "pass golden json? " << ana.tx.getBranchLazy<bool>("Common_passGoodRun") << std::endl;
         if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
         
         
-        //std::cout << "noise data? "<< ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") )<< std::endl;
-        //std::cout << "noise MC? "<< ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) << std::endl;
         //check basic filters 
-        if ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
-        else if ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
-        else return false;
+        if ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return false;
+        
+        if ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return false;
+        
+       /* std::cout << std::endl << "still here??? " << std::endl;
+        std::cout << "noise data? "<< ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") )<< std::endl;
+        std::cout << "noise MC? "<< ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) << std::endl;
+        std::cout << "pass golden json? " << ana.tx.getBranchLazy<bool>("Common_passGoodRun") << std::endl;
+       */ 
+        return true;
         
         }, [&]() { return 1; } );
 
