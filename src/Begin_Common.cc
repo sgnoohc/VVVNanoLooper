@@ -14,6 +14,10 @@ void Begin_Common()
 
     // Determine whether it is EFT or not
     Begin_Common_Determine_Is_EFT();
+    
+
+    //setup GRL
+    Begin_Common_Set_Run_List();
 
     // The framework may run over NanoAOD directly or, it may run over VVVTree.
     // ana.run_VVVTree boolean determines this.
@@ -61,6 +65,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>                 ("Common_pass_duplicate_removal_mm_em_ee"); // Flag to identify whether the event passes duplicate removal
     ana.tx.createBranch<bool>                 ("Common_noiseFlag");                       // Flag to identify noise
     ana.tx.createBranch<bool>                 ("Common_noiseFlagMC");                     // Flag to identify noise
+    ana.tx.createBranch<bool>                 ("Common_passGoodRun");                     // pass golden json
 
     // Summary 4 vectors of the objects selected
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4");
@@ -92,6 +97,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBloose");    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBmedium");   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBtight");    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
+    ana.tx.createBranch<vector<int>>          ("Common_jet_id");    //  https://twiki.cern.ch/twiki/bin/view/CMS/JetID
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFLoose");      // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFMedium");     // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFTight");      // single jet bSF
@@ -106,6 +112,7 @@ void Begin_Common_Create_Branches()
     // Fat jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4");            // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_idxs");          // Pt sorted selected fatjet idxs (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_id");    //  https://twiki.cern.ch/twiki/bin/view/CMS/JetID
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop");     // Pt sorted selected fatjet msoftdrop (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_W");      // Pt sorted selected fatjet FatJet_deepTagMD_WvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deep_W");        // Pt sorted selected fatjet FatJet_deepTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
@@ -175,6 +182,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<LorentzVector>>("Common_gen_vvvdecay_p4s");          // Selected gen-particle of vvv decays p4s
     ana.tx.createBranch<vector<int>>          ("Common_gen_vvvdecay_taudecayid");   // If gentau - flag the decay of the gentau
 
+    ana.tx.createBranch<bool>                 ("Common_isSignal");
     ana.tx.createBranch<int>                  ("Common_n_W");
     ana.tx.createBranch<int>                  ("Common_n_Z");
     ana.tx.createBranch<int>                  ("Common_n_lep_Z");
@@ -215,6 +223,27 @@ void Begin_Common_Determine_Is_EFT()
 
 }
 
+void Begin_Common_Set_Run_List()
+{
+    if( (ana.run_VVVTree && vvv.Common_isData()) || nt.isData()){
+        std::string list = "";
+        if(nt.year() == 2016){
+            list = "config/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_formatted.txt"; //36.773 ifb
+        }
+        if(nt.year() == 2017){
+            list = "config/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON_formatted.txt"; //41.53 ifb
+        }
+        if(nt.year() == 2018){
+            list = "config/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON_formatted.txt"; //59.69 ifb
+        }
+
+        set_goodrun_file(list.c_str());
+    }
+    
+}
+
+
+
 void Begin_Common_VVVTree()
 {
 
@@ -222,7 +251,16 @@ void Begin_Common_VVVTree()
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == vvv.Common_gen_VH_channel());}, UNITY );
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() {
+        
+        //check golden json -- branch is true if MC
+        if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
+
+        //check basic filters 
+        if ( vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
+        else if ( !vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
+        else return false;
+        }, [&]() { return 1; } );
 
 }
 
@@ -233,7 +271,24 @@ void Begin_Common_NanoAOD()
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == ana.tx.getBranchLazy<int>("Common_gen_VH_channel"));}, UNITY );
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { return 1;}, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { 
+        //check golden json -- branch is true if MC
+        if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
+        
+        
+        //check basic filters 
+        if ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return false;
+        
+        if ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return false;
+        
+       /* std::cout << std::endl << "still here??? " << std::endl;
+        std::cout << "noise data? "<< ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") )<< std::endl;
+        std::cout << "noise MC? "<< ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) << std::endl;
+        std::cout << "pass golden json? " << ana.tx.getBranchLazy<bool>("Common_passGoodRun") << std::endl;
+       */ 
+        return true;
+        
+        }, [&]() { return 1; } );
 
     // Various book keeping variables are included here.
     // TODO: Define some diagnostic basic plots

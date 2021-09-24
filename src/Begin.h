@@ -11,6 +11,7 @@
 #include "Begin_OS2jet.h"
 #include "Begin_OS4jet.h"
 #include "Begin_SS2jet.h"
+#include "Begin_allHad.h"
 
 void Begin();
 
