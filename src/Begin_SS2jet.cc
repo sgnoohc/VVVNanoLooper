@@ -38,6 +38,65 @@ bool SS2jet_SS_filter(){
 
     return true; 
 }
+
+
+bool SS2jet_DY(){
+    cout<<"DY"<<endl;
+    ana.cutflow.getCut("CommonCut");
+    ana.cutflow.addCutToLastActiveCut("SS2jet_TriggerCut",
+                                        [&](){
+                                        bool trig_ee=   ana.tx.getBranch<bool>("Common_HLT_DoubleEl");
+                                        bool trig_emu=  ana.tx.getBranch<bool>("Common_HLT_MuEG");
+                                        bool trig_mumu= ana.tx.getBranch<bool>("Common_HLT_DoubleMu");
+                                        return(trig_ee || trig_emu || trig_mumu);
+                                        },UNITY);
+    ana.cutflow.addCutToLastActiveCut("SS2jet_LeptonCut",
+                                        [&](){
+                                        vector<int>     pdgid=  ana.tx.getBranchLazy<vector<int>        >("Common_lep_pdgid");
+                                        vector<LorentzVector>     p4=  ana.tx.getBranchLazy<vector<LorentzVector>        >("Common_lep_p4");
+                                        if(pdgid.size()==2 && pdgid.at(0) + pdgid.at(1) == 0 && abs((p4.at(0)+p4.at(1)).M()-90)<20) return true;
+                                        return false;
+                                        },UNITY);
+    ana.cutflow.addCutToLastActiveCut("SS2jet_FatJetCut",
+                                        [&](){
+                                        return true;
+                                        },UNITY);
+    return true;
+}
+
+
+bool SS2jet_3l_filter(){
+    cout<<"3 leptons filtered"<<endl;
+    ana.cutflow.getCut("CommonCut");
+    ana.cutflow.addCutToLastActiveCut("SS2jet_TriggerCut",
+                                        [&](){
+                                        bool trig_ee=   ana.tx.getBranch<bool>("Common_HLT_DoubleEl");
+                                        bool trig_emu=  ana.tx.getBranch<bool>("Common_HLT_MuEG");
+                                        bool trig_mumu= ana.tx.getBranch<bool>("Common_HLT_DoubleMu");
+                                        return(trig_ee || trig_emu || trig_mumu);
+                                        },UNITY);
+    ana.cutflow.addCutToLastActiveCut("SS2jet_LeptonCut",
+                                        [&](){
+
+                                        vector<int>     pdgid=  ana.tx.getBranchLazy<vector<int>        >("Common_lep_pdgid");
+                                        if(pdgid.size()==3) return true;
+                                        return false;
+                                        },UNITY);
+
+    ana.cutflow.addCutToLastActiveCut("SS2jet_FatJetCut",
+                                        [&](){
+                                        int fatjet_tight=0;
+                                        vector<LorentzVector>     p4=  ana.tx.getBranchLazy<vector<LorentzVector>        >("Common_fatjet_p4");
+                                        for(unsigned int ifatjet=0;ifatjet<p4.size();ifatjet++){
+                                                if(p4.at(ifatjet).pt()>200.) fatjet_tight++;
+                                        }
+                                        if(fatjet_tight>=1) return true;
+                                        return false;
+                                        },UNITY);
+
+    return true;
+}
+
 bool SS2jet_SR(){
     cout<<"The signal region for SS2jet channel"<<endl;
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
@@ -173,8 +232,8 @@ void Begin_SS2jet()
     ana.tx.createBranch<vector<int>>            ("SS2jet_raw_gen_statusFlags");
     bool status=false;
     switch(ana.region){
-	case 0:status=SS2jet_SS_filter();break;
-	case 1:status=SS2jet_CR_WZ();break;
+	case 0:status=/*SS2jet_SS_filter()*/SS2jet_3l_filter()/*SS2jet_DY()*/;break;
+	case 1:status=SS2jet_SS_filter();break;
 	case 2:status=SS2jet_CR_ttbar();break;
     }
     if(!status){
