@@ -228,13 +228,13 @@ void Begin_Common_Set_Run_List()
     if( (ana.run_VVVTree && vvv.Common_isData()) || nt.isData()){
         std::string list = "";
         if(nt.year() == 2016){
-            list = "config/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_formatted.txt"; //36.773 ifb
+            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; //19.52+16.81 ifb
         }
         if(nt.year() == 2017){
-            list = "config/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON_formatted.txt"; //41.53 ifb
+            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; //41.48 ifb
         }
         if(nt.year() == 2018){
-            list = "config/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON_formatted.txt"; //59.69 ifb
+            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt" ;//59.83 ifb
         }
 
         set_goodrun_file(list.c_str());
