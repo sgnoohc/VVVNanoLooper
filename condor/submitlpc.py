@@ -110,7 +110,7 @@ if __name__ == "__main__":
                         },
                     cmssw_version = "CMSSW_10_2_13",
                     scram_arch = "slc7_amd64_gcc700",
-                    input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
+                    input_executable = "{}/condor_executable_lpc.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     #output_dir = "/store/user/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path
 		    output_dir = "/store/group/lpcvvv/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path to group space
