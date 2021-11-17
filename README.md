@@ -4,7 +4,7 @@
 
     ssh uaf-10.t2.ucsd.edu
     cd your/favoriate/working/directory
-    git clone --recursive git@github.com:sgnoohc/VVVNanoLooper.git
+    git clone --recursive --branch ultralegacy git@github.com:sgnoohc/VVVNanoLooper.git
     cd VVVNanoLooper/
     source source_all.sh
     make cleansmall; // Clean only VVV looper related
@@ -182,6 +182,23 @@ Then go to ```condor``` directory.
 To write out intermediate ntuple with ```Common_*``` branches, add the ``` -a " -w" ``` option
 
     python submitMetis.py -m mode -y year -t tag -a " -w"
+
+To submit jobs on lpc cluster, substitute ```submitMetis.py``` with ```submitlpc.py```, i.e.
+    
+    python submitMetis.py -m mode -y year -t tag (-d)  
+    python submitlpc.py -m mode -y year -t tag -a " -w" (-d)
+
+
+Note that this submission script does not merge files automatically, to merge files, do
+
+    source merge_out.sh -y year -t tag (-d)
+
+The output direction of condor job and merge script are
+
+    /<username>/VVVAnalysis/<tag>/<year>
+    /<username>/merged/VVV/<tag>/output/<year>/
+
+in group space
 
 
 #### ```ProjectMetis```
