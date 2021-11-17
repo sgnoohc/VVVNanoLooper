@@ -185,7 +185,7 @@ To write out intermediate ntuple with ```Common_*``` branches, add the ``` -a " 
 
 To submit jobs on lpc cluster, substitute ```submitMetis.py``` with ```submitlpc.py```, i.e.
     
-    python submitMetis.py -m mode -y year -t tag (-d)  
+    python submitlpc.py -m mode -y year -t tag (-d)  
     python submitlpc.py -m mode -y year -t tag -a " -w" (-d)
 
 
