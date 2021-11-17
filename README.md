@@ -183,6 +183,22 @@ To write out intermediate ntuple with ```Common_*``` branches, add the ``` -a " 
 
     python submitMetis.py -m mode -y year -t tag -a " -w"
 
+To submit jobs on lpc cluster, substitute ```submitMetis.py``` with ```submitlpc.py```, i.e.
+
+    python submitMetis.py -m mode -y year -t tag (-d)
+    python submitlpc.py -m mode -y year -t tag -a " -w" (-d)
+
+
+Note that this submission script does not merge files automatically, to merge files, do
+
+    source merge_out.sh -y year -t tag (-d)
+
+The output direction of condor job and merge script are
+
+    /<username>/VVVAnalysis/<tag>/<year>
+    /<username>/merged/VVV/<tag>/output/<year>/
+
+in group space
 
 #### ```ProjectMetis```
 N.B. ```ProjectMetis``` is a tool that takes care of book keeping on condor jobs and much more.
