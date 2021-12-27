@@ -41,11 +41,13 @@ void Process_Common_NanoAOD()
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
         if (ana.is_EFT_sample)
             ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
+        ana.tx.setBranch<float>            ("Common_wgt", ana.wgt);
     }
     else
     {
         ana.tx.setBranch<float>            ("Common_genWeight", 1);
         ana.tx.setBranch<float>            ("Common_btagWeight_DeepCSVB", 1);
+        ana.tx.setBranch<float>            ("Common_wgt", 1);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -243,24 +245,36 @@ void Process_Common_NanoAOD()
     //---------------------------------------------------------------------------------------------
 
     // b-tagging counter (DeepFlavB)
-    float bWPloose  = 0.0614;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
-    float bWPmedium = 0.3093;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
-    float bWPtight  = 0.7221;// https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
-    if (nt.year() == 2017)
-    {
-      bWPloose  = 0.0521;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-      bWPmedium = 0.3033;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-      bWPtight  = 0.7489;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-    }
-    if (nt.year() == 2018)
-    {
-      bWPloose  = 0.0494;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-      bWPmedium = 0.2770;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-      bWPtight  = 0.7264;    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-    }
+    float bWPloose  = gconf.WP_DeepFlav_loose;
+    float bWPmedium = gconf.WP_DeepFlav_medium;
+    float bWPtight  = gconf.WP_DeepFlav_tight;
     int nb_loose = 0;
     int nb_medium = 0;
     int nb_tight = 0;
+    float btagTight_prob_MC = 1;
+    float btagTight_prob_DATA = 1;
+    float btagTight_up_prob_DATA = 1;
+    float btagTight_dn_prob_DATA = 1;
+    float btagTight_HFup_prob_DATA = 1;
+    float btagTight_HFdn_prob_DATA = 1;
+    float btagTight_LFup_prob_DATA = 1;
+    float btagTight_LFdn_prob_DATA = 1;
+    float btagMedium_prob_MC = 1;
+    float btagMedium_prob_DATA = 1;
+    float btagMedium_up_prob_DATA = 1;
+    float btagMedium_dn_prob_DATA = 1;
+    float btagMedium_HFup_prob_DATA = 1;
+    float btagMedium_HFdn_prob_DATA = 1;
+    float btagMedium_LFup_prob_DATA = 1;
+    float btagMedium_LFdn_prob_DATA = 1;
+    float btagLoose_prob_MC = 1;
+    float btagLoose_prob_DATA = 1;
+    float btagLoose_up_prob_DATA = 1;
+    float btagLoose_dn_prob_DATA = 1;
+    float btagLoose_HFup_prob_DATA = 1;
+    float btagLoose_HFdn_prob_DATA = 1;
+    float btagLoose_LFup_prob_DATA = 1;
+    float btagLoose_LFdn_prob_DATA = 1;
 
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ijet = 0; ijet < nt.Jet_p4().size(); ++ijet)
@@ -320,6 +334,7 @@ void Process_Common_NanoAOD()
 
         if (nt.Jet_p4()[ijet].pt() > 20. and abs(nt.Jet_p4()[ijet].eta()) < 2.4)
         {
+
             if (nt.Jet_btagDeepFlavB()[ijet] > bWPloose)
             {
                 nb_loose++;
@@ -332,8 +347,315 @@ void Process_Common_NanoAOD()
             {
                 nb_tight++;
             }
+
+            if (not nt.isData())
+            {
+                float pt = min(nt.Jet_p4()[ijet].pt(), 599.99f);
+                float eta = min(abs(nt.Jet_p4()[ijet].eta()), 2.399f);
+                float score = nt.Jet_btagDeepFlavB()[ijet];
+                int flavor = nt.Jet_hadronFlavour()[ijet];
+                bool is_loose_btagged = score > gconf.WP_DeepFlav_loose;
+                bool is_medium_btagged = score > gconf.WP_DeepFlav_medium;
+                bool is_tight_btagged = score > gconf.WP_DeepFlav_tight;
+
+                float eff_tight = 1;
+                float eff_medium = 1;
+                float eff_loose = 1;
+
+                eff_tight = flavor == 5 ? ana.btagEffTight_b->eval(pt, eta) : (flavor == 0 ? ana.btagEffTight_l->eval(pt, eta) : ana.btagEffTight_c->eval(pt, eta));
+                eff_medium = flavor == 5 ? ana.btagEffMedium_b->eval(pt, eta) : (flavor == 0 ? ana.btagEffMedium_l->eval(pt, eta) : ana.btagEffMedium_c->eval(pt, eta));
+                eff_loose = flavor == 5 ? ana.btagEffLoose_b->eval(pt, eta) : (flavor == 0 ? ana.btagEffLoose_l->eval(pt, eta) : ana.btagEffLoose_c->eval(pt, eta));
+
+                float sf_tight;
+                float sf_medium;
+                float sf_loose;
+                float sf_up_tight;
+                float sf_up_medium;
+                float sf_up_loose;
+                float sf_dn_tight;
+                float sf_dn_medium;
+                float sf_dn_loose;
+                float sf_HFup_tight;
+                float sf_HFup_medium;
+                float sf_HFup_loose;
+                float sf_HFdn_tight;
+                float sf_HFdn_medium;
+                float sf_HFdn_loose;
+                float sf_LFup_tight;
+                float sf_LFup_medium;
+                float sf_LFup_loose;
+                float sf_LFdn_tight;
+                float sf_LFdn_medium;
+                float sf_LFdn_loose;
+
+                if (nt.year() == 2016)
+                {
+                    sf_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_up_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_up_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_up_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFup_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFup_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFup_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFup_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFup_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFup_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("up", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_dn_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_dn_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_dn_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFdn_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFdn_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_HFdn_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFdn_tight =
+                        flavor == 5 ? ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFdn_medium =
+                        flavor == 5 ? ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                    sf_LFdn_loose =
+                        flavor == 5 ? ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose_v2->eval_auto_bounds("down", BTagEntry_v2::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose_v2->eval_auto_bounds("central", BTagEntry_v2::FLAV_C, eta, pt));
+                }
+                else
+                {
+                    sf_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_up_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_up_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_up_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFup_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFup_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFup_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFup_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFup_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFup_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("up", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_dn_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_dn_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_dn_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFdn_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFdn_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_HFdn_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFdn_tight =
+                        flavor == 5 ? ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderTight->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderTight->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFdn_medium =
+                        flavor == 5 ? ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderMedium->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderMedium->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                    sf_LFdn_loose =
+                        flavor == 5 ? ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_B, eta, pt) : (
+                            flavor == 0 ? ana.btagReaderLoose->eval_auto_bounds("down", BTagEntry::FLAV_UDSG, eta, pt) :
+                            ana.btagReaderLoose->eval_auto_bounds("central", BTagEntry::FLAV_C, eta, pt));
+                }
+
+                if (is_tight_btagged)
+                {
+                    btagTight_prob_MC *= eff_tight;
+                    btagTight_prob_DATA *= sf_tight * eff_tight;
+                    btagTight_up_prob_DATA *= sf_up_tight * eff_tight;
+                    btagTight_dn_prob_DATA *= sf_dn_tight * eff_tight;
+                    btagTight_HFup_prob_DATA *= sf_HFup_tight * eff_tight;
+                    btagTight_HFdn_prob_DATA *= sf_HFdn_tight * eff_tight;
+                    btagTight_LFup_prob_DATA *= sf_LFup_tight * eff_tight;
+                    btagTight_LFdn_prob_DATA *= sf_LFdn_tight * eff_tight;
+                }
+                else
+                {
+                    btagTight_prob_MC *= (1 - eff_tight);
+                    btagTight_prob_DATA *= (1 - sf_tight * eff_tight);
+                    btagTight_up_prob_DATA *= (1 - sf_up_tight * eff_tight);
+                    btagTight_dn_prob_DATA *= (1 - sf_dn_tight * eff_tight);
+                    btagTight_HFup_prob_DATA *= (1 - sf_HFup_tight * eff_tight);
+                    btagTight_HFdn_prob_DATA *= (1 - sf_HFdn_tight * eff_tight);
+                    btagTight_LFup_prob_DATA *= (1 - sf_LFup_tight * eff_tight);
+                    btagTight_LFdn_prob_DATA *= (1 - sf_LFdn_tight * eff_tight);
+                }
+
+                if (is_medium_btagged)
+                {
+                    btagMedium_prob_MC *= eff_medium;
+                    btagMedium_prob_DATA *= sf_medium * eff_medium;
+                    btagMedium_up_prob_DATA *= sf_up_medium * eff_medium;
+                    btagMedium_dn_prob_DATA *= sf_dn_medium * eff_medium;
+                    btagMedium_HFup_prob_DATA *= sf_HFup_medium * eff_medium;
+                    btagMedium_HFdn_prob_DATA *= sf_HFdn_medium * eff_medium;
+                    btagMedium_LFup_prob_DATA *= sf_LFup_medium * eff_medium;
+                    btagMedium_LFdn_prob_DATA *= sf_LFdn_medium * eff_medium;
+                }
+                else
+                {
+                    btagMedium_prob_MC *= (1 - eff_medium);
+                    btagMedium_prob_DATA *= (1 - sf_medium * eff_medium);
+                    btagMedium_up_prob_DATA *= (1 - sf_up_medium * eff_medium);
+                    btagMedium_dn_prob_DATA *= (1 - sf_dn_medium * eff_medium);
+                    btagMedium_HFup_prob_DATA *= (1 - sf_HFup_medium * eff_medium);
+                    btagMedium_HFdn_prob_DATA *= (1 - sf_HFdn_medium * eff_medium);
+                    btagMedium_LFup_prob_DATA *= (1 - sf_LFup_medium * eff_medium);
+                    btagMedium_LFdn_prob_DATA *= (1 - sf_LFdn_medium * eff_medium);
+                }
+
+                if (is_loose_btagged)
+                {
+                    btagLoose_prob_MC *= eff_loose;
+                    btagLoose_prob_DATA *= sf_loose * eff_loose;
+                    btagLoose_up_prob_DATA *= sf_up_loose * eff_loose;
+                    btagLoose_dn_prob_DATA *= sf_dn_loose * eff_loose;
+                    btagLoose_HFup_prob_DATA *= sf_HFup_loose * eff_loose;
+                    btagLoose_HFdn_prob_DATA *= sf_HFdn_loose * eff_loose;
+                    btagLoose_LFup_prob_DATA *= sf_LFup_loose * eff_loose;
+                    btagLoose_LFdn_prob_DATA *= sf_LFdn_loose * eff_loose;
+                }
+                else
+                {
+                    btagLoose_prob_MC *= (1 - eff_loose);
+                    btagLoose_prob_DATA *= (1 - sf_loose * eff_loose);
+                    btagLoose_up_prob_DATA *= (1 - sf_up_loose * eff_loose);
+                    btagLoose_dn_prob_DATA *= (1 - sf_dn_loose * eff_loose);
+                    btagLoose_HFup_prob_DATA *= (1 - sf_HFup_loose * eff_loose);
+                    btagLoose_HFdn_prob_DATA *= (1 - sf_HFdn_loose * eff_loose);
+                    btagLoose_LFup_prob_DATA *= (1 - sf_LFup_loose * eff_loose);
+                    btagLoose_LFdn_prob_DATA *= (1 - sf_LFdn_loose * eff_loose);
+                }
+            }
         }
     }
+
+    ana.tx.setBranch<float>("Common_event_tightBtagSF"      , btagTight_prob_DATA       / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFup"    , btagTight_up_prob_DATA    / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFdn"    , btagTight_dn_prob_DATA    / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFHFup"  , btagTight_HFup_prob_DATA  / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFHFdn"  , btagTight_HFdn_prob_DATA  / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFLFup"  , btagTight_LFup_prob_DATA  / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_tightBtagSFLFdn"  , btagTight_LFdn_prob_DATA  / btagTight_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSF"     , btagMedium_prob_DATA      / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFup"   , btagMedium_up_prob_DATA   / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFdn"   , btagMedium_dn_prob_DATA   / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFHFup" , btagMedium_HFup_prob_DATA / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFHFdn" , btagMedium_HFdn_prob_DATA / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFLFup" , btagMedium_LFup_prob_DATA / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_mediumBtagSFLFdn" , btagMedium_LFdn_prob_DATA / btagMedium_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSF"      , btagLoose_prob_DATA       / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFup"    , btagLoose_up_prob_DATA    / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFdn"    , btagLoose_dn_prob_DATA    / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFHFup"  , btagLoose_HFup_prob_DATA  / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFHFdn"  , btagLoose_HFdn_prob_DATA  / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFLFup"  , btagLoose_LFup_prob_DATA  / btagLoose_prob_MC);
+    ana.tx.setBranch<float>("Common_event_looseBtagSFLFdn"  , btagLoose_LFdn_prob_DATA  / btagLoose_prob_MC);
 
     ana.tx.setBranch<int>("Common_nb_loose", nb_loose);
     ana.tx.setBranch<int>("Common_nb_medium", nb_medium);

@@ -15,9 +15,11 @@ void Begin_Common()
     // Determine whether it is EFT or not
     Begin_Common_Determine_Is_EFT();
     
-
     //setup GRL
     Begin_Common_Set_Run_List();
+
+    // Configure the gconf from NanoTools/NanoCORE/Config.h
+    Begin_Common_Set_Config();
 
     // The framework may run over NanoAOD directly or, it may run over VVVTree.
     // ana.run_VVVTree boolean determines this.
@@ -41,6 +43,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<unsigned long long>   ("Common_evt");
     ana.tx.createBranch<float>                ("Common_genWeight");
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
+    ana.tx.createBranch<float>                ("Common_wgt");
 
     // EFT weightings
     ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
@@ -75,6 +78,28 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_event_lepSFeldn");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFmuup");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFmudn");  // lepSF
+
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSF");      // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFHFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFHFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFLFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFLFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSF");      // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSF");      // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFHFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFHFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFLFup");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFLFdn");  // btagSF
 
     ana.tx.createBranch<vector<LorentzVector>>("Common_lep_p4");        // Pt sorted selected lepton p4s (electrons and muons together)
     ana.tx.createBranch<vector<int>>          ("Common_lep_idxs");      // Pt sorted selected lepton idxs (electrons and muons together)
@@ -225,24 +250,197 @@ void Begin_Common_Determine_Is_EFT()
 
 void Begin_Common_Set_Run_List()
 {
-    if( (ana.run_VVVTree && vvv.Common_isData()) || nt.isData()){
-        std::string list = "";
-        if(nt.year() == 2016){
-            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; //19.52+16.81 ifb
+    std::string list = "";
+    if (ana.run_VVVTree && vvv.Common_isData())
+    {
+        if (ana.input_file_list_tstring.Contains("Run2016"))
+        {
+            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; // 19.52+16.81 ifb
         }
-        if(nt.year() == 2017){
-            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; //41.48 ifb
+        if (ana.input_file_list_tstring.Contains("Run2017"))
+        {
+            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; // 41.48 ifb
         }
-        if(nt.year() == 2018){
-            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt" ;//59.83 ifb
+        if (ana.input_file_list_tstring.Contains("Run2018"))
+        {
+            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
         }
-
         set_goodrun_file(list.c_str());
     }
-    
+    else if (not ana.run_VVVTree && nt.isData())
+    {
+        if (nt.year() == 2016)
+        {
+            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; // 19.52+16.81 ifb
+        }
+        if (nt.year() == 2017)
+        {
+            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; // 41.48 ifb
+        }
+        if (nt.year() == 2018)
+        {
+            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
+        }
+        set_goodrun_file(list.c_str());
+    }
 }
 
+void Begin_Common_Set_Config()
+{
 
+    bool isAPV = ana.input_file_list_tstring.Contains("NanoAODAPVv9")
+        or ana.input_file_list_tstring.Contains("NanoAODAPVv2")
+        or ana.input_file_list_tstring.Contains("HIPM_UL2016")
+        or ana.input_file_list_tstring.Contains("Run2016C-UL2016")
+        or ana.input_file_list_tstring.Contains("Run2016D-UL2016")
+        or ana.input_file_list_tstring.Contains("Run2016E-UL2016");
+
+    bool isUL = ana.input_file_list_tstring.Contains("UL18")
+        or ana.input_file_list_tstring.Contains("UL2018")
+        or ana.input_file_list_tstring.Contains("UL17")
+        or ana.input_file_list_tstring.Contains("UL2017")
+        or ana.input_file_list_tstring.Contains("UL16")
+        or ana.input_file_list_tstring.Contains("UL2016");
+
+    if (not isUL)
+        RooUtil::error("non-UL sample btagging not implemented. This branch is for Ultra-Legacy!!");
+
+    // Set up the NanoCORE's common configuration service tool
+    gconf.nanoAOD_ver = isUL ? 8 : 0;
+    gconf.isAPV = isAPV ? 1 : 0;
+    gconf.GetConfigs(nt.year());
+
+    if (nt.year() == 2016 and isAPV)
+        assert(gconf.WP_DeepFlav_tight - 0.6502 < 0.0001);
+    else if (nt.year() == 2016 and not isAPV)
+        assert(gconf.WP_DeepFlav_tight - 0.6377 < 0.0001);
+    else if (nt.year() == 2017)
+        assert(gconf.WP_DeepFlav_tight - 0.7476 < 0.0001);
+    else if (nt.year() == 2018)
+        assert(gconf.WP_DeepFlav_tight - 0.7100 < 0.0001);
+    else
+        RooUtil::error("Year and isAPV parsing is messed up!", __FILE__);
+
+    // Setting up btagging scale factors
+    if (nt.year() == 2016 and isAPV)
+    {
+        ana.btagCalib_v2 = new BTagCalibration_v2("DeepJet", "config/DeepJet_106XUL16preVFPSF_v1.csv");
+    }
+    else if (nt.year() == 2016 and not isAPV)
+    {
+        ana.btagCalib_v2 = new BTagCalibration_v2("DeepJet", "config/DeepJet_106XUL16postVFPSF_v2.csv");
+    }
+    else if (nt.year() == 2017)
+    {
+        ana.btagCalib = new BTagCalibration("DeepJet", "config/DeepJet_106XUL17SF_WPonly_V2p1.csv");
+    }
+    else if (nt.year() == 2018)
+    {
+        ana.btagCalib = new BTagCalibration("DeepJet", "config/DeepJet_106XUL18SF_WPonly.csv");
+    }
+    else
+    {
+        RooUtil::error(TString::Format("While setting b-tag scale factors, found year = %d that is not recognized.", nt.year()));
+    }
+
+    ana.btagReaderTight = new BTagCalibrationReader(BTagEntry::OP_TIGHT, "central", {"up", "down"});
+    ana.btagReaderMedium = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up", "down"});
+    ana.btagReaderLoose = new BTagCalibrationReader(BTagEntry::OP_LOOSE, "central", {"up", "down"});
+
+    ana.btagReaderTight_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_TIGHT, "central", {"up", "down"});
+    ana.btagReaderMedium_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_MEDIUM, "central", {"up", "down"});
+    ana.btagReaderLoose_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_LOOSE, "central", {"up", "down"});
+
+    if (nt.year() == 2016 and isAPV)
+    {
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+    }
+    else if (nt.year() == 2016 and not isAPV)
+    {
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+    }
+    else
+    {
+        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+    }
+
+    if (nt.year() == 2016 and isAPV)
+    {
+        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+    }
+    else if (nt.year() == 2016 and not isAPV)
+    {
+        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+    }
+    else if (nt.year() == 2017)
+    {
+        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+    }
+    else if (nt.year() == 2018)
+    {
+        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+    }
+    else
+    {
+        RooUtil::error(TString::Format("While setting b-tag efficiencies, found year = %d that is not recognized.", nt.year()));
+    }
+}
 
 void Begin_Common_VVVTree()
 {
@@ -341,22 +539,35 @@ void Begin_Common_Book_NEvent_Histograms()
         for (int ifile = 0; ifile < input_files->GetEntries(); ++ifile)
         {
             TString filepath = ((TObjString*)input_files->At(ifile))->GetString();
+            TString nevents_file_path = filepath;
+            nevents_file_path.ReplaceAll(".root", "_nevents.txt");
 
-            // Accessing n events
-            TString nevents_file_path = filepath.ReplaceAll(".root", "_nevents.txt");
-            std::ifstream ifs(nevents_file_path.Data());
-            std::string content( (std::istreambuf_iterator<char>(ifs) ),
-                    (std::istreambuf_iterator<char>()    ) );
-            TString content_tstr = content.c_str();
-            TObjArray* lines = content_tstr.Tokenize("\n");
-            int index_total = lines->GetEntries() - 3;
-            int index_pos_total = lines->GetEntries() - 2;
-            int index_neg_total = lines->GetEntries() - 1;
-            total += ((TObjString*)lines->At(index_total))->GetString().Atoi();
-            pos_total += ((TObjString*)lines->At(index_pos_total))->GetString().Atoi();
-            neg_total += ((TObjString*)lines->At(index_neg_total))->GetString().Atoi();
+            if (gSystem->AccessPathName(nevents_file_path.Data()))
+            {
+                TFile* tmpfile = new TFile(filepath);
+                TH1D* h_nevents = (TH1D*) tmpfile->Get("h_nevents");
+                total += h_nevents->GetBinContent(1);
+                pos_total += h_nevents->GetBinContent(2);
+                neg_total += h_nevents->GetBinContent(3);
+            }
+            else
+            {
+                // Accessing n events
+                std::ifstream ifs(nevents_file_path.Data());
+                std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                                    (std::istreambuf_iterator<char>()    ) );
+                TString content_tstr = content.c_str();
+                TObjArray* lines = content_tstr.Tokenize("\n");
+                int index_total = lines->GetEntries() - 3;
+                int index_pos_total = lines->GetEntries() - 2;
+                int index_neg_total = lines->GetEntries() - 1;
+                total += ((TObjString*)lines->At(index_total))->GetString().Atoi();
+                pos_total += ((TObjString*)lines->At(index_pos_total))->GetString().Atoi();
+                neg_total += ((TObjString*)lines->At(index_neg_total))->GetString().Atoi();
+            }
         }
         int eff_total = pos_total != neg_total ? pos_total - neg_total : pos_total;
+        ana.output_tfile->cd();
         Root__h_nevents->SetBinContent(1, total);
         Wgt__h_nevents->SetBinContent(1, eff_total);
         Root__h_nevents->Write();

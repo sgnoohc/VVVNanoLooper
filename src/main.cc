@@ -30,6 +30,7 @@ int main(int argc, char** argv)
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
         ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
         ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
+        ("x,wgt"         , "wgt"                                                                                                 , cxxopts::value<float>())
         ("h,help"        , "Print help")
         ;
 
@@ -102,6 +103,17 @@ int main(int argc, char** argv)
     else
     {
         ana.eft_reweighting_idx = -999;
+    }
+
+    //_______________________________________________________________________________
+    // --wgt
+    if (result.count("wgt"))
+    {
+        ana.wgt = result["wgt"].as<float>();
+    }
+    else
+    {
+        ana.wgt = 1;
     }
 
     //_______________________________________________________________________________

@@ -3,10 +3,13 @@
 
 #include "rooutil.h"
 #include "Nano.h"
+#include "Config.h"
 #include "VVVTree.h"
 #include "math.h"
 #include "ScaleFactors.h"
 #include <algorithm>
+#include "Tools/btagsf/BTagCalibrationStandalone.h"
+#include "Tools/btagsf/BTagCalibrationStandalone_v2.h"
 
 class AnalysisConfig {
 
@@ -87,6 +90,9 @@ public:
     // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
     bool is_EFT_sample;
 
+    // event weight
+    float wgt;
+
     // Output TTree
     TTree* output_tree;
 
@@ -96,6 +102,25 @@ public:
     LeptonScaleFactor leptonscalefactors = LeptonScaleFactor();
     FatJetScaleFactor fatjetscalefactors = FatJetScaleFactor();
 
+    BTagCalibration* btagCalib;
+    BTagCalibration* btagCalib_inlieu;
+    BTagCalibrationReader* btagReaderTight;
+    BTagCalibrationReader* btagReaderMedium;
+    BTagCalibrationReader* btagReaderLoose;
+    BTagCalibration_v2* btagCalib_v2;
+    BTagCalibration_v2* btagCalib_v2_inlieu;
+    BTagCalibrationReader_v2* btagReaderTight_v2;
+    BTagCalibrationReader_v2* btagReaderMedium_v2;
+    BTagCalibrationReader_v2* btagReaderLoose_v2;
+    RooUtil::HistMap* btagEffTight_b;
+    RooUtil::HistMap* btagEffTight_c;
+    RooUtil::HistMap* btagEffTight_l;
+    RooUtil::HistMap* btagEffMedium_b;
+    RooUtil::HistMap* btagEffMedium_c;
+    RooUtil::HistMap* btagEffMedium_l;
+    RooUtil::HistMap* btagEffLoose_b;
+    RooUtil::HistMap* btagEffLoose_c;
+    RooUtil::HistMap* btagEffLoose_l;
 
 };
 
