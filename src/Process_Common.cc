@@ -41,7 +41,7 @@ void Process_Common_NanoAOD()
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
         if (ana.is_EFT_sample)
             ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
-        ana.tx.setBranch<float>            ("Common_wgt", ana.wgt);
+        ana.tx.setBranch<float>            ("Common_wgt", ana.wgt * ((nt.genWeight() > 0) - (nt.genWeight() < 0)));
     }
     else
     {
@@ -141,8 +141,8 @@ void Process_Common_NanoAOD()
             filterflagMC = nt.Flag_goodVertices() and                                              nt.Flag_HBHENoiseFilter() and nt.Flag_HBHENoiseIsoFilter() and nt.Flag_EcalDeadCellTriggerPrimitiveFilter() and nt.Flag_BadPFMuonFilter() and nt.Flag_ecalBadCalibFilter();
             break;
     }
-    ana.tx.setBranch<bool>("Common_noiseFlag"  , filterflag  ); // Flag to identify whether the event passes duplicate removal
-    ana.tx.setBranch<bool>("Common_noiseFlagMC", filterflagMC); // Flag to identify whether the event passes duplicate removal
+    ana.tx.setBranch<bool>("Common_noiseFlag"  , filterflag  ); // Flag to identify whether the event passes noise filter
+    ana.tx.setBranch<bool>("Common_noiseFlagMC", filterflagMC); // Flag to identify whether the event passes noise filter
 
     //check good runs list
     bool goodRun = true; //set true for MC
@@ -178,20 +178,39 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Electron_ip3d()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Electron_sip3d()[iel]);
-        float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(), 0);
+        //---------
+        bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
+        float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
+        float eta = std::min(std::max(nt.Electron_p4()[iel].eta(), -2.499f), 2.499f);
+        float sf = (pt > 20 ? ana.electronRECOSFgt20->eval(eta, pt) : ana.electronRECOSFlt20->eval(eta, pt)) * (istight ? ana.electronMVAID80SF->eval(eta, pt) : ana.electronMVAID90SF->eval(eta, pt));
         lepSFc  *= sf;
         lepSFum *= sf;
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),+1);
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_up(eta, pt) : ana.electronRECOSFlt20->eval_up(eta, pt)) * (istight ? ana.electronMVAID80SF->eval_up(eta, pt) : ana.electronMVAID90SF->eval_up(eta, pt));
         lepSFue *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),-1);
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_down(eta, pt) : ana.electronRECOSFlt20->eval_down(eta, pt)) * (istight ? ana.electronMVAID80SF->eval_down(eta, pt) : ana.electronMVAID90SF->eval_down(eta, pt));
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
+        //---------
+        // float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(), 0);
+        // lepSFc  *= sf;
+        // lepSFum *= sf;
+        // lepSFdm *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        // sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),+1);
+        // lepSFue *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        // sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(),-1);
+        // lepSFde *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -203,35 +222,54 @@ void Process_Common_NanoAOD()
         // Selections
         if (not (nt.Muon_mediumId()[imu]             )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
         if (not (nt.Muon_p4()[imu].pt()        > 10. )) continue;
-        if (not (nt.Muon_pfRelIso04_all()[imu] < 0.25)) continue;
+        if (not (nt.Muon_pfRelIso04_all()[imu] < 0.25)) continue; // i.e. Loose from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
         if (not (abs(nt.Muon_p4()[imu].eta())  < 2.4 )) continue;
 
         // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", imu);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Muon_pdgId()[imu]);
         ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Muon_p4()[imu]);
-        ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15);
+        ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15); // i.e. Tight from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Muon_dxy()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Muon_ip3d()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
-        string period = "X";
-        if (nt.year() == 2016 and nt.run() <= 278808) period = "BCDEF";
-        else if (nt.year() == 2016) period = "GH";
-        float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(), 0);
+        //---------
+        bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
+        float pt = std::min(std::max(nt.Muon_p4()[imu].pt(), 15.01f), 119.9f);
+        float abseta = std::min(std::max(fabs(nt.Muon_p4()[imu].eta()), 0.01f), 2.399f);
+        float sf = ana.muonIDSFMedium->eval(abseta, pt) * (istight ? ana.muonISOSFTight->eval(abseta, pt) : ana.muonISOSFLoose->eval(abseta, pt));
         lepSFc  *= sf;
         lepSFue *= sf;
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),+1);
+        sf       = ana.muonIDSFMedium->eval_up(abseta, pt) * (istight ? ana.muonISOSFTight->eval_up(abseta, pt) : ana.muonISOSFLoose->eval_up(abseta, pt));
         lepSFum *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),-1);
+        sf       = ana.muonIDSFMedium->eval_down(abseta, pt) * (istight ? ana.muonISOSFTight->eval_down(abseta, pt) : ana.muonISOSFLoose->eval_down(abseta, pt));
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
+        //---------
+        // string period = "X";
+        // if (nt.year() == 2016 and nt.run() <= 278808) period = "BCDEF";
+        // else if (nt.year() == 2016) period = "GH";
+        // float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(), 0);
+        // lepSFc  *= sf;
+        // lepSFue *= sf;
+        // lepSFde *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        // sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),+1);
+        // lepSFum *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        // sf       = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),13,nt.Muon_p4()[imu].eta(),nt.Muon_p4()[imu].pt(),nt.event(),-1);
+        // lepSFdm *= sf;
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        // ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
     }
 
     ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc );

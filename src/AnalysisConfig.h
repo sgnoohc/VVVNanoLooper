@@ -122,6 +122,15 @@ public:
     RooUtil::HistMap* btagEffLoose_c;
     RooUtil::HistMap* btagEffLoose_l;
 
+    RooUtil::HistMap* muonIDSFMedium;
+    RooUtil::HistMap* muonISOSFLoose;
+    RooUtil::HistMap* muonISOSFTight;
+
+    RooUtil::HistMap* electronRECOSFlt20;
+    RooUtil::HistMap* electronRECOSFgt20;
+    RooUtil::HistMap* electronMVAID90SF;
+    RooUtil::HistMap* electronMVAID80SF;
+
 };
 
 extern AnalysisConfig ana;
