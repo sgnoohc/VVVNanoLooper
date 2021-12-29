@@ -484,7 +484,7 @@ void Begin_Common_Set_Config()
         ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
         ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
         ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_postVFP_EGM2D.root:EGamma_SF2D");
-        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_postVFP_EGM2D.root");
+        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_postVFP_EGM2D.root:EGamma_SF2D");
     }
     else if (nt.year() == 2017)
     {
