@@ -591,7 +591,7 @@ void Begin_Common_NanoAOD()
 
 void Begin_Common_Book_NEvent_Histograms()
 {
-    if (ana.input_file_list_tstring.Contains("NanoSkim"))
+    if (ana.input_file_list_tstring.Contains("NanoSkim") and not ana.input_file_list_tstring.Contains("_EFT_"))
     {
         ana.output_tfile->cd();
         TH1F* Root__h_nevents = new TH1F("Root__h_nevents", "Root__h_nevents", 1, 0, 1);
