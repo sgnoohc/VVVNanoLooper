@@ -129,7 +129,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight"); // SF tight iso
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");      // SF
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight"); // SF tight iso
-    
+ 
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s
     ana.tx.createBranch<vector<int>>          ("Common_jet_idxs");          // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)

@@ -39,7 +39,7 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<float>("Common_event_prefireWeight"                                  , nt.PrefireWeight());                                    } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeight"                                , 1.); }
     try { ana.tx.setBranch<float>("Common_event_prefireWeightup"                                , nt.PrefireWeight_Up());                                 } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightup"                              , 1.); }
     try { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                                , nt.PrefireWeight_Down());                               } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                         , 1.); }
-   if (not nt.isData())
+    if (not nt.isData())
     {
         ana.tx.setBranch<float>            ("Common_genWeight", nt.genWeight());
         if (nt.year() == 2016)
@@ -189,7 +189,7 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Electron_sip3d()[iel]);
         //---------
         // bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
-	float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
+        float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
         float eta = std::min(std::max(nt.Electron_p4()[iel].eta(), -2.499f), 2.499f);
         float sf = (pt > 20 ? ana.electronRECOSFgt20->eval(eta, pt) : ana.electronRECOSFlt20->eval(eta, pt)) * ana.electronMVAID90SF->eval(eta, pt);
         lepSFc  *= sf;
@@ -254,7 +254,7 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
         //---------
         // bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
-	float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
+        float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
         float pt = std::min(std::max(nt.Muon_p4()[imu].pt(), 15.01f), 119.9f);
         float abseta = std::min(std::max(fabs(nt.Muon_p4()[imu].eta()), 0.01f), 2.399f);
         float sf = ana.muonRECOSF->eval(abseta, ptreco) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFLoose->eval(abseta, pt);
@@ -304,14 +304,12 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<float>("Common_event_lepSFeldn"  , lepSFde);
     ana.tx.setBranch<float>("Common_event_lepSFmuup"  , lepSFum);
     ana.tx.setBranch<float>("Common_event_lepSFmudn"  , lepSFdm);
-    ana.tx.setBranch<float>("Common_event_lepSFelup"  , lepSFue);
 
     ana.tx.setBranch<float>("Common_event_lepSFTight"      , lepSFcTight );
     ana.tx.setBranch<float>("Common_event_lepSFelupTight"  , lepSFueTight);
     ana.tx.setBranch<float>("Common_event_lepSFeldnTight"  , lepSFdeTight);
     ana.tx.setBranch<float>("Common_event_lepSFmuupTight"  , lepSFumTight);
     ana.tx.setBranch<float>("Common_event_lepSFmudnTight"  , lepSFdmTight);
-    ana.tx.setBranch<float>("Common_event_lepSFelupTight"  , lepSFueTight);
 
     //---------------------------------------------------------------------------------------------
 
@@ -1290,7 +1288,7 @@ void Process_Common_NanoAOD()
     // Sorting lepton branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
-            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_ip3d", "Common_lep_sip3d", "Common_lep_SF", "Common_lep_SFTight", "Common_lep_SFdn", "Common_lep_SFdnTight", "Common_lep_SFup", "Common_lep_SFupTight","Common_lep_UL_SF","Common_lep_UL_SFup","Common_lep_UL_SFdn"},
+            /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_ip3d", "Common_lep_sip3d", "Common_lep_SF", "Common_lep_SFTight", "Common_lep_SFdn", "Common_lep_SFdnTight", "Common_lep_SFup", "Common_lep_SFupTight"},
             /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
