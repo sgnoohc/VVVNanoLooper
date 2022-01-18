@@ -44,6 +44,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_genWeight");
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
     ana.tx.createBranch<float>                ("Common_wgt");
+    ana.tx.createBranch<float>                ("Common_event_puWeight");        //Pile up weight
+    ana.tx.createBranch<float>                ("Common_event_puWeightup");      //Pile up weight
+    ana.tx.createBranch<float>                ("Common_event_puWeightdn");      //Pile up weight
+    ana.tx.createBranch<float>                ("Common_event_prefireWeight");   //Prefiring weight
+    ana.tx.createBranch<float>                ("Common_event_prefireWeightup"); //Prefiring weight
+    ana.tx.createBranch<float>                ("Common_event_prefireWeightdn"); //Prefiring weight
+    ana.tx.createBranch<float>                ("Common_event_triggerWeight");   //trigger weight
+    ana.tx.createBranch<float>                ("Common_event_triggerWeightup");   //trigger weight
+    ana.tx.createBranch<float>                ("Common_event_triggerWeightdn");   //trigger weight
 
     // EFT weightings
     ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
@@ -78,24 +87,29 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_event_lepSFeldn");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFmuup");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFmudn");  // lepSF
+    ana.tx.createBranch<float>                ("Common_event_lepSFTight");      // lepSFTight
+    ana.tx.createBranch<float>                ("Common_event_lepSFelupTight");  // lepSFTight
+    ana.tx.createBranch<float>                ("Common_event_lepSFeldnTight");  // lepSFTight
+    ana.tx.createBranch<float>                ("Common_event_lepSFmuupTight");  // lepSFTight
+    ana.tx.createBranch<float>                ("Common_event_lepSFmudnTight");  // lepSFTight
 
     ana.tx.createBranch<float>                ("Common_event_tightBtagSF");      // btagSF
-    ana.tx.createBranch<float>                ("Common_event_tightBtagSFup");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_tightBtagSFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFup");    // btagSF
+    ana.tx.createBranch<float>                ("Common_event_tightBtagSFdn");    // btagSF
     ana.tx.createBranch<float>                ("Common_event_tightBtagSFHFup");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_tightBtagSFHFdn");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_tightBtagSFLFup");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_tightBtagSFLFdn");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSF");      // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFup");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFdn");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFup");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFdn");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFup");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSF");     // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFup");   // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFdn");   // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFup"); // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFHFdn"); // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFup"); // btagSF
+    ana.tx.createBranch<float>                ("Common_event_mediumBtagSFLFdn"); // btagSF
     ana.tx.createBranch<float>                ("Common_event_looseBtagSF");      // btagSF
-    ana.tx.createBranch<float>                ("Common_event_looseBtagSFup");  // btagSF
-    ana.tx.createBranch<float>                ("Common_event_looseBtagSFdn");  // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFup");    // btagSF
+    ana.tx.createBranch<float>                ("Common_event_looseBtagSFdn");    // btagSF
     ana.tx.createBranch<float>                ("Common_event_looseBtagSFHFup");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_looseBtagSFHFdn");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_looseBtagSFLFup");  // btagSF
@@ -115,7 +129,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight"); // SF tight iso
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");      // SF
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight"); // SF tight iso
-
+    
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s
     ana.tx.createBranch<vector<int>>          ("Common_jet_idxs");          // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
@@ -175,6 +189,19 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupTight");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesup");      // fatjet pt JEC uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesdn");      // fatjet pt JEC uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerup");      // fatjet pt JER uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerdn");      // fatjet pt JER uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesup");      // fatjet softdrop mass JEC uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesdn");      // fatjet softdrop mass JEC uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerup");      // fatjet softdrop mass JER uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerdn");      // fatjet softdrop mass JER uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsup");      // fatjet softdrop mass JMS uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsdn");      // fatjet softdrop mass JMS uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrup");      // fatjet softdrop mass JMR uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrdn");      // fatjet softdrop mass JMR uncertainty down shift
+
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFLoose");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFMedium");      // event fatjet SF
@@ -444,24 +471,28 @@ void Begin_Common_Set_Config()
     // Muon SF
     if (nt.year() == 2016 and isAPV)
     {
+        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016preVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
+        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016postVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2017)
     {
+        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2017_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2018)
     {
+        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2018_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
@@ -474,10 +505,10 @@ void Begin_Common_Set_Config()
     // Electron SF
     if (nt.year() == 2016 and isAPV)
     {
-        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_postVFP_EGM2D.root:EGamma_SF2D");
-        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_postVFP_EGM2D.root:EGamma_SF2D");
+        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016preVFP.root:EGamma_SF2D");
+        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016preVFP.root:EGamma_SF2D");
+        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_preVFP_EGM2D.root:EGamma_SF2D");
+        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_preVFP_EGM2D.root");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
@@ -488,22 +519,55 @@ void Begin_Common_Set_Config()
     }
     else if (nt.year() == 2017)
     {
-        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_postVFP_EGM2D.root:EGamma_SF2D");
-        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_postVFP_EGM2D.root:EGamma_SF2D");
+        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2017.root:EGamma_SF2D");
+        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2017.root:EGamma_SF2D");
+        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_EGM2D_MVA90iso_UL17.root:EGamma_SF2D");
+        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_EGM2D_MVA80iso_UL17.root:EGamma_SF2D");
     }
     else if (nt.year() == 2018)
     {
-        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016postVFP.root:EGamma_SF2D");
-        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_postVFP_EGM2D.root:EGamma_SF2D");
-        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_postVFP_EGM2D.root:EGamma_SF2D");
+        ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2018.root:EGamma_SF2D");
+        ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2018.root:EGamma_SF2D");
+        ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_EGM2D.root:EGamma_SF2D");
+        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_EGM2D.root:EGamma_SF2D");
     }
     else
     {
-        RooUtil::error(TString::Format("While setting muon scale factors, found year = %d that is not recognized.", nt.year()));
+        RooUtil::error(TString::Format("While setting electron scale factors, found year = %d that is not recognized.", nt.year()));
     }
+    
+    // Trigger SF
+    if (nt.year() == 2016 and isAPV)
+    {
+	ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_ee_lepABpt_FullError");
+	ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_emu_lepABpt_FullError");
+	ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_mumu_lepABpt_FullError");
+    }
+    else if (nt.year() == 2016 and not isAPV)
+    {
+        ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2016postVFP_UL.root:h2D_SF_ee_lepABpt_FullError");
+        ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2016postVFP_UL.root:h2D_SF_emu_lepABpt_FullError");
+        ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2016postVFP_UL.root:h2D_SF_mumu_lepABpt_FullError");
+
+    }
+    else if (nt.year() == 2017)
+    {
+        ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2017_UL.root:h2D_SF_ee_lepABpt_FullError");
+        ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2017_UL.root:h2D_SF_emu_lepABpt_FullError");
+        ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2017_UL.root:h2D_SF_mumu_lepABpt_FullError");
+
+    }
+    else if (nt.year() == 2018)
+    {
+        ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2018_UL.root:h2D_SF_ee_lepABpt_FullError");
+        ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2018_UL.root:h2D_SF_emu_lepABpt_FullError");
+        ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2018_UL.root:h2D_SF_mumu_lepABpt_FullError");
+    }
+    else
+    {
+        RooUtil::error(TString::Format("While setting trigger scale factors, found year = %d that is not recognized.", nt.year()));
+    }
+
 
 }
 
