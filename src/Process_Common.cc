@@ -1328,17 +1328,17 @@ void Process_Common_NanoAOD()
          {
              float lepept = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),15.01f),499.9f);
              float lepmupt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
-             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggereeSF->eval(lepept, lepmupt));
-             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggereeSF->eval_up(lepept, lepmupt));
-             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggereeSF->eval_down(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggeremuSF->eval(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggeremuSF->eval_up(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggeremuSF->eval_down(lepept, lepmupt));
          }
          else if(abs(lep1pdgid) == 13 && abs(lep2pdgid) == 11)
          {
              float lepept = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
              float lepmupt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),15.01f),499.9f);
-             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggereeSF->eval(lepept, lepmupt));
-             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggereeSF->eval_up(lepept, lepmupt));
-             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggereeSF->eval_down(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggeremuSF->eval(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggeremuSF->eval_up(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggeremuSF->eval_down(lepept, lepmupt));
          }
          else if(abs(lep1pdgid) == 13 && abs(lep2pdgid) == 13)
          {
