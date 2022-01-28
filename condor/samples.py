@@ -956,3 +956,103 @@ samples_VVV4L_2016_Skimmed = {
                 DirectorySample(location=FourLepNanoSkimDir+"/HZJ_HToWWTo2L2Nu_ZTo2L_M125_13TeV_powheg_pythia8_RunIISummer16NanoAODv6-PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7-v1_NANOAODSIM_{}".format(FourLepNanoSkimVersion)                      , dataset="/HZJ_HToWWTo2L2Nu_ZTo2L_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv6-PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7-v1/NANOAODSIM"                      ) : "ZHtoWW",
                 DirectorySample(location=FourLepNanoSkimDir+"/GluGluZH_HToWWTo2L2Nu_ZTo2L_M125_13TeV_powheg_pythia8_RunIISummer16NanoAODv6-PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7-v1_NANOAODSIM_{}".format(FourLepNanoSkimVersion)                 , dataset="/GluGluZH_HToWWTo2L2Nu_ZTo2L_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv6-PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7-v1/NANOAODSIM"                 ) : "GGZHtoWW",
         }
+
+
+#### 2018 samples
+JetHT_2018 = {
+        DBSSample(dataset="/JetHT/Run2018A-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2018A",
+        DBSSample(dataset="/JetHT/Run2018B-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2018B",
+        DBSSample(dataset="/JetHT/Run2018C-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2018C",
+        DBSSample(dataset="/JetHT/Run2018D-UL2018_MiniAODv1_NanoAODv2-v3/NANOAOD")                : "JetHT_2018D",
+}
+
+QCD_2018 = {
+        DBSSample(dataset="/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")       : "QCD_HT500to700",
+        DBSSample(dataset="/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")       : "QCD_HT700to1000",
+        DBSSample(dataset="/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")       : "QCD_HT1000to1500",
+        DBSSample(dataset="/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")       : "QCD_HT1500to2000",
+        DBSSample(dataset="/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")       : "QCD_HT2000toInf",
+}
+
+Vplusjets_2018 = {
+    DBSSample(dataset="/WJetsToQQ_HT-800toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoQQ_HT800toInf",
+    DBSSample(dataset="/ZJetsToQQ_HT-800toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "ZJetstoQQ_HT800toInf",
+}
+
+top_2018 = {
+    DBSSample(dataset="/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM") : "TTHadronic",
+    DBSSample(dataset="/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM") : "TTSemiLeptonic",
+    DBSSample(dataset="/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")  : "ST_tW_antitop",
+    DBSSample(dataset="/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tW_top",
+    DBSSample(dataset="/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tchannel_top",
+    DBSSample(dataset="/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tchannel_antitop",
+    ### NEED TO FIND DBSSample(dataset="/ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_102X_mc2017_realistic_v8-v1/NANOAODSIM")      : "ST_schannel",
+    DBSSample(dataset="/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                       : "TTZtoQQ",
+    DBSSample(dataset="/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                       : "TTWtoQQ",
+}
+
+
+diboson_2018 = {
+    DBSSample(dataset="/WW_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                                          : "WW",
+    DBSSample(dataset="/ZZ_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                                          : "ZZ",
+    DBSSample(dataset="/WZ_TuneCP5_13TeV-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                                          : "WZ",
+#    DBSSample(dataset="/WWTo4Q_NNPDF31_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                       : "WWto4Q",
+    #DBSSample(dataset="/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                      : "WplusH_HtoBB_WtoQQ",
+    #DBSSample(dataset="/WplusH_HToCC_WToQQ_M125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                      : "WplusH_HtoCC_WtoQQ",
+    #DBSSample(dataset="/WplusH_WToQQ_HToInvisible_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                      : "WplusH_HtoInvisible_WtoQQ",
+    #DBSSample(dataset="/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                     : "WminusH_HtoBB_WtoQQ",
+    #DBSSample(dataset="/WminusH_HToCC_WToQQ_M125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                     : "WminusH_HtoCC_WtoQQ",
+    #DBSSample(dataset="/WminusH_WToQQ_HToInvisible_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                     : "WminusH_HtoInvisible_WtoQQ",
+    #DBSSample(dataset="/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                          : "ZH_HtoBB_ZtoQQ",
+    #DBSSample(dataset="/ZH_HToCC_ZToQQ_M125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                          : "ZH_HtoCC_ZtoQQ",
+    #DBSSample(dataset="/ZH_ZToQQ_HToInvisible_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM")                          : "ZH_HtoInvisible_ZtoQQ",
+}
+
+
+### Qilong 1L -- diboson and QCD are the same as 0L
+Data_2018_1L = {
+        DBSSample(dataset="/EGamma/Run2018A-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "EGamma_2018A",
+        DBSSample(dataset="/EGamma/Run2018B-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "EGamma_2018B",
+        DBSSample(dataset="/EGamma/Run2018C-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "EGamma_2018C",
+        DBSSample(dataset="/EGamma/Run2018D-UL2018_MiniAODv1_NanoAODv2-v2/NANOAOD")                : "EGamma_2018D",
+        DBSSample(dataset="/SingleMuon/Run2018A-UL2018_MiniAODv1_NanoAODv2-v2/NANOAOD")                : "SingleMuon_2018A",
+        DBSSample(dataset="/SingleMuon/Run2018B-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "SingleMuon_2018B",
+        DBSSample(dataset="/SingleMuon/Run2018C-UL2018_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "SingleMuon_2018C",
+        DBSSample(dataset="/SingleMuon/Run2018D-UL2018_MiniAODv1_NanoAODv2-v2/NANOAOD")                : "SingleMuon_2018D",
+}
+
+Vplusjets_2018_1L = {
+    #DBSSample(dataset="/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT100to200",
+    #DBSSample(dataset="/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT200to400",
+    #DBSSample(dataset="/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT400to600",
+    DBSSample(dataset="/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT600to800",
+    DBSSample(dataset="/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT800to1200",
+    DBSSample(dataset="/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "WJetstoLNu_HT2500toInf",   
+}
+
+
+top_2018_1L = {
+    DBSSample(dataset="TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "TTTo2L2Nu",
+    DBSSample(dataset="TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")   : "TTToSemiLeptonic",
+    DBSSample(dataset="/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")  : "ST_tW_antitop",
+    DBSSample(dataset="/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tW_top",
+    DBSSample(dataset="/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tchannel_top",
+    DBSSample(dataset="/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_tchannel_antitop",
+    DBSSample(dataset="/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "ST_schannel_antitop",
+    DBSSample(dataset="/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")      : "TTWJetsToLNu",
+    DBSSample(dataset="/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                       : "TTWtoQQ",
+    DBSSample(dataset="/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                       : "TTZToLLNuNu",
+    DBSSample(dataset="/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer20UL18NanoAODv2-106X_upgrade2018_realistic_v15_L1v1-v1/NANOAODSIM")                       : "TTZtoQQ",
+}
+
+
+
+### 2017
+JetHT_2017 = {
+        DBSSample(dataset="/JetHT/Run2017B-UL2017_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2017B",
+        DBSSample(dataset="/JetHT/Run2017C-UL2017_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2017C",
+        DBSSample(dataset="/JetHT/Run2017D-UL2017_MiniAODv1_NanoAODv2-v1/NANOAOD")                : "JetHT_2017D",
+        DBSSample(dataset="/JetHT/Run2017E-UL2017_MiniAODv1_NanoAODv2-v2/NANOAOD")                : "JetHT_2017E",
+        DBSSample(dataset="/JetHT/Run2017F-UL2017_MiniAODv1_NanoAODv2-v2/NANOAOD")                : "JetHT_2017F",
+
+}

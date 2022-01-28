@@ -4,5 +4,7 @@
 #include "AnalysisConfig.h"
 
 void Begin_allHad();
+void Begin_allHad_NanoAOD();
+void Begin_allHad_VVVTree();
 
 #endif
