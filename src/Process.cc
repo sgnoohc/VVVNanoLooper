@@ -45,6 +45,7 @@ void Process()
             case AnalysisConfig::kOS2jet: break;
             case AnalysisConfig::kSS2jet: PostProcess_SS2jet(); break;
             case AnalysisConfig::k1Lep4jet: break;
+            case AnalysisConfig::kallHad: PostProcess_allHad(); break;
         }
     }
 

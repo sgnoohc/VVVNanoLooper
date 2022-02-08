@@ -74,7 +74,11 @@ if __name__ == "__main__":
             sample_map = samples.samples_VVV4L_2016_Skimmed # See condor/samples.py
             sample_map.update(samples.samples_VVV4L_2016_EFT) # See condor/samples.py
         
-
+    sample_map = samples.JetHT_2018
+    sample_map.update(samples.QCD_2018)
+    sample_map.update(samples.Vplusjets_2018)
+    sample_map.update(samples.diboson_2018)
+    sample_map.update(samples.top_2018)
     # submission tag
     tag = args.thetag 
 
@@ -113,8 +117,9 @@ if __name__ == "__main__":
                     input_executable = "{}/condor_executable_lpc.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     #output_dir = "/store/user/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path
-		    output_dir = "/store/group/lpcvvv/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path to group space
+		            output_dir = "/eos/uscms/store/group/lpcvvv/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path to group space
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
+                    recopy_inputs = True,
                     # max_jobs = 10,
             )
             # When babymaking task finishes, fire off a task that takes outputs and merges them locally (hadd)
@@ -138,11 +143,11 @@ if __name__ == "__main__":
             task_summary[task.get_sample().get_datasetname()] = task.get_task_summary()
 
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
-        os.system("rm web_summary.json")
-        webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
-        StatsParser(data=task_summary, webdir=webdir).do()
-        os.system("chmod -R 755 {}".format(webdir))
-        os.system("msummary -r -i {}/web_summary.json".format(webdir))
+        #os.system("rm web_summary.json")
+        #webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
+        #StatsParser(data=task_summary, webdir=webdir).do()
+        #os.system("chmod -R 755 {}".format(webdir))
+        #os.system("msummary -r -i {}/web_summary.json".format(webdir))
 
         # If all done exit the loop
         if all_tasks_complete:

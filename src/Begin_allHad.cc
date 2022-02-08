@@ -14,12 +14,13 @@ void Begin_allHad_NanoAOD()
 
     //define skimming selections -- require 0 leptons and trigger and HT pass
     ana.cutflow.getCut("CommonCut");
-    ana.cutflow.addCutToLastActiveCut("allHad", [&]() { 
+    ana.cutflow.addCutToLastActiveCut("allHad", [&]() {
+
         if( ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size() > 0) return false; 
         if( ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size() < 2) return false;
         int nfj = 0;
         for(unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); i++){
-            if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[i] >= 1) nfj++;
+            if( is_baseline_fatjet(i, false, false )) nfj++;
         }
         if(nfj < 2) return false;
 
@@ -46,22 +47,104 @@ void Begin_allHad_NanoAOD()
     ana.cutflow.addCutToLastActiveCut("allHad_HT", [&]() {
 
         float HT = 0;
+        unsigned int nselect = 0;
         for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); i++){
-            HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt();
+            if ( is_baseline_jet(i) ){
+                HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt();
+            }
         }
         
         for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); i++){
-            HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt();
+            if( is_baseline_fatjet(i, false, false) ){
+                HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt();
+                nselect ++;
+            }
         }
-        
+
+        if( nselect != ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() ) return false;
         if(HT > 1100) return true;
         else return false;
 
     }, [&]() { return 1; } );
 
+    //for 1L skimming -- 1 lepton and 1 fatjet
+    ana.cutflow.getCut("CommonCut");
+    ana.cutflow.addCutToLastActiveCut("oneLep", [&]() {
+
+        if( ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size() != 1) return false; 
+        if( ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size() < 1) return false;
+        int nfj = 0;
+        for(unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); i++){
+            if( is_baseline_fatjet(i, false, false )) nfj++;
+        }
+        if(nfj < 1) return false;
+
+
+
+        return true;
+        }, [&]() { return  1;} );
+    
+    ana.cutflow.addCutToLastActiveCut("oneLep_trigger", [&]() {
+
+        if( abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[0]) == 11 &&  ana.tx.getBranchLazy<bool>("Common_HLT_Ele32_WPTight") ) return true;
+        if( abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[0]) == 13 &&  ana.tx.getBranchLazy<bool>("Common_HLT_IsoMu24") ) return true;
+
+        return false;
+        }, [&]() { return  1;} );
+
+    ana.cutflow.addCutToLastActiveCut("oneLep_HT", [&]() {
+
+        //Not going to include HT for now, since I want lower pT leptons, and that would bias this in a weird way
+        // float HT = 0;
+        // unsigned int nselect = 0;
+        // for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); i++){
+        //     if ( is_baseline_jet(i) ){
+        //         HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt();
+        //     }
+        // }
+        
+        // for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); i++){
+        //     if( is_baseline_fatjet(i, false, false) ){
+        //         HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt();
+        //         nselect ++;
+        //     }
+        // }
+
+        // HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].Pt();
+
+        //just make sure that all the fatjets are good ones and move on
+        unsigned int nselect = 0;
+        for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); i++){
+            if( is_baseline_fatjet(i, false, false) ){
+                nselect ++;
+            }
+        }
+
+        if( nselect != ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() ) return false;
+
+        return true;
+        }, [&]() { return  1;} );
+
+    
     ana.cutflow.bookCutflows(); 
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void Begin_allHad_VVVTree()
@@ -179,25 +262,35 @@ void Begin_allHad_VVVTree()
         return true;
         }, [&, eft_reweighting_idx]() { return  eft_reweighting_idx < 0 ? 1.0 : ana.tx.getBranchLazy<float>("Common_genWeight") * ana.tx.getBranchLazy<vector<float>>("Common_LHEWeight_mg_reweighting")[eft_reweighting_idx]; } );
     
+
+    //This just adds in 1st fatjet pt > 500 signal cut
     ana.cutflow.addCutToLastActiveCut("allHad_fixedHT", [&]() {
+        
         float HT = 0;
-        int nselect = 0;
+        unsigned int nselect = 0;
+
+        if( ! (ana.tx.getBranchLazy<bool>("Common_HLT_PFHT1050") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet500") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet360_TrimMass30") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet380_TrimMass30") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet400_TrimMass30") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet420_TrimMass30") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT750_TrimMass50") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT800_TrimMass50") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT850_TrimMass50") || 
+               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT900_TrimMass50")  
+        )) return false;
 
         for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); i++){
-            HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt();
+            if(is_baseline_jet(i)){
+                HT+= ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt();
+            }
         }
 
         for( unsigned int ij =0; ij < ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); ij++  ){
-            LorentzVector tmp = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[ij];
-            if( (ij == 0 && tmp.Pt() > 500) || (ij != 0 && tmp.Pt() > 200) ){
-                if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[ij] == 6){
-                    if( abs( tmp.Eta()) < 2.4){
-                        if( ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[ij] >= 1) {
-                            HT += tmp.Pt();
-                            nselect ++;
-                        }
-                    }
-                }
+            if(is_baseline_fatjet(ij, true, false)){
+                HT += ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[ij].Pt();
+                nselect ++;
             }
         }
 
@@ -206,45 +299,167 @@ void Begin_allHad_VVVTree()
         if( HT < 1100) return false;
         return true;
         }, [&]() { return 1; } );
+    
 
-
+    //build up to 1med1tight
     ana.cutflow.getCut("allHad_fixedHT");
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight_noB", [&]() {
+        if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight_2j", [&]() {
+        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() != 2 ) return false; 
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight_2med", [&]() {
+        if( ! (is_baseline_fatjet(0, true, true) && is_baseline_fatjet(1, true, true)) ) return false;
+
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] < 2 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] < 2 ) return false;
+        
+        return true;
+        }, [&]() { return 1; } );
     ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight", [&]() {
+        if( (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] == 2 && ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] == 3)
+          ||(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] == 3 && ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] == 2)
+        ) return true;
+        return false;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight_ptVV", [&]() {
+        if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") < 200) return false;
+        return true;
+        }, [&]() { return 1; } );
+    
+
+
+    /*ana.cutflow.addCutToLastActiveCut("allHad_2fj_1med1tight", [&]() {
         
         if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
         if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") < 200) return false;
 
         if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() != 2 ) return false;
 
+        //baseline fatjets passing first pt and mSD cuts
+        if( ! (is_baseline_fatjet(0, true, true) && is_baseline_fatjet(1, true, true)) ) return false;
+
         if( (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] == 2 && ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] == 3)
-          ||(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] == 3 && ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] == 2 )
+          ||(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] == 3 && ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] == 2)
         ) return true;
 
         return false;
 
 
+        }, [&]() { return 1; } );*/
+
+
+
+
+
+    //build up to mSD cut to understand data/MC disagreement
+    ana.cutflow.getCut("allHad_fixedHT");
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband_noB", [&]() {
+        if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband_2j", [&]() {
+        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() != 2 ) return false; 
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband_2tight", [&]() {
+        if( ! (is_baseline_fatjet(0, true, false) && is_baseline_fatjet(1, true, false)) ) return false;
+
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] != 3 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] != 3 ) return false;
+        
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband", [&]() {
+        if(  (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] < 65. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] > 40.)
+            ||  (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] < 150. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] > 105.))
+            
+            {
+                if( (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] < 65. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] > 40.)
+                ||  (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] < 150. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] > 105.))
+                    return true;
+    
+            }
+
+        return false;
+        }, [&]() { return 1; } );
+    
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband_ptVV", [&]() {
+        if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") < 200) return false;
+        return true;
         }, [&]() { return 1; } );
 
+
+    
+/*
+    ana.cutflow.getCut("allHad_fixedHT");
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_mSD_sideband", [&]() {
+        
+        //no bjets
+        if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
+        
+        //pass pTVV cut
+        if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") < 200) return false;
+
+        //baseline fatjets passing first pt
+        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() != 2 ) return false;
+        if( ! (is_baseline_fatjet(0, true, false) && is_baseline_fatjet(1, true, false)) ) return false;
+
+        //2 tight fatjets
+        // if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] != 3 ) return false;
+        // if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] != 3 ) return false;
+
+        if( ! ((ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] < 65. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] > 40.)
+            ||  (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] < 150. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0] > 100.))
+            ) return false;
+        
+        if( ! ((ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] < 65. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] > 40.)
+            ||  (ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] < 150. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1] > 100.))
+            ) return false;
+
+
+        return true;
+
+
+        }, [&]() { return 1; } );
+*/
 
 
     ana.cutflow.getCut("allHad_fixedHT");
     ana.cutflow.addCutToLastActiveCut("allHad_2fj_tight", [&]() {
-        int ipass = 0;
 
         if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") < 200 ) return false;
 
+        //I want 2 fatjets, where both of them are tight
+        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() !=2 ) return false;
+        //baseline fatjets passing first pt and mSD cuts
+        if( ! (is_baseline_fatjet(0, true, true) && is_baseline_fatjet(1, true, true)) ) return false;
+        
+        //2 tight fatjets
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] != 3 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] != 3 ) return false;
+
+        return true;
+        }, [&]() { return 1; } );
+
+
+    ana.cutflow.getCut("allHad_fixedHT");
+    ana.cutflow.addCutToLastActiveCut("allHad_2fj_tight_invPT", [&]() {
+        
+        //*this is the inverted cut!*
+        if (ana.tx.getBranchLazy<float>("allHad_fj_ptVVV_reco_nomet_SD") > 200 ) return false;
 
         //I want 2 fatjets, where both of them are tight
         if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() !=2 ) return false;
-
-        for( unsigned int ij =0; ij < ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); ij++  ){
-            LorentzVector tmp = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[ij];
-            if( ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[ij] >= 3 && tmp.Pt() > 200 && abs(tmp.Eta()) < 2.4)
-            {
-                ipass ++;
-            }
-        }
-        if( ipass != 2) return false;
+        //baseline fatjets passing first pt and mSD cuts
+        if( ! (is_baseline_fatjet(0, true, true) && is_baseline_fatjet(1, true, true)) ) return false;
+        
+        //2 tight fatjets
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] != 3 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] != 3 ) return false;
 
         return true;
         }, [&]() { return 1; } );
@@ -252,19 +467,17 @@ void Begin_allHad_VVVTree()
 
     ana.cutflow.getCut("allHad_fixedHT");
     ana.cutflow.addCutToLastActiveCut("allHad_3fj_tight", [&]() {
-        int ipass = 0;
         
-        //I want 3 fatjets, where both of them are tight
-        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() != 3  ) return false;
+        //I want 3 fatjets, where all of them are tight
+        if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() !=3 ) return false;
+        //baseline fatjets passing first pt and mSD cuts
+        if( ! (is_baseline_fatjet(0, true, true) && is_baseline_fatjet(1, true, true) && is_baseline_fatjet(2, true, true)) ) return false;
+        
+        //3 tight fatjets
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0] != 3 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1] != 3 ) return false;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[2] != 3 ) return false;
 
-        for( unsigned int ij =0; ij < ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); ij++  ){
-            LorentzVector tmp = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[ij];
-            if( ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[ij] >= 3 && tmp.Pt() > 200 && abs(tmp.Eta()) < 2.4)
-            {
-                ipass ++;
-            }
-        }
-        if( ipass != 3) return false;
         return true;
         }, [&]() { return 1; } );
     
@@ -280,6 +493,11 @@ void Begin_allHad_VVVTree()
 
     ana.cutflow.getCut("allHad_2fj_tight");
     ana.cutflow.addCutToLastActiveCut("allHad_ORTrigger_2fj", [&]() {
+        if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
+        return true;
+        }, [&]() { return 1; } );
+    ana.cutflow.getCut("allHad_2fj_tight_invPT");
+    ana.cutflow.addCutToLastActiveCut("allHad_invPT_2fj", [&]() {
         if (ana.tx.getBranchLazy<int>("allHad_nb_medium") > 0) return false;
         return true;
         }, [&]() { return 1; } );
@@ -547,15 +765,60 @@ void Begin_allHad_VVVTree()
     ana.cutflow.bookCutflows(); 
     
     ana.cutflow.bookHistogramsForCutAndBelow(hists_allHad, "allHad_fixedHT");
-    ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_2fj_1med1tight");
+    ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_2fj_1med1tight_ptVV");
     // ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_2fj_2med");
     // ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_2fj_tight");
     // ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_ORTrigger_3fj_medium");
     ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_ORTrigger_2fj");
     ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_ORTrigger_3fj");
+    ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_invPT_2fj");
     ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_CRb_2fj");
     ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_CRb_3fj");
+    ana.cutflow.bookHistogramsForCut(hists_allHad, "allHad_2fj_mSD_sideband_ptVV");
 }
+
+bool is_baseline_jet(unsigned int i){
+    if( ana.tx.getBranchLazy<vector<int>>("Common_jet_id")[i] != 6 ) return false;
+    
+    if ( ana.tx.getBranchLazy<vector<int>>("Common_jet_overlapfatjet")[i]) return false;
+
+    return true;
+}
+
+bool is_baseline_fatjet(unsigned int i, bool firstPTcut, bool SDcut){
+    if( ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt() < 200 ) return false;
+    if( abs(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Eta()) > 2.4 ) return false;
+
+    if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] != 6) return false;
+    
+    if( ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[i] < 1) return false;
+
+    //first jet pT > 500 GeV
+    if(firstPTcut){
+        if( i == 0 && ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt() < 500 ) return false;
+    }
+
+    if(SDcut){
+        if( !(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 65. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] <= 105. ) ) return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ///rejected past selections

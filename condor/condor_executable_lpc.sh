@@ -31,8 +31,8 @@ function chirp {
     echo "[chirp] Chirped $1 => $2 with exit code $ret"
 }
 
-#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd-site.fnal.gov\/\/store}
-INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
+INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd-site.fnal.gov\/\/store}
+#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
 
 # Make sure OUTPUTNAME doesn't have .root since we add it manually
 OUTPUTNAME=$(echo $OUTPUTNAME | sed 's/\.root//')
@@ -89,8 +89,8 @@ ls -lrth
 echo -e "\n--- begin running ---\n" #                           <----- section division
 
 EXTRAARGS="$(getjobad metis_extraargs)"
-echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
-./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
+echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w ${EXTRAARGS}
+./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w ${EXTRAARGS}
 RET=$?
 
 if [ ${RET} != 0 ]; then

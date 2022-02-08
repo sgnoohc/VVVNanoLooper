@@ -35,7 +35,9 @@ def main(args):
     # Constructing input directory name
     username = os.environ['USER']
     #input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(username, args.tag)
-    input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/{}/".format(username, args.tag,yearstring)
+    #input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/{}/".format(username, args.tag,yearstring)
+    input_dir = "/nfs-7/userdata/lhoryn/tupler_babies/merged/VVV/040821_HT/output/2018/"
+    input_dir = args.inputDir
 
     # Printing input directory name
     print(">>>  Input directory: {}".format(input_dir))
@@ -123,6 +125,7 @@ def main(args):
     if args.style == 1: grouping_setting = style.grouping_3LepMET
     if args.style == 5: grouping_setting = style.grouping_OS2jet
     if args.style == 7: grouping_setting = style.grouping_1Lep4jet
+    if args.style == 8: grouping_setting = style.grouping_allHad
 
     # Now loop over files to check the grouping and print a warning that it is skipping some stuff
     root_file_groups = {}
@@ -199,6 +202,12 @@ def main(args):
         legend_labels = style.legend_labels_1Lep4jet
         sig_labels = style.sig_labels_1Lep4jet
         colors = style.colors_1Lep4jet
+    if args.style == 8: # allHad style
+        bkg_plot_order = style.bkg_plot_order_allHad
+        sig_plot_order = style.sig_plot_order_allHad
+        legend_labels = style.legend_labels_allHad
+        sig_labels = style.sig_labels_allHad
+        colors = style.colors_allHad
 
     # Print the options set
     print("")
@@ -238,13 +247,14 @@ def main(args):
     for key in tfiles_by_group[group][0].GetListOfKeys():
         if "TH" in tfiles_by_group[group][0].Get(key.GetName()).ClassName(): # this is a histogram file
             hist_names.append(key.GetName())
-
-    # Looping over histogram names
+    
     hist_names_to_plot = []
     for hist_name in hist_names:
-        if fnmatch.fnmatch(hist_name, args.histname):
-            hist_names_to_plot.append(hist_name)
-
+        #if "cutflow" in hist_name: continue
+        if (args.histname == "all") or args.histname in hist_name :
+            if "_v_" not in hist_name:
+                hist_names_to_plot.append(hist_name)
+        
     # Loop over the histograms to plot
     for hist_name in hist_names_to_plot:
 
@@ -266,7 +276,9 @@ def main(args):
                 if "Data" in group:
                      thists_by_group[group].append(get_raw_histogram(f, hist_name))
                 else:
-                    thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name))
+                    isEFT = False
+                    if group in sig_plot_order: isEFT = True
+                    thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name, isEFT))
 
         # Now create a list of histogram one per each grouping
         hists = {}
@@ -306,9 +318,11 @@ def main(args):
         xminimum = args.xMin if args.xMin!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(1)
         xmaximum = args.xMax if args.xMax!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(hists[bkg_plot_order[0] ].GetNbinsX()+1)
         x_range = [] if (args.xMin==-999 and args.xMax==-999) else [xminimum,xmaximum]
+        #p.plot_cut_scan(
         p.plot_hist(
                 bgs = [ hists[group].Clone() for group in bkg_plot_order ],
                 sigs = [ hists[group].Clone() for group in sig_plot_order ],
+                #data  = [ hists[group].Clone() for group in sig_plot_order ][0],
                 data = hists["Data"] if args.data else None,
                 colors = colors,
                 legend_labels = legend_labels,
@@ -324,25 +338,31 @@ def main(args):
                     "xaxis_range" : x_range,
                     "remove_underflow":False,
                     "bkg_sort_method":"unsorted",
-                    "signal_scale":args.scale,
+                    "ratio_signal":  True,
+                    "xaxis_label" : hist_name,
+                    "remove_underflow" : True,
+                    #"signal_scale":args.scale,
                     },
                 )
 
-def get_xsec_lumi_scaled_histogram(tfile, name):
-    # The Wgt__h_nevents holds the information about the total number of events processed for this sample
-    # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
-    #print("{} {}".format(tfile.GetName(), name))
+def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
+    print tfile.GetName(), isEFT
     n_eff_events = get_n_eff_events(tfile)
+    #if isEFT: #divide by number of SM events
+    #    sm_idx = 204
+    #    if "WWW" in name: sm_idx = 120
+    #    #n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight").GetBinContent(sm_idx)
+    #    n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting").GetBinContent(sm_idx)
     xsec = get_xsec(args, tfile)
     lumi = get_lumi(args)
-    scale1fb = xsec * 1000. / n_eff_events * lumi
-    #print("{} {} {} {}".format(xsec, n_eff_events, lumi, scale1fb))
-    #print("{}".format(tfile.Get(name).Integral()))
+    
+    scale1fb = xsec * 1000. * lumi / n_eff_events
+    
     h = tfile.Get(name).Clone()
-    #print("{}".format(h.Integral()))
     h.Scale(scale1fb)
-    #print("{}".format(h.Integral()))
     return h
+
+
 def get_raw_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
@@ -354,20 +374,22 @@ def get_n_eff_events(tfile):
 
 def get_xsec(args, tfile):
     sample_short_name = os.path.basename(tfile.GetName()).replace(".root","")
-    sample_map = get_sample_map(args)
-    nanoaodname = ""
-    for i in sample_map:
-        if sample_map[i] == sample_short_name:
-            nanoaodname = i
-    if nanoaodname == "":
-        sys.exit("ERROR - The specific sample was not found from condor/samples.py. {} not found in year {}".format(sample_short_name, args.year))
-    f = open("{}/NanoTools/NanoCORE/datasetinfo/scale1fbs_nanoaod.txt".format(looper_base_dir_path))
+    print sample_short_name
+    f = open("scale1fbs_nanoaod.txt")
     for line in f.readlines():
-        if nanoaodname in line:
+        if sample_short_name in line:
             return float(line.split()[1])
-    sys.exit("ERROR - The specific sample was not found from NanoTools/NanoCORE/scale1fbs_nanoaod.txt. {} not found.".format(nanoaodname))
+    sys.exit("ERROR - The specific sample was not found from NanoTools/NanoCORE/scale1fbs_nanoaod.txt. {} not found.".format(sample_short_name))
 
 def get_sample_map(args):
+    
+    sample_map = samples.QCD_2018
+    sample_map.update(samples.Vplusjets_2018)
+    sample_map.update(samples.top_2018)
+    sample_map.update(samples.diboson_2018)
+    
+    return sample_map
+     
     if args.year == 2016:
         return samples.mc_2016
     elif args.year == 2017:
@@ -403,6 +425,7 @@ if __name__ == "__main__":
     parser.add_argument('-l' , '--yaxis_log', dest='yaxis_log', help='Y-axis set to log' ,  default=False, action='store_true') 
     parser.add_argument('-xn', '--xMin'     , dest='xMin'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
     parser.add_argument('-xx', '--xMax'     , dest='xMax'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
+    parser.add_argument('-i',  '--inDir'     , dest='inputDir'     , help='input director' ,   required=True) 
     # Argument parser
     args = parser.parse_args()
     args.tag

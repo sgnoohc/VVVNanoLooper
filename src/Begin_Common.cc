@@ -15,11 +15,6 @@ void Begin_Common()
     // Determine whether it is EFT or not
     Begin_Common_Determine_Is_EFT();
     
-    //setup GRL
-    Begin_Common_Set_Run_List();
-
-    // Configure the gconf from NanoTools/NanoCORE/Config.h
-    Begin_Common_Set_Config();
 
     // The framework may run over NanoAOD directly or, it may run over VVVTree.
     // ana.run_VVVTree boolean determines this.
@@ -29,6 +24,10 @@ void Begin_Common()
     }
     else
     {
+        //setup GRL
+        Begin_Common_Set_Run_List();
+        // Configure the gconf from NanoTools/NanoCORE/Config.h
+        Begin_Common_Set_Config();
         Begin_Common_NanoAOD();
     }
 
@@ -59,6 +58,25 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"); // Lowest unprescaled
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL");
+    
+    //1L triggers
+    ana.tx.createBranch<bool>("Common_HLT_IsoMu24"); 
+    ana.tx.createBranch<bool>("Common_HLT_Ele32_WPTight");
+
+
+    //hadronic triggers
+    ana.tx.createBranch<bool>("Common_HLT_PFHT1050"); 
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet500");
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30");
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30");
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30");
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50");
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50" );
+
+
     // Summary triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_DoubleEl");
     ana.tx.createBranch<bool>                 ("Common_HLT_MuEG");
@@ -515,14 +533,15 @@ void Begin_Common_VVVTree()
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == vvv.Common_gen_VH_channel());}, UNITY );
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() {
-        
+        return true;
+        /*
         //check golden json -- branch is true if MC
         if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
 
         //check basic filters 
         if ( vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
         else if ( !vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
-        else return false;
+        else return false;*/
         }, [&]() { return 1; } );
 
 }

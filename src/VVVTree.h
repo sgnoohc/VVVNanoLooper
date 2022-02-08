@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/home/users/phchang/public_html/analysis/vvv/VVVNanoLooper__/debug.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -48,6 +48,10 @@ class VVVTree {
 /*              Common_btagWeight_DeepCSVB*/  TBranch *Common_btagWeight_DeepCSVB_branch;
 /*              Common_btagWeight_DeepCSVB*/  bool     Common_btagWeight_DeepCSVB_isLoaded;
 //---------------------------------------------------------------------------------
+/*                              Common_wgt*/  float    Common_wgt_;
+/*                              Common_wgt*/  TBranch *Common_wgt_branch;
+/*                              Common_wgt*/  bool     Common_wgt_isLoaded;
+//---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  vector<float> *Common_LHEWeight_mg_reweighting_;
 /*         Common_LHEWeight_mg_reweighting*/  TBranch *Common_LHEWeight_mg_reweighting_branch;
 /*         Common_LHEWeight_mg_reweighting*/  bool     Common_LHEWeight_mg_reweighting_isLoaded;
@@ -87,6 +91,46 @@ class VVVTree {
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  bool     Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_;
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  TBranch *Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch;
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  bool     Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFHT1050*/  bool     Common_HLT_PFHT1050_;
+/*                     Common_HLT_PFHT1050*/  TBranch *Common_HLT_PFHT1050_branch;
+/*                     Common_HLT_PFHT1050*/  bool     Common_HLT_PFHT1050_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet500*/  bool     Common_HLT_AK8PFJet500_;
+/*                  Common_HLT_AK8PFJet500*/  TBranch *Common_HLT_AK8PFJet500_branch;
+/*                  Common_HLT_AK8PFJet500*/  bool     Common_HLT_AK8PFJet500_isLoaded;
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet380_TrimMass30*/  bool     Common_HLT_AK8PFJet380_TrimMass30_;
+/*       Common_HLT_AK8PFJet380_TrimMass30*/  TBranch *Common_HLT_AK8PFJet380_TrimMass30_branch;
+/*       Common_HLT_AK8PFJet380_TrimMass30*/  bool     Common_HLT_AK8PFJet380_TrimMass30_isLoaded;
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet360_TrimMass30*/  bool     Common_HLT_AK8PFJet360_TrimMass30_;
+/*       Common_HLT_AK8PFJet360_TrimMass30*/  TBranch *Common_HLT_AK8PFJet360_TrimMass30_branch;
+/*       Common_HLT_AK8PFJet360_TrimMass30*/  bool     Common_HLT_AK8PFJet360_TrimMass30_isLoaded;
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet400_TrimMass30*/  bool     Common_HLT_AK8PFJet400_TrimMass30_;
+/*       Common_HLT_AK8PFJet400_TrimMass30*/  TBranch *Common_HLT_AK8PFJet400_TrimMass30_branch;
+/*       Common_HLT_AK8PFJet400_TrimMass30*/  bool     Common_HLT_AK8PFJet400_TrimMass30_isLoaded;
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet420_TrimMass30*/  bool     Common_HLT_AK8PFJet420_TrimMass30_;
+/*       Common_HLT_AK8PFJet420_TrimMass30*/  TBranch *Common_HLT_AK8PFJet420_TrimMass30_branch;
+/*       Common_HLT_AK8PFJet420_TrimMass30*/  bool     Common_HLT_AK8PFJet420_TrimMass30_isLoaded;
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT750_TrimMass50*/  bool     Common_HLT_AK8PFHT750_TrimMass50_;
+/*        Common_HLT_AK8PFHT750_TrimMass50*/  TBranch *Common_HLT_AK8PFHT750_TrimMass50_branch;
+/*        Common_HLT_AK8PFHT750_TrimMass50*/  bool     Common_HLT_AK8PFHT750_TrimMass50_isLoaded;
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT800_TrimMass50*/  bool     Common_HLT_AK8PFHT800_TrimMass50_;
+/*        Common_HLT_AK8PFHT800_TrimMass50*/  TBranch *Common_HLT_AK8PFHT800_TrimMass50_branch;
+/*        Common_HLT_AK8PFHT800_TrimMass50*/  bool     Common_HLT_AK8PFHT800_TrimMass50_isLoaded;
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT850_TrimMass50*/  bool     Common_HLT_AK8PFHT850_TrimMass50_;
+/*        Common_HLT_AK8PFHT850_TrimMass50*/  TBranch *Common_HLT_AK8PFHT850_TrimMass50_branch;
+/*        Common_HLT_AK8PFHT850_TrimMass50*/  bool     Common_HLT_AK8PFHT850_TrimMass50_isLoaded;
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT900_TrimMass50*/  bool     Common_HLT_AK8PFHT900_TrimMass50_;
+/*        Common_HLT_AK8PFHT900_TrimMass50*/  TBranch *Common_HLT_AK8PFHT900_TrimMass50_branch;
+/*        Common_HLT_AK8PFHT900_TrimMass50*/  bool     Common_HLT_AK8PFHT900_TrimMass50_isLoaded;
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  bool     Common_HLT_DoubleEl_;
 /*                     Common_HLT_DoubleEl*/  TBranch *Common_HLT_DoubleEl_branch;
@@ -143,6 +187,90 @@ class VVVTree {
 /*                  Common_event_lepSFmudn*/  float    Common_event_lepSFmudn_;
 /*                  Common_event_lepSFmudn*/  TBranch *Common_event_lepSFmudn_branch;
 /*                  Common_event_lepSFmudn*/  bool     Common_event_lepSFmudn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_event_tightBtagSF*/  float    Common_event_tightBtagSF_;
+/*                Common_event_tightBtagSF*/  TBranch *Common_event_tightBtagSF_branch;
+/*                Common_event_tightBtagSF*/  bool     Common_event_tightBtagSF_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFup*/  float    Common_event_tightBtagSFup_;
+/*              Common_event_tightBtagSFup*/  TBranch *Common_event_tightBtagSFup_branch;
+/*              Common_event_tightBtagSFup*/  bool     Common_event_tightBtagSFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFdn*/  float    Common_event_tightBtagSFdn_;
+/*              Common_event_tightBtagSFdn*/  TBranch *Common_event_tightBtagSFdn_branch;
+/*              Common_event_tightBtagSFdn*/  bool     Common_event_tightBtagSFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFup*/  float    Common_event_tightBtagSFHFup_;
+/*            Common_event_tightBtagSFHFup*/  TBranch *Common_event_tightBtagSFHFup_branch;
+/*            Common_event_tightBtagSFHFup*/  bool     Common_event_tightBtagSFHFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFdn*/  float    Common_event_tightBtagSFHFdn_;
+/*            Common_event_tightBtagSFHFdn*/  TBranch *Common_event_tightBtagSFHFdn_branch;
+/*            Common_event_tightBtagSFHFdn*/  bool     Common_event_tightBtagSFHFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFup*/  float    Common_event_tightBtagSFLFup_;
+/*            Common_event_tightBtagSFLFup*/  TBranch *Common_event_tightBtagSFLFup_branch;
+/*            Common_event_tightBtagSFLFup*/  bool     Common_event_tightBtagSFLFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFdn*/  float    Common_event_tightBtagSFLFdn_;
+/*            Common_event_tightBtagSFLFdn*/  TBranch *Common_event_tightBtagSFLFdn_branch;
+/*            Common_event_tightBtagSFLFdn*/  bool     Common_event_tightBtagSFLFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*               Common_event_mediumBtagSF*/  float    Common_event_mediumBtagSF_;
+/*               Common_event_mediumBtagSF*/  TBranch *Common_event_mediumBtagSF_branch;
+/*               Common_event_mediumBtagSF*/  bool     Common_event_mediumBtagSF_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFup*/  float    Common_event_mediumBtagSFup_;
+/*             Common_event_mediumBtagSFup*/  TBranch *Common_event_mediumBtagSFup_branch;
+/*             Common_event_mediumBtagSFup*/  bool     Common_event_mediumBtagSFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFdn*/  float    Common_event_mediumBtagSFdn_;
+/*             Common_event_mediumBtagSFdn*/  TBranch *Common_event_mediumBtagSFdn_branch;
+/*             Common_event_mediumBtagSFdn*/  bool     Common_event_mediumBtagSFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFup*/  float    Common_event_mediumBtagSFHFup_;
+/*           Common_event_mediumBtagSFHFup*/  TBranch *Common_event_mediumBtagSFHFup_branch;
+/*           Common_event_mediumBtagSFHFup*/  bool     Common_event_mediumBtagSFHFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFdn*/  float    Common_event_mediumBtagSFHFdn_;
+/*           Common_event_mediumBtagSFHFdn*/  TBranch *Common_event_mediumBtagSFHFdn_branch;
+/*           Common_event_mediumBtagSFHFdn*/  bool     Common_event_mediumBtagSFHFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFup*/  float    Common_event_mediumBtagSFLFup_;
+/*           Common_event_mediumBtagSFLFup*/  TBranch *Common_event_mediumBtagSFLFup_branch;
+/*           Common_event_mediumBtagSFLFup*/  bool     Common_event_mediumBtagSFLFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFdn*/  float    Common_event_mediumBtagSFLFdn_;
+/*           Common_event_mediumBtagSFLFdn*/  TBranch *Common_event_mediumBtagSFLFdn_branch;
+/*           Common_event_mediumBtagSFLFdn*/  bool     Common_event_mediumBtagSFLFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_event_looseBtagSF*/  float    Common_event_looseBtagSF_;
+/*                Common_event_looseBtagSF*/  TBranch *Common_event_looseBtagSF_branch;
+/*                Common_event_looseBtagSF*/  bool     Common_event_looseBtagSF_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFup*/  float    Common_event_looseBtagSFup_;
+/*              Common_event_looseBtagSFup*/  TBranch *Common_event_looseBtagSFup_branch;
+/*              Common_event_looseBtagSFup*/  bool     Common_event_looseBtagSFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFdn*/  float    Common_event_looseBtagSFdn_;
+/*              Common_event_looseBtagSFdn*/  TBranch *Common_event_looseBtagSFdn_branch;
+/*              Common_event_looseBtagSFdn*/  bool     Common_event_looseBtagSFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFup*/  float    Common_event_looseBtagSFHFup_;
+/*            Common_event_looseBtagSFHFup*/  TBranch *Common_event_looseBtagSFHFup_branch;
+/*            Common_event_looseBtagSFHFup*/  bool     Common_event_looseBtagSFHFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFdn*/  float    Common_event_looseBtagSFHFdn_;
+/*            Common_event_looseBtagSFHFdn*/  TBranch *Common_event_looseBtagSFHFdn_branch;
+/*            Common_event_looseBtagSFHFdn*/  bool     Common_event_looseBtagSFHFdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFup*/  float    Common_event_looseBtagSFLFup_;
+/*            Common_event_looseBtagSFLFup*/  TBranch *Common_event_looseBtagSFLFup_branch;
+/*            Common_event_looseBtagSFLFup*/  bool     Common_event_looseBtagSFLFup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFdn*/  float    Common_event_looseBtagSFLFdn_;
+/*            Common_event_looseBtagSFLFdn*/  TBranch *Common_event_looseBtagSFLFdn_branch;
+/*            Common_event_looseBtagSFLFdn*/  bool     Common_event_looseBtagSFLFdn_isLoaded;
 //---------------------------------------------------------------------------------
 /*                           Common_lep_p4*/  vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > *Common_lep_p4_;
 /*                           Common_lep_p4*/  TBranch *Common_lep_p4_branch;
@@ -220,6 +348,10 @@ class VVVTree {
 /*                   Common_jet_passBtight*/  TBranch *Common_jet_passBtight_branch;
 /*                   Common_jet_passBtight*/  bool     Common_jet_passBtight_isLoaded;
 //---------------------------------------------------------------------------------
+/*                           Common_jet_id*/  vector<int> *Common_jet_id_;
+/*                           Common_jet_id*/  TBranch *Common_jet_id_branch;
+/*                           Common_jet_id*/  bool     Common_jet_id_isLoaded;
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  vector<int> *Common_jet_overlapfatjet_;
 /*                Common_jet_overlapfatjet*/  TBranch *Common_jet_overlapfatjet_branch;
 /*                Common_jet_overlapfatjet*/  bool     Common_jet_overlapfatjet_isLoaded;
@@ -231,6 +363,10 @@ class VVVTree {
 /*                      Common_fatjet_idxs*/  vector<int> *Common_fatjet_idxs_;
 /*                      Common_fatjet_idxs*/  TBranch *Common_fatjet_idxs_branch;
 /*                      Common_fatjet_idxs*/  bool     Common_fatjet_idxs_isLoaded;
+//---------------------------------------------------------------------------------
+/*                        Common_fatjet_id*/  vector<int> *Common_fatjet_id_;
+/*                        Common_fatjet_id*/  TBranch *Common_fatjet_id_branch;
+/*                        Common_fatjet_id*/  bool     Common_fatjet_id_isLoaded;
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_msoftdrop*/  vector<float> *Common_fatjet_msoftdrop_;
 /*                 Common_fatjet_msoftdrop*/  TBranch *Common_fatjet_msoftdrop_branch;
@@ -484,6 +620,10 @@ class VVVTree {
 /*          Common_gen_vvvdecay_taudecayid*/  TBranch *Common_gen_vvvdecay_taudecayid_branch;
 /*          Common_gen_vvvdecay_taudecayid*/  bool     Common_gen_vvvdecay_taudecayid_isLoaded;
 //---------------------------------------------------------------------------------
+/*                         Common_isSignal*/  bool     Common_isSignal_;
+/*                         Common_isSignal*/  TBranch *Common_isSignal_branch;
+/*                         Common_isSignal*/  bool     Common_isSignal_isLoaded;
+//---------------------------------------------------------------------------------
 /*                              Common_n_W*/  int      Common_n_W_;
 /*                              Common_n_W*/  TBranch *Common_n_W_branch;
 /*                              Common_n_W*/  bool     Common_n_W_isLoaded;
@@ -637,6 +777,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*              Common_btagWeight_DeepCSVB*/  const float &Common_btagWeight_DeepCSVB();
 //---------------------------------------------------------------------------------
+/*                              Common_wgt*/  const float &Common_wgt();
+//---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
@@ -656,6 +798,26 @@ void LoadAllBranches();
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFHT1050*/  const bool &Common_HLT_PFHT1050();
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet500*/  const bool &Common_HLT_AK8PFJet500();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet380_TrimMass30*/  const bool &Common_HLT_AK8PFJet380_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet360_TrimMass30*/  const bool &Common_HLT_AK8PFJet360_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet400_TrimMass30*/  const bool &Common_HLT_AK8PFJet400_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet420_TrimMass30*/  const bool &Common_HLT_AK8PFJet420_TrimMass30();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT750_TrimMass50*/  const bool &Common_HLT_AK8PFHT750_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT800_TrimMass50*/  const bool &Common_HLT_AK8PFHT800_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT850_TrimMass50*/  const bool &Common_HLT_AK8PFHT850_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT900_TrimMass50*/  const bool &Common_HLT_AK8PFHT900_TrimMass50();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  const bool &Common_HLT_DoubleEl();
 //---------------------------------------------------------------------------------
@@ -684,6 +846,48 @@ void LoadAllBranches();
 /*                  Common_event_lepSFmuup*/  const float &Common_event_lepSFmuup();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFmudn*/  const float &Common_event_lepSFmudn();
+//---------------------------------------------------------------------------------
+/*                Common_event_tightBtagSF*/  const float &Common_event_tightBtagSF();
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFup*/  const float &Common_event_tightBtagSFup();
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFdn*/  const float &Common_event_tightBtagSFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFup*/  const float &Common_event_tightBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFdn*/  const float &Common_event_tightBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFup*/  const float &Common_event_tightBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFdn*/  const float &Common_event_tightBtagSFLFdn();
+//---------------------------------------------------------------------------------
+/*               Common_event_mediumBtagSF*/  const float &Common_event_mediumBtagSF();
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFup*/  const float &Common_event_mediumBtagSFup();
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFdn*/  const float &Common_event_mediumBtagSFdn();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFup*/  const float &Common_event_mediumBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFdn*/  const float &Common_event_mediumBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFup*/  const float &Common_event_mediumBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFdn*/  const float &Common_event_mediumBtagSFLFdn();
+//---------------------------------------------------------------------------------
+/*                Common_event_looseBtagSF*/  const float &Common_event_looseBtagSF();
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFup*/  const float &Common_event_looseBtagSFup();
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFdn*/  const float &Common_event_looseBtagSFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFup*/  const float &Common_event_looseBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFdn*/  const float &Common_event_looseBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFup*/  const float &Common_event_looseBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFdn*/  const float &Common_event_looseBtagSFLFdn();
 //---------------------------------------------------------------------------------
 /*                           Common_lep_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_lep_p4();
 //---------------------------------------------------------------------------------
@@ -723,11 +927,15 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                   Common_jet_passBtight*/  const vector<bool> &Common_jet_passBtight();
 //---------------------------------------------------------------------------------
+/*                           Common_jet_id*/  const vector<int> &Common_jet_id();
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_p4();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_idxs*/  const vector<int> &Common_fatjet_idxs();
+//---------------------------------------------------------------------------------
+/*                        Common_fatjet_id*/  const vector<int> &Common_fatjet_id();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_msoftdrop*/  const vector<float> &Common_fatjet_msoftdrop();
 //---------------------------------------------------------------------------------
@@ -854,6 +1062,8 @@ void LoadAllBranches();
 /*                 Common_gen_vvvdecay_p4s*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_gen_vvvdecay_p4s();
 //---------------------------------------------------------------------------------
 /*          Common_gen_vvvdecay_taudecayid*/  const vector<int> &Common_gen_vvvdecay_taudecayid();
+//---------------------------------------------------------------------------------
+/*                         Common_isSignal*/  const bool &Common_isSignal();
 //---------------------------------------------------------------------------------
 /*                              Common_n_W*/  const int &Common_n_W();
 //---------------------------------------------------------------------------------
@@ -945,6 +1155,8 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*              Common_btagWeight_DeepCSVB*/  const float &Common_btagWeight_DeepCSVB();
 //---------------------------------------------------------------------------------
+/*                              Common_wgt*/  const float &Common_wgt();
+//---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
@@ -964,6 +1176,26 @@ namespace tas {
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFHT1050*/  const bool &Common_HLT_PFHT1050();
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet500*/  const bool &Common_HLT_AK8PFJet500();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet380_TrimMass30*/  const bool &Common_HLT_AK8PFJet380_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet360_TrimMass30*/  const bool &Common_HLT_AK8PFJet360_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet400_TrimMass30*/  const bool &Common_HLT_AK8PFJet400_TrimMass30();
+//---------------------------------------------------------------------------------
+/*       Common_HLT_AK8PFJet420_TrimMass30*/  const bool &Common_HLT_AK8PFJet420_TrimMass30();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT750_TrimMass50*/  const bool &Common_HLT_AK8PFHT750_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT800_TrimMass50*/  const bool &Common_HLT_AK8PFHT800_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT850_TrimMass50*/  const bool &Common_HLT_AK8PFHT850_TrimMass50();
+//---------------------------------------------------------------------------------
+/*        Common_HLT_AK8PFHT900_TrimMass50*/  const bool &Common_HLT_AK8PFHT900_TrimMass50();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  const bool &Common_HLT_DoubleEl();
 //---------------------------------------------------------------------------------
@@ -992,6 +1224,48 @@ namespace tas {
 /*                  Common_event_lepSFmuup*/  const float &Common_event_lepSFmuup();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFmudn*/  const float &Common_event_lepSFmudn();
+//---------------------------------------------------------------------------------
+/*                Common_event_tightBtagSF*/  const float &Common_event_tightBtagSF();
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFup*/  const float &Common_event_tightBtagSFup();
+//---------------------------------------------------------------------------------
+/*              Common_event_tightBtagSFdn*/  const float &Common_event_tightBtagSFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFup*/  const float &Common_event_tightBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFHFdn*/  const float &Common_event_tightBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFup*/  const float &Common_event_tightBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_tightBtagSFLFdn*/  const float &Common_event_tightBtagSFLFdn();
+//---------------------------------------------------------------------------------
+/*               Common_event_mediumBtagSF*/  const float &Common_event_mediumBtagSF();
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFup*/  const float &Common_event_mediumBtagSFup();
+//---------------------------------------------------------------------------------
+/*             Common_event_mediumBtagSFdn*/  const float &Common_event_mediumBtagSFdn();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFup*/  const float &Common_event_mediumBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFHFdn*/  const float &Common_event_mediumBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFup*/  const float &Common_event_mediumBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*           Common_event_mediumBtagSFLFdn*/  const float &Common_event_mediumBtagSFLFdn();
+//---------------------------------------------------------------------------------
+/*                Common_event_looseBtagSF*/  const float &Common_event_looseBtagSF();
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFup*/  const float &Common_event_looseBtagSFup();
+//---------------------------------------------------------------------------------
+/*              Common_event_looseBtagSFdn*/  const float &Common_event_looseBtagSFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFup*/  const float &Common_event_looseBtagSFHFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFHFdn*/  const float &Common_event_looseBtagSFHFdn();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFup*/  const float &Common_event_looseBtagSFLFup();
+//---------------------------------------------------------------------------------
+/*            Common_event_looseBtagSFLFdn*/  const float &Common_event_looseBtagSFLFdn();
 //---------------------------------------------------------------------------------
 /*                           Common_lep_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_lep_p4();
 //---------------------------------------------------------------------------------
@@ -1031,11 +1305,15 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                   Common_jet_passBtight*/  const vector<bool> &Common_jet_passBtight();
 //---------------------------------------------------------------------------------
+/*                           Common_jet_id*/  const vector<int> &Common_jet_id();
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_p4();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_idxs*/  const vector<int> &Common_fatjet_idxs();
+//---------------------------------------------------------------------------------
+/*                        Common_fatjet_id*/  const vector<int> &Common_fatjet_id();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_msoftdrop*/  const vector<float> &Common_fatjet_msoftdrop();
 //---------------------------------------------------------------------------------
@@ -1162,6 +1440,8 @@ namespace tas {
 /*                 Common_gen_vvvdecay_p4s*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_gen_vvvdecay_p4s();
 //---------------------------------------------------------------------------------
 /*          Common_gen_vvvdecay_taudecayid*/  const vector<int> &Common_gen_vvvdecay_taudecayid();
+//---------------------------------------------------------------------------------
+/*                         Common_isSignal*/  const bool &Common_isSignal();
 //---------------------------------------------------------------------------------
 /*                              Common_n_W*/  const int &Common_n_W();
 //---------------------------------------------------------------------------------
