@@ -534,10 +534,17 @@ void Process_allHad_VVVTree()
 
 void PostProcess_allHad()
 {
+    if (ana.region == 1){
+        if (ana.cutflow.getCut("oneLep_HT").pass)
+        {
+            ana.tx.fill();
+        }
+    else{
+        if (ana.cutflow.getCut("oneLep_HT").pass)
+        {
+            ana.tx.fill();
+        }
 
-    if (ana.cutflow.getCut("allHad_HT").pass)
-    {
-        ana.tx.fill();
     }
 }
 
