@@ -32,6 +32,13 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+    try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
+
+    try { ana.tx.setBranch<float>("Common_event_prefireWeight"                                  , nt.PrefireWeight());                                    } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeight"                                , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_prefireWeightup"                                , nt.PrefireWeight_Up());                                 } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightup"                              , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                                , nt.PrefireWeight_Down());                               } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                         , 1.); }
     if (not nt.isData())
     {
         ana.tx.setBranch<float>            ("Common_genWeight", nt.genWeight());
@@ -158,6 +165,7 @@ void Process_Common_NanoAOD()
     // Semi-complete list of NanoAOD for 102X can be found here: https://cms-nanoaod-integration.web.cern.ch/integration/master-102X/mc102X_doc.html
     // Also consult here: https://github.com/cmstas/NanoTools/blob/d641a6d6c1aa9ecc8094a1af73d5e1bd7d6502ab/NanoCORE/Nano.h#L4875 (if new variables are added they may show up in master)
     float lepSFc(1.), lepSFue(1.), lepSFde(1.), lepSFum(1.), lepSFdm(1.);
+    float lepSFcTight(1.),lepSFueTight(1.),lepSFdeTight(1.),lepSFumTight(1.),lepSFdmTight(1.);
     //---------------------------------------------------------------------------------------------
     // Electron selection
     //---------------------------------------------------------------------------------------------
@@ -168,6 +176,7 @@ void Process_Common_NanoAOD()
         if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel])) continue;
         if (not (nt.Electron_p4()[iel].pt()       > 10.)) continue;
         if (not (abs(nt.Electron_p4()[iel].eta()) < 2.5)) continue;
+        if (abs(nt.Electron_p4()[iel].eta()) < 1.566 && abs(nt.Electron_p4()[iel].eta()) > 1.444) continue; 
 
         // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", iel);
@@ -179,23 +188,32 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Electron_ip3d()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Electron_sip3d()[iel]);
         //---------
-        bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
+        // bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
         float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
         float eta = std::min(std::max(nt.Electron_p4()[iel].eta(), -2.499f), 2.499f);
-        float sf = (pt > 20 ? ana.electronRECOSFgt20->eval(eta, pt) : ana.electronRECOSFlt20->eval(eta, pt)) * (istight ? ana.electronMVAID80SF->eval(eta, pt) : ana.electronMVAID90SF->eval(eta, pt));
+        float sf = (pt > 20 ? ana.electronRECOSFgt20->eval(eta, pt) : ana.electronRECOSFlt20->eval(eta, pt)) * ana.electronMVAID90SF->eval(eta, pt);
         lepSFc  *= sf;
         lepSFum *= sf;
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
-        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_up(eta, pt) : ana.electronRECOSFlt20->eval_up(eta, pt)) * (istight ? ana.electronMVAID80SF->eval_up(eta, pt) : ana.electronMVAID90SF->eval_up(eta, pt));
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_up(eta, pt) : ana.electronRECOSFlt20->eval_up(eta, pt)) * ana.electronMVAID90SF->eval_up(eta, pt);
         lepSFue *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
-        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_down(eta, pt) : ana.electronRECOSFlt20->eval_down(eta, pt)) * (istight ? ana.electronMVAID80SF->eval_down(eta, pt) : ana.electronMVAID90SF->eval_down(eta, pt));
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_down(eta, pt) : ana.electronRECOSFlt20->eval_down(eta, pt)) * ana.electronMVAID90SF->eval_down(eta, pt);
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval(eta, pt) : ana.electronRECOSFlt20->eval(eta, pt)) * ana.electronMVAID80SF->eval(eta, pt);
+        lepSFcTight  *= sf;
+        lepSFumTight *= sf;
+        lepSFdmTight *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_up(eta, pt) : ana.electronRECOSFlt20->eval_up(eta, pt)) * ana.electronMVAID80SF->eval_up(eta, pt);
+        lepSFueTight *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        sf       = (pt > 20 ? ana.electronRECOSFgt20->eval_down(eta, pt) : ana.electronRECOSFlt20->eval_down(eta, pt)) * ana.electronMVAID80SF->eval_down(eta, pt);
+        lepSFdeTight *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
+
         //---------
         // float sf = ana.leptonscalefactors.leptonSF(nt.isData(),nt.year(),11,nt.Electron_p4()[iel].eta(),nt.Electron_p4()[iel].pt(),nt.event(), 0);
         // lepSFc  *= sf;
@@ -235,22 +253,31 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Muon_ip3d()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
         //---------
-        bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
+        // bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
+        float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
         float pt = std::min(std::max(nt.Muon_p4()[imu].pt(), 15.01f), 119.9f);
         float abseta = std::min(std::max(fabs(nt.Muon_p4()[imu].eta()), 0.01f), 2.399f);
-        float sf = ana.muonIDSFMedium->eval(abseta, pt) * (istight ? ana.muonISOSFTight->eval(abseta, pt) : ana.muonISOSFLoose->eval(abseta, pt));
+        float sf = ana.muonRECOSF->eval(abseta, ptreco) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFLoose->eval(abseta, pt);
         lepSFc  *= sf;
         lepSFue *= sf;
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
-        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = ana.muonIDSFMedium->eval_up(abseta, pt) * (istight ? ana.muonISOSFTight->eval_up(abseta, pt) : ana.muonISOSFLoose->eval_up(abseta, pt));
+        sf       = ana.muonRECOSF->eval_up(abseta, ptreco) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFLoose->eval_up(abseta, pt);
         lepSFum *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
-        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = ana.muonIDSFMedium->eval_down(abseta, pt) * (istight ? ana.muonISOSFTight->eval_down(abseta, pt) : ana.muonISOSFLoose->eval_down(abseta, pt));
+        sf       = ana.muonRECOSF->eval_down(abseta, ptreco) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFLoose->eval_down(abseta, pt);
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
+        sf = ana.muonRECOSF->eval(abseta, ptreco) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFTight->eval(abseta, pt);
+        lepSFcTight  *= sf;
+        lepSFueTight *= sf;
+        lepSFdeTight *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
+        sf       = ana.muonRECOSF->eval_up(abseta, ptreco) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFTight->eval_up(abseta, pt);
+        lepSFumTight *= sf;
+        ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
+        sf       = ana.muonRECOSF->eval_down(abseta, ptreco) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFTight->eval_down(abseta, pt);
+        lepSFdmTight *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
         //---------
         // string period = "X";
@@ -278,8 +305,12 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<float>("Common_event_lepSFmuup"  , lepSFum);
     ana.tx.setBranch<float>("Common_event_lepSFmudn"  , lepSFdm);
 
-    //---------------------------------------------------------------------------------------------
-    // Jet selection
+    ana.tx.setBranch<float>("Common_event_lepSFTight"      , lepSFcTight );
+    ana.tx.setBranch<float>("Common_event_lepSFelupTight"  , lepSFueTight);
+    ana.tx.setBranch<float>("Common_event_lepSFeldnTight"  , lepSFdeTight);
+    ana.tx.setBranch<float>("Common_event_lepSFmuupTight"  , lepSFumTight);
+    ana.tx.setBranch<float>("Common_event_lepSFmudnTight"  , lepSFdmTight);
+
     //---------------------------------------------------------------------------------------------
 
     // b-tagging counter (DeepFlavB)
@@ -790,6 +821,37 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_mass", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet0_p4",  nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx1()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet1_p4",  nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
+        try
+        {
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jesup", nt.FatJet_pt_jesTotalUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jesdn", nt.FatJet_pt_jesTotalDown()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerup", nt.FatJet_pt_jerUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerdn", nt.FatJet_pt_jerDown()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesup", nt.FatJet_msoftdrop_jesTotalUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesdn", nt.FatJet_msoftdrop_jesTotalDown()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerup", nt.FatJet_msoftdrop_jerUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerdn", nt.FatJet_msoftdrop_jerDown()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsup", nt.FatJet_msoftdrop_jmsUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsdn", nt.FatJet_msoftdrop_jmsDown()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrup", nt.FatJet_msoftdrop_jmrUp()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrdn", nt.FatJet_msoftdrop_jmrDown()[ifatjet]);
+
+        }
+        catch(std::runtime_error)
+        {
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jesup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jesdn", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerdn", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesdn", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerdn", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsdn", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrup", 0.);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrdn", 0.);
+        }
 
         float WPtemp = 0;
         int WPid = -999;
@@ -1242,11 +1304,64 @@ void Process_Common_NanoAOD()
     // Sorting fatjet branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_fatjet_p4",
-            /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb", "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi", "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass", "Common_fatjet_SFVLoose", "Common_fatjet_SFLoose", "Common_fatjet_SFMedium", "Common_fatjet_SFTight", "Common_fatjet_SFdnVLoose", "Common_fatjet_SFdnLoose", "Common_fatjet_SFdnMedium", "Common_fatjet_SFdnTight", "Common_fatjet_SFupVLoose", "Common_fatjet_SFupLoose", "Common_fatjet_SFupMedium", "Common_fatjet_SFupTight" /*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/
+            /* names of any associated vector<float> branches to sort along */ {"Common_fatjet_msoftdrop", "Common_fatjet_deepMD_W", "Common_fatjet_deep_W", "Common_fatjet_deepMD_Z", "Common_fatjet_deep_Z", "Common_fatjet_deepMD_T", "Common_fatjet_deep_T", "Common_fatjet_deepMD_bb", "Common_fatjet_tau3", "Common_fatjet_tau2", "Common_fatjet_tau1", "Common_fatjet_tau32", "Common_fatjet_tau21", "Common_fatjet_subjet0_pt", "Common_fatjet_subjet0_eta", "Common_fatjet_subjet0_phi", "Common_fatjet_subjet0_mass", "Common_fatjet_subjet1_pt", "Common_fatjet_subjet1_eta", "Common_fatjet_subjet1_phi", "Common_fatjet_subjet1_mass", "Common_fatjet_SFVLoose", "Common_fatjet_SFLoose", "Common_fatjet_SFMedium", "Common_fatjet_SFTight", "Common_fatjet_SFdnVLoose", "Common_fatjet_SFdnLoose", "Common_fatjet_SFdnMedium", "Common_fatjet_SFdnTight", "Common_fatjet_SFupVLoose", "Common_fatjet_SFupLoose", "Common_fatjet_SFupMedium", "Common_fatjet_SFupTight" /*, "Common_fatjet_subjet0_p4", "Common_fatjet_subjet1_p4",*/, "Common_fatjet_pt_jesup", "Common_fatjet_pt_jesdn", "Common_fatjet_pt_jerup", "Common_fatjet_pt_jerdn", "Common_fatjet_msoftdrop_jesup", "Common_fatjet_msoftdrop_jesdn", "Common_fatjet_msoftdrop_jerup", "Common_fatjet_msoftdrop_jerdn", "Common_fatjet_msoftdrop_jmsup", "Common_fatjet_msoftdrop_jmsdn", "Common_fatjet_msoftdrop_jmrup", "Common_fatjet_msoftdrop_jmrdn"
                                                                                },
             /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs", "Common_fatjet_id", "Common_fatjet_WP", "Common_fatjet_WP_antimasscut"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
+     //-------------------------------------------------------------------------------------------
+     // Setting Trigger weights
+     //-------------------------------------------------------------------------------------------
+     if(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid").size() >= 2)
+     {
+         int lep1pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[0];
+         int lep2pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[1];
+         if(abs(lep1pdgid) == 11 && abs(lep2pdgid) == 11)
+         {
+             float lep1pt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),20.01f),499.9f);
+             float lep2pt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggereeSF->eval(lep1pt, lep2pt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggereeSF->eval_up(lep1pt, lep2pt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggereeSF->eval_down(lep1pt, lep2pt));
+         }
+         else if(abs(lep1pdgid) == 11 && abs(lep2pdgid) == 13)
+         {
+             float lepept = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),15.01f),499.9f);
+             float lepmupt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggeremuSF->eval(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggeremuSF->eval_up(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggeremuSF->eval_down(lepept, lepmupt));
+         }
+         else if(abs(lep1pdgid) == 13 && abs(lep2pdgid) == 11)
+         {
+             float lepept = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
+             float lepmupt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),15.01f),499.9f);
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggeremuSF->eval(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggeremuSF->eval_up(lepept, lepmupt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggeremuSF->eval_down(lepept, lepmupt));
+         }
+         else if(abs(lep1pdgid) == 13 && abs(lep2pdgid) == 13)
+         {
+             float lep1pt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[0].pt(),20.01f),499.9f);
+             float lep2pt = std::min(std::max(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[1].pt(),15.01f),499.9f);
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   ana.triggermumuSF->eval(lep1pt, lep2pt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", ana.triggermumuSF->eval_up(lep1pt, lep2pt));
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", ana.triggermumuSF->eval_down(lep1pt, lep2pt));
+         }
+  
+         else
+         {
+             ana.tx.setBranch<float>("Common_event_triggerWeight",   1.);
+             ana.tx.setBranch<float>("Common_event_triggerWeightup", 1.);
+             ana.tx.setBranch<float>("Common_event_triggerWeightdn", 1.);
+         }
+     }
+     else
+     {
+         ana.tx.setBranch<float>("Common_event_triggerWeight",   1.);
+         ana.tx.setBranch<float>("Common_event_triggerWeightup", 1.);
+         ana.tx.setBranch<float>("Common_event_triggerWeightdn", 1.);
+     }  
 
 }
 

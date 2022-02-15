@@ -122,6 +122,7 @@ public:
     RooUtil::HistMap* btagEffLoose_c;
     RooUtil::HistMap* btagEffLoose_l;
 
+    RooUtil::HistMap* muonRECOSF;
     RooUtil::HistMap* muonIDSFMedium;
     RooUtil::HistMap* muonISOSFLoose;
     RooUtil::HistMap* muonISOSFTight;
@@ -131,6 +132,9 @@ public:
     RooUtil::HistMap* electronMVAID90SF;
     RooUtil::HistMap* electronMVAID80SF;
 
+    RooUtil::HistMap* triggereeSF;
+    RooUtil::HistMap* triggeremuSF;
+    RooUtil::HistMap* triggermumuSF;
 };
 
 extern AnalysisConfig ana;
