@@ -14,6 +14,9 @@ void Begin_Common()
 
     // Determine whether it is EFT or not
     Begin_Common_Determine_Is_EFT();
+
+    // Determine whether it is postprocessed NanoAOD or not
+    Begin_Common_Determine_Is_Postprocessed(); 
     
     //setup GRL
     Begin_Common_Set_Run_List();
@@ -81,6 +84,11 @@ void Begin_Common_Create_Branches()
 
     // Summary 4 vectors of the objects selected
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4");
+    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesup");
+    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesdn");
+    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
+    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
+
     
     ana.tx.createBranch<float>                ("Common_event_lepSF");      // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFelup");  // lepSF
@@ -146,7 +154,15 @@ void Begin_Common_Create_Branches()
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFupLoose");    // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFupMedium");   // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFupTight");    // single jet bSF
-    ana.tx.createBranch<vector<int>>          ("Common_jet_overlapfatjet"); // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
+    ana.tx.createBranch<vector<int>>          ("Common_jet_overlapfatjet");   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
+    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesup");        // jet pt JEC uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesdn");        // jet pt JEC uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerup");        // jet pt JER uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerdn");        // jet pt JER uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesup");        // jet pt JEC uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesdn");        // jet pt JEC uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerup");        // jet pt JER uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerdn");        // jet pt JER uncertainty down shift
 
     // Fat jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4");            // Pt sorted selected fatjet p4s
@@ -201,6 +217,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsdn");      // fatjet softdrop mass JMS uncertainty down shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrup");      // fatjet softdrop mass JMR uncertainty up shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrdn");      // fatjet softdrop mass JMR uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesup");     // fatjet mass JEC uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesdn");     // fatjet mass JEC uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerup");     // fatjet mass JER uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerdn");     // fatjet mass JER uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsup");     // fatjet mass JMS uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsdn");     // fatjet mass JMS uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrup");     // fatjet mass JMR uncertainty up shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrdn");     // fatjet mass JMR uncertainty down shift
+
 
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFLoose");       // event fatjet SF
@@ -275,6 +300,25 @@ void Begin_Common_Determine_Is_EFT()
 
 }
 
+void Begin_Common_Determine_Is_Postprocessed()
+{
+    if (ana.run_VVVTree)
+    {
+        // TODO: update VVVTree situation
+        ana.is_postprocessed = true;
+    }
+    else
+    {
+        ana.is_postprocessed = false; //default is false
+	TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+        for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
+        {
+            TString brname = brobjArray->At(ibr)->GetName();
+            if (brname.EqualTo("FatJet_pt_nom"))
+                ana.is_postprocessed = true; // if it has the branch it is set to true
+        }
+    }
+}
 void Begin_Common_Set_Run_List()
 {
     std::string list = "";
@@ -508,7 +552,7 @@ void Begin_Common_Set_Config()
         ana.electronRECOSFlt20 = new RooUtil::HistMap("config/egammaEffi_ptBelow20.txt_EGM2D_UL2016preVFP.root:EGamma_SF2D");
         ana.electronRECOSFgt20 = new RooUtil::HistMap("config/egammaEffi_ptAbove20.txt_EGM2D_UL2016preVFP.root:EGamma_SF2D");
         ana.electronMVAID90SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp90iso_preVFP_EGM2D.root:EGamma_SF2D");
-        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_preVFP_EGM2D.root");
+        ana.electronMVAID80SF  = new RooUtil::HistMap("config/egammaEffi.txt_Ele_wp80iso_preVFP_EGM2D.root:EGamma_SF2D");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
