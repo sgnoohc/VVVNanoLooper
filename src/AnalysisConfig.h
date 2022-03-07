@@ -90,6 +90,10 @@ public:
     // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
     bool is_EFT_sample;
 
+    // if branches added in by NanoAODTools exists, it is the postprocessed NanoAOD sample
+
+    bool is_postprocessed;
+
     // event weight
     float wgt;
 
