@@ -840,6 +840,10 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_fatjet_deepMD_T", nt.FatJet_deepTagMD_TvsQCD()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_deep_T", nt.FatJet_deepTag_TvsQCD()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_deepMD_bb", nt.FatJet_deepTagMD_bbvsLight()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_T", nt.FatJet_particleNet_TvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_W", nt.FatJet_particleNet_WvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_Z", nt.FatJet_particleNet_ZvsQCD()[ifatjet]);
+
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau3",  nt.FatJet_tau3()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau2",  nt.FatJet_tau2()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau1",  nt.FatJet_tau1()[ifatjet]);
