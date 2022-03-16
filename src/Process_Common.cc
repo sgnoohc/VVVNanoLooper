@@ -40,7 +40,7 @@ void Process_Common_NanoAOD()
         else
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
         if (ana.is_EFT_sample)
-            ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
+            ana.tx.setBranch<vector<float>>("Common_LHEReweightingWeight", nt.LHEReweightingWeight());
         ana.tx.setBranch<float>            ("Common_wgt", ana.wgt * ((nt.genWeight() > 0) - (nt.genWeight() < 0)));
     }
     else
@@ -806,6 +806,9 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_fatjet_subjet1_mass", nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]] : -999.f);
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet0_p4",  nt.FatJet_subJetIdx1()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx1()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx1()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
         ana.tx.pushbackToBranch<LorentzVector>("Common_fatjet_subjet1_p4",  nt.FatJet_subJetIdx2()[ifatjet] >= 0 ? (RooUtil::Calc::getLV(nt.SubJet_pt()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_eta()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_phi()[nt.FatJet_subJetIdx2()[ifatjet]], nt.SubJet_mass()[nt.FatJet_subJetIdx2()[ifatjet]])) : (RooUtil::Calc::getLV(0., 0., 0., 0.)));
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_W", nt.FatJet_particleNet_WvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_Z", nt.FatJet_particleNet_ZvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_T", nt.FatJet_particleNet_TvsQCD()[ifatjet]);
 
         float WPtemp = 0;
         int WPid = -999;
@@ -1277,8 +1280,10 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<float>                ("Common_genWeight", vvv.Common_genWeight());
     ana.tx.setBranch<float>                ("Common_btagWeight_DeepCSVB", vvv.Common_btagWeight_DeepCSVB());
 
-    // EFT weightings
-    ana.tx.setBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting", vvv.Common_LHEWeight_mg_reweighting());
+    // EFT weightings 
+    if(ana.is_EFT_sample)
+        ana.tx.setBranch<vector<float>>        ("Common_LHEReweightingWeight", vvv.Common_LHEReweightingWeight());
+
 
     // 2016 only triggers
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ", vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()); // Lowest unprescaled
@@ -1445,5 +1450,9 @@ void Process_Common_VVVTree()
 
     ana.tx.setBranch<float>                ("Common_genHT", vvv.Common_genHT());       // Gen HT value for stitching HT-sliced samples
     ana.tx.setBranch<int>                  ("Common_gen_n_light_lep", vvv.Common_gen_n_light_lep()); // Gen value of how many light lepton exists
+    /*ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());
+    ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());
+    ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());*/
+
 
 }

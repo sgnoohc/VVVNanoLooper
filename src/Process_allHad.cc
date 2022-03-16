@@ -539,8 +539,9 @@ void PostProcess_allHad()
         {
             ana.tx.fill();
         }
+    }
     else{
-        if (ana.cutflow.getCut("oneLep_HT").pass)
+        if (ana.cutflow.getCut("allHad_HT").pass)
         {
             ana.tx.fill();
         }

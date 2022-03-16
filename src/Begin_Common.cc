@@ -45,7 +45,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_wgt");
 
     // EFT weightings
-    ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
+    ana.tx.createBranch<vector<float>>        ("Common_LHEReweightingWeight");
 
     // 2016 only triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"); // Lowest unprescaled
@@ -164,6 +164,9 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_T");      // Pt sorted selected fatjet FatJet_deepTagMD_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deep_T");        // Pt sorted selected fatjet FatJet_deepTag_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_bb");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_W");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_Z");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_T"); 
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau3");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau2");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau1");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
@@ -249,7 +252,10 @@ void Begin_Common_Determine_Is_EFT()
     if (ana.run_VVVTree)
     {
         // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
-        ana.is_EFT_sample = vvv.Common_LHEWeight_mg_reweighting().size() > 0; // If there are weights it's is EFT
+        //ana.is_EFT_sample = vvv.Common_LHEReweightingWeight().size() > 0; // If there are weights it's is EFT
+        //ana.is_EFT_sample = true; //fix this
+        if( ana.eft_reweighting_idx > 0) ana.is_EFT_sample = true;
+        else ana.is_EFT_sample = false;
     }
     else
     {
@@ -259,7 +265,7 @@ void Begin_Common_Determine_Is_EFT()
         for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
         {
             TString brname = brobjArray->At(ibr)->GetName();
-            if (brname.EqualTo("LHEWeight_mg_reweighting"))
+            if (brname.EqualTo("LHEReweightingWeight"))
                 ana.is_EFT_sample = true; // if it has the branch it is set to true
         }
     }
@@ -595,8 +601,8 @@ void Begin_Common_NanoAOD()
     RooUtil::Histograms n_lhe_weight;
     if (ana.is_EFT_sample)
     {
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEReweightingWeight().begin(), nt.LHEReweightingWeight().end()); return rtn; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtnx.push_back(nt.LHEReweightingWeight()[i]*nt.genWeight()); return rtnx; } );
     }
     if (not nt.isData())
     {

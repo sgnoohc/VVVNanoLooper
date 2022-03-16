@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/WWW_UL18.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -56,6 +56,10 @@ class VVVTree {
 /*         Common_LHEWeight_mg_reweighting*/  TBranch *Common_LHEWeight_mg_reweighting_branch;
 /*         Common_LHEWeight_mg_reweighting*/  bool     Common_LHEWeight_mg_reweighting_isLoaded;
 //---------------------------------------------------------------------------------
+/*             Common_LHEReweightingWeight*/  vector<float> *Common_LHEReweightingWeight_;
+/*             Common_LHEReweightingWeight*/  TBranch *Common_LHEReweightingWeight_branch;
+/*             Common_LHEReweightingWeight*/  bool     Common_LHEReweightingWeight_isLoaded;
+//---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  bool     Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_;
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  TBranch *Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch;
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  bool     Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_isLoaded;
@@ -91,6 +95,14 @@ class VVVTree {
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  bool     Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_;
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  TBranch *Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch;
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  bool     Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded;
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_IsoMu24*/  bool     Common_HLT_IsoMu24_;
+/*                      Common_HLT_IsoMu24*/  TBranch *Common_HLT_IsoMu24_branch;
+/*                      Common_HLT_IsoMu24*/  bool     Common_HLT_IsoMu24_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_HLT_Ele32_WPTight*/  bool     Common_HLT_Ele32_WPTight_;
+/*                Common_HLT_Ele32_WPTight*/  TBranch *Common_HLT_Ele32_WPTight_branch;
+/*                Common_HLT_Ele32_WPTight*/  bool     Common_HLT_Ele32_WPTight_isLoaded;
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_PFHT1050*/  bool     Common_HLT_PFHT1050_;
 /*                     Common_HLT_PFHT1050*/  TBranch *Common_HLT_PFHT1050_branch;
@@ -152,10 +164,6 @@ class VVVTree {
 /*  Common_pass_duplicate_removal_mm_em_ee*/  TBranch *Common_pass_duplicate_removal_mm_em_ee_branch;
 /*  Common_pass_duplicate_removal_mm_em_ee*/  bool     Common_pass_duplicate_removal_mm_em_ee_isLoaded;
 //---------------------------------------------------------------------------------
-/*                        Common_passGoodRun*/  bool     Common_passGoodRun_;
-/*                        Common_passGoodRun*/  TBranch *Common_passGoodRun_branch;
-/*                        Common_passGoodRun*/  bool     Common_passGoodRun_isLoaded;
-//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  bool     Common_noiseFlag_;
 /*                        Common_noiseFlag*/  TBranch *Common_noiseFlag_branch;
 /*                        Common_noiseFlag*/  bool     Common_noiseFlag_isLoaded;
@@ -163,6 +171,10 @@ class VVVTree {
 /*                      Common_noiseFlagMC*/  bool     Common_noiseFlagMC_;
 /*                      Common_noiseFlagMC*/  TBranch *Common_noiseFlagMC_branch;
 /*                      Common_noiseFlagMC*/  bool     Common_noiseFlagMC_isLoaded;
+//---------------------------------------------------------------------------------
+/*                      Common_passGoodRun*/  bool     Common_passGoodRun_;
+/*                      Common_passGoodRun*/  TBranch *Common_passGoodRun_branch;
+/*                      Common_passGoodRun*/  bool     Common_passGoodRun_isLoaded;
 //---------------------------------------------------------------------------------
 /*                           Common_met_p4*/  ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > *Common_met_p4_;
 /*                           Common_met_p4*/  TBranch *Common_met_p4_branch;
@@ -781,6 +793,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
+/*             Common_LHEReweightingWeight*/  const vector<float> &Common_LHEReweightingWeight();
+//---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
 //---------------------------------------------------------------------------------
 /* Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL();
@@ -798,6 +812,10 @@ void LoadAllBranches();
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_IsoMu24*/  const bool &Common_HLT_IsoMu24();
+//---------------------------------------------------------------------------------
+/*                Common_HLT_Ele32_WPTight*/  const bool &Common_HLT_Ele32_WPTight();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_PFHT1050*/  const bool &Common_HLT_PFHT1050();
 //---------------------------------------------------------------------------------
@@ -829,11 +847,11 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  const bool &Common_pass_duplicate_removal_mm_em_ee();
 //---------------------------------------------------------------------------------
-/*                        Common_passGoodRun*/  const bool &Common_passGoodRun();
-//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  const bool &Common_noiseFlag();
 //---------------------------------------------------------------------------------
 /*                      Common_noiseFlagMC*/  const bool &Common_noiseFlagMC();
+//---------------------------------------------------------------------------------
+/*                      Common_passGoodRun*/  const bool &Common_passGoodRun();
 //---------------------------------------------------------------------------------
 /*                           Common_met_p4*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4();
 //---------------------------------------------------------------------------------
@@ -1159,6 +1177,8 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
+/*             Common_LHEReweightingWeight*/  const vector<float> &Common_LHEReweightingWeight();
+//---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
 //---------------------------------------------------------------------------------
 /* Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL();
@@ -1176,6 +1196,10 @@ namespace tas {
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL*/  const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_IsoMu24*/  const bool &Common_HLT_IsoMu24();
+//---------------------------------------------------------------------------------
+/*                Common_HLT_Ele32_WPTight*/  const bool &Common_HLT_Ele32_WPTight();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_PFHT1050*/  const bool &Common_HLT_PFHT1050();
 //---------------------------------------------------------------------------------
@@ -1207,11 +1231,11 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  const bool &Common_pass_duplicate_removal_mm_em_ee();
 //---------------------------------------------------------------------------------
-/*                        Common_passGoodRun*/  const bool &Common_passGoodRun();
-//---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  const bool &Common_noiseFlag();
 //---------------------------------------------------------------------------------
 /*                      Common_noiseFlagMC*/  const bool &Common_noiseFlagMC();
+//---------------------------------------------------------------------------------
+/*                      Common_passGoodRun*/  const bool &Common_passGoodRun();
 //---------------------------------------------------------------------------------
 /*                           Common_met_p4*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4();
 //---------------------------------------------------------------------------------

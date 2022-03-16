@@ -66,10 +66,6 @@ grouping_allHad = {
     "JetHT_2018B.root"               : "Data",
     "JetHT_2018C.root"               : "Data",
     "JetHT_2018D.root"               : "Data",
-    "JetHT_2018A_1.root"               : "Data",
-    "JetHT_2018B_1.root"               : "Data",
-    "JetHT_2018C_1.root"               : "Data",
-    "JetHT_2018D_1.root"               : "Data",
 
 }
 

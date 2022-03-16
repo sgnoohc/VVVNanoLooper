@@ -10,7 +10,7 @@ eft_to_run = {
 #    "ZZZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
 }
 
-eft_to_run = {}
+#eft_to_run = {}
 
 if __name__ == "__main__":
 
@@ -28,9 +28,13 @@ to_run = os.listdir(args.inPath)
 
 for f in to_run:
     out_name = f.split("/")[-1]
+    #if not ("QCD" in out_name or "WWW" in out_name)  : continue
+    if "JetHT" in out_name: continue
     if ".root" not in out_name: continue
     print "RUNNING ", out_name
+    print out_name.strip(".root"), eft_to_run
     if out_name.strip(".root") not in eft_to_run:
+        print out_name
     #    continue
         subprocess.call(["./doVVVAnalysis", "--input", args.inPath+f, "--tree", "t", "--mode", "8", "-V", "--output", out_name] )
         subprocess.call(["mv", out_name, args.outPath])
