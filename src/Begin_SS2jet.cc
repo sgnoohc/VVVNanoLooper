@@ -39,6 +39,14 @@ bool SS2jet_SS_filter(){
     return true; 
 }
 
+bool SS2jet_nocut(){
+    ana.cutflow.getCut("CommonCut");
+    ana.cutflow.addCutToLastActiveCut("SS2jet_FatJetCut",
+                                        [&](){
+                                        return true;
+                                        },UNITY);
+    return true;
+}
 
 bool SS2jet_DY(){
     cout<<"DY"<<endl;
@@ -235,6 +243,7 @@ void Begin_SS2jet()
 	case 0:status=/*SS2jet_SS_filter()*/SS2jet_3l_filter()/*SS2jet_DY()*/;break;
 	case 1:status=SS2jet_SS_filter();break;
 	case 2:status=SS2jet_CR_ttbar();break;
+	case 3:status=SS2jet_nocut();break;
     }
     if(!status){
 	std::cout<<"ERROR:This region is not set yet"<<endl;

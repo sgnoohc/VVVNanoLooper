@@ -32,7 +32,8 @@ function chirp {
 }
 
 #INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd-site.fnal.gov\/\/store}
-INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
+#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
+INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmseos.fnal.gov\/\/store\/group\/lpcvvv\/NanoAODv9\/store}
 
 # Make sure OUTPUTNAME doesn't have .root since we add it manually
 OUTPUTNAME=$(echo $OUTPUTNAME | sed 's/\.root//')

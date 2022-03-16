@@ -90,6 +90,10 @@ public:
     // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
     bool is_EFT_sample;
 
+    // if branches added in by NanoAODTools exists, it is the postprocessed NanoAOD sample
+
+    bool is_postprocessed;
+
     // event weight
     float wgt;
 
@@ -122,6 +126,7 @@ public:
     RooUtil::HistMap* btagEffLoose_c;
     RooUtil::HistMap* btagEffLoose_l;
 
+    RooUtil::HistMap* muonRECOSF;
     RooUtil::HistMap* muonIDSFMedium;
     RooUtil::HistMap* muonISOSFLoose;
     RooUtil::HistMap* muonISOSFTight;
@@ -131,6 +136,9 @@ public:
     RooUtil::HistMap* electronMVAID90SF;
     RooUtil::HistMap* electronMVAID80SF;
 
+    RooUtil::HistMap* triggereeSF;
+    RooUtil::HistMap* triggeremuSF;
+    RooUtil::HistMap* triggermumuSF;
 };
 
 extern AnalysisConfig ana;
