@@ -12,6 +12,7 @@
 #include "Begin_OS4jet.h"
 #include "Begin_SS2jet.h"
 #include "Begin_allHad.h"
+#include "Begin_1Lep2fatjet.h"
 
 void Begin();
 
