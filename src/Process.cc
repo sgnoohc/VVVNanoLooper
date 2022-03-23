@@ -24,6 +24,7 @@ void Process()
         case AnalysisConfig::kSS2jet: Process_SS2jet(); break;
         case AnalysisConfig::k1Lep4jet: Process_1Lep4jet(); break;
         case AnalysisConfig::kallHad: Process_allHad(); break;
+        case AnalysisConfig::k1Lep2fatJets: Process_1Lep2fatjet(); break;
     }
 
     // At this point, variables are all computed and set
@@ -45,7 +46,11 @@ void Process()
             case AnalysisConfig::kOS2jet: break;
             case AnalysisConfig::kSS2jet: PostProcess_SS2jet(); break;
             case AnalysisConfig::k1Lep4jet: break;
+<<<<<<< HEAD
             case AnalysisConfig::kallHad: PostProcess_allHad(); break;
+=======
+            case AnalysisConfig::k1Lep2fatJets: break;
+>>>>>>> 57e37fa8006e2b8f7d125ac752abc4225e2cdb6a
         }
     }
 

@@ -24,7 +24,20 @@ void Terminate()
         case AnalysisConfig::kSS2jet: Terminate_SS2jet(); break;
         case AnalysisConfig::k1Lep4jet: Terminate_1Lep4jet(); break;
         case AnalysisConfig::kallHad: Terminate_allHad(); break;
+        case AnalysisConfig::k1Lep2fatJets: Terminate_1Lep2fatjet(); break;
     }
+
+    // if we filter events in the VVVun
+    TFile* InputFile = TFile::Open(ana.input_file_list_tstring);
+    TH1D* nEventGenWeighted = (TH1D*)InputFile->Get("nEventsGenWeighted");
+    if ( nEventGenWeighted ){
+        ana.output_tfile->cd();
+        nEventGenWeighted->Write();
+    }
+    else {
+        cout << "nEventsGenWeighted not exist" << endl;
+    }
+    InputFile->Close();
 
     // Writing output file
     ana.cutflow.saveOutput();
