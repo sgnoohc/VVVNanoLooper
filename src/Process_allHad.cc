@@ -38,19 +38,6 @@ void Process_allHad_VVVTree()
     empty.clear();
     empty_i.clear();
     
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_tau1",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_tau2",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_tau3",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_tau21",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_tau32",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_msoftdrop",  empty);
-
-    
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_pt",     empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_M",     empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_eta",    empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_phi",    empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_ID",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_Jet_pt",        empty);
     ana.tx.setBranch<vector<float>>  ("allHad_Jet_eta",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_Jet_phi",       empty);
@@ -59,18 +46,13 @@ void Process_allHad_VVVTree()
     
     ana.tx.setBranch<vector<float>>    ("allHad_FatJet_nMatchedQuarks",     empty);
     
-    ana.tx.setBranch<vector<int>>    ("allHad_FatJet_WP",     empty_i);
     ana.tx.setBranch<vector<float>>  ("allHad_gen_vvvdecay_pdgid",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_gen_vvvdecay_pt",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_gen_vvv_pt",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_gen_vvv_eta",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_gen_pdgId",       empty);
     ana.tx.setBranch<vector<float>>  ("allHad_genV_status",       empty);
-    
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Zbbtag",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Ztag",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Ttag",  empty);
-    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Wtag",  empty);
+
     
     ana.tx.setBranch<float>  ("allHad_v12_dPhi", -999);
     ana.tx.setBranch<float>  ("allHad_v12_dEta", -999);
@@ -89,9 +71,6 @@ void Process_allHad_VVVTree()
     LorentzVector vvv_reco_fj; 
     LorentzVector vvv_reco_fj_SD;
         
-    
-
-    bool first_jet = true;
     int nfat = 0;
     float SF = 1.0;
     int nloose = 0;
@@ -112,46 +91,20 @@ void Process_allHad_VVVTree()
         if( fjid >= 1) nloose += 1;
         if( fjid >= 2) nmed += 1;
 
-             
-        //only select tight fatjets 
-        //if(fjid >= 3) {
-            //fatjet pt 0 > 500 GeV for trigger turn on
-            /*if( first_jet){
-                if (tmp.Pt() > 500)
-                   first_jet = false;
-                else
-                  continue;
-            }*/
-            selected_p4.push_back(tmp);
-            HT_fj += tmp.Pt();
-            vvv_reco_fj += tmp;
-            vvv_reco_fj_SD += tmp_SD;
-            
-            SF *= ana.tx.getBranchLazy<vector<float>>("Common_fatjet_SFTight")[i];
+        selected_p4.push_back(tmp);
+        HT_fj += tmp.Pt();
+        vvv_reco_fj += tmp;
+        vvv_reco_fj_SD += tmp_SD;
+        
+        SF *= ana.tx.getBranchLazy<vector<float>>("Common_fatjet_SFTight")[i];
 
-            nfat++;
-            savedFj.push_back(tmp);
-            savedFj_SD.push_back(tmp_SD);
+        nfat++;
+        savedFj.push_back(tmp);
+        savedFj_SD.push_back(tmp_SD);
 
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_tau1", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_tau1")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_tau2", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_tau2")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_tau3", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_tau3")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_tau21", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_tau21")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_tau32", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_tau32")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_msoftdrop", ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i]);
-            ana.tx.pushbackToBranch<int>    ("allHad_FatJet_WP",    fjid);
-            ana.tx.pushbackToBranch<float>    ("allHad_FatJet_Wtag",    ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_W")[i]);
-            ana.tx.pushbackToBranch<float>    ("allHad_FatJet_Ztag",    ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_Z")[i]);
-            ana.tx.pushbackToBranch<float>    ("allHad_FatJet_Ttag",    ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_T")[i]);
-            ana.tx.pushbackToBranch<float>    ("allHad_FatJet_Zbbtag",    ana.tx.getBranchLazy<vector<float>>("Common_fatjet_deepMD_bb")[i]);
-            ana.tx.pushbackToBranch<float>    ("allHad_FatJet_ID",    ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i]);
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_pt",    tmp.Pt());
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_M",    tmp.M());
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_eta",   tmp.Eta());
-            ana.tx.pushbackToBranch<float>  ("allHad_FatJet_phi",   tmp.Phi());
-            
-            float dPhiMet = abs(RooUtil::Calc::DeltaPhi( ana.tx.getBranch<LorentzVector>("Common_met_p4"), tmp));
-            if( dPhiMet < minMetdPhi) minMetdPhi = dPhiMet;
+        
+        float dPhiMet = abs(RooUtil::Calc::DeltaPhi( ana.tx.getBranch<LorentzVector>("Common_met_p4"), tmp));
+        if( dPhiMet < minMetdPhi) minMetdPhi = dPhiMet;
             
             
        // }
@@ -181,8 +134,8 @@ void Process_allHad_VVVTree()
 
     //2 fatjets
     if(nfat > 1){
-        TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_pt")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_eta")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_phi")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_M")[0]));
-        TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_pt")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_eta")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_phi")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_M")[1]));
+        TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]));
+        TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1]));
         ana.tx.setBranch<float>  ("allHad_fj12_dPhi",  abs(fj1.DeltaPhi(fj2)));
         ana.tx.setBranch<float>  ("allHad_fj12_dEta",  abs( abs(fj1.Eta()) - abs(fj2.Eta()) ) );
         ana.tx.setBranch<float>  ("allHad_fj12_dR",    fj1.DeltaR(fj2));
@@ -195,9 +148,9 @@ void Process_allHad_VVVTree()
 
     //3 fatjets
     if(nfat > 2){
-        TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_pt")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_eta")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_phi")[0], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_M")[0]));
-        TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_pt")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_eta")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_phi")[1], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_M")[1]));
-        TLorentzVector fj3 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_pt")[2], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_eta")[2], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_phi")[2], ana.tx.getBranchLazy<vector<float>>("allHad_FatJet_M")[2]));
+        TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]));
+        TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1]));
+        TLorentzVector fj3 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[2]));
         ana.tx.setBranch<float>  ("allHad_fj23_dPhi",  abs(fj3.DeltaPhi(fj2)));
         ana.tx.setBranch<float>  ("allHad_fj23_dEta",  abs(abs(fj3.Eta()) - abs(fj2.Eta())));
         ana.tx.setBranch<float>  ("allHad_fj23_dR",    fj3.DeltaR(fj2));

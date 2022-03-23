@@ -74,8 +74,9 @@ if __name__ == "__main__":
             sample_map = samples.samples_VVV4L_2016_Skimmed # See condor/samples.py
             sample_map.update(samples.samples_VVV4L_2016_EFT) # See condor/samples.py
         
-    sample_map = samples.JetHT_2018
-    sample_map.update(samples.QCD_2018)
+    #sample_map = samples.JetHT_2018
+    sample_map = samples.QCD_2018
+    #sample_map.update(samples.QCD_2018)
     sample_map.update(samples.Vplusjets_2018)
     sample_map.update(samples.diboson_2018)
     sample_map.update(samples.top_2018)
@@ -109,7 +110,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode {} {}".format(args.mode,args.addflags)]
+                            ["metis_extraargs", "--mode {} {} -w".format(args.mode,args.addflags)]
                             ]
                         },
                     cmssw_version = "CMSSW_10_2_13",

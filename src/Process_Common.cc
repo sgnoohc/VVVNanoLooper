@@ -1608,9 +1608,9 @@ void Process_Common_VVVTree()
 
     ana.tx.setBranch<float>                ("Common_genHT", vvv.Common_genHT());       // Gen HT value for stitching HT-sliced samples
     ana.tx.setBranch<int>                  ("Common_gen_n_light_lep", vvv.Common_gen_n_light_lep()); // Gen value of how many light lepton exists
-    /*ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());
-    ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());
-    ana.tx.pushbackToBranch<float>         ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());*/
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());
 
 
 }

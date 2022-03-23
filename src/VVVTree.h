@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/WWW_UL18.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -55,6 +55,42 @@ class VVVTree {
 /*         Common_LHEWeight_mg_reweighting*/  vector<float> *Common_LHEWeight_mg_reweighting_;
 /*         Common_LHEWeight_mg_reweighting*/  TBranch *Common_LHEWeight_mg_reweighting_branch;
 /*         Common_LHEWeight_mg_reweighting*/  bool     Common_LHEWeight_mg_reweighting_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_event_puWeight*/  float    Common_event_puWeight_;
+/*                   Common_event_puWeight*/  TBranch *Common_event_puWeight_branch;
+/*                   Common_event_puWeight*/  bool     Common_event_puWeight_isLoaded;
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightup*/  float    Common_event_puWeightup_;
+/*                 Common_event_puWeightup*/  TBranch *Common_event_puWeightup_branch;
+/*                 Common_event_puWeightup*/  bool     Common_event_puWeightup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightdn*/  float    Common_event_puWeightdn_;
+/*                 Common_event_puWeightdn*/  TBranch *Common_event_puWeightdn_branch;
+/*                 Common_event_puWeightdn*/  bool     Common_event_puWeightdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_prefireWeight*/  float    Common_event_prefireWeight_;
+/*              Common_event_prefireWeight*/  TBranch *Common_event_prefireWeight_branch;
+/*              Common_event_prefireWeight*/  bool     Common_event_prefireWeight_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightup*/  float    Common_event_prefireWeightup_;
+/*            Common_event_prefireWeightup*/  TBranch *Common_event_prefireWeightup_branch;
+/*            Common_event_prefireWeightup*/  bool     Common_event_prefireWeightup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightdn*/  float    Common_event_prefireWeightdn_;
+/*            Common_event_prefireWeightdn*/  TBranch *Common_event_prefireWeightdn_branch;
+/*            Common_event_prefireWeightdn*/  bool     Common_event_prefireWeightdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_event_triggerWeight*/  float    Common_event_triggerWeight_;
+/*              Common_event_triggerWeight*/  TBranch *Common_event_triggerWeight_branch;
+/*              Common_event_triggerWeight*/  bool     Common_event_triggerWeight_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightup*/  float    Common_event_triggerWeightup_;
+/*            Common_event_triggerWeightup*/  TBranch *Common_event_triggerWeightup_branch;
+/*            Common_event_triggerWeightup*/  bool     Common_event_triggerWeightup_isLoaded;
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightdn*/  float    Common_event_triggerWeightdn_;
+/*            Common_event_triggerWeightdn*/  TBranch *Common_event_triggerWeightdn_branch;
+/*            Common_event_triggerWeightdn*/  bool     Common_event_triggerWeightdn_isLoaded;
 //---------------------------------------------------------------------------------
 /*             Common_LHEReweightingWeight*/  vector<float> *Common_LHEReweightingWeight_;
 /*             Common_LHEReweightingWeight*/  TBranch *Common_LHEReweightingWeight_branch;
@@ -180,6 +216,22 @@ class VVVTree {
 /*                           Common_met_p4*/  TBranch *Common_met_p4_branch;
 /*                           Common_met_p4*/  bool     Common_met_p4_isLoaded;
 //---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesup*/  ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > *Common_met_p4_jesup_;
+/*                     Common_met_p4_jesup*/  TBranch *Common_met_p4_jesup_branch;
+/*                     Common_met_p4_jesup*/  bool     Common_met_p4_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesdn*/  ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > *Common_met_p4_jesdn_;
+/*                     Common_met_p4_jesdn*/  TBranch *Common_met_p4_jesdn_branch;
+/*                     Common_met_p4_jesdn*/  bool     Common_met_p4_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerup*/  ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > *Common_met_p4_jerup_;
+/*                     Common_met_p4_jerup*/  TBranch *Common_met_p4_jerup_branch;
+/*                     Common_met_p4_jerup*/  bool     Common_met_p4_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerdn*/  ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > *Common_met_p4_jerdn_;
+/*                     Common_met_p4_jerdn*/  TBranch *Common_met_p4_jerdn_branch;
+/*                     Common_met_p4_jerdn*/  bool     Common_met_p4_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
 /*                      Common_event_lepSF*/  float    Common_event_lepSF_;
 /*                      Common_event_lepSF*/  TBranch *Common_event_lepSF_branch;
 /*                      Common_event_lepSF*/  bool     Common_event_lepSF_isLoaded;
@@ -199,6 +251,26 @@ class VVVTree {
 /*                  Common_event_lepSFmudn*/  float    Common_event_lepSFmudn_;
 /*                  Common_event_lepSFmudn*/  TBranch *Common_event_lepSFmudn_branch;
 /*                  Common_event_lepSFmudn*/  bool     Common_event_lepSFmudn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                 Common_event_lepSFTight*/  float    Common_event_lepSFTight_;
+/*                 Common_event_lepSFTight*/  TBranch *Common_event_lepSFTight_branch;
+/*                 Common_event_lepSFTight*/  bool     Common_event_lepSFTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFelupTight*/  float    Common_event_lepSFelupTight_;
+/*             Common_event_lepSFelupTight*/  TBranch *Common_event_lepSFelupTight_branch;
+/*             Common_event_lepSFelupTight*/  bool     Common_event_lepSFelupTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFeldnTight*/  float    Common_event_lepSFeldnTight_;
+/*             Common_event_lepSFeldnTight*/  TBranch *Common_event_lepSFeldnTight_branch;
+/*             Common_event_lepSFeldnTight*/  bool     Common_event_lepSFeldnTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmuupTight*/  float    Common_event_lepSFmuupTight_;
+/*             Common_event_lepSFmuupTight*/  TBranch *Common_event_lepSFmuupTight_branch;
+/*             Common_event_lepSFmuupTight*/  bool     Common_event_lepSFmuupTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmudnTight*/  float    Common_event_lepSFmudnTight_;
+/*             Common_event_lepSFmudnTight*/  TBranch *Common_event_lepSFmudnTight_branch;
+/*             Common_event_lepSFmudnTight*/  bool     Common_event_lepSFmudnTight_isLoaded;
 //---------------------------------------------------------------------------------
 /*                Common_event_tightBtagSF*/  float    Common_event_tightBtagSF_;
 /*                Common_event_tightBtagSF*/  TBranch *Common_event_tightBtagSF_branch;
@@ -368,6 +440,38 @@ class VVVTree {
 /*                Common_jet_overlapfatjet*/  TBranch *Common_jet_overlapfatjet_branch;
 /*                Common_jet_overlapfatjet*/  bool     Common_jet_overlapfatjet_isLoaded;
 //---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesup*/  vector<float> *Common_jet_pt_jesup_;
+/*                     Common_jet_pt_jesup*/  TBranch *Common_jet_pt_jesup_branch;
+/*                     Common_jet_pt_jesup*/  bool     Common_jet_pt_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesdn*/  vector<float> *Common_jet_pt_jesdn_;
+/*                     Common_jet_pt_jesdn*/  TBranch *Common_jet_pt_jesdn_branch;
+/*                     Common_jet_pt_jesdn*/  bool     Common_jet_pt_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerup*/  vector<float> *Common_jet_pt_jerup_;
+/*                     Common_jet_pt_jerup*/  TBranch *Common_jet_pt_jerup_branch;
+/*                     Common_jet_pt_jerup*/  bool     Common_jet_pt_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerdn*/  vector<float> *Common_jet_pt_jerdn_;
+/*                     Common_jet_pt_jerdn*/  TBranch *Common_jet_pt_jerdn_branch;
+/*                     Common_jet_pt_jerdn*/  bool     Common_jet_pt_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesup*/  vector<float> *Common_jet_mass_jesup_;
+/*                   Common_jet_mass_jesup*/  TBranch *Common_jet_mass_jesup_branch;
+/*                   Common_jet_mass_jesup*/  bool     Common_jet_mass_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesdn*/  vector<float> *Common_jet_mass_jesdn_;
+/*                   Common_jet_mass_jesdn*/  TBranch *Common_jet_mass_jesdn_branch;
+/*                   Common_jet_mass_jesdn*/  bool     Common_jet_mass_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerup*/  vector<float> *Common_jet_mass_jerup_;
+/*                   Common_jet_mass_jerup*/  TBranch *Common_jet_mass_jerup_branch;
+/*                   Common_jet_mass_jerup*/  bool     Common_jet_mass_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerdn*/  vector<float> *Common_jet_mass_jerdn_;
+/*                   Common_jet_mass_jerdn*/  TBranch *Common_jet_mass_jerdn_branch;
+/*                   Common_jet_mass_jerdn*/  bool     Common_jet_mass_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
 /*                        Common_fatjet_p4*/  vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > *Common_fatjet_p4_;
 /*                        Common_fatjet_p4*/  TBranch *Common_fatjet_p4_branch;
 /*                        Common_fatjet_p4*/  bool     Common_fatjet_p4_isLoaded;
@@ -411,6 +515,18 @@ class VVVTree {
 /*                 Common_fatjet_deepMD_bb*/  vector<float> *Common_fatjet_deepMD_bb_;
 /*                 Common_fatjet_deepMD_bb*/  TBranch *Common_fatjet_deepMD_bb_branch;
 /*                 Common_fatjet_deepMD_bb*/  bool     Common_fatjet_deepMD_bb_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_W*/  vector<float> *Common_fatjet_particleNet_W_;
+/*             Common_fatjet_particleNet_W*/  TBranch *Common_fatjet_particleNet_W_branch;
+/*             Common_fatjet_particleNet_W*/  bool     Common_fatjet_particleNet_W_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_Z*/  vector<float> *Common_fatjet_particleNet_Z_;
+/*             Common_fatjet_particleNet_Z*/  TBranch *Common_fatjet_particleNet_Z_branch;
+/*             Common_fatjet_particleNet_Z*/  bool     Common_fatjet_particleNet_Z_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_T*/  vector<float> *Common_fatjet_particleNet_T_;
+/*             Common_fatjet_particleNet_T*/  TBranch *Common_fatjet_particleNet_T_branch;
+/*             Common_fatjet_particleNet_T*/  bool     Common_fatjet_particleNet_T_isLoaded;
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_tau3*/  vector<float> *Common_fatjet_tau3_;
 /*                      Common_fatjet_tau3*/  TBranch *Common_fatjet_tau3_branch;
@@ -527,6 +643,86 @@ class VVVTree {
 /*                 Common_fatjet_SFupTight*/  vector<float> *Common_fatjet_SFupTight_;
 /*                 Common_fatjet_SFupTight*/  TBranch *Common_fatjet_SFupTight_branch;
 /*                 Common_fatjet_SFupTight*/  bool     Common_fatjet_SFupTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesup*/  vector<float> *Common_fatjet_pt_jesup_;
+/*                  Common_fatjet_pt_jesup*/  TBranch *Common_fatjet_pt_jesup_branch;
+/*                  Common_fatjet_pt_jesup*/  bool     Common_fatjet_pt_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesdn*/  vector<float> *Common_fatjet_pt_jesdn_;
+/*                  Common_fatjet_pt_jesdn*/  TBranch *Common_fatjet_pt_jesdn_branch;
+/*                  Common_fatjet_pt_jesdn*/  bool     Common_fatjet_pt_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerup*/  vector<float> *Common_fatjet_pt_jerup_;
+/*                  Common_fatjet_pt_jerup*/  TBranch *Common_fatjet_pt_jerup_branch;
+/*                  Common_fatjet_pt_jerup*/  bool     Common_fatjet_pt_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerdn*/  vector<float> *Common_fatjet_pt_jerdn_;
+/*                  Common_fatjet_pt_jerdn*/  TBranch *Common_fatjet_pt_jerdn_branch;
+/*                  Common_fatjet_pt_jerdn*/  bool     Common_fatjet_pt_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesup*/  vector<float> *Common_fatjet_msoftdrop_jesup_;
+/*           Common_fatjet_msoftdrop_jesup*/  TBranch *Common_fatjet_msoftdrop_jesup_branch;
+/*           Common_fatjet_msoftdrop_jesup*/  bool     Common_fatjet_msoftdrop_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesdn*/  vector<float> *Common_fatjet_msoftdrop_jesdn_;
+/*           Common_fatjet_msoftdrop_jesdn*/  TBranch *Common_fatjet_msoftdrop_jesdn_branch;
+/*           Common_fatjet_msoftdrop_jesdn*/  bool     Common_fatjet_msoftdrop_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerup*/  vector<float> *Common_fatjet_msoftdrop_jerup_;
+/*           Common_fatjet_msoftdrop_jerup*/  TBranch *Common_fatjet_msoftdrop_jerup_branch;
+/*           Common_fatjet_msoftdrop_jerup*/  bool     Common_fatjet_msoftdrop_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerdn*/  vector<float> *Common_fatjet_msoftdrop_jerdn_;
+/*           Common_fatjet_msoftdrop_jerdn*/  TBranch *Common_fatjet_msoftdrop_jerdn_branch;
+/*           Common_fatjet_msoftdrop_jerdn*/  bool     Common_fatjet_msoftdrop_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsup*/  vector<float> *Common_fatjet_msoftdrop_jmsup_;
+/*           Common_fatjet_msoftdrop_jmsup*/  TBranch *Common_fatjet_msoftdrop_jmsup_branch;
+/*           Common_fatjet_msoftdrop_jmsup*/  bool     Common_fatjet_msoftdrop_jmsup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsdn*/  vector<float> *Common_fatjet_msoftdrop_jmsdn_;
+/*           Common_fatjet_msoftdrop_jmsdn*/  TBranch *Common_fatjet_msoftdrop_jmsdn_branch;
+/*           Common_fatjet_msoftdrop_jmsdn*/  bool     Common_fatjet_msoftdrop_jmsdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrup*/  vector<float> *Common_fatjet_msoftdrop_jmrup_;
+/*           Common_fatjet_msoftdrop_jmrup*/  TBranch *Common_fatjet_msoftdrop_jmrup_branch;
+/*           Common_fatjet_msoftdrop_jmrup*/  bool     Common_fatjet_msoftdrop_jmrup_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrdn*/  vector<float> *Common_fatjet_msoftdrop_jmrdn_;
+/*           Common_fatjet_msoftdrop_jmrdn*/  TBranch *Common_fatjet_msoftdrop_jmrdn_branch;
+/*           Common_fatjet_msoftdrop_jmrdn*/  bool     Common_fatjet_msoftdrop_jmrdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesup*/  vector<float> *Common_fatjet_mass_jesup_;
+/*                Common_fatjet_mass_jesup*/  TBranch *Common_fatjet_mass_jesup_branch;
+/*                Common_fatjet_mass_jesup*/  bool     Common_fatjet_mass_jesup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesdn*/  vector<float> *Common_fatjet_mass_jesdn_;
+/*                Common_fatjet_mass_jesdn*/  TBranch *Common_fatjet_mass_jesdn_branch;
+/*                Common_fatjet_mass_jesdn*/  bool     Common_fatjet_mass_jesdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerup*/  vector<float> *Common_fatjet_mass_jerup_;
+/*                Common_fatjet_mass_jerup*/  TBranch *Common_fatjet_mass_jerup_branch;
+/*                Common_fatjet_mass_jerup*/  bool     Common_fatjet_mass_jerup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerdn*/  vector<float> *Common_fatjet_mass_jerdn_;
+/*                Common_fatjet_mass_jerdn*/  TBranch *Common_fatjet_mass_jerdn_branch;
+/*                Common_fatjet_mass_jerdn*/  bool     Common_fatjet_mass_jerdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsup*/  vector<float> *Common_fatjet_mass_jmsup_;
+/*                Common_fatjet_mass_jmsup*/  TBranch *Common_fatjet_mass_jmsup_branch;
+/*                Common_fatjet_mass_jmsup*/  bool     Common_fatjet_mass_jmsup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsdn*/  vector<float> *Common_fatjet_mass_jmsdn_;
+/*                Common_fatjet_mass_jmsdn*/  TBranch *Common_fatjet_mass_jmsdn_branch;
+/*                Common_fatjet_mass_jmsdn*/  bool     Common_fatjet_mass_jmsdn_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrup*/  vector<float> *Common_fatjet_mass_jmrup_;
+/*                Common_fatjet_mass_jmrup*/  TBranch *Common_fatjet_mass_jmrup_branch;
+/*                Common_fatjet_mass_jmrup*/  bool     Common_fatjet_mass_jmrup_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrdn*/  vector<float> *Common_fatjet_mass_jmrdn_;
+/*                Common_fatjet_mass_jmrdn*/  TBranch *Common_fatjet_mass_jmrdn_branch;
+/*                Common_fatjet_mass_jmrdn*/  bool     Common_fatjet_mass_jmrdn_isLoaded;
 //---------------------------------------------------------------------------------
 /*      Common_eventweight_fatjet_SFVLoose*/  float    Common_eventweight_fatjet_SFVLoose_;
 /*      Common_eventweight_fatjet_SFVLoose*/  TBranch *Common_eventweight_fatjet_SFVLoose_branch;
@@ -793,6 +989,24 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
+/*                   Common_event_puWeight*/  const float &Common_event_puWeight();
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightup*/  const float &Common_event_puWeightup();
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightdn*/  const float &Common_event_puWeightdn();
+//---------------------------------------------------------------------------------
+/*              Common_event_prefireWeight*/  const float &Common_event_prefireWeight();
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightup*/  const float &Common_event_prefireWeightup();
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightdn*/  const float &Common_event_prefireWeightdn();
+//---------------------------------------------------------------------------------
+/*              Common_event_triggerWeight*/  const float &Common_event_triggerWeight();
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightup*/  const float &Common_event_triggerWeightup();
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightdn*/  const float &Common_event_triggerWeightdn();
+//---------------------------------------------------------------------------------
 /*             Common_LHEReweightingWeight*/  const vector<float> &Common_LHEReweightingWeight();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
@@ -855,6 +1069,14 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                           Common_met_p4*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4();
 //---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesup*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesup();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesdn*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesdn();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerup*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerup();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerdn*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerdn();
+//---------------------------------------------------------------------------------
 /*                      Common_event_lepSF*/  const float &Common_event_lepSF();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFelup*/  const float &Common_event_lepSFelup();
@@ -864,6 +1086,16 @@ void LoadAllBranches();
 /*                  Common_event_lepSFmuup*/  const float &Common_event_lepSFmuup();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFmudn*/  const float &Common_event_lepSFmudn();
+//---------------------------------------------------------------------------------
+/*                 Common_event_lepSFTight*/  const float &Common_event_lepSFTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFelupTight*/  const float &Common_event_lepSFelupTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFeldnTight*/  const float &Common_event_lepSFeldnTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmuupTight*/  const float &Common_event_lepSFmuupTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmudnTight*/  const float &Common_event_lepSFmudnTight();
 //---------------------------------------------------------------------------------
 /*                Common_event_tightBtagSF*/  const float &Common_event_tightBtagSF();
 //---------------------------------------------------------------------------------
@@ -949,6 +1181,22 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesup*/  const vector<float> &Common_jet_pt_jesup();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesdn*/  const vector<float> &Common_jet_pt_jesdn();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerup*/  const vector<float> &Common_jet_pt_jerup();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerdn*/  const vector<float> &Common_jet_pt_jerdn();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesup*/  const vector<float> &Common_jet_mass_jesup();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesdn*/  const vector<float> &Common_jet_mass_jesdn();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerup*/  const vector<float> &Common_jet_mass_jerup();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerdn*/  const vector<float> &Common_jet_mass_jerdn();
+//---------------------------------------------------------------------------------
 /*                        Common_fatjet_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_p4();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_idxs*/  const vector<int> &Common_fatjet_idxs();
@@ -970,6 +1218,12 @@ void LoadAllBranches();
 /*                    Common_fatjet_deep_T*/  const vector<float> &Common_fatjet_deep_T();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  const vector<float> &Common_fatjet_deepMD_bb();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_W*/  const vector<float> &Common_fatjet_particleNet_W();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_Z*/  const vector<float> &Common_fatjet_particleNet_Z();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_T*/  const vector<float> &Common_fatjet_particleNet_T();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_tau3*/  const vector<float> &Common_fatjet_tau3();
 //---------------------------------------------------------------------------------
@@ -1028,6 +1282,46 @@ void LoadAllBranches();
 /*                Common_fatjet_SFupMedium*/  const vector<float> &Common_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_SFupTight*/  const vector<float> &Common_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesup*/  const vector<float> &Common_fatjet_pt_jesup();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesdn*/  const vector<float> &Common_fatjet_pt_jesdn();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerup*/  const vector<float> &Common_fatjet_pt_jerup();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerdn*/  const vector<float> &Common_fatjet_pt_jerdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesup*/  const vector<float> &Common_fatjet_msoftdrop_jesup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesdn*/  const vector<float> &Common_fatjet_msoftdrop_jesdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerup*/  const vector<float> &Common_fatjet_msoftdrop_jerup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerdn*/  const vector<float> &Common_fatjet_msoftdrop_jerdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsup*/  const vector<float> &Common_fatjet_msoftdrop_jmsup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsdn*/  const vector<float> &Common_fatjet_msoftdrop_jmsdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrup*/  const vector<float> &Common_fatjet_msoftdrop_jmrup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrdn*/  const vector<float> &Common_fatjet_msoftdrop_jmrdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesup*/  const vector<float> &Common_fatjet_mass_jesup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesdn*/  const vector<float> &Common_fatjet_mass_jesdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerup*/  const vector<float> &Common_fatjet_mass_jerup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerdn*/  const vector<float> &Common_fatjet_mass_jerdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsup*/  const vector<float> &Common_fatjet_mass_jmsup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsdn*/  const vector<float> &Common_fatjet_mass_jmsdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrup*/  const vector<float> &Common_fatjet_mass_jmrup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrdn*/  const vector<float> &Common_fatjet_mass_jmrdn();
 //---------------------------------------------------------------------------------
 /*      Common_eventweight_fatjet_SFVLoose*/  const float &Common_eventweight_fatjet_SFVLoose();
 //---------------------------------------------------------------------------------
@@ -1177,6 +1471,24 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
+/*                   Common_event_puWeight*/  const float &Common_event_puWeight();
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightup*/  const float &Common_event_puWeightup();
+//---------------------------------------------------------------------------------
+/*                 Common_event_puWeightdn*/  const float &Common_event_puWeightdn();
+//---------------------------------------------------------------------------------
+/*              Common_event_prefireWeight*/  const float &Common_event_prefireWeight();
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightup*/  const float &Common_event_prefireWeightup();
+//---------------------------------------------------------------------------------
+/*            Common_event_prefireWeightdn*/  const float &Common_event_prefireWeightdn();
+//---------------------------------------------------------------------------------
+/*              Common_event_triggerWeight*/  const float &Common_event_triggerWeight();
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightup*/  const float &Common_event_triggerWeightup();
+//---------------------------------------------------------------------------------
+/*            Common_event_triggerWeightdn*/  const float &Common_event_triggerWeightdn();
+//---------------------------------------------------------------------------------
 /*             Common_LHEReweightingWeight*/  const vector<float> &Common_LHEReweightingWeight();
 //---------------------------------------------------------------------------------
 /*Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ*/  const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
@@ -1239,6 +1551,14 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                           Common_met_p4*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4();
 //---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesup*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesup();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jesdn*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesdn();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerup*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerup();
+//---------------------------------------------------------------------------------
+/*                     Common_met_p4_jerdn*/  const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerdn();
+//---------------------------------------------------------------------------------
 /*                      Common_event_lepSF*/  const float &Common_event_lepSF();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFelup*/  const float &Common_event_lepSFelup();
@@ -1248,6 +1568,16 @@ namespace tas {
 /*                  Common_event_lepSFmuup*/  const float &Common_event_lepSFmuup();
 //---------------------------------------------------------------------------------
 /*                  Common_event_lepSFmudn*/  const float &Common_event_lepSFmudn();
+//---------------------------------------------------------------------------------
+/*                 Common_event_lepSFTight*/  const float &Common_event_lepSFTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFelupTight*/  const float &Common_event_lepSFelupTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFeldnTight*/  const float &Common_event_lepSFeldnTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmuupTight*/  const float &Common_event_lepSFmuupTight();
+//---------------------------------------------------------------------------------
+/*             Common_event_lepSFmudnTight*/  const float &Common_event_lepSFmudnTight();
 //---------------------------------------------------------------------------------
 /*                Common_event_tightBtagSF*/  const float &Common_event_tightBtagSF();
 //---------------------------------------------------------------------------------
@@ -1333,6 +1663,22 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesup*/  const vector<float> &Common_jet_pt_jesup();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jesdn*/  const vector<float> &Common_jet_pt_jesdn();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerup*/  const vector<float> &Common_jet_pt_jerup();
+//---------------------------------------------------------------------------------
+/*                     Common_jet_pt_jerdn*/  const vector<float> &Common_jet_pt_jerdn();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesup*/  const vector<float> &Common_jet_mass_jesup();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jesdn*/  const vector<float> &Common_jet_mass_jesdn();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerup*/  const vector<float> &Common_jet_mass_jerup();
+//---------------------------------------------------------------------------------
+/*                   Common_jet_mass_jerdn*/  const vector<float> &Common_jet_mass_jerdn();
+//---------------------------------------------------------------------------------
 /*                        Common_fatjet_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_p4();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_idxs*/  const vector<int> &Common_fatjet_idxs();
@@ -1354,6 +1700,12 @@ namespace tas {
 /*                    Common_fatjet_deep_T*/  const vector<float> &Common_fatjet_deep_T();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  const vector<float> &Common_fatjet_deepMD_bb();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_W*/  const vector<float> &Common_fatjet_particleNet_W();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_Z*/  const vector<float> &Common_fatjet_particleNet_Z();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_particleNet_T*/  const vector<float> &Common_fatjet_particleNet_T();
 //---------------------------------------------------------------------------------
 /*                      Common_fatjet_tau3*/  const vector<float> &Common_fatjet_tau3();
 //---------------------------------------------------------------------------------
@@ -1412,6 +1764,46 @@ namespace tas {
 /*                Common_fatjet_SFupMedium*/  const vector<float> &Common_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_SFupTight*/  const vector<float> &Common_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesup*/  const vector<float> &Common_fatjet_pt_jesup();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jesdn*/  const vector<float> &Common_fatjet_pt_jesdn();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerup*/  const vector<float> &Common_fatjet_pt_jerup();
+//---------------------------------------------------------------------------------
+/*                  Common_fatjet_pt_jerdn*/  const vector<float> &Common_fatjet_pt_jerdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesup*/  const vector<float> &Common_fatjet_msoftdrop_jesup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jesdn*/  const vector<float> &Common_fatjet_msoftdrop_jesdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerup*/  const vector<float> &Common_fatjet_msoftdrop_jerup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jerdn*/  const vector<float> &Common_fatjet_msoftdrop_jerdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsup*/  const vector<float> &Common_fatjet_msoftdrop_jmsup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmsdn*/  const vector<float> &Common_fatjet_msoftdrop_jmsdn();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrup*/  const vector<float> &Common_fatjet_msoftdrop_jmrup();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_msoftdrop_jmrdn*/  const vector<float> &Common_fatjet_msoftdrop_jmrdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesup*/  const vector<float> &Common_fatjet_mass_jesup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jesdn*/  const vector<float> &Common_fatjet_mass_jesdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerup*/  const vector<float> &Common_fatjet_mass_jerup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jerdn*/  const vector<float> &Common_fatjet_mass_jerdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsup*/  const vector<float> &Common_fatjet_mass_jmsup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmsdn*/  const vector<float> &Common_fatjet_mass_jmsdn();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrup*/  const vector<float> &Common_fatjet_mass_jmrup();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_mass_jmrdn*/  const vector<float> &Common_fatjet_mass_jmrdn();
 //---------------------------------------------------------------------------------
 /*      Common_eventweight_fatjet_SFVLoose*/  const float &Common_eventweight_fatjet_SFVLoose();
 //---------------------------------------------------------------------------------
