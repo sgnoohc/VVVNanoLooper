@@ -27,17 +27,6 @@ void Terminate()
         case AnalysisConfig::k1Lep2fatJets: Terminate_1Lep2fatjet(); break;
     }
 
-    // if we filter events in the VVVun
-    TFile* InputFile = TFile::Open(ana.input_file_list_tstring);
-    TH1D* nEventGenWeighted = (TH1D*)InputFile->Get("nEventsGenWeighted");
-    if ( nEventGenWeighted ){
-        ana.output_tfile->cd();
-        nEventGenWeighted->Write();
-    }
-    else {
-        cout << "nEventsGenWeighted not exist" << endl;
-    }
-    InputFile->Close();
 
     // Writing output file
     ana.cutflow.saveOutput();
@@ -51,6 +40,15 @@ void Terminate()
     {
         ana.output_tree->Fill(); // Fill an empty dummy event to pass rigorous sweep root. (So condor jobs don't delete it, because it's empty.)
         ana.output_tree->Write();
+    }
+    if(ana.run_VVVTree){
+        TFile* inputfile = TFile::Open(ana.input_file_list_tstring);
+        TH1F* h_nevents = (TH1F*) inputfile->Get("Wgt__h_nevents"); // Should be "Wgt" to be accurate but the tree does not save event weight (i.e. the sign)
+        TH1F* h_mg_reweight = (TH1F*) inputfile->Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight");
+        ana.output_tfile->cd();
+
+        if(h_mg_reweight) h_mg_reweight->Write();
+        h_nevents->Write();
     }
 
     // The below can be sometimes crucial
