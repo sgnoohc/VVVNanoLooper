@@ -70,6 +70,17 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ());  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , 0); } // Lowest unprescaled
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"                                       , nt.HLT_PFHT1050());                                       } catch (std::runtime_error) { std::cout << "HLT_PFHT1050 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_PFHT1050"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"                                     , nt.HLT_AK8PFJet500());                                   } catch (std::runtime_error) { std::cout << "HLT_AK8PFJet500 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFJet500"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"     , nt.HLT_AK8PFJet380_TrimMass30());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFJet380 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFJet380_TrimMass30"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30"     , nt.HLT_AK8PFJet360_TrimMass30());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFJet360 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFJet360_TrimMass30"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30"     , nt.HLT_AK8PFJet400_TrimMass30());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFJet400 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFJet400_TrimMass30"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30"     , nt.HLT_AK8PFJet420_TrimMass30());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFJet420 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFJet420_TrimMass30"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50"     , nt.HLT_AK8PFHT750_TrimMass50());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFHT750 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFHT750_TrimMass50"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50"     , nt.HLT_AK8PFHT800_TrimMass50());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFHT800 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFHT800_TrimMass50"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , nt.HLT_AK8PFHT850_TrimMass50());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFHT7850 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFHT850_TrimMass50"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , nt.HLT_AK8PFHT900_TrimMass50());     } catch (std::runtime_error) { std::cout << "HLT_AK8PFHT900 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_AK8PFHT900_TrimMass50"     , 0); } 
+
 
     bool is_pd_ee = ana.looper.getCurrentFileName().Contains("DoubleEG") or ana.looper.getCurrentFileName().Contains("EGamma");
     bool is_pd_em = ana.looper.getCurrentFileName().Contains("MuonEG");
@@ -756,40 +767,44 @@ void Process_Common_NanoAOD()
     float fjSFvlc(1.), fjSFvlu(1.), fjSFvld(1.), fjSFlc(1.), fjSFlu(1.), fjSFld(1.), fjSFmc(1.), fjSFmu(1.), fjSFmd(1.), fjSFtc(1.), fjSFtu(1.), fjSFtd(1.);
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
-        float fjWPvloose = 0.274; //https://twiki.cern.ch/twiki/bin/view/CMS/DeepAK8Tagging2018WPsSFs
-        float fjWPloose  = 0.506;
-        float fjWPmedium = 0.731;
-        float fjWPtight  = 0.828;
+        //TODO update with final WPs and for other years
+        //currently from https://indico.cern.ch/event/1103765/contributions/4647556/attachments/2364610/4037250/ParticleNet_2018_ULNanoV9_JMAR_14Dec2021_PK.pdf
+        //Lesya updated March 22 2022
+        float fjWPloose  = 1;
+        float fjWPmedium = 1;
+        float fjWPtight  = 1;
+        
+        float fjWPloose_MD  = 1;
+        float fjWPmedium_MD = 1;
+        float fjWPtight_MD  = 1;
         if (nt.year() == 2017)
         {
-            fjWPvloose = 0.258;
-            fjWPloose  = 0.506;
-            fjWPmedium = 0.739;
-            fjWPtight  = 0.838;
         }
         if (nt.year() == 2018)
         {
-            fjWPvloose = 0.245;
-            fjWPloose  = 0.479;
-            fjWPmedium = 0.704;
-            fjWPtight  = 0.806;
+            fjWPloose  = 0.70;
+            fjWPmedium = 0.94;
+            fjWPtight  = 0.98;
+            fjWPloose_MD  = 0.59;
+            fjWPmedium_MD = 0.82;
+            fjWPtight_MD  = 0.90;
         }
 
         LorentzVector fatjet_p4;
-	float fatjet_msoftdrop;
+        float fatjet_msoftdrop;
         if (ana.is_postprocessed)
         {
             //if postprocessed NanoAOD, set pt to pt_nom, mass to mass_nom msoftdrop to msoftdrop_nom
             fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_nom()[ifatjet]);
             fatjet_msoftdrop = nt.FatJet_msoftdrop_nom()[ifatjet];
         }
-	else
-	{
+        else
+        {
             fatjet_p4 = nt.FatJet_p4()[ifatjet];
             fatjet_msoftdrop = nt.FatJet_msoftdrop()[ifatjet];
 
         }
-           
+
         // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
         // Figure this out
         if (not (fatjet_p4.pt() > 180.))
@@ -827,6 +842,9 @@ void Process_Common_NanoAOD()
 
         if (is_overlapping_with_a_lepton)
             continue;
+        
+        //computed with instructions from NanoAOD reference "For W vs QCD tagging, use (Xcc+Xqq)/(Xcc+Xqq+QCD)"
+        float W_MD = ( nt.FatJet_particleNetMD_Xcc()[ifatjet] + nt.FatJet_particleNetMD_Xqq()[ifatjet]) / (nt.FatJet_particleNetMD_Xcc()[ifatjet] + nt.FatJet_particleNetMD_Xqq()[ifatjet] + nt.FatJet_particleNetMD_QCD()[ifatjet]);
 
         // For now, accept anything that reaches this point
         ana.tx.pushbackToBranch<int>("Common_fatjet_idxs", ifatjet);
@@ -843,6 +861,12 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_W", nt.FatJet_particleNet_WvsQCD()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_Z", nt.FatJet_particleNet_ZvsQCD()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_T", nt.FatJet_particleNet_TvsQCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNet_QCD", nt.FatJet_particleNet_QCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNetMD_QCD", nt.FatJet_particleNetMD_QCD()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNetMD_Xqq", nt.FatJet_particleNetMD_Xqq()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNetMD_Xbb", nt.FatJet_particleNetMD_Xbb()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNetMD_Xcc", nt.FatJet_particleNetMD_Xcc()[ifatjet]);
+        ana.tx.pushbackToBranch<float>("Common_fatjet_particleNetMD_W", W_MD);
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau3",  nt.FatJet_tau3()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau2",  nt.FatJet_tau2()[ifatjet]);
         ana.tx.pushbackToBranch<float>("Common_fatjet_tau1",  nt.FatJet_tau1()[ifatjet]);
@@ -885,19 +909,27 @@ void Process_Common_NanoAOD()
 
         float WPtemp = 0;
         int WPid = -999;
+        int WPid_MD = -999;
 
-        if (nt.FatJet_deepTagMD_WvsQCD()[ifatjet] > fjWPvloose) WPid = 0;
-        if (nt.FatJet_deepTagMD_WvsQCD()[ifatjet] > fjWPloose) WPid = 1;
-        if (nt.FatJet_deepTagMD_WvsQCD()[ifatjet] > fjWPmedium) WPid = 2;
-        if (nt.FatJet_deepTagMD_WvsQCD()[ifatjet] > fjWPtight) WPid = 3;
+
+        if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPloose) WPid = 1;
+        if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPmedium) WPid = 2;
+        if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPtight) WPid = 3;
+
+        if (W_MD > fjWPloose_MD) WPid_MD = 1; 
+        if (W_MD > fjWPmedium_MD) WPid_MD = 2; 
+        if (W_MD > fjWPtight_MD) WPid_MD = 3; 
+        
         if (fatjet_msoftdrop >= 65. and fatjet_msoftdrop <= 105. and fatjet_p4.pt() > 200.)
         {
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
         }
         else
         {
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP", -999);
+            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", -999);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", WPid); // store W DNN cut even off mass peak
             WPid = -999.;                                                       // I reset WPid to not store the fatjet SF for offmass peak
         }
@@ -1435,6 +1467,16 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFHT1050"                                  , vvv.Common_HLT_PFHT1050());                                      
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet500"                               , vvv.Common_HLT_AK8PFJet500());                                   
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet380_TrimMass30"                    , vvv.Common_HLT_AK8PFJet380_TrimMass30());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet360_TrimMass30"                    , vvv.Common_HLT_AK8PFJet360_TrimMass30());    
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet400_TrimMass30"                    , vvv.Common_HLT_AK8PFJet400_TrimMass30());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet420_TrimMass30"                    , vvv.Common_HLT_AK8PFJet420_TrimMass30());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT750_TrimMass50"                     , vvv.Common_HLT_AK8PFHT750_TrimMass50());      
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT800_TrimMass50"                     , vvv.Common_HLT_AK8PFHT800_TrimMass50());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT850_TrimMass50"                     , vvv.Common_HLT_AK8PFHT850_TrimMass50());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT900_TrimMass50"                    , vvv.Common_HLT_AK8PFHT900_TrimMass50()); 
     // Summary triggers
     ana.tx.setBranch<bool>                 ("Common_HLT_DoubleEl", vvv.Common_HLT_DoubleEl());
     ana.tx.setBranch<bool>                 ("Common_HLT_MuEG", vvv.Common_HLT_MuEG());
@@ -1473,6 +1515,7 @@ void Process_Common_VVVTree()
     // Jet variables
     ana.tx.setBranch<vector<LorentzVector>>("Common_jet_p4", vvv.Common_jet_p4());            // Pt sorted selected jet p4s
     ana.tx.setBranch<vector<int>>          ("Common_jet_idxs", vvv.Common_jet_idxs());          // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
+    ana.tx.setBranch<vector<int>>          ("Common_jet_id", vvv.Common_jet_id());          // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.setBranch<vector<bool>>         ("Common_jet_passBloose", vvv.Common_jet_passBloose());    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.setBranch<vector<bool>>         ("Common_jet_passBmedium", vvv.Common_jet_passBmedium());   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.setBranch<vector<bool>>         ("Common_jet_passBtight", vvv.Common_jet_passBtight());    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
@@ -1490,6 +1533,7 @@ void Process_Common_VVVTree()
     // Fat jet variables
     ana.tx.setBranch<vector<LorentzVector>>("Common_fatjet_p4", vvv.Common_fatjet_p4());            // Pt sorted selected fatjet p4s
     ana.tx.setBranch<vector<int>>          ("Common_fatjet_idxs", vvv.Common_fatjet_idxs());          // Pt sorted selected fatjet idxs (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<int>>          ("Common_fatjet_id", vvv.Common_fatjet_id());          // Pt sorted selected fatjet idxs (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_msoftdrop", vvv.Common_fatjet_msoftdrop());     // Pt sorted selected fatjet msoftdrop (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_deepMD_W", vvv.Common_fatjet_deepMD_W());      // Pt sorted selected fatjet FatJet_deepTagMD_WvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_deep_W", vvv.Common_fatjet_deep_W());        // Pt sorted selected fatjet FatJet_deepTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
@@ -1498,6 +1542,15 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_deepMD_T", vvv.Common_fatjet_deepMD_T());      // Pt sorted selected fatjet FatJet_deepTagMD_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_deep_T", vvv.Common_fatjet_deep_T());        // Pt sorted selected fatjet FatJet_deepTag_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_deepMD_bb", vvv.Common_fatjet_deepMD_bb());     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_QCD", vvv.Common_fatjet_particleNet_QCD());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNetMD_QCD", vvv.Common_fatjet_particleNetMD_QCD());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsQCD (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNetMD_W", vvv.Common_fatjet_particleNetMD_W());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsW (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xqq", vvv.Common_fatjet_particleNetMD_Xqq());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsXqq (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xcc", vvv.Common_fatjet_particleNetMD_Xcc());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsXcc (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xbb", vvv.Common_fatjet_particleNetMD_Xbb());        // Pt sorted selected fatjet FatJet_particleNetTag_WvsXbb (To abbess rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_tau3", vvv.Common_fatjet_tau3());          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_tau2", vvv.Common_fatjet_tau2());          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_tau1", vvv.Common_fatjet_tau1());          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
@@ -1514,6 +1567,7 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<LorentzVector>>("Common_fatjet_subjet0_p4", vvv.Common_fatjet_subjet0_p4());    // Pt sorted selected fatjet p4s
     ana.tx.setBranch<vector<LorentzVector>>("Common_fatjet_subjet1_p4", vvv.Common_fatjet_subjet1_p4());    // Pt sorted selected fatjet p4s
     ana.tx.setBranch<vector<int>>          ("Common_fatjet_WP", vvv.Common_fatjet_WP());            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.setBranch<vector<int>>          ("Common_fatjet_WP_MD", vvv.Common_fatjet_WP_MD());            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.setBranch<vector<int>>          ("Common_fatjet_WP_antimasscut", vvv.Common_fatjet_WP_antimasscut());// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFVLoose", vvv.Common_fatjet_SFVLoose());      // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFLoose", vvv.Common_fatjet_SFLoose());       // single fatjet SF
