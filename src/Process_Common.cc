@@ -796,7 +796,7 @@ void Process_Common_NanoAOD()
         {
             //if postprocessed NanoAOD, set pt to pt_nom, mass to mass_nom msoftdrop to msoftdrop_nom
             fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_nom()[ifatjet]);
-            fatjet_msoftdrop = nt.FatJet_msoftdrop_nom()[ifatjet];
+            fatjet_msoftdrop = nt.FatJet_msoftdrop_nom()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction
         }
         else
         {
@@ -888,14 +888,16 @@ void Process_Common_NanoAOD()
             ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jesdn", nt.FatJet_pt_jesTotalDown()[ifatjet]);
             ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerup", nt.FatJet_pt_jerUp()[ifatjet]);
             ana.tx.pushbackToBranch<float>("Common_fatjet_pt_jerdn", nt.FatJet_pt_jerDown()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesup", nt.FatJet_msoftdrop_jesTotalUp()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesdn", nt.FatJet_msoftdrop_jesTotalDown()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerup", nt.FatJet_msoftdrop_jerUp()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerdn", nt.FatJet_msoftdrop_jerDown()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsup", nt.FatJet_msoftdrop_jmsUp()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsdn", nt.FatJet_msoftdrop_jmsDown()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrup", nt.FatJet_msoftdrop_jmrUp()[ifatjet]);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrdn", nt.FatJet_msoftdrop_jmrDown()[ifatjet]);
+            //undo JMS correction
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesup", nt.FatJet_msoftdrop_jesTotalUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jesdn", nt.FatJet_msoftdrop_jesTotalDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerup", nt.FatJet_msoftdrop_jerUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jerdn", nt.FatJet_msoftdrop_jerDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsup", nt.FatJet_msoftdrop_jmsUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmsdn", nt.FatJet_msoftdrop_jmsDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrup", nt.FatJet_msoftdrop_jmrUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_msoftdrop_jmrdn", nt.FatJet_msoftdrop_jmrDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]);
+            //undo JMS correction
             ana.tx.pushbackToBranch<float>("Common_fatjet_mass_jesup", nt.FatJet_mass_jesTotalUp()[ifatjet]);
             ana.tx.pushbackToBranch<float>("Common_fatjet_mass_jesdn", nt.FatJet_mass_jesTotalDown()[ifatjet]);
             ana.tx.pushbackToBranch<float>("Common_fatjet_mass_jerup", nt.FatJet_mass_jerUp()[ifatjet]);
