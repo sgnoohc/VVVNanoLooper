@@ -47,7 +47,7 @@ void Process_Common_NanoAOD()
         else
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
         if (ana.is_EFT_sample)
-            ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEWeight_mg_reweighting());
+            ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEReweightingWeight());
         ana.tx.setBranch<float>            ("Common_wgt", ana.wgt * ((nt.genWeight() > 0) - (nt.genWeight() < 0)));
     }
     else

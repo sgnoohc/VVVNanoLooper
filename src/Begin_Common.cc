@@ -308,13 +308,13 @@ void Begin_Common_Determine_Is_EFT()
     }
     else
     {
-        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEReweightingWeight"
         ana.is_EFT_sample = false; // default is false
         TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
         for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
         {
             TString brname = brobjArray->At(ibr)->GetName();
-            if (brname.EqualTo("LHEWeight_mg_reweighting"))
+            if (brname.EqualTo("LHEReweightingWeight"))
                 ana.is_EFT_sample = true; // if it has the branch it is set to true
         }
     }
@@ -705,8 +705,8 @@ void Begin_Common_NanoAOD()
     RooUtil::Histograms n_lhe_weight;
     if (ana.is_EFT_sample)
     {
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEReweightingWeight().begin(), nt.LHEReweightingWeight().end()); return rtn; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtnx.push_back(nt.LHEReweightingWeight()[i]*nt.genWeight()); return rtnx; } );
     }
     if (not nt.isData())
     {
