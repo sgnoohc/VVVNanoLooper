@@ -156,6 +156,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBmedium");   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBtight");    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<int>>          ("Common_jet_id");    //  https://twiki.cern.ch/twiki/bin/view/CMS/JetID
+    ana.tx.createBranch<vector<int>>          ("Common_jet_puid");  //  https://twiki.cern.ch/twiki/bin/view/CMS/PileupJetID
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFLoose");      // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFMedium");     // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFTight");      // single jet bSF

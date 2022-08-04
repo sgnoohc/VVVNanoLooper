@@ -411,6 +411,7 @@ void Process_Common_NanoAOD()
             // For now, accept anything that reaches this point
             ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
             ana.tx.pushbackToBranch<int>("Common_jet_id", nt.Jet_jetId()[ijet]);
+            ana.tx.pushbackToBranch<int>("Common_jet_puid", nt.Jet_puId()[ijet]);
             ana.tx.pushbackToBranch<LorentzVector>("Common_jet_p4", jet_p4);
             ana.tx.pushbackToBranch<bool>("Common_jet_passBloose" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose );
             ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium);
