@@ -537,28 +537,28 @@ void Begin_Common_Set_Config()
     // Muon SF
     if (nt.year() == 2016 and isAPV)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016preVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2016preVFP_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016postVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2016postVFP_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2017)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2017_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2017_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2018)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2018_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2018_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");

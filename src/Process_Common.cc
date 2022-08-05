@@ -265,29 +265,31 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
         //---------
         // bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
-        float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
+        // float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
+        // scale factor for muon reco is measured in 40 to 60GeV, but availabe for 10 to 200GeV,
+        // see https://twiki.cern.ch/twiki/bin/viewauth/CMS/MuonUL2018#RECO_efficiency
         float pt = std::min(std::max(nt.Muon_p4()[imu].pt(), 15.01f), 119.9f);
         float abseta = std::min(std::max(fabs(nt.Muon_p4()[imu].eta()), 0.01f), 2.399f);
-        float sf = ana.muonRECOSF->eval(abseta, ptreco) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFLoose->eval(abseta, pt);
+        float sf = ana.muonRECOSF->eval(abseta, 50.0f) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFLoose->eval(abseta, pt);
         lepSFc  *= sf;
         lepSFue *= sf;
         lepSFde *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SF",        sf);
-        sf       = ana.muonRECOSF->eval_up(abseta, ptreco) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFLoose->eval_up(abseta, pt);
+        sf       = ana.muonRECOSF->eval_up(abseta, 50.0f) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFLoose->eval_up(abseta, pt);
         lepSFum *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFup",      sf);
-        sf       = ana.muonRECOSF->eval_down(abseta, ptreco) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFLoose->eval_down(abseta, pt);
+        sf       = ana.muonRECOSF->eval_down(abseta, 50.0f) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFLoose->eval_down(abseta, pt);
         lepSFdm *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
-        sf = ana.muonRECOSF->eval(abseta, ptreco) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFTight->eval(abseta, pt);
+        sf = ana.muonRECOSF->eval(abseta, 50.0f) * ana.muonIDSFMedium->eval(abseta, pt) * ana.muonISOSFTight->eval(abseta, pt);
         lepSFcTight  *= sf;
         lepSFueTight *= sf;
         lepSFdeTight *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFTight",   sf);
-        sf       = ana.muonRECOSF->eval_up(abseta, ptreco) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFTight->eval_up(abseta, pt);
+        sf       = ana.muonRECOSF->eval_up(abseta, 50.0f) * ana.muonIDSFMedium->eval_up(abseta, pt) * ana.muonISOSFTight->eval_up(abseta, pt);
         lepSFumTight *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFupTight", sf);
-        sf       = ana.muonRECOSF->eval_down(abseta, ptreco) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFTight->eval_down(abseta, pt);
+        sf       = ana.muonRECOSF->eval_down(abseta, 50.0f) * ana.muonIDSFMedium->eval_down(abseta, pt) * ana.muonISOSFTight->eval_down(abseta, pt);
         lepSFdmTight *= sf;
         ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
         //---------
