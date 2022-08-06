@@ -212,21 +212,28 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_subjet1_mass");  // Pt sorted selected fatjet subjet p4 4 (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet0_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet1_p4");    // Pt sorted selected fatjet p4s
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD");            
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD");         // WP: 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD_antimasscut");// WP: 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFVLoose");      // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFLoose");       // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFMedium");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFTight");       // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnVLoose");    // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupVLoose");    // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupTight");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFLoose");       // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFMedium");      // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFTight");       // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnLoose");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnMedium");    // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnTight");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupLoose");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupMedium");    // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesup");      // fatjet pt JEC uncertainty up shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesdn");      // fatjet pt JEC uncertainty down shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerup");      // fatjet pt JER uncertainty up shift
@@ -250,17 +257,24 @@ void Begin_Common_Create_Branches()
 
 
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFLoose");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFMedium");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFTight");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnVLoose");    // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnLoose");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnTight");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupVLoose");    // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupLoose");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupTight");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFLoose");       // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFMedium");      // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFTight");       // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnLoose");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnMedium");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnTight");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupLoose");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupMedium");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupTight");     // event fatjet SF
+
 
     // The n-loose b-tagged jets
     ana.tx.createBranch<int>                  ("Common_nb_loose");    // DeepFlav-B loose nb

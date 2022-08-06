@@ -767,25 +767,42 @@ void Process_Common_NanoAOD()
     // Fat Jet selection
     //---------------------------------------------------------------------------------------------
     // Loop over jets and do a simple overlap removal against leptons
-    float fjSFvlc(1.), fjSFvlu(1.), fjSFvld(1.), fjSFlc(1.), fjSFlu(1.), fjSFld(1.), fjSFmc(1.), fjSFmu(1.), fjSFmd(1.), fjSFtc(1.), fjSFtu(1.), fjSFtd(1.);
+    float fjSFvlc(1.), fjSFvlu(1.), fjSFvld(1.), fjSFmc(1.), fjSFmu(1.), fjSFmd(1.), fjSFtc(1.), fjSFtu(1.), fjSFtd(1.);
+    float fjMDSFlc(1.), fjMDSFlu(1.), fjMDSFld(1.), fjMDSFmc(1.), fjMDSFmu(1.), fjMDSFmd(1.), fjMDSFtc(1.), fjMDSFtu(1.), fjMDSFtd(1.);
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
-        //TODO update with final WPs and for other years
+        //update with final WPs and for other years
         //currently from https://indico.cern.ch/event/1103765/contributions/4647556/attachments/2364610/4037250/ParticleNet_2018_ULNanoV9_JMAR_14Dec2021_PK.pdf
         //Lesya updated March 22 2022
-        float fjWPloose  = 1;
-        float fjWPmedium = 1;
-        float fjWPtight  = 1;
-        
-        float fjWPloose_MD  = 1;
-        float fjWPmedium_MD = 1;
-        float fjWPtight_MD  = 1;
+        //From https://indico.cern.ch/event/1152827/contributions/4840404/attachments/2428856/4162159/ParticleNet_SFs_ULNanoV9_JMAR_25April2022_PK.pdf
+        //Yulun updated August 5 2022
+        float fjWPVloose  = 0.68;
+        float fjWPmedium = 0.94;
+        float fjWPtight  = 0.97;        
+        float fjWPloose_MD  = 0.64;
+        float fjWPmedium_MD = 0.85;
+        float fjWPtight_MD  = 0.91;
+        if (nt.year() == 2016 && !gconf.isAPV)
+        {
+            fjWPVloose  = 0.67;
+            fjWPmedium = 0.93;
+            fjWPtight  = 0.97;
+            fjWPloose_MD  = 0.64;
+            fjWPmedium_MD = 0.84;
+            fjWPtight_MD  = 0.91;
+        }
         if (nt.year() == 2017)
         {
+            fjWPVloose  = 0.71;
+            fjWPmedium = 0.94;
+            fjWPtight  = 0.98;
+            fjWPloose_MD  = 0.58;
+            fjWPmedium_MD = 0.81;
+            fjWPtight_MD  = 0.89;
         }
         if (nt.year() == 2018)
         {
-            fjWPloose  = 0.70;
+            fjWPVloose  = 0.70;
             fjWPmedium = 0.94;
             fjWPtight  = 0.98;
             fjWPloose_MD  = 0.59;
@@ -917,36 +934,38 @@ void Process_Common_NanoAOD()
         int WPid_MD = -999;
 
 
-        if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPloose) WPid = 1;
+        if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPVloose) WPid = 0;
         if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPmedium) WPid = 2;
         if (nt.FatJet_particleNet_WvsQCD()[ifatjet] > fjWPtight) WPid = 3;
-
         if (W_MD > fjWPloose_MD) WPid_MD = 1; 
         if (W_MD > fjWPmedium_MD) WPid_MD = 2; 
         if (W_MD > fjWPtight_MD) WPid_MD = 3; 
-        
         if (fatjet_msoftdrop >= 65. and fatjet_msoftdrop <= 105. and fatjet_p4.pt() > 200.)
         {
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
+            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", -999);
         }
         else
         {
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP", -999);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", -999);
             ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", WPid); // store W DNN cut even off mass peak
-            WPid = -999.;                                                       // I reset WPid to not store the fatjet SF for offmass peak
+            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", WPid_MD); 
+            WPid = -999;                                                       // I reset WPid to not store the fatjet SF for offmass peak
+            WPid_MD = -999;
         }
+        int year=(gconf.isAPV && nt.year()==2016)?0:nt.year();//use 0 for APV samples
         if (WPid >= 0)
         {
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 0, fatjet_p4.eta(), fatjet_p4.pt(), 0);
             fjSFvlc *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFVLoose", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 0, fatjet_p4.eta(), fatjet_p4.pt(), -1);
             fjSFvld *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnVLoose", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 0, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 0, fatjet_p4.eta(), fatjet_p4.pt(), +1);
             fjSFvlu *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFupVLoose", WPtemp);
         }
@@ -956,34 +975,15 @@ void Process_Common_NanoAOD()
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnVLoose", 0);
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFupVLoose", 0);
         }
-        if (WPid >= 1)
-        {
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), 0);
-            fjSFlc *= WPtemp;
-            // cout << "SF fatjet loose " << WPtemp << " eventSF " << fjSFlc << endl;//test debug
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFLoose", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), -1);
-            fjSFld *= WPtemp;
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnLoose", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), +1);
-            fjSFlu *= WPtemp;
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFupLoose", WPtemp);
-        }
-        else
-        {
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFLoose", 0);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnLoose", 0);
-            ana.tx.pushbackToBranch<float>("Common_fatjet_SFupLoose", 0);
-        }
         if (WPid >= 2)
         {
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 2, fatjet_p4.eta(), fatjet_p4.pt(), 0);
             fjSFmc *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFMedium", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 2, fatjet_p4.eta(), fatjet_p4.pt(), -1);
             fjSFmd *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnMedium", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 2, fatjet_p4.eta(), fatjet_p4.pt(), +1);
             fjSFmu *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFupMedium", WPtemp);
         }
@@ -995,13 +995,13 @@ void Process_Common_NanoAOD()
         }
         if (WPid >= 3)
         {
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 3, fatjet_p4.eta(), fatjet_p4.pt(), 0);
             fjSFtc *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFTight", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 3, fatjet_p4.eta(), fatjet_p4.pt(), -1);
             fjSFtd *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnTight", WPtemp);
-            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), nt.year(), 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, false, 3, fatjet_p4.eta(), fatjet_p4.pt(), +1);
             fjSFtu *= WPtemp;
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFupTight", WPtemp);
         }
@@ -1011,20 +1011,81 @@ void Process_Common_NanoAOD()
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFdnTight", 0);
             ana.tx.pushbackToBranch<float>("Common_fatjet_SFupTight", 0);
         }
+        if (WPid_MD >= 0)
+        {
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            fjMDSFlc *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFLoose", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            fjMDSFld *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnLoose", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 1, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            fjMDSFlu *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupLoose", WPtemp);
+        }
+        else
+        {
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFLoose", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnLoose", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupLoose", 0);
+        }
+        if (WPid_MD >= 2)
+        {
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            fjMDSFmc *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFMedium", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            fjMDSFmd *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnMedium", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 2, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            fjMDSFmu *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupMedium", WPtemp);
+        }
+        else
+        {
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFMedium", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnMedium", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupMedium", 0);
+        }
+        if (WPid_MD >= 3)
+        {
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), 0);
+            fjMDSFtc *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFTight", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), -1);
+            fjMDSFtd *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnTight", WPtemp);
+            WPtemp = ana.fatjetscalefactors.ak8SF(nt.isData(), year, 24, true, 3, fatjet_p4.eta(), fatjet_p4.pt(), +1);
+            fjMDSFtu *= WPtemp;
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupTight", WPtemp);
+        }
+        else
+        {
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFTight", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFdnTight", 0);
+            ana.tx.pushbackToBranch<float>("Common_fatjet_MD_SFupTight", 0);
+        }
     }
 
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFVLoose",   fjSFvlc);
-    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFLoose",     fjSFlc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFMedium",    fjSFmc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFTight",     fjSFtc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupVLoose", fjSFvlu);
-    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupLoose",   fjSFlu);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupMedium",  fjSFmu);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFupTight",   fjSFtu);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnVLoose", fjSFvld);
-    ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnLoose",   fjSFld);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnMedium",  fjSFmd);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFdnTight",   fjSFtd);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFLoose",     fjMDSFlc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFMedium",    fjMDSFmc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFTight",     fjMDSFtc);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFupLoose",   fjMDSFlu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFupMedium",  fjMDSFmu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFupTight",   fjMDSFtu);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFdnLoose",   fjMDSFld);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFdnMedium",  fjMDSFmd);
+    ana.tx.setBranch<float>("Common_eventweight_fatjet_MD_SFdnTight",   fjMDSFtd);
+
 
     for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); ++ijet)
     {

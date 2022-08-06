@@ -30,7 +30,7 @@ class LeptonScaleFactor {
 class FatJetScaleFactor {
 
   public:
-    FatJetScaleFactor(std::string const& ak8sfpath="src/scalefactors/DeepAK8V2_Top_W_SFs.csv");
+    FatJetScaleFactor(std::string const& ak8sfpath="src/scalefactors/ParticleNet_Top_W_SFs.csv");
     ~FatJetScaleFactor();
     float ak8SF(bool isdata, int year, int pdgid, bool md, int WP, float eta, float pt, int variation=0);
 
