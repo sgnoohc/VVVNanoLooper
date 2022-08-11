@@ -156,6 +156,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBmedium");   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBtight");    // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<int>>          ("Common_jet_id");    //  https://twiki.cern.ch/twiki/bin/view/CMS/JetID
+    ana.tx.createBranch<vector<int>>          ("Common_jet_puid");  //  https://twiki.cern.ch/twiki/bin/view/CMS/PileupJetID
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFLoose");      // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFMedium");     // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFTight");      // single jet bSF
@@ -211,21 +212,28 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_subjet1_mass");  // Pt sorted selected fatjet subjet p4 4 (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet0_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet1_p4");    // Pt sorted selected fatjet p4s
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD");            
-    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD");         // WP: 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD_antimasscut");// WP: 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFVLoose");      // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFLoose");       // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFMedium");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFTight");       // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnVLoose");    // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupVLoose");    // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupTight");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFLoose");       // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFMedium");      // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFTight");       // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnLoose");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnMedium");    // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnTight");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupLoose");     // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupMedium");    // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesup");      // fatjet pt JEC uncertainty up shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesdn");      // fatjet pt JEC uncertainty down shift
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerup");      // fatjet pt JER uncertainty up shift
@@ -249,17 +257,24 @@ void Begin_Common_Create_Branches()
 
 
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFLoose");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFMedium");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFTight");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnVLoose");    // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnLoose");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnTight");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupVLoose");    // event fatjet SF
-    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupLoose");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupTight");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFLoose");       // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFMedium");      // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFTight");       // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnLoose");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnMedium");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFdnTight");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupLoose");     // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupMedium");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFupTight");     // event fatjet SF
+
 
     // The n-loose b-tagged jets
     ana.tx.createBranch<int>                  ("Common_nb_loose");    // DeepFlav-B loose nb
@@ -308,13 +323,13 @@ void Begin_Common_Determine_Is_EFT()
     }
     else
     {
-        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
+        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEReweightingWeight"
         ana.is_EFT_sample = false; // default is false
         TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
         for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
         {
             TString brname = brobjArray->At(ibr)->GetName();
-            if (brname.EqualTo("LHEWeight_mg_reweighting"))
+            if (brname.EqualTo("LHEReweightingWeight"))
                 ana.is_EFT_sample = true; // if it has the branch it is set to true
         }
     }
@@ -536,28 +551,28 @@ void Begin_Common_Set_Config()
     // Muon SF
     if (nt.year() == 2016 and isAPV)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016preVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2016preVFP_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_HIPM_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2016postVFP_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2016postVFP_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2016_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2017)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2017_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2017_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
     }
     else if (nt.year() == 2018)
     {
-        ana.muonRECOSF     = new RooUtil::HistMap("config/Efficiency_muon_generalTracks_Run2018_UL_trackerMuon.root:NUM_TrackerMuons_DEN_genTracks");
+        ana.muonRECOSF     = new RooUtil::HistMap("config/MuonReco_Run2018_UL.root:NUM_TrackerMuons_DEN_genTracks_Z_abseta_pt");
         ana.muonIDSFMedium = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ID.root:NUM_MediumID_DEN_TrackerMuons_abseta_pt");
         ana.muonISOSFLoose = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_LooseRelIso_DEN_MediumID_abseta_pt");
         ana.muonISOSFTight = new RooUtil::HistMap("config/Efficiencies_muon_generalTracks_Z_Run2018_UL_ISO.root:NUM_TightRelIso_DEN_MediumID_abseta_pt");
@@ -705,8 +720,8 @@ void Begin_Common_NanoAOD()
     RooUtil::Histograms n_lhe_weight;
     if (ana.is_EFT_sample)
     {
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEWeight_mg_reweighting().begin(), nt.LHEWeight_mg_reweighting().end()); return rtn; } );
-        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEWeight_mg_reweighting().size(); ++i) rtnx.push_back(nt.LHEWeight_mg_reweighting()[i]*nt.genWeight()); return rtnx; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtn(nt.LHEReweightingWeight().begin(), nt.LHEReweightingWeight().end()); return rtn; } );
+        n_lhe_weight.addVecHistogram("h_Common_LHEWeight_mg_reweighting_times_genWeight", 60, 0, 60, [&]() { std::vector<float> rtn; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtn.push_back(i); return rtn; }, [&]() { std::vector<float> rtnx; for (unsigned int i = 0; i < nt.LHEReweightingWeight().size(); ++i) rtnx.push_back(nt.LHEReweightingWeight()[i]*nt.genWeight()); return rtnx; } );
     }
     if (not nt.isData())
     {
