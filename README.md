@@ -4,7 +4,7 @@
 
     ssh uaf-10.t2.ucsd.edu
     cd your/favoriate/working/directory
-    git clone --recursive --branch ultralegacy git@github.com:sgnoohc/VVVNanoLooper.git
+    git clone --recursive --branch Run3_WWZ git@github.com:cmstas/VVVNanoLooper.git
     cd VVVNanoLooper/
     source source_all.sh
     make cleansmall; // Clean only VVV looper related
