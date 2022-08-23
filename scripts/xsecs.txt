@@ -1,0 +1,11 @@
+sample          xsection (fb)      year
+WWZ             0.1651             2018
+ZZ              1.256              2018
+ZZContTo2e2mu   0.005423           2018
+ZZContTo2e2tau  0.005423	   2018
+ZZContTo2mu2tau 0.005423 	   2018	
+ZZContTo4mu     0.002703           2018 
+ZZContTo4e      0.002703	   2018
+ZZContTo4tau    0.002703	   2018
+ZZTo2L2Nu       0.5644             2018
+ZZTo2Q2L        3.221              2018
