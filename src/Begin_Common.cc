@@ -87,8 +87,6 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50" );
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50" );
-
-
     // Summary triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_DoubleEl");
     ana.tx.createBranch<bool>                 ("Common_HLT_MuEG");
@@ -194,9 +192,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_T");      // Pt sorted selected fatjet FatJet_deepTagMD_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deep_T");        // Pt sorted selected fatjet FatJet_deepTag_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_bb");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_W");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_Z");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_T");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_W");     
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xqq");     
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xcc");     
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xbb");     
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_QCD");     
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_QCD");    
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_W");    
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_Z");   
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_T");  
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau3");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau2");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau1");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
@@ -213,6 +217,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet0_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_subjet1_p4");    // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP");            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
+    ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD");            
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFVLoose");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFLoose");       // single fatjet SF
@@ -306,7 +311,7 @@ void Begin_Common_Determine_Is_EFT()
         // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
         //ana.is_EFT_sample = vvv.Common_LHEReweightingWeight().size() > 0; // If there are weights it's is EFT
         //ana.is_EFT_sample = true; //fix this
-        if( ana.eft_reweighting_idx > 0) ana.is_EFT_sample = true;
+        if( ana.eft_reweighting_idx >= 0) ana.is_EFT_sample = true;
         else ana.is_EFT_sample = false;
     }
     else

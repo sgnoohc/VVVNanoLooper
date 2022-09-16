@@ -271,6 +271,7 @@ int main(int argc, char** argv)
     std::cout <<  " ana.region: " << ana.region <<  std::endl;
     std::cout <<  " ana.vhvvv_channel: " << ana.vhvvv_channel <<  std::endl;
     std::cout <<  " ana.run_VVVTree: " << ana.run_VVVTree <<  std::endl;
+    std::cout <<  " ana.eft_reweighting_index: " << ana.eft_reweighting_idx <<  std::endl;
     std::cout <<  "=========================================================" << std::endl;
 
 //********************************************************************************

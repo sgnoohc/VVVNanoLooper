@@ -400,6 +400,24 @@ void VVVTree::Init(TTree *tree) {
 /*                 Common_fatjet_deepMD_bb*/  Common_fatjet_deepMD_bb_branch = tree->GetBranch("Common_fatjet_deepMD_bb");
 /*                 Common_fatjet_deepMD_bb*/  if (Common_fatjet_deepMD_bb_branch) Common_fatjet_deepMD_bb_branch->SetAddress(&Common_fatjet_deepMD_bb_);
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  Common_fatjet_particleNetMD_W_branch = tree->GetBranch("Common_fatjet_particleNetMD_W");
+/*           Common_fatjet_particleNetMD_W*/  if (Common_fatjet_particleNetMD_W_branch) Common_fatjet_particleNetMD_W_branch->SetAddress(&Common_fatjet_particleNetMD_W_);
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  Common_fatjet_particleNetMD_Xqq_branch = tree->GetBranch("Common_fatjet_particleNetMD_Xqq");
+/*         Common_fatjet_particleNetMD_Xqq*/  if (Common_fatjet_particleNetMD_Xqq_branch) Common_fatjet_particleNetMD_Xqq_branch->SetAddress(&Common_fatjet_particleNetMD_Xqq_);
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  Common_fatjet_particleNetMD_Xcc_branch = tree->GetBranch("Common_fatjet_particleNetMD_Xcc");
+/*         Common_fatjet_particleNetMD_Xcc*/  if (Common_fatjet_particleNetMD_Xcc_branch) Common_fatjet_particleNetMD_Xcc_branch->SetAddress(&Common_fatjet_particleNetMD_Xcc_);
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  Common_fatjet_particleNetMD_Xbb_branch = tree->GetBranch("Common_fatjet_particleNetMD_Xbb");
+/*         Common_fatjet_particleNetMD_Xbb*/  if (Common_fatjet_particleNetMD_Xbb_branch) Common_fatjet_particleNetMD_Xbb_branch->SetAddress(&Common_fatjet_particleNetMD_Xbb_);
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  Common_fatjet_particleNetMD_QCD_branch = tree->GetBranch("Common_fatjet_particleNetMD_QCD");
+/*         Common_fatjet_particleNetMD_QCD*/  if (Common_fatjet_particleNetMD_QCD_branch) Common_fatjet_particleNetMD_QCD_branch->SetAddress(&Common_fatjet_particleNetMD_QCD_);
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  Common_fatjet_particleNet_QCD_branch = tree->GetBranch("Common_fatjet_particleNet_QCD");
+/*           Common_fatjet_particleNet_QCD*/  if (Common_fatjet_particleNet_QCD_branch) Common_fatjet_particleNet_QCD_branch->SetAddress(&Common_fatjet_particleNet_QCD_);
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  Common_fatjet_particleNet_W_branch = tree->GetBranch("Common_fatjet_particleNet_W");
 /*             Common_fatjet_particleNet_W*/  if (Common_fatjet_particleNet_W_branch) Common_fatjet_particleNet_W_branch->SetAddress(&Common_fatjet_particleNet_W_);
 //---------------------------------------------------------------------------------
@@ -450,6 +468,9 @@ void VVVTree::Init(TTree *tree) {
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/  Common_fatjet_WP_branch = tree->GetBranch("Common_fatjet_WP");
 /*                        Common_fatjet_WP*/  if (Common_fatjet_WP_branch) Common_fatjet_WP_branch->SetAddress(&Common_fatjet_WP_);
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  Common_fatjet_WP_MD_branch = tree->GetBranch("Common_fatjet_WP_MD");
+/*                     Common_fatjet_WP_MD*/  if (Common_fatjet_WP_MD_branch) Common_fatjet_WP_MD_branch->SetAddress(&Common_fatjet_WP_MD_);
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  Common_fatjet_WP_antimasscut_branch = tree->GetBranch("Common_fatjet_WP_antimasscut");
 /*            Common_fatjet_WP_antimasscut*/  if (Common_fatjet_WP_antimasscut_branch) Common_fatjet_WP_antimasscut_branch->SetAddress(&Common_fatjet_WP_antimasscut_);
@@ -969,6 +990,18 @@ void VVVTree::GetEntry(unsigned int idx) {
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  Common_fatjet_deepMD_bb_isLoaded = false;
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  Common_fatjet_particleNetMD_W_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  Common_fatjet_particleNetMD_Xqq_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  Common_fatjet_particleNetMD_Xcc_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  Common_fatjet_particleNetMD_Xbb_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  Common_fatjet_particleNetMD_QCD_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  Common_fatjet_particleNet_QCD_isLoaded = false;
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  Common_fatjet_particleNet_W_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_Z*/  Common_fatjet_particleNet_Z_isLoaded = false;
@@ -1006,6 +1039,8 @@ void VVVTree::GetEntry(unsigned int idx) {
 /*                Common_fatjet_subjet1_p4*/  Common_fatjet_subjet1_p4_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/  Common_fatjet_WP_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  Common_fatjet_WP_MD_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  Common_fatjet_WP_antimasscut_isLoaded = false;
 //---------------------------------------------------------------------------------
@@ -1446,6 +1481,18 @@ void VVVTree::LoadAllBranches() {
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  if (Common_fatjet_deepMD_bb_branch != 0) Common_fatjet_deepMD_bb();
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  if (Common_fatjet_particleNetMD_W_branch != 0) Common_fatjet_particleNetMD_W();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  if (Common_fatjet_particleNetMD_Xqq_branch != 0) Common_fatjet_particleNetMD_Xqq();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  if (Common_fatjet_particleNetMD_Xcc_branch != 0) Common_fatjet_particleNetMD_Xcc();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  if (Common_fatjet_particleNetMD_Xbb_branch != 0) Common_fatjet_particleNetMD_Xbb();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  if (Common_fatjet_particleNetMD_QCD_branch != 0) Common_fatjet_particleNetMD_QCD();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  if (Common_fatjet_particleNet_QCD_branch != 0) Common_fatjet_particleNet_QCD();
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  if (Common_fatjet_particleNet_W_branch != 0) Common_fatjet_particleNet_W();
 //---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_Z*/  if (Common_fatjet_particleNet_Z_branch != 0) Common_fatjet_particleNet_Z();
@@ -1483,6 +1530,8 @@ void VVVTree::LoadAllBranches() {
 /*                Common_fatjet_subjet1_p4*/  if (Common_fatjet_subjet1_p4_branch != 0) Common_fatjet_subjet1_p4();
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/  if (Common_fatjet_WP_branch != 0) Common_fatjet_WP();
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  if (Common_fatjet_WP_MD_branch != 0) Common_fatjet_WP_MD();
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  if (Common_fatjet_WP_antimasscut_branch != 0) Common_fatjet_WP_antimasscut();
 //---------------------------------------------------------------------------------
@@ -2275,7 +2324,6 @@ void VVVTree::LoadAllBranches() {
 /*  Common_pass_duplicate_removal_ee_em_mm*/  }
 /*  Common_pass_duplicate_removal_ee_em_mm*/  return Common_pass_duplicate_removal_ee_em_mm_;
 /*  Common_pass_duplicate_removal_ee_em_mm*/}
-
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/const bool &VVVTree::Common_pass_duplicate_removal_mm_em_ee() {
 /*  Common_pass_duplicate_removal_mm_em_ee*/  if (not Common_pass_duplicate_removal_mm_em_ee_isLoaded) {
@@ -2317,6 +2365,7 @@ void VVVTree::LoadAllBranches() {
 /*                      Common_noiseFlagMC*/  }
 /*                      Common_noiseFlagMC*/  return Common_noiseFlagMC_;
 /*                      Common_noiseFlagMC*/}
+
 
 //---------------------------------------------------------------------------------
 /*                      Common_passGoodRun*/const bool &VVVTree::Common_passGoodRun() {
@@ -3397,6 +3446,90 @@ void VVVTree::LoadAllBranches() {
 /*                 Common_fatjet_deepMD_bb*/}
 
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/const vector<float> &VVVTree::Common_fatjet_particleNetMD_W() {
+/*           Common_fatjet_particleNetMD_W*/  if (not Common_fatjet_particleNetMD_W_isLoaded) {
+/*           Common_fatjet_particleNetMD_W*/    if (Common_fatjet_particleNetMD_W_branch != 0) {
+/*           Common_fatjet_particleNetMD_W*/      Common_fatjet_particleNetMD_W_branch->GetEntry(index);
+/*           Common_fatjet_particleNetMD_W*/    } else {
+/*           Common_fatjet_particleNetMD_W*/      printf("branch Common_fatjet_particleNetMD_W_branch does not exist!\n");
+/*           Common_fatjet_particleNetMD_W*/      exit(1);
+/*           Common_fatjet_particleNetMD_W*/    }
+/*           Common_fatjet_particleNetMD_W*/    Common_fatjet_particleNetMD_W_isLoaded = true;
+/*           Common_fatjet_particleNetMD_W*/  }
+/*           Common_fatjet_particleNetMD_W*/  return *Common_fatjet_particleNetMD_W_;
+/*           Common_fatjet_particleNetMD_W*/}
+
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/const vector<float> &VVVTree::Common_fatjet_particleNetMD_Xqq() {
+/*         Common_fatjet_particleNetMD_Xqq*/  if (not Common_fatjet_particleNetMD_Xqq_isLoaded) {
+/*         Common_fatjet_particleNetMD_Xqq*/    if (Common_fatjet_particleNetMD_Xqq_branch != 0) {
+/*         Common_fatjet_particleNetMD_Xqq*/      Common_fatjet_particleNetMD_Xqq_branch->GetEntry(index);
+/*         Common_fatjet_particleNetMD_Xqq*/    } else {
+/*         Common_fatjet_particleNetMD_Xqq*/      printf("branch Common_fatjet_particleNetMD_Xqq_branch does not exist!\n");
+/*         Common_fatjet_particleNetMD_Xqq*/      exit(1);
+/*         Common_fatjet_particleNetMD_Xqq*/    }
+/*         Common_fatjet_particleNetMD_Xqq*/    Common_fatjet_particleNetMD_Xqq_isLoaded = true;
+/*         Common_fatjet_particleNetMD_Xqq*/  }
+/*         Common_fatjet_particleNetMD_Xqq*/  return *Common_fatjet_particleNetMD_Xqq_;
+/*         Common_fatjet_particleNetMD_Xqq*/}
+
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/const vector<float> &VVVTree::Common_fatjet_particleNetMD_Xcc() {
+/*         Common_fatjet_particleNetMD_Xcc*/  if (not Common_fatjet_particleNetMD_Xcc_isLoaded) {
+/*         Common_fatjet_particleNetMD_Xcc*/    if (Common_fatjet_particleNetMD_Xcc_branch != 0) {
+/*         Common_fatjet_particleNetMD_Xcc*/      Common_fatjet_particleNetMD_Xcc_branch->GetEntry(index);
+/*         Common_fatjet_particleNetMD_Xcc*/    } else {
+/*         Common_fatjet_particleNetMD_Xcc*/      printf("branch Common_fatjet_particleNetMD_Xcc_branch does not exist!\n");
+/*         Common_fatjet_particleNetMD_Xcc*/      exit(1);
+/*         Common_fatjet_particleNetMD_Xcc*/    }
+/*         Common_fatjet_particleNetMD_Xcc*/    Common_fatjet_particleNetMD_Xcc_isLoaded = true;
+/*         Common_fatjet_particleNetMD_Xcc*/  }
+/*         Common_fatjet_particleNetMD_Xcc*/  return *Common_fatjet_particleNetMD_Xcc_;
+/*         Common_fatjet_particleNetMD_Xcc*/}
+
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/const vector<float> &VVVTree::Common_fatjet_particleNetMD_Xbb() {
+/*         Common_fatjet_particleNetMD_Xbb*/  if (not Common_fatjet_particleNetMD_Xbb_isLoaded) {
+/*         Common_fatjet_particleNetMD_Xbb*/    if (Common_fatjet_particleNetMD_Xbb_branch != 0) {
+/*         Common_fatjet_particleNetMD_Xbb*/      Common_fatjet_particleNetMD_Xbb_branch->GetEntry(index);
+/*         Common_fatjet_particleNetMD_Xbb*/    } else {
+/*         Common_fatjet_particleNetMD_Xbb*/      printf("branch Common_fatjet_particleNetMD_Xbb_branch does not exist!\n");
+/*         Common_fatjet_particleNetMD_Xbb*/      exit(1);
+/*         Common_fatjet_particleNetMD_Xbb*/    }
+/*         Common_fatjet_particleNetMD_Xbb*/    Common_fatjet_particleNetMD_Xbb_isLoaded = true;
+/*         Common_fatjet_particleNetMD_Xbb*/  }
+/*         Common_fatjet_particleNetMD_Xbb*/  return *Common_fatjet_particleNetMD_Xbb_;
+/*         Common_fatjet_particleNetMD_Xbb*/}
+
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/const vector<float> &VVVTree::Common_fatjet_particleNetMD_QCD() {
+/*         Common_fatjet_particleNetMD_QCD*/  if (not Common_fatjet_particleNetMD_QCD_isLoaded) {
+/*         Common_fatjet_particleNetMD_QCD*/    if (Common_fatjet_particleNetMD_QCD_branch != 0) {
+/*         Common_fatjet_particleNetMD_QCD*/      Common_fatjet_particleNetMD_QCD_branch->GetEntry(index);
+/*         Common_fatjet_particleNetMD_QCD*/    } else {
+/*         Common_fatjet_particleNetMD_QCD*/      printf("branch Common_fatjet_particleNetMD_QCD_branch does not exist!\n");
+/*         Common_fatjet_particleNetMD_QCD*/      exit(1);
+/*         Common_fatjet_particleNetMD_QCD*/    }
+/*         Common_fatjet_particleNetMD_QCD*/    Common_fatjet_particleNetMD_QCD_isLoaded = true;
+/*         Common_fatjet_particleNetMD_QCD*/  }
+/*         Common_fatjet_particleNetMD_QCD*/  return *Common_fatjet_particleNetMD_QCD_;
+/*         Common_fatjet_particleNetMD_QCD*/}
+
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/const vector<float> &VVVTree::Common_fatjet_particleNet_QCD() {
+/*           Common_fatjet_particleNet_QCD*/  if (not Common_fatjet_particleNet_QCD_isLoaded) {
+/*           Common_fatjet_particleNet_QCD*/    if (Common_fatjet_particleNet_QCD_branch != 0) {
+/*           Common_fatjet_particleNet_QCD*/      Common_fatjet_particleNet_QCD_branch->GetEntry(index);
+/*           Common_fatjet_particleNet_QCD*/    } else {
+/*           Common_fatjet_particleNet_QCD*/      printf("branch Common_fatjet_particleNet_QCD_branch does not exist!\n");
+/*           Common_fatjet_particleNet_QCD*/      exit(1);
+/*           Common_fatjet_particleNet_QCD*/    }
+/*           Common_fatjet_particleNet_QCD*/    Common_fatjet_particleNet_QCD_isLoaded = true;
+/*           Common_fatjet_particleNet_QCD*/  }
+/*           Common_fatjet_particleNet_QCD*/  return *Common_fatjet_particleNet_QCD_;
+/*           Common_fatjet_particleNet_QCD*/}
+
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/const vector<float> &VVVTree::Common_fatjet_particleNet_W() {
 /*             Common_fatjet_particleNet_W*/  if (not Common_fatjet_particleNet_W_isLoaded) {
 /*             Common_fatjet_particleNet_W*/    if (Common_fatjet_particleNet_W_branch != 0) {
@@ -3661,6 +3794,20 @@ void VVVTree::LoadAllBranches() {
 /*                        Common_fatjet_WP*/  }
 /*                        Common_fatjet_WP*/  return *Common_fatjet_WP_;
 /*                        Common_fatjet_WP*/}
+
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/const vector<int> &VVVTree::Common_fatjet_WP_MD() {
+/*                     Common_fatjet_WP_MD*/  if (not Common_fatjet_WP_MD_isLoaded) {
+/*                     Common_fatjet_WP_MD*/    if (Common_fatjet_WP_MD_branch != 0) {
+/*                     Common_fatjet_WP_MD*/      Common_fatjet_WP_MD_branch->GetEntry(index);
+/*                     Common_fatjet_WP_MD*/    } else {
+/*                     Common_fatjet_WP_MD*/      printf("branch Common_fatjet_WP_MD_branch does not exist!\n");
+/*                     Common_fatjet_WP_MD*/      exit(1);
+/*                     Common_fatjet_WP_MD*/    }
+/*                     Common_fatjet_WP_MD*/    Common_fatjet_WP_MD_isLoaded = true;
+/*                     Common_fatjet_WP_MD*/  }
+/*                     Common_fatjet_WP_MD*/  return *Common_fatjet_WP_MD_;
+/*                     Common_fatjet_WP_MD*/}
 
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/const vector<int> &VVVTree::Common_fatjet_WP_antimasscut() {
@@ -5249,6 +5396,18 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/const vector<float> &Common_fatjet_deepMD_bb() { return vvv.Common_fatjet_deepMD_bb(); }
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/const vector<float> &Common_fatjet_particleNetMD_W() { return vvv.Common_fatjet_particleNetMD_W(); }
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/const vector<float> &Common_fatjet_particleNetMD_Xqq() { return vvv.Common_fatjet_particleNetMD_Xqq(); }
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/const vector<float> &Common_fatjet_particleNetMD_Xcc() { return vvv.Common_fatjet_particleNetMD_Xcc(); }
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/const vector<float> &Common_fatjet_particleNetMD_Xbb() { return vvv.Common_fatjet_particleNetMD_Xbb(); }
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/const vector<float> &Common_fatjet_particleNetMD_QCD() { return vvv.Common_fatjet_particleNetMD_QCD(); }
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/const vector<float> &Common_fatjet_particleNet_QCD() { return vvv.Common_fatjet_particleNet_QCD(); }
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/const vector<float> &Common_fatjet_particleNet_W() { return vvv.Common_fatjet_particleNet_W(); }
 //---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_Z*/const vector<float> &Common_fatjet_particleNet_Z() { return vvv.Common_fatjet_particleNet_Z(); }
@@ -5286,6 +5445,8 @@ namespace tas {
 /*                Common_fatjet_subjet1_p4*/const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_subjet1_p4() { return vvv.Common_fatjet_subjet1_p4(); }
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/const vector<int> &Common_fatjet_WP() { return vvv.Common_fatjet_WP(); }
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/const vector<int> &Common_fatjet_WP_MD() { return vvv.Common_fatjet_WP_MD(); }
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/const vector<int> &Common_fatjet_WP_antimasscut() { return vvv.Common_fatjet_WP_antimasscut(); }
 //---------------------------------------------------------------------------------

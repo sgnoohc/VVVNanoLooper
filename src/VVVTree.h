@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/UL_VVVNanoLooper/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/VVVNanoLooper_clean/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -516,6 +516,30 @@ class VVVTree {
 /*                 Common_fatjet_deepMD_bb*/  TBranch *Common_fatjet_deepMD_bb_branch;
 /*                 Common_fatjet_deepMD_bb*/  bool     Common_fatjet_deepMD_bb_isLoaded;
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  vector<float> *Common_fatjet_particleNetMD_W_;
+/*           Common_fatjet_particleNetMD_W*/  TBranch *Common_fatjet_particleNetMD_W_branch;
+/*           Common_fatjet_particleNetMD_W*/  bool     Common_fatjet_particleNetMD_W_isLoaded;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  vector<float> *Common_fatjet_particleNetMD_Xqq_;
+/*         Common_fatjet_particleNetMD_Xqq*/  TBranch *Common_fatjet_particleNetMD_Xqq_branch;
+/*         Common_fatjet_particleNetMD_Xqq*/  bool     Common_fatjet_particleNetMD_Xqq_isLoaded;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  vector<float> *Common_fatjet_particleNetMD_Xcc_;
+/*         Common_fatjet_particleNetMD_Xcc*/  TBranch *Common_fatjet_particleNetMD_Xcc_branch;
+/*         Common_fatjet_particleNetMD_Xcc*/  bool     Common_fatjet_particleNetMD_Xcc_isLoaded;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  vector<float> *Common_fatjet_particleNetMD_Xbb_;
+/*         Common_fatjet_particleNetMD_Xbb*/  TBranch *Common_fatjet_particleNetMD_Xbb_branch;
+/*         Common_fatjet_particleNetMD_Xbb*/  bool     Common_fatjet_particleNetMD_Xbb_isLoaded;
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  vector<float> *Common_fatjet_particleNetMD_QCD_;
+/*         Common_fatjet_particleNetMD_QCD*/  TBranch *Common_fatjet_particleNetMD_QCD_branch;
+/*         Common_fatjet_particleNetMD_QCD*/  bool     Common_fatjet_particleNetMD_QCD_isLoaded;
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  vector<float> *Common_fatjet_particleNet_QCD_;
+/*           Common_fatjet_particleNet_QCD*/  TBranch *Common_fatjet_particleNet_QCD_branch;
+/*           Common_fatjet_particleNet_QCD*/  bool     Common_fatjet_particleNet_QCD_isLoaded;
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  vector<float> *Common_fatjet_particleNet_W_;
 /*             Common_fatjet_particleNet_W*/  TBranch *Common_fatjet_particleNet_W_branch;
 /*             Common_fatjet_particleNet_W*/  bool     Common_fatjet_particleNet_W_isLoaded;
@@ -591,6 +615,10 @@ class VVVTree {
 /*                        Common_fatjet_WP*/  vector<int> *Common_fatjet_WP_;
 /*                        Common_fatjet_WP*/  TBranch *Common_fatjet_WP_branch;
 /*                        Common_fatjet_WP*/  bool     Common_fatjet_WP_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  vector<int> *Common_fatjet_WP_MD_;
+/*                     Common_fatjet_WP_MD*/  TBranch *Common_fatjet_WP_MD_branch;
+/*                     Common_fatjet_WP_MD*/  bool     Common_fatjet_WP_MD_isLoaded;
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  vector<int> *Common_fatjet_WP_antimasscut_;
 /*            Common_fatjet_WP_antimasscut*/  TBranch *Common_fatjet_WP_antimasscut_branch;
@@ -1219,6 +1247,18 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  const vector<float> &Common_fatjet_deepMD_bb();
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  const vector<float> &Common_fatjet_particleNetMD_W();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  const vector<float> &Common_fatjet_particleNetMD_Xqq();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  const vector<float> &Common_fatjet_particleNetMD_Xcc();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  const vector<float> &Common_fatjet_particleNetMD_Xbb();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  const vector<float> &Common_fatjet_particleNetMD_QCD();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  const vector<float> &Common_fatjet_particleNet_QCD();
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  const vector<float> &Common_fatjet_particleNet_W();
 //---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_Z*/  const vector<float> &Common_fatjet_particleNet_Z();
@@ -1256,6 +1296,8 @@ void LoadAllBranches();
 /*                Common_fatjet_subjet1_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_subjet1_p4();
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/  const vector<int> &Common_fatjet_WP();
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  const vector<int> &Common_fatjet_WP_MD();
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  const vector<int> &Common_fatjet_WP_antimasscut();
 //---------------------------------------------------------------------------------
@@ -1701,6 +1743,18 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_deepMD_bb*/  const vector<float> &Common_fatjet_deepMD_bb();
 //---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNetMD_W*/  const vector<float> &Common_fatjet_particleNetMD_W();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xqq*/  const vector<float> &Common_fatjet_particleNetMD_Xqq();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xcc*/  const vector<float> &Common_fatjet_particleNetMD_Xcc();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_Xbb*/  const vector<float> &Common_fatjet_particleNetMD_Xbb();
+//---------------------------------------------------------------------------------
+/*         Common_fatjet_particleNetMD_QCD*/  const vector<float> &Common_fatjet_particleNetMD_QCD();
+//---------------------------------------------------------------------------------
+/*           Common_fatjet_particleNet_QCD*/  const vector<float> &Common_fatjet_particleNet_QCD();
+//---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_W*/  const vector<float> &Common_fatjet_particleNet_W();
 //---------------------------------------------------------------------------------
 /*             Common_fatjet_particleNet_Z*/  const vector<float> &Common_fatjet_particleNet_Z();
@@ -1738,6 +1792,8 @@ namespace tas {
 /*                Common_fatjet_subjet1_p4*/  const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_fatjet_subjet1_p4();
 //---------------------------------------------------------------------------------
 /*                        Common_fatjet_WP*/  const vector<int> &Common_fatjet_WP();
+//---------------------------------------------------------------------------------
+/*                     Common_fatjet_WP_MD*/  const vector<int> &Common_fatjet_WP_MD();
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  const vector<int> &Common_fatjet_WP_antimasscut();
 //---------------------------------------------------------------------------------
