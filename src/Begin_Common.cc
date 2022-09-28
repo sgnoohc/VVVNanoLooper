@@ -677,6 +677,16 @@ void Begin_Common_NanoAOD()
     // Define basic selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
+    ana.cutflow.addCutToLastActiveCut("EFTBadEventVeto",
+            [&]()
+            {
+                if (ana.is_EFT_sample)
+                {
+                    if (nt.nLHEReweightingWeight() == 0)
+                        return false;
+                }
+                return true;
+            }, UNITY);
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == ana.tx.getBranchLazy<int>("Common_gen_VH_channel"));}, UNITY );
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { 
         //check golden json -- branch is true if MC
