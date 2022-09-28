@@ -1,10 +1,22 @@
 #include "Begin_4LepMET.h"
 #include "lester_mt2_bisect.h"
+#include <fstream>
+#include <string>
+#include <map>
+#include <sstream>
+#include <iostream>
+
+namespace fourlep{
+    std::map<TString, float> scale1fbs;
+}
 
 void Begin_4LepMET()
 {
     // Category flag
     Begin_4LepMET_Create_Branches();
+
+    // Parse cross section
+    Begin_4LepMET_Parse_Scale1fbs();
 
     // The framework may run over NanoAOD directly or, it may run over VVVTree.
     // ana.run_VVVTree boolean determines this.
@@ -84,10 +96,10 @@ void Begin_4LepMET()
 
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
-    ana.cutflow.bookCutflows();
+    // ana.cutflow.bookCutflows();
 
     // Book histograms to cuts that user wants for this category.
-    ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "Cut_4LepMET_Preselection");
+    // ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "Cut_4LepMET_Preselection");
 
 }
 
@@ -105,6 +117,18 @@ void Begin_4LepMET_NanoAOD()
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.getCut("CommonCut");
+
+    // // If LHEReweightingWeight size == 0 then skip the event
+    // ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_EFTBadEventVeto",
+    //         [&]()
+    //         {
+    //             if (ana.is_EFT_sample)
+    //             {
+    //                 if (nt.nLHEReweightingWeight() != 0)
+    //                     return false;
+    //             }
+    //             return true;
+    //         }, UNITY);
 
     // Select 4 leptons
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Has4Lepton",
@@ -225,11 +249,28 @@ void Begin_4LepMET_NanoAOD()
             },
             [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
 
-    // Apply b-tag veto
+    // Compute MT2 variable
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_Variables",
             [&]()
             {
                 ana.tx.setBranch<float>("Var_4LepMET_mt2", Begin_4LepMET_MT2());
+                return true;
+            },
+            UNITY);
+
+    // Compute weight
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_Scale1fbs",
+            [&]()
+            {
+                if (not ana.tx.getBranch<int>("Common_isData"))
+                {
+                    TString key = gSystem->DirName(ana.looper.getCurrentFileName());
+                    ana.tx.setBranch<float>("Var_4LepMET_scale1fb", fourlep::scale1fbs.at(key));
+                }
+                else
+                {
+                    ana.tx.setBranch<float>("Var_4LepMET_scale1fb", 1);
+                }
                 return true;
             },
             UNITY);
@@ -268,6 +309,23 @@ void Begin_4LepMET_Create_Branches()
 
     // Additional variables
     ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate
+
+    // Cross section related info
+    ana.tx.createBranch<float>        ("Var_4LepMET_scale1fb");           // Scale 1fb
+}
+
+void Begin_4LepMET_Parse_Scale1fbs()
+{
+    fourlep::scale1fbs.clear();
+    ifstream ifile;
+    ifile.open("weights/scale1fbs.txt");
+    std::string line;
+    while (std::getline(ifile, line))
+    {
+        TString rawline = line;
+        std::vector<TString> list = RooUtil::StringUtil::split(rawline, ",");
+        fourlep::scale1fbs[list[0].Strip()] = list[1].Atof();
+    }
 }
 
 

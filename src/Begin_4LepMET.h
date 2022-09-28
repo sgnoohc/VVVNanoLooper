@@ -6,6 +6,7 @@
 void Begin_4LepMET();
 
 void Begin_4LepMET_Create_Branches();
+void Begin_4LepMET_Parse_Scale1fbs();
 
 void Begin_4LepMET_NanoAOD();
 void Begin_4LepMET_VVVTree();
