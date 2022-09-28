@@ -122,30 +122,11 @@ if grep -q "badread" check_xrd_stderr.txt || [[ "${EXTRAARGS}" == *"fetch_nano"*
     #<------------------------------------------------------------------------------------------------------------------------------
 fi
 
-# Figuring out nevents and neff_weights
-if [[ "${INPUTFILE}" == *"/NANOAOD/"* ]]; then # Relies on "/NANOAOD/" being present for data files. Perhaps not the brightest idea, however it seems to work for now.
-    echo 'void count_events(TString filename) { TFile* f = TFile::Open(filename.Data()); TTree* Events = (TTree*) f->Get("Events"); std::cout << Events->GetEntries() << std::endl; std::cout << Events->GetEntries() << std::endl;  std::cout << Events->GetEntries() << std::endl; }' > count_events.C
-    echo "Running count_events on all events" | tee >(cat >&2)
-    root -l -b -q count_events.C\(\"${INPUTFILE}\"\) > >(tee nevents.txt) 2> >(tee nevents_stderr.txt >&2)
-else
-    echo 'void count_events(TString filename) { TFile* f = TFile::Open(filename.Data()); TTree* Events = (TTree*) f->Get("Events"); std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "", "goff") << std::endl; std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "((Generator_weight>0)-(Generator_weight<0))>0", "goff") << std::endl;  std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "((Generator_weight>0)-(Generator_weight<0))<0", "goff") << std::endl; }' > count_events.C
-    echo "Running count_events on all events" | tee >(cat >&2)
-    root -l -b -q count_events.C\(\"${INPUTFILE}\"\) > >(tee nevents.txt) 2> >(tee nevents_stderr.txt >&2)
-fi
-
-RUN_STATUS=$?
-
-if [[ $RUN_STATUS != 0 ]]; then
-    echo "Error: count_nevents.C on all events crashed with exit code $?" | tee >(cat >&2)
-    echo "Exiting..."
-    exit 1
-fi
-
 # Run the postprocessor
 CMD="python scripts/nano_postproc.py \
     ./ ${INPUTFILE} \
-    -b python/postprocessing/examples/keep_and_drop_fourlepton.txt \
-    -I PhysicsTools.NanoAODTools.postprocessing.examples.fourLepSkimModule fourLepSkimModuleConstr"
+    -b python/postprocessing/examples/keep_and_drop.txt \
+    -I PhysicsTools.NanoAODTools.postprocessing.examples.skimModule skimModuleConstr"
 echo $CMD
 echo "Running nano_postproc.py" | tee >(cat >&2)
 $CMD > >(tee nano_postproc.txt) 2> >(tee nano_postproc_stderr.txt >&2)
@@ -166,25 +147,6 @@ echo "Renaming the output file"
 echo "mv ${NANOPOSTPROCOUTPUTFILENAME}_Skim.root output.root"
 mv ${NANOPOSTPROCOUTPUTFILENAME}_Skim.root output.root
 
-# Figuring out nevents and neff_weights
-if [[ "${INPUTFILE}" == *"/NANOAOD/"* ]]; then # Relies on "/NANOAOD/" being present for data files. Perhaps not the brightest idea, however it seems to work for now.
-    echo 'void count_events(TString filename) { TFile* f = TFile::Open(filename.Data()); TTree* Events = (TTree*) f->Get("Events"); std::cout << Events->GetEntries() << std::endl; std::cout << Events->GetEntries() << std::endl;  std::cout << Events->GetEntries() << std::endl; }' > count_events.C
-    echo "Running count_events on skimmed events" | tee >(cat >&2)
-    root -l -b -q count_events.C\(\"output.root\"\) > >(tee nevents_skimmed.txt) 2> >(tee nevents_skimmed_stderr.txt >&2)
-else
-    echo 'void count_events(TString filename) { TFile* f = TFile::Open(filename.Data()); TTree* Events = (TTree*) f->Get("Events"); std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "", "goff") << std::endl; std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "((Generator_weight>0)-(Generator_weight<0))>0", "goff") << std::endl;  std::cout << Events->Draw("(Generator_weight>0)-(Generator_weight<0)", "((Generator_weight>0)-(Generator_weight<0))<0", "goff") << std::endl; }' > count_events.C
-    echo "Running count_events on skimmed events" | tee >(cat >&2)
-    root -l -b -q count_events.C\(\"output.root\"\) > >(tee nevents_skimmed.txt) 2> >(tee nevents_skimmed_stderr.txt >&2)
-fi
-
-RUN_STATUS=$?
-
-if [[ $RUN_STATUS != 0 ]]; then
-    echo "Error: count_nevents.C on skimmed events crashed with exit code $?" | tee >(cat >&2)
-    echo "Exiting..."
-    exit 1
-fi
-
 # if the file was downloaded clean it up
 if grep -q "badread" check_xrd_stderr.txt; then
     rm -rf ${INPUTFILE}
@@ -202,7 +164,7 @@ OUTPUTDIRPATHNEW=$(echo ${OUTPUTDIR} | sed 's/^.*\(\/store.*\).*$/\1/')
 
 # Copying the output file
 COPY_SRC="file://`pwd`/${OUTPUTNAME}.root"
-COPY_DEST="davs://redirector.t2.ucsd.edu:1094//${OUTPUTDIRPATHNEW}/${OUTPUTNAME}_${IFILE}.root"
+COPY_DEST="davs://redirector.t2.ucsd.edu:1095//${OUTPUTDIRPATHNEW}/${OUTPUTNAME}_${IFILE}.root"
 echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}"
 env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}
 COPY_STATUS=$?
@@ -215,35 +177,6 @@ if [[ $COPY_STATUS != 0 ]]; then
     fi
 fi
 
-# Copying n events
-COPY_SRC="file://`pwd`/nevents.txt"
-COPY_DEST="davs://redirector.t2.ucsd.edu:1094//${OUTPUTDIRPATHNEW}/${OUTPUTNAME}_${IFILE}_nevents.txt"
-echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}"
-env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}
-COPY_STATUS=$?
-if [[ $COPY_STATUS != 0 ]]; then
-    echo "Removing output file because gfal-copy crashed with code $COPY_STATUS"
-    env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-rm --verbose ${COPY_DEST}
-    REMOVE_STATUS=$?
-    if [[ $REMOVE_STATUS != 0 ]]; then
-        echo "Uhh, gfal-copy crashed and then the gfal-rm also crashed with code $REMOVE_STATUS"
-    fi
-fi
-
-# Copying n events skimmed
-COPY_SRC="file://`pwd`/nevents_skimmed.txt"
-COPY_DEST="davs://redirector.t2.ucsd.edu:1094//${OUTPUTDIRPATHNEW}/${OUTPUTNAME}_${IFILE}_nevents_skimmed.txt"
-echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}"
-env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}
-COPY_STATUS=$?
-if [[ $COPY_STATUS != 0 ]]; then
-    echo "Removing output file because gfal-copy crashed with code $COPY_STATUS"
-    env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-rm --verbose ${COPY_DEST}
-    REMOVE_STATUS=$?
-    if [[ $REMOVE_STATUS != 0 ]]; then
-        echo "Uhh, gfal-copy crashed and then the gfal-rm also crashed with code $REMOVE_STATUS"
-    fi
-fi
 echo -e "\n--- end copying output ---\n" #                    <----- section division
 
 
