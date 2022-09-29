@@ -574,9 +574,9 @@ void Begin_Common_Set_Config()
     // Trigger SF
     if (nt.year() == 2016 and isAPV)
     {
-	ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_ee_lepABpt_FullError");
-	ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_emu_lepABpt_FullError");
-	ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_mumu_lepABpt_FullError");
+        ana.triggereeSF   = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_ee_lepABpt_FullError");
+        ana.triggeremuSF  = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_emu_lepABpt_FullError");
+        ana.triggermumuSF = new RooUtil::HistMap("config/TriggerSF_2016preVFP_UL.root:h2D_SF_mumu_lepABpt_FullError");
     }
     else if (nt.year() == 2016 and not isAPV)
     {
@@ -603,26 +603,6 @@ void Begin_Common_Set_Config()
         RooUtil::error(TString::Format("While setting trigger scale factors, found year = %d that is not recognized.", nt.year()));
     }
 
-
-}
-
-void Begin_Common_VVVTree()
-{
-
-    // Define basic selections
-    // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
-    ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
-    ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == vvv.Common_gen_VH_channel());}, UNITY );
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() {
-        
-        //check golden json -- branch is true if MC
-        if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
-
-        //check basic filters 
-        if ( vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
-        else if ( !vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
-        else return false;
-        }, [&]() { return 1; } );
 
 }
 
