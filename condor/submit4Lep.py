@@ -43,7 +43,7 @@ if __name__ == "__main__":
     tag = args.thetag 
 
     # Where the merged output will go
-    merged_dir = "/home/users/phchang/work/vvv/VVVNanoLooper/vvvtree/{}".format(tag)
+    merged_dir = "{}/../vvvtree/{}".format(condorpath, tag)
 
     # Task summary for printing out msummary
     task_summary = {}
