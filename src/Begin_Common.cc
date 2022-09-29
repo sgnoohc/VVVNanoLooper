@@ -19,21 +19,12 @@ void Begin_Common()
     Begin_Common_Determine_Is_Postprocessed(); 
     
 
-    // The framework may run over NanoAOD directly or, it may run over VVVTree.
-    // ana.run_VVVTree boolean determines this.
-    if (ana.run_VVVTree)
-    {
-        Begin_Common_VVVTree();
-    }
-    else
-    {
-        //setup GRL
-        Begin_Common_Set_Run_List();
+    //setup GRL
+    Begin_Common_Set_Run_List();
 
-        // Configure the gconf from NanoTools/NanoCORE/Config.h
-        Begin_Common_Set_Config();
-        Begin_Common_NanoAOD();
-    }
+    // Configure the gconf from NanoTools/NanoCORE/Config.h
+    Begin_Common_Set_Config();
+    Begin_Common_NanoAOD();
 
 }
 
@@ -316,80 +307,44 @@ void Begin_Common_Create_Branches()
 
 void Begin_Common_Determine_Is_EFT()
 {
-    if (ana.run_VVVTree)
+    // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEReweightingWeight"
+    ana.is_EFT_sample = false; // default is false
+    TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+    for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
     {
-        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
-        ana.is_EFT_sample = vvv.Common_LHEWeight_mg_reweighting().size() > 0; // If there are weights it's is EFT
+        TString brname = brobjArray->At(ibr)->GetName();
+        if (brname.EqualTo("LHEReweightingWeight"))
+            ana.is_EFT_sample = true; // if it has the branch it is set to true
     }
-    else
-    {
-        // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEReweightingWeight"
-        ana.is_EFT_sample = false; // default is false
-        TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
-        for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
-        {
-            TString brname = brobjArray->At(ibr)->GetName();
-            if (brname.EqualTo("LHEReweightingWeight"))
-                ana.is_EFT_sample = true; // if it has the branch it is set to true
-        }
-    }
-
 }
 
 void Begin_Common_Determine_Is_Postprocessed()
 {
-    if (ana.run_VVVTree)
+    ana.is_postprocessed = false; //default is false
+    TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
+    for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
     {
-        // TODO: update VVVTree situation
-        ana.is_postprocessed = true;
-    }
-    else
-    {
-        ana.is_postprocessed = false; //default is false
-	TObjArray* brobjArray = ana.events_tchain->GetListOfBranches();
-        for (unsigned int ibr = 0; ibr < (unsigned int) brobjArray->GetEntries(); ++ibr)
-        {
-            TString brname = brobjArray->At(ibr)->GetName();
-            if (brname.EqualTo("FatJet_pt_nom"))
-                ana.is_postprocessed = true; // if it has the branch it is set to true
-        }
+        TString brname = brobjArray->At(ibr)->GetName();
+        if (brname.EqualTo("FatJet_pt_nom"))
+            ana.is_postprocessed = true; // if it has the branch it is set to true
     }
 }
 void Begin_Common_Set_Run_List()
 {
     std::string list = "";
-    if (ana.run_VVVTree && vvv.Common_isData())
+    if (nt.year() == 2016)
     {
-        if (ana.input_file_list_tstring.Contains("Run2016"))
-        {
-            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; // 19.52+16.81 ifb
-        }
-        if (ana.input_file_list_tstring.Contains("Run2017"))
-        {
-            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; // 41.48 ifb
-        }
-        if (ana.input_file_list_tstring.Contains("Run2018"))
-        {
-            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
-        }
-        set_goodrun_file(list.c_str());
+        list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; // 19.52+16.81 ifb
     }
-    else if (not ana.run_VVVTree && nt.isData())
+    if (nt.year() == 2017)
     {
-        if (nt.year() == 2016)
-        {
-            list = "config/Cert_271036-284044_13TeV_Legacy2016_Collisions16_JSON_formatted.txt"; // 19.52+16.81 ifb
-        }
-        if (nt.year() == 2017)
-        {
-            list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; // 41.48 ifb
-        }
-        if (nt.year() == 2018)
-        {
-            list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
-        }
-        set_goodrun_file(list.c_str());
+        list = "config/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON_formatted.txt"; // 41.48 ifb
     }
+    if (nt.year() == 2018)
+    {
+        list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
+    }
+    set_goodrun_file(list.c_str());
 }
 
 void Begin_Common_Set_Config()

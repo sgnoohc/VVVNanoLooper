@@ -55,15 +55,6 @@ int main(int argc, char** argv)
         switch (result["mode"].as<int>())
         {
             case AnalysisConfig::k4LepMET: ana.looperMode = AnalysisConfig::k4LepMET; break;
-            case AnalysisConfig::k4Lep2jet: ana.looperMode = AnalysisConfig::k4Lep2jet; break;
-            case AnalysisConfig::k3LepMET: ana.looperMode = AnalysisConfig::k3LepMET; break;
-            case AnalysisConfig::k3Lep2jet: ana.looperMode = AnalysisConfig::k3Lep2jet; break;
-            case AnalysisConfig::kOS4jet: ana.looperMode = AnalysisConfig::kOS4jet; break;
-            case AnalysisConfig::kOS2jet: ana.looperMode = AnalysisConfig::kOS2jet; break;
-            case AnalysisConfig::kSS2jet: ana.looperMode = AnalysisConfig::kSS2jet; break;
-            case AnalysisConfig::k1Lep4jet: ana.looperMode = AnalysisConfig::k1Lep4jet; break;
-            case AnalysisConfig::kallHad: ana.looperMode = AnalysisConfig::kallHad; break;
-            case AnalysisConfig::k1Lep2fatJets: ana.looperMode = AnalysisConfig::k1Lep2fatJets; break;
         }
     }
     else
@@ -183,17 +174,6 @@ int main(int argc, char** argv)
     }
 
     //_______________________________________________________________________________
-    // --VVVTree
-    if (result.count("VVVTree"))
-    {
-        ana.run_VVVTree = true;
-    }
-    else
-    {
-        ana.run_VVVTree = false;
-    }
-
-    //_______________________________________________________________________________
     // --nevents
     ana.n_events = result["nevents"].as<int>();
 
@@ -270,7 +250,6 @@ int main(int argc, char** argv)
     std::cout <<  " ana.write_tree: " << ana.write_tree <<  std::endl;
     std::cout <<  " ana.region: " << ana.region <<  std::endl;
     std::cout <<  " ana.vhvvv_channel: " << ana.vhvvv_channel <<  std::endl;
-    std::cout <<  " ana.run_VVVTree: " << ana.run_VVVTree <<  std::endl;
     std::cout <<  "=========================================================" << std::endl;
 
 //********************************************************************************
@@ -292,14 +271,7 @@ int main(int argc, char** argv)
     //
     // and no need for "SetBranchAddress" and declaring variable shenanigans necessary
     // This is a standard thing SNT does pretty much every looper we use
-    if (ana.run_VVVTree)
-    {
-        ana.looper_vvvtree.init(ana.events_tchain, &vvv, ana.n_events);
-    }
-    else
-    {
-        ana.looper.init(ana.events_tchain, &nt, ana.n_events);
-    }
+    ana.looper.init(ana.events_tchain, &nt, ana.n_events);
 
     // Set the cutflow object output file
     ana.cutflow.setTFile(ana.output_tfile);
@@ -320,39 +292,19 @@ int main(int argc, char** argv)
 
     Begin();
 
-    if (ana.run_VVVTree)
+    // Looping input file
+    while (ana.looper.nextEvent())
     {
-        // Looping input file
-        while (ana.looper_vvvtree.nextEvent())
+
+        // If splitting jobs are requested then determine whether to process the event or not based on remainder
+        if (result.count("job_index") and result.count("nsplit_jobs"))
         {
-
-            // If splitting jobs are requested then determine whether to process the event or not based on remainder
-            if (result.count("job_index") and result.count("nsplit_jobs"))
-            {
-                if (ana.looper_vvvtree.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
-                    continue;
-            }
-
-            Process();
-
+            if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
+                continue;
         }
-    }
-    else
-    {
-        // Looping input file
-        while (ana.looper.nextEvent())
-        {
 
-            // If splitting jobs are requested then determine whether to process the event or not based on remainder
-            if (result.count("job_index") and result.count("nsplit_jobs"))
-            {
-                if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
-                    continue;
-            }
+        Process();
 
-            Process();
-
-        }
     }
 
     Terminate();
