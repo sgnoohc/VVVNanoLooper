@@ -32,7 +32,7 @@ def split_func(dsname):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Submit jobs for VVV analysis")
-    parser.add_argument('-t' , '--thetag' , dest='thetag' , help='tag' , type=str)
+    parser.add_argument('-t' , '--thetag' , dest='thetag' , help='tag' , type=str, required=True)
     # Argument parser
     args = parser.parse_args()
     
