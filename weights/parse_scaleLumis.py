@@ -6,11 +6,12 @@ import os
 from os.path import exists
 
 
-def getGenWeightSum(filename):
-    f = r.TFile(filename)
-    t = f.Get("Runs")
+def getGenWeightSum(filenames):
+    ch = r.TChain("Runs")
+    for filename in filenames:
+        ch.Add(filename)
     genEventSumw = 0
-    for i in t:
+    for i in ch:
         genEventSumw += i.genEventSumw
     return genEventSumw
 
@@ -35,10 +36,10 @@ if __name__ == "__main__":
     for nanoskim in sorted(nanoskims):
         if "Run201" in nanoskim:
             continue
-        output_file = nanoskim+"/merged/output.root"
-        file_exists = exists(output_file)
+        output_file_pattern = nanoskim+"/output*.root"
+        output_files = glob.glob(output_file_pattern)
         samplename = os.path.basename(nanoskim)
-        genweight = getGenWeightSum(output_file)
+        genweight = getGenWeightSum(output_files)
         xsec = float(xsecdb[samplename])
         year = parseYear(samplename)
         lumi = parseLumi(samplename)

@@ -7,7 +7,8 @@
 #include <iostream>
 
 namespace fourlep{
-    std::map<TString, float> scale1fbs;
+    std::map<TString, float> scaleLumis;
+    std::map<TString, float> intLumis;
 }
 
 void Begin_4LepMET()
@@ -256,11 +257,11 @@ void Begin_4LepMET_NanoAOD()
                 if (not ana.tx.getBranch<int>("Common_isData"))
                 {
                     TString key = gSystem->DirName(ana.looper.getCurrentFileName());
-                    ana.tx.setBranch<float>("Var_4LepMET_scale1fb", fourlep::scale1fbs.at(key));
+                    ana.tx.setBranch<float>("Var_4LepMET_scaleLumi", fourlep::scaleLumis.at(key));
                 }
                 else
                 {
-                    ana.tx.setBranch<float>("Var_4LepMET_scale1fb", 1);
+                    ana.tx.setBranch<float>("Var_4LepMET_scaleLumi", 1);
                 }
                 return true;
             },
@@ -302,20 +303,21 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate
 
     // Cross section related info
-    ana.tx.createBranch<float>        ("Var_4LepMET_scale1fb");           // Scale 1fb
+    ana.tx.createBranch<float>        ("Var_4LepMET_scaleLumi");           // Scale 1fb
 }
 
 void Begin_4LepMET_Parse_Scale1fbs()
 {
-    fourlep::scale1fbs.clear();
+    fourlep::scaleLumis.clear();
     ifstream ifile;
-    ifile.open("weights/scale1fbs.txt");
+    ifile.open("weights/scaleLumis.txt");
     std::string line;
     while (std::getline(ifile, line))
     {
         TString rawline = line;
         std::vector<TString> list = RooUtil::StringUtil::split(rawline, ",");
-        fourlep::scale1fbs[list[0].Strip()] = list[1].Atof();
+        fourlep::scaleLumis[list[0].Strip()] = list[1].Atof();
+        fourlep::intLumis[list[0].Strip()] = list[3].Atof();
     }
 }
 

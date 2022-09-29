@@ -52,6 +52,8 @@ if __name__ == "__main__":
 
         badfiles = []
 
+        skip_tail = True
+
         for sample in samples_list:
 
             task = CondorTask(
@@ -65,6 +67,7 @@ if __name__ == "__main__":
                     # tarfile = "/nfs-7/userdata/phchang/NanoSkimmerPackages/NanoSkimmer_v3.1.package.tar.gz", # your tarfile with assorted goodies here
                     tarfile = "NanoAOD_4LeptonSkimmer.tar.gz", # your tarfile with assorted goodies here
                     special_dir = "FourLepNanoSkim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
+                    min_completion_fraction = 0.50 if skip_tail else 1.0,
             )
 
             total_nfiles += (len(sample.get_files()))

@@ -1,1 +1,0 @@
-/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_v9                                                                                                                            ,                  0.0043227759,2018,59.8,8261.48767736,0.0005972
