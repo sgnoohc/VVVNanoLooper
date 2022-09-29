@@ -125,20 +125,23 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_event_looseBtagSFLFup");  // btagSF
     ana.tx.createBranch<float>                ("Common_event_looseBtagSFLFdn");  // btagSF
 
-    ana.tx.createBranch<vector<LorentzVector>>("Common_lep_p4");        // Pt sorted selected lepton p4s (electrons and muons together)
-    ana.tx.createBranch<vector<int>>          ("Common_lep_idxs");      // Pt sorted selected lepton idxs (electrons and muons together)
-    ana.tx.createBranch<vector<int>>          ("Common_lep_pdgid");     // Pt sorted selected lepton pdgids (so that Common_lep_idxs can be used to access NanoAOD)
-    ana.tx.createBranch<vector<int>>          ("Common_lep_tight");     // Pt sorted selected lepton tight (Where a tight version of the lepton isolation is used to reduce bkg a bit further if necessary)
-    ana.tx.createBranch<vector<float>>        ("Common_lep_dxy");       // Pt sorted selected lepton dxy (electrons and muons together)
-    ana.tx.createBranch<vector<float>>        ("Common_lep_dz");        // Pt sorted selected lepton dz (electrons and muons together)
-    ana.tx.createBranch<vector<float>>        ("Common_lep_ip3d");      // Pt sorted selected lepton ip3d (electrons and muons together)
-    ana.tx.createBranch<vector<float>>        ("Common_lep_sip3d");     // Pt sorted selected lepton sip3d (electrons and muons together)
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SF");        // SF
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SFTight");   // SF tight iso
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SFdn");      // SF
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight"); // SF tight iso
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");      // SF
-    ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight"); // SF tight iso
+    ana.tx.createBranch<vector<LorentzVector>>("Common_lep_p4");           // Pt sorted selected lepton p4s (electrons and muons together)
+    ana.tx.createBranch<vector<int>>          ("Common_lep_idxs");         // Pt sorted selected lepton idxs (electrons and muons together)
+    ana.tx.createBranch<vector<int>>          ("Common_lep_pdgid");        // Pt sorted selected lepton pdgids (so that Common_lep_idxs can be used to access NanoAOD)
+    ana.tx.createBranch<vector<int>>          ("Common_lep_tight");        // Pt sorted selected lepton tight (Where a tight version of the lepton isolation is used to reduce bkg a bit further if necessary)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_dxy");          // Pt sorted selected lepton dxy (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_dz");           // Pt sorted selected lepton dz (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_ip3d");         // Pt sorted selected lepton ip3d (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_sip3d");        // Pt sorted selected lepton sip3d (electrons and muons together)
+    ana.tx.createBranch<vector<int>>          ("Common_lep_IsoID");        // Pt sorted selected lepton Isolation Id (electrons and muons together)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_relIso03_all"); // Pt sorted selected lepton isolation reliso03_all (electrons and muons together)
+    ana.tx.createBranch<vector<int>>          ("Common_lep_ID");           // Pt sorted selected lepton ID (ID can be variants of multiple ID)
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SF");           // SF
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SFTight");      // SF tight iso
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SFdn");         // SF
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight");    // SF tight iso
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");         // SF
+    ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight");    // SF tight iso
  
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s

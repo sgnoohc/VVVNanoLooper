@@ -177,7 +177,8 @@ void Process_Common_NanoAOD()
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
     {
         // Selections
-        if (not (nt.Electron_mvaFall17V2Iso_WP90()[iel])) continue;
+        if (not (nt.Electron_mvaFall17V2noIso_WPL()[iel])) continue;
+        if (not (nt.Electron_pfRelIso03_all()[iel] < 0.4)) continue;
         if (not (nt.Electron_p4()[iel].pt()       > 10.)) continue;
         if (not (abs(nt.Electron_p4()[iel].eta()) < 2.5)) continue;
         if (abs(nt.Electron_p4()[iel].eta()) < 1.566 && abs(nt.Electron_p4()[iel].eta()) > 1.444) continue; 
@@ -191,6 +192,16 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Electron_ip3d()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Electron_sip3d()[iel]);
+        ana.tx.pushbackToBranch<int>  ("Common_lep_IsoID", -1);
+        ana.tx.pushbackToBranch<float>("Common_lep_relIso03_all", nt.Electron_pfRelIso03_all()[iel]); // Pt sorted selected lepton isolation reliso03_all (electrons and muons together)
+        int ID = 0;
+        ID |= nt.Electron_mvaFall17V2noIso_WPL()[iel] << 0;
+        ID |= nt.Electron_mvaFall17V2noIso_WP90()[iel] << 1;
+        ID |= nt.Electron_mvaFall17V2noIso_WP80()[iel] << 2;
+        ID |= nt.Electron_mvaFall17V2Iso_WPL()[iel] << 3;
+        ID |= nt.Electron_mvaFall17V2Iso_WP90()[iel] << 4;
+        ID |= nt.Electron_mvaFall17V2Iso_WP80()[iel] << 5;
+        ana.tx.pushbackToBranch<int>("Common_lep_ID", ID);
         //---------
         // bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
         float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
@@ -242,9 +253,9 @@ void Process_Common_NanoAOD()
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
         // Selections
-        if (not (nt.Muon_mediumId()[imu]             )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
+        if (not (nt.Muon_looseId()[imu]              )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
         if (not (nt.Muon_p4()[imu].pt()        > 10. )) continue;
-        if (not (nt.Muon_pfRelIso04_all()[imu] < 0.25)) continue; // i.e. Loose from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
+        if (not (nt.Muon_pfIsoId()[imu]          >= 1)) continue; // i.e. Loose from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
         if (not (abs(nt.Muon_p4()[imu].eta())  < 2.4 )) continue;
 
         // If passed up to here add it to the index list
@@ -256,6 +267,12 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Muon_ip3d()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
+        ana.tx.pushbackToBranch<float>("Common_lep_relIso03_all", nt.Muon_pfRelIso03_all()[imu]);
+        int ID = 0;
+        ID |= nt.Muon_mediumId()[imu] << 0;
+        ID |= nt.Muon_tightId()[imu] << 1;
+        ID |= nt.Muon_pfIsoId()[imu] << 2;
+        ana.tx.pushbackToBranch<int>("Common_lep_ID", ID);
         //---------
         // bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
         // float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
