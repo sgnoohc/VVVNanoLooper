@@ -10,7 +10,7 @@ condor/package.tar.gz
 .*.txt
 .*.cc
 .*.h
-.*.pyc
+*.pyc
 condor/*.json
 histograms
 test.cc
