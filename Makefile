@@ -2,7 +2,7 @@
 
 EXE=doVVVAnalysis
 
-SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) rooutil/rooutil.cc $(wildcard NanoTools/NanoCORE/Tools/*.cc) $(wildcard NanoTools/NanoCORE/Tools/btagsf/*.cc)
+SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) $(wildcard rooutil/src/*.cc) $(wildcard NanoTools/NanoCORE/Tools/*.cc) $(wildcard NanoTools/NanoCORE/Tools/btagsf/*.cc)
 OBJECTS=$(SOURCES:.cc=.o)
 HEADERS=$(SOURCES:.cc=.h)
 
@@ -21,6 +21,8 @@ CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tra
 EXTRACFLAGS = $(shell rooutil-config)
 EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer -lMinuit
 
+all: rooutil $(EXE)
+
 $(EXE): $(OBJECTS)
 	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) -o $@
 
@@ -31,5 +33,10 @@ cleansmall:
 	rm -f src/*.o $(EXE)
 
 clean:
+	$(MAKE) -C rooutil/ clean
 	rm -f $(OBJECTS) $(EXE)
 
+rooutil:
+	$(MAKE) -C rooutil/
+
+.PHONY: rooutil
