@@ -28,9 +28,9 @@ def parseLumi(samplename):
 
 if __name__ == "__main__":
 
-    nanoskims = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v8/*")
+    nanoskims = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
     xsec_filename = "xsec.txt"
-    xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_v8", x.split()[1] ] for x in open(xsec_filename).readlines() ])
+    xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_v9", x.split()[1] ] for x in open(xsec_filename).readlines() ])
 
     for nanoskim in sorted(nanoskims):
         if "Run201" in nanoskim:
@@ -42,4 +42,4 @@ if __name__ == "__main__":
         xsec = float(xsecdb[samplename])
         year = parseYear(samplename)
         lumi = parseLumi(samplename)
-        print("{:300s},{:30.10f},{},{},{}".format(nanoskim, xsec * 1000 * lumi / genweight, year, lumi, genweight))
+        print("{:300s},{:30.10f},{},{},{},{}".format(nanoskim, xsec * 1000 * lumi / genweight, year, lumi, genweight, xsec))
