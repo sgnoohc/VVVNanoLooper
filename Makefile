@@ -2,7 +2,7 @@
 
 EXE=doVVVAnalysis
 
-SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) $(wildcard rooutil/src/*.cc) $(wildcard NanoTools/NanoCORE/Tools/*.cc) $(wildcard NanoTools/NanoCORE/Tools/btagsf/*.cc)
+SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) $(wildcard NanoTools/NanoCORE/Tools/*.cc) $(wildcard NanoTools/NanoCORE/Tools/btagsf/*.cc)
 OBJECTS=$(SOURCES:.cc=.o)
 HEADERS=$(SOURCES:.cc=.h)
 
@@ -24,7 +24,7 @@ EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVe
 all: rooutil $(EXE)
 
 $(EXE): $(OBJECTS)
-	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) -o $@
+	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) $(EXTRACFLAGS) -o $@
 
 %.o: %.cc
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@

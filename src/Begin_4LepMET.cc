@@ -251,7 +251,7 @@ void Begin_4LepMET_NanoAOD()
             UNITY);
 
     // Compute weight
-    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_Scale1fbs",
+    ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_ScaleLumi",
             [&]()
             {
                 if (not ana.tx.getBranch<int>("Common_isData"))
