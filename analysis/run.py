@@ -3,7 +3,7 @@
 import os
 
 skimversion = "v9"
-skimdir = "../vvvtree/{skimversion}".format(skimversion=skimversion)
+skimdir = "/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/{skimversion}".format(skimversion=skimversion)
 
 #____________________________________________________________________________________________
 def main():
