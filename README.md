@@ -52,6 +52,10 @@ Copy paste the following and it should work right away to produce the plots
 
     /ceph/cms/store/user/phchang/VVVTree/v9/
 
+or
+
+    /home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/v9
+
 ### Running the analysis looper on VVVTree ntuple
 
     source setup.sh
