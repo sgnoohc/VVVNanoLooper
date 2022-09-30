@@ -590,9 +590,9 @@ int main(int argc, char** argv)
                                         if (vvv.Common_met_p4().pt() > 70. and vvv.Common_met_p4().pt() < 120.)
                                         {
                                             if (Pt4l > 40. and Pt4l < 70.)
-                                                rtn.push_back(5.);
-                                            if (Pt4l > 70.)
                                                 rtn.push_back(6.);
+                                            if (Pt4l > 70.)
+                                                rtn.push_back(5.);
                                         }
                                     }
                                     return rtn;
