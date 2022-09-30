@@ -1,11 +1,11 @@
 import os
 
-from metis.Sample import DBSSample
+from metis.Sample import DirectorySample, DBSSample
 from metis.LocalMergeTask import LocalMergeTask
 from metis.CondorTask import CondorTask
 from metis.StatsParser import StatsParser
-from skimmed_4l_samples import samples_4l_skimmed
 import argparse
+import glob
 
 from time import sleep
 import sys
@@ -36,8 +36,11 @@ if __name__ == "__main__":
     # Argument parser
     args = parser.parse_args()
     
-    # Specify a dataset name and a short name for the output root file on nfs
-    sample_map = samples_4l_skimmed # See condor/samples.py
+    sample_map = {}
+
+    sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
+    for sample in sample_list:
+        sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 
     # submission tag
     tag = args.thetag 

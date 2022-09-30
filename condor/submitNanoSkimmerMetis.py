@@ -18,8 +18,11 @@ if __name__ == "__main__":
     samples_list += samples.mc_2017.keys()
     samples_list += samples.mc_2016.keys()
     samples_list += samples.data_2018.keys()
+    samples_list += samples.data_2017.keys()
     samples_list += samples.data_2016.keys()
-    samples_list += samples.data_2016.keys()
+
+    samples_list = []
+    samples_list += samples.data_2017.keys()
 
     # # If wishing to run just few samples
     # samples_list = []
@@ -61,13 +64,13 @@ if __name__ == "__main__":
                     files_per_output = 1,
                     output_name = "output.root",
                     tag = tag,
-                    condor_submit_params = condor_submit_params_do_fetch,
+                    condor_submit_params = condor_submit_params_no_fetch,
                     cmssw_version = "CMSSW_10_5_0",
                     input_executable = "condor_executable_skimmer_metis.sh", # your condor executable here
                     # tarfile = "/nfs-7/userdata/phchang/NanoSkimmerPackages/NanoSkimmer_v3.1.package.tar.gz", # your tarfile with assorted goodies here
                     tarfile = "NanoAOD_4LeptonSkimmer.tar.gz", # your tarfile with assorted goodies here
                     special_dir = "FourLepNanoSkim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
-                    min_completion_fraction = 0.50 if skip_tail else 1.0,
+                    # min_completion_fraction = 0.50 if skip_tail else 1.0,
             )
 
             total_nfiles += (len(sample.get_files()))

@@ -4,14 +4,26 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $DIR/../
 
-make clean;
-make -j;
+# make clean;
+# make -j;
 
 git status > gitversion.txt
 git rev-parse HEAD >> gitversion.txt
 git log >> gitversion.txt
 git diff >> gitversion.txt
 
-tar -chJf $DIR/package.tar.xz doVVVAnalysis src/scalefactors/* config/* gitversion.txt weights/scaleLumis.txt
+rm -rf /tmp/${USER}/tmptar
+mkdir -p /tmp/${USER}/tmptar
+cd /tmp/${USER}/tmptar
+mkdir -p src/
+mkdir -p weights/
+cp ${DIR}/../doVVVAnalysis .
+cp -r ${DIR}/../src/scalefactors src/
+cp -r ${DIR}/../config .
+cp ${DIR}/../gitversion.txt .
+cp ${DIR}/../weights/scaleLumis.txt weights/
+cp ${DIR}/../rooutil/lib/* .
+
+tar -chJf $DIR/package.tar.xz .
 
 rm gitversion.txt
