@@ -411,6 +411,11 @@ int main(int argc, char** argv)
 
                            float weight = ana.eft_reweighting_idx != 0 ? (eftweight - sm_weight) : sm_weight;
 
+                           if (ana.looper.getCurrentFileName().Contains("WWZJets"))
+                           {
+                               weight = 0.002067 / 0.0005972;
+                           }
+
                            return vvv.Var_4LepMET_scaleLumi() * vvv.Common_genWeight() * weight;
                        } );
     ana.cutflow.addCutToLastActiveCut("CutAdditionalLeptonID", 
@@ -505,7 +510,7 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutPresel", UNITY, UNITY);
 
     ana.cutflow.getCut("CutPresel");
-    ana.cutflow.addCutToLastActiveCut("CutBVeto", [&]() { return vvv.Common_nb_loose() == 0; }, [&]() { return vvv.Common_isData() ? 1. : vvv.Common_event_looseBtagSF(); } );
+    ana.cutflow.addCutToLastActiveCut("CutBVeto", [&]() { return vvv.Common_nb_loose() == 0; }, BLIND);
     ana.cutflow.getCut("CutPresel");
     ana.cutflow.addCutToLastActiveCut("CutBTag", [&]() { return vvv.Common_nb_loose() > 0; }, [&]() { return vvv.Common_isData() ? 1. : vvv.Common_event_looseBtagSF(); } );
 
@@ -514,8 +519,8 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutEMuMT2", [&]() { return (vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2() > 25.) or (vvv.Var_4LepMET_other_mll() > 100.); }, BLIND);
     ana.cutflow.getCut("CutBVeto");
     ana.cutflow.addCutToLastActiveCut("CutOffZ", [&]() { return vvv.Cut_4LepMET_offzChannel(); }, UNITY);
-    ana.cutflow.getCut("CutBVeto");
-    ana.cutflow.addCutToLastActiveCut("CutOnZ", [&]() { return vvv.Cut_4LepMET_onzChannel(); }, UNITY);
+    ana.cutflow.getCut("CutPresel");
+    ana.cutflow.addCutToLastActiveCut("CutOnZ", [&]() { return vvv.Cut_4LepMET_onzChannel() and vvv.Common_nb_loose() == 0; }, [&]() { return vvv.Common_isData() ? 1. : vvv.Common_event_looseBtagSF(); });
 
     // ana.cutflow.getCut("CutPresel");
     // ana.cutflow.addCutToLastActiveCut("CutNotOnZ", [&]() { return vvv.Cut_4LepMET_offzChannel() or vvv.Cut_4LepMET_emuChannel(); }, UNITY);
@@ -593,8 +598,8 @@ int main(int argc, char** argv)
                                     return rtn;
                                 } );
 
-    // // Book cutflows
-    // ana.cutflow.bookCutflows();
+    // Book cutflows
+    ana.cutflow.bookCutflows();
 
     // Book Histograms
     ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "CutDuplicate"); // if just want to book everywhere
