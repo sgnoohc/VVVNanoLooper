@@ -12,6 +12,6 @@ git rev-parse HEAD >> gitversion.txt
 git log >> gitversion.txt
 git diff >> gitversion.txt
 
-tar -chJf $DIR/package.tar.xz doVVVAnalysis src/scalefactors/* config/* gitversion.txt weights/scale1fbs.txt
+tar -chJf $DIR/package.tar.xz doVVVAnalysis src/scalefactors/* config/* gitversion.txt weights/scaleLumis.txt
 
 rm gitversion.txt

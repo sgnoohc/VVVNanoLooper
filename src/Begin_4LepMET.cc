@@ -258,6 +258,7 @@ void Begin_4LepMET_NanoAOD()
                 {
                     TString key = gSystem->DirName(ana.looper.getCurrentFileName());
                     ana.tx.setBranch<float>("Var_4LepMET_scaleLumi", fourlep::scaleLumis.at(key));
+                    ana.tx.setBranch<float>("Var_4LepMET_intLumi", fourlep::intLumis.at(key));
                 }
                 else
                 {
@@ -303,7 +304,8 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate
 
     // Cross section related info
-    ana.tx.createBranch<float>        ("Var_4LepMET_scaleLumi");           // Scale 1fb
+    ana.tx.createBranch<float>        ("Var_4LepMET_scaleLumi");          // Scale 1fb
+    ana.tx.createBranch<float>        ("Var_4LepMET_intLumi");            // Integrated Luminosity
 }
 
 void Begin_4LepMET_Parse_Scale1fbs()
