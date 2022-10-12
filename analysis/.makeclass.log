@@ -1,5 +1,5 @@
 
-Processing /home/users/phchang/work/vvv/WWZRun3NanoLooper/rooutil/bin/../macro/makeCMS3ClassFiles.C("/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/v9/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_v9.root","t","vvvtree","tas","vvv")...
+Processing /home/users/phchang/work/vvv/WWZRun3NanoLooper/rooutil/bin/../macro/makeCMS3ClassFiles.C("/home/users/phchang/work/vvv/WWZRun3NanoLooper/debug.root","t","vvvtree","tas","vvv")...
 Common_isData
 Common_isData/I
 
@@ -305,6 +305,15 @@ Common_jet_passBmedium
 vector<bool>
 Common_jet_passBtight
 Common_jet_passBtight
+vector<bool>
+Common_jet_passBloose_CSV
+Common_jet_passBloose_CSV
+vector<bool>
+Common_jet_passBmedium_CSV
+Common_jet_passBmedium_CSV
+vector<bool>
+Common_jet_passBtight_CSV
+Common_jet_passBtight_CSV
 vector<bool>
 Common_jet_id
 Common_jet_id
@@ -632,6 +641,15 @@ Common_nb_medium/I
 
 Common_nb_tight
 Common_nb_tight/I
+
+Common_nb_loose_CSV
+Common_nb_loose_CSV/I
+
+Common_nb_medium_CSV
+Common_nb_medium_CSV/I
+
+Common_nb_tight_CSV
+Common_nb_tight_CSV/I
 
 Common_gen_idx
 Common_gen_idx

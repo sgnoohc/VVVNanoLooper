@@ -510,9 +510,9 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutPresel", UNITY, UNITY);
 
     ana.cutflow.getCut("CutPresel");
-    ana.cutflow.addCutToLastActiveCut("CutBVeto", [&]() { return vvv.Common_nb_loose() == 0; }, BLIND);
+    ana.cutflow.addCutToLastActiveCut("CutBVeto", [&]() { return vvv.Common_nb_loose_CSV() == 0; }, BLIND);
     ana.cutflow.getCut("CutPresel");
-    ana.cutflow.addCutToLastActiveCut("CutBTag", [&]() { return vvv.Common_nb_loose() > 0; }, [&]() { return vvv.Common_isData() ? 1. : vvv.Common_event_looseBtagSF(); } );
+    ana.cutflow.addCutToLastActiveCut("CutBTag", [&]() { return vvv.Common_nb_loose_CSV() > 0; }, UNITY);
 
     ana.cutflow.getCut("CutBVeto");
     ana.cutflow.addCutToLastActiveCut("CutEMu", [&]() { return vvv.Cut_4LepMET_emuChannel(); }, BLIND);
@@ -520,21 +520,21 @@ int main(int argc, char** argv)
     ana.cutflow.getCut("CutBVeto");
     ana.cutflow.addCutToLastActiveCut("CutOffZ", [&]() { return vvv.Cut_4LepMET_offzChannel(); }, UNITY);
     ana.cutflow.getCut("CutPresel");
-    ana.cutflow.addCutToLastActiveCut("CutOnZ", [&]() { return vvv.Cut_4LepMET_onzChannel() and vvv.Common_nb_loose() == 0; }, [&]() { return vvv.Common_isData() ? 1. : vvv.Common_event_looseBtagSF(); });
+    ana.cutflow.addCutToLastActiveCut("CutOnZ", [&]() { return vvv.Cut_4LepMET_onzChannel() and vvv.Common_nb_loose_CSV() == 0; }, UNITY);
 
     // ana.cutflow.getCut("CutPresel");
     // ana.cutflow.addCutToLastActiveCut("CutNotOnZ", [&]() { return vvv.Cut_4LepMET_offzChannel() or vvv.Cut_4LepMET_emuChannel(); }, UNITY);
 
     // ana.cutflow.getCut("CutOffZ");
-    // ana.cutflow.addCutToLastActiveCut("CutOffZBV", [&]() { return vvv.Common_nb_loose() == 0; }, UNITY);
+    // ana.cutflow.addCutToLastActiveCut("CutOffZBV", [&]() { return vvv.Common_nb_loose_CSV() == 0; }, UNITY);
 
     // ana.cutflow.getCut("CutOnZ");
 
     // ana.cutflow.getCut("CutEMu");
-    // ana.cutflow.addCutToLastActiveCut("CutEMuBV", [&]() { return vvv.Common_nb_loose() == 0; }, UNITY);
+    // ana.cutflow.addCutToLastActiveCut("CutEMuBV", [&]() { return vvv.Common_nb_loose_CSV() == 0; }, UNITY);
 
     // ana.cutflow.getCut("CutEMu");
-    // ana.cutflow.addCutToLastActiveCut("CutEMuBT", [&]() { return vvv.Common_nb_loose() > 0; }, UNITY);
+    // ana.cutflow.addCutToLastActiveCut("CutEMuBT", [&]() { return vvv.Common_nb_loose_CSV() > 0; }, UNITY);
 
     // Print cut structure
     ana.cutflow.printCuts();
@@ -604,6 +604,9 @@ int main(int argc, char** argv)
     // Book Histograms
     ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "CutDuplicate"); // if just want to book everywhere
 
+    // Book Event list
+    ana.cutflow.bookEventLists();
+
     // Looping input file
     while (ana.looper.nextEvent())
     {
@@ -620,10 +623,51 @@ int main(int argc, char** argv)
         STLepHad = vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.);
         Pt4l = (vvv.Var_4LepMET_Zcand_lep_p4_0() + vvv.Var_4LepMET_Zcand_lep_p4_1() + vvv.Var_4LepMET_other_lep_p4_0() + vvv.Var_4LepMET_other_lep_p4_1()).pt();
 
+        ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
+
+        // 1:1802:1801785
+        // 1:2318:2317296
+        // 1:2320:2319992
+        // 1:2999:2998826
+
+        if (vvv.Common_run() == 1 and vvv.Common_lumi() == 1802 and vvv.Common_evt() == 1801785)
+        {
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().eta(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().eta() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().phi(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().phi() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_pdgid_0(): " << vvv.Var_4LepMET_Zcand_lep_pdgid_0() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().eta(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().eta() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().phi(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().phi() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_pdgid_1(): " << vvv.Var_4LepMET_Zcand_lep_pdgid_1() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().pt(): " << vvv.Var_4LepMET_other_lep_p4_0().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().eta(): " << vvv.Var_4LepMET_other_lep_p4_0().eta() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().phi(): " << vvv.Var_4LepMET_other_lep_p4_0().phi() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_pdgid_0(): " << vvv.Var_4LepMET_other_lep_pdgid_0() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().pt(): " << vvv.Var_4LepMET_other_lep_p4_1().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().eta(): " << vvv.Var_4LepMET_other_lep_p4_1().eta() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().phi(): " << vvv.Var_4LepMET_other_lep_p4_1().phi() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_pdgid_1(): " << vvv.Var_4LepMET_other_lep_pdgid_1() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_mll(): " << vvv.Var_4LepMET_Zcand_mll() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_mll(): " << vvv.Var_4LepMET_other_mll() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_mt2(): " << vvv.Var_4LepMET_mt2() <<  std::endl;
+            std::cout <<  " vvv.Common_nb_loose_CSV(): " << vvv.Common_nb_loose_CSV() <<  std::endl;
+            for (unsigned ijet = 0; ijet < vvv.Common_jet_p4().size(); ++ijet)
+            {
+                std::cout <<  " vvv.Common_jet_p4()[ijet].pt(): " << vvv.Common_jet_p4()[ijet].pt() <<  std::endl;
+                std::cout <<  " vvv.Common_jet_p4()[ijet].eta(): " << vvv.Common_jet_p4()[ijet].eta() <<  std::endl;
+                std::cout <<  " vvv.Common_jet_p4()[ijet].phi(): " << vvv.Common_jet_p4()[ijet].phi() <<  std::endl;
+                std::cout <<  " vvv.Common_jet_passBloose_CSV()[ijet]: " << vvv.Common_jet_passBloose_CSV()[ijet] <<  std::endl;
+
+            }
+        }
+
         //Do what you need to do in for each event here
         //To save use the following function
         ana.cutflow.fill();
     }
+
+    ana.cutflow.getCut("CutEMuMT2").writeEventList("eventlist.txt");
 
     // Writing output file
     ana.cutflow.saveOutput();

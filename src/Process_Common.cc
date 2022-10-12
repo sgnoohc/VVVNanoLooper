@@ -340,9 +340,15 @@ void Process_Common_NanoAOD()
     float bWPloose  = gconf.WP_DeepFlav_loose;
     float bWPmedium = gconf.WP_DeepFlav_medium;
     float bWPtight  = gconf.WP_DeepFlav_tight;
+    float bWPloose_CSV  = gconf.WP_DeepCSV_loose;
+    float bWPmedium_CSV = gconf.WP_DeepCSV_medium;
+    float bWPtight_CSV  = gconf.WP_DeepCSV_tight;
     int nb_loose = 0;
     int nb_medium = 0;
     int nb_tight = 0;
+    int nb_loose_CSV = 0;
+    int nb_medium_CSV = 0;
+    int nb_tight_CSV = 0;
     float btagTight_prob_MC = 1;
     float btagTight_prob_DATA = 1;
     float btagTight_up_prob_DATA = 1;
@@ -428,6 +434,9 @@ void Process_Common_NanoAOD()
             ana.tx.pushbackToBranch<bool>("Common_jet_passBloose" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose );
             ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium);
             ana.tx.pushbackToBranch<bool>("Common_jet_passBtight" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight );
+            ana.tx.pushbackToBranch<bool>("Common_jet_passBloose_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose_CSV );
+            ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium_CSV", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium_CSV);
+            ana.tx.pushbackToBranch<bool>("Common_jet_passBtight_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight_CSV );
             if (ana.is_postprocessed && !nt.isData())
             {
                 ana.tx.pushbackToBranch<float>("Common_jet_pt_jesup", nt.Jet_pt_jesTotalUp()[ijet]);
@@ -458,6 +467,19 @@ void Process_Common_NanoAOD()
             if (nt.Jet_btagDeepFlavB()[ijet] > bWPtight)
             {
                 nb_tight++;
+            }
+
+            if (nt.Jet_btagDeepB()[ijet] > bWPloose_CSV)
+            {
+                nb_loose_CSV++;
+            }
+            if (nt.Jet_btagDeepB()[ijet] > bWPmedium_CSV)
+            {
+                nb_medium_CSV++;
+            }
+            if (nt.Jet_btagDeepB()[ijet] > bWPtight_CSV)
+            {
+                nb_tight_CSV++;
             }
 
             if (not nt.isData())
@@ -772,6 +794,9 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>("Common_nb_loose", nb_loose);
     ana.tx.setBranch<int>("Common_nb_medium", nb_medium);
     ana.tx.setBranch<int>("Common_nb_tight", nb_tight);
+    ana.tx.setBranch<int>("Common_nb_loose_CSV", nb_loose_CSV);
+    ana.tx.setBranch<int>("Common_nb_medium_CSV", nb_medium_CSV);
+    ana.tx.setBranch<int>("Common_nb_tight_CSV", nb_tight_CSV);
 
     //---------------------------------------------------------------------------------------------
     // Fat Jet selection

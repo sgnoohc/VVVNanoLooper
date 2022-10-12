@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/v9/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_v9.root", "t", "vvvtree", "tas", "vvv")
+// makeCMS3ClassFiles("/home/users/phchang/work/vvv/WWZRun3NanoLooper/debug.root", "t", "vvvtree", "tas", "vvv")
 
 #ifndef vvvtree_H
 #define vvvtree_H
@@ -329,6 +329,15 @@ class vvvtree {
   vector<bool> *Common_jet_passBtight_;
   TBranch *Common_jet_passBtight_branch;
   bool     Common_jet_passBtight_isLoaded;
+  vector<bool> *Common_jet_passBloose_CSV_;
+  TBranch *Common_jet_passBloose_CSV_branch;
+  bool     Common_jet_passBloose_CSV_isLoaded;
+  vector<bool> *Common_jet_passBmedium_CSV_;
+  TBranch *Common_jet_passBmedium_CSV_branch;
+  bool     Common_jet_passBmedium_CSV_isLoaded;
+  vector<bool> *Common_jet_passBtight_CSV_;
+  TBranch *Common_jet_passBtight_CSV_branch;
+  bool     Common_jet_passBtight_CSV_isLoaded;
   vector<int> *Common_jet_id_;
   TBranch *Common_jet_id_branch;
   bool     Common_jet_id_isLoaded;
@@ -656,6 +665,15 @@ class vvvtree {
   int      Common_nb_tight_;
   TBranch *Common_nb_tight_branch;
   bool     Common_nb_tight_isLoaded;
+  int      Common_nb_loose_CSV_;
+  TBranch *Common_nb_loose_CSV_branch;
+  bool     Common_nb_loose_CSV_isLoaded;
+  int      Common_nb_medium_CSV_;
+  TBranch *Common_nb_medium_CSV_branch;
+  bool     Common_nb_medium_CSV_isLoaded;
+  int      Common_nb_tight_CSV_;
+  TBranch *Common_nb_tight_CSV_branch;
+  bool     Common_nb_tight_CSV_isLoaded;
   vector<int> *Common_gen_idx_;
   TBranch *Common_gen_idx_branch;
   bool     Common_gen_idx_isLoaded;
@@ -906,6 +924,9 @@ void LoadAllBranches();
   const vector<bool> &Common_jet_passBloose();
   const vector<bool> &Common_jet_passBmedium();
   const vector<bool> &Common_jet_passBtight();
+  const vector<bool> &Common_jet_passBloose_CSV();
+  const vector<bool> &Common_jet_passBmedium_CSV();
+  const vector<bool> &Common_jet_passBtight_CSV();
   const vector<int> &Common_jet_id();
   const vector<int> &Common_jet_puid();
   const vector<int> &Common_jet_overlapfatjet();
@@ -1015,6 +1036,9 @@ void LoadAllBranches();
   const int &Common_nb_loose();
   const int &Common_nb_medium();
   const int &Common_nb_tight();
+  const int &Common_nb_loose_CSV();
+  const int &Common_nb_medium_CSV();
+  const int &Common_nb_tight_CSV();
   const vector<int> &Common_gen_idx();
   const vector<int> &Common_gen_mother_idx();
   const vector<int> &Common_gen_mother_id();
@@ -1174,6 +1198,9 @@ namespace tas {
   const vector<bool> &Common_jet_passBloose();
   const vector<bool> &Common_jet_passBmedium();
   const vector<bool> &Common_jet_passBtight();
+  const vector<bool> &Common_jet_passBloose_CSV();
+  const vector<bool> &Common_jet_passBmedium_CSV();
+  const vector<bool> &Common_jet_passBtight_CSV();
   const vector<int> &Common_jet_id();
   const vector<int> &Common_jet_puid();
   const vector<int> &Common_jet_overlapfatjet();
@@ -1283,6 +1310,9 @@ namespace tas {
   const int &Common_nb_loose();
   const int &Common_nb_medium();
   const int &Common_nb_tight();
+  const int &Common_nb_loose_CSV();
+  const int &Common_nb_medium_CSV();
+  const int &Common_nb_tight_CSV();
   const vector<int> &Common_gen_idx();
   const vector<int> &Common_gen_mother_idx();
   const vector<int> &Common_gen_mother_id();

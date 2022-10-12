@@ -164,6 +164,7 @@ void Begin_4LepMET_NanoAOD()
             [&]()
             {
                 // The other two lepton indices
+                vector<int> idxs;
                 vector<int> other_lep_idxs;
                 vector<int> other_lep_pdgids;
                 vector<LorentzVector> other_lep_p4s;
@@ -175,6 +176,7 @@ void Begin_4LepMET_NanoAOD()
                     int pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep];
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_0") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_0")) continue;
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_1") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_1")) continue;
+                    idxs            .push_back(ilep);
                     other_lep_idxs  .push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep]);
                     other_lep_pdgids.push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]);
                     other_lep_p4s   .push_back(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[ilep]);
@@ -195,7 +197,7 @@ void Begin_4LepMET_NanoAOD()
                 ana.tx.setBranch<float>("Var_4LepMET_other_mll", (other_lep_p4s[0] + other_lep_p4s[1]).mass());
 
                 // The leading one has to pass 25 GeV
-                if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[other_lep_idxs[0]].pt() > 25.)) return false;
+                if (not (other_lep_p4s[0].pt() > 25.)) return false;
 
                 return true;
             }, UNITY);

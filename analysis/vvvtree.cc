@@ -227,6 +227,12 @@ void vvvtree::Init(TTree *tree) {
   if (Common_jet_passBmedium_branch) Common_jet_passBmedium_branch->SetAddress(&Common_jet_passBmedium_);
   Common_jet_passBtight_branch = tree->GetBranch("Common_jet_passBtight");
   if (Common_jet_passBtight_branch) Common_jet_passBtight_branch->SetAddress(&Common_jet_passBtight_);
+  Common_jet_passBloose_CSV_branch = tree->GetBranch("Common_jet_passBloose_CSV");
+  if (Common_jet_passBloose_CSV_branch) Common_jet_passBloose_CSV_branch->SetAddress(&Common_jet_passBloose_CSV_);
+  Common_jet_passBmedium_CSV_branch = tree->GetBranch("Common_jet_passBmedium_CSV");
+  if (Common_jet_passBmedium_CSV_branch) Common_jet_passBmedium_CSV_branch->SetAddress(&Common_jet_passBmedium_CSV_);
+  Common_jet_passBtight_CSV_branch = tree->GetBranch("Common_jet_passBtight_CSV");
+  if (Common_jet_passBtight_CSV_branch) Common_jet_passBtight_CSV_branch->SetAddress(&Common_jet_passBtight_CSV_);
   Common_jet_id_branch = tree->GetBranch("Common_jet_id");
   if (Common_jet_id_branch) Common_jet_id_branch->SetAddress(&Common_jet_id_);
   Common_jet_puid_branch = tree->GetBranch("Common_jet_puid");
@@ -439,6 +445,12 @@ void vvvtree::Init(TTree *tree) {
   if (Common_nb_medium_branch) Common_nb_medium_branch->SetAddress(&Common_nb_medium_);
   Common_nb_tight_branch = tree->GetBranch("Common_nb_tight");
   if (Common_nb_tight_branch) Common_nb_tight_branch->SetAddress(&Common_nb_tight_);
+  Common_nb_loose_CSV_branch = tree->GetBranch("Common_nb_loose_CSV");
+  if (Common_nb_loose_CSV_branch) Common_nb_loose_CSV_branch->SetAddress(&Common_nb_loose_CSV_);
+  Common_nb_medium_CSV_branch = tree->GetBranch("Common_nb_medium_CSV");
+  if (Common_nb_medium_CSV_branch) Common_nb_medium_CSV_branch->SetAddress(&Common_nb_medium_CSV_);
+  Common_nb_tight_CSV_branch = tree->GetBranch("Common_nb_tight_CSV");
+  if (Common_nb_tight_CSV_branch) Common_nb_tight_CSV_branch->SetAddress(&Common_nb_tight_CSV_);
   Common_gen_idx_branch = tree->GetBranch("Common_gen_idx");
   if (Common_gen_idx_branch) Common_gen_idx_branch->SetAddress(&Common_gen_idx_);
   Common_gen_mother_idx_branch = tree->GetBranch("Common_gen_mother_idx");
@@ -632,6 +644,9 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_jet_passBloose_isLoaded = false;
   Common_jet_passBmedium_isLoaded = false;
   Common_jet_passBtight_isLoaded = false;
+  Common_jet_passBloose_CSV_isLoaded = false;
+  Common_jet_passBmedium_CSV_isLoaded = false;
+  Common_jet_passBtight_CSV_isLoaded = false;
   Common_jet_id_isLoaded = false;
   Common_jet_puid_isLoaded = false;
   Common_jet_overlapfatjet_isLoaded = false;
@@ -741,6 +756,9 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_nb_loose_isLoaded = false;
   Common_nb_medium_isLoaded = false;
   Common_nb_tight_isLoaded = false;
+  Common_nb_loose_CSV_isLoaded = false;
+  Common_nb_medium_CSV_isLoaded = false;
+  Common_nb_tight_CSV_isLoaded = false;
   Common_gen_idx_isLoaded = false;
   Common_gen_mother_idx_isLoaded = false;
   Common_gen_mother_id_isLoaded = false;
@@ -895,6 +913,9 @@ void vvvtree::LoadAllBranches() {
   if (Common_jet_passBloose_branch != 0) Common_jet_passBloose();
   if (Common_jet_passBmedium_branch != 0) Common_jet_passBmedium();
   if (Common_jet_passBtight_branch != 0) Common_jet_passBtight();
+  if (Common_jet_passBloose_CSV_branch != 0) Common_jet_passBloose_CSV();
+  if (Common_jet_passBmedium_CSV_branch != 0) Common_jet_passBmedium_CSV();
+  if (Common_jet_passBtight_CSV_branch != 0) Common_jet_passBtight_CSV();
   if (Common_jet_id_branch != 0) Common_jet_id();
   if (Common_jet_puid_branch != 0) Common_jet_puid();
   if (Common_jet_overlapfatjet_branch != 0) Common_jet_overlapfatjet();
@@ -1004,6 +1025,9 @@ void vvvtree::LoadAllBranches() {
   if (Common_nb_loose_branch != 0) Common_nb_loose();
   if (Common_nb_medium_branch != 0) Common_nb_medium();
   if (Common_nb_tight_branch != 0) Common_nb_tight();
+  if (Common_nb_loose_CSV_branch != 0) Common_nb_loose_CSV();
+  if (Common_nb_medium_CSV_branch != 0) Common_nb_medium_CSV();
+  if (Common_nb_tight_CSV_branch != 0) Common_nb_tight_CSV();
   if (Common_gen_idx_branch != 0) Common_gen_idx();
   if (Common_gen_mother_idx_branch != 0) Common_gen_mother_idx();
   if (Common_gen_mother_id_branch != 0) Common_gen_mother_id();
@@ -2378,6 +2402,45 @@ const vector<bool> &vvvtree::Common_jet_passBtight() {
     Common_jet_passBtight_isLoaded = true;
   }
   return *Common_jet_passBtight_;
+}
+
+const vector<bool> &vvvtree::Common_jet_passBloose_CSV() {
+  if (not Common_jet_passBloose_CSV_isLoaded) {
+    if (Common_jet_passBloose_CSV_branch != 0) {
+      Common_jet_passBloose_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_passBloose_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_passBloose_CSV_isLoaded = true;
+  }
+  return *Common_jet_passBloose_CSV_;
+}
+
+const vector<bool> &vvvtree::Common_jet_passBmedium_CSV() {
+  if (not Common_jet_passBmedium_CSV_isLoaded) {
+    if (Common_jet_passBmedium_CSV_branch != 0) {
+      Common_jet_passBmedium_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_passBmedium_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_passBmedium_CSV_isLoaded = true;
+  }
+  return *Common_jet_passBmedium_CSV_;
+}
+
+const vector<bool> &vvvtree::Common_jet_passBtight_CSV() {
+  if (not Common_jet_passBtight_CSV_isLoaded) {
+    if (Common_jet_passBtight_CSV_branch != 0) {
+      Common_jet_passBtight_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_passBtight_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_passBtight_CSV_isLoaded = true;
+  }
+  return *Common_jet_passBtight_CSV_;
 }
 
 const vector<int> &vvvtree::Common_jet_id() {
@@ -3797,6 +3860,45 @@ const int &vvvtree::Common_nb_tight() {
   return Common_nb_tight_;
 }
 
+const int &vvvtree::Common_nb_loose_CSV() {
+  if (not Common_nb_loose_CSV_isLoaded) {
+    if (Common_nb_loose_CSV_branch != 0) {
+      Common_nb_loose_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_nb_loose_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_nb_loose_CSV_isLoaded = true;
+  }
+  return Common_nb_loose_CSV_;
+}
+
+const int &vvvtree::Common_nb_medium_CSV() {
+  if (not Common_nb_medium_CSV_isLoaded) {
+    if (Common_nb_medium_CSV_branch != 0) {
+      Common_nb_medium_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_nb_medium_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_nb_medium_CSV_isLoaded = true;
+  }
+  return Common_nb_medium_CSV_;
+}
+
+const int &vvvtree::Common_nb_tight_CSV() {
+  if (not Common_nb_tight_CSV_isLoaded) {
+    if (Common_nb_tight_CSV_branch != 0) {
+      Common_nb_tight_CSV_branch->GetEntry(index);
+    } else {
+      printf("branch Common_nb_tight_CSV_branch does not exist!\n");
+      exit(1);
+    }
+    Common_nb_tight_CSV_isLoaded = true;
+  }
+  return Common_nb_tight_CSV_;
+}
+
 const vector<int> &vvvtree::Common_gen_idx() {
   if (not Common_gen_idx_isLoaded) {
     if (Common_gen_idx_branch != 0) {
@@ -4546,6 +4648,9 @@ const vector<int> &Common_jet_idxs() { return vvv.Common_jet_idxs(); }
 const vector<bool> &Common_jet_passBloose() { return vvv.Common_jet_passBloose(); }
 const vector<bool> &Common_jet_passBmedium() { return vvv.Common_jet_passBmedium(); }
 const vector<bool> &Common_jet_passBtight() { return vvv.Common_jet_passBtight(); }
+const vector<bool> &Common_jet_passBloose_CSV() { return vvv.Common_jet_passBloose_CSV(); }
+const vector<bool> &Common_jet_passBmedium_CSV() { return vvv.Common_jet_passBmedium_CSV(); }
+const vector<bool> &Common_jet_passBtight_CSV() { return vvv.Common_jet_passBtight_CSV(); }
 const vector<int> &Common_jet_id() { return vvv.Common_jet_id(); }
 const vector<int> &Common_jet_puid() { return vvv.Common_jet_puid(); }
 const vector<int> &Common_jet_overlapfatjet() { return vvv.Common_jet_overlapfatjet(); }
@@ -4655,6 +4760,9 @@ const float &Common_eventweight_fatjet_MD_SFupTight() { return vvv.Common_eventw
 const int &Common_nb_loose() { return vvv.Common_nb_loose(); }
 const int &Common_nb_medium() { return vvv.Common_nb_medium(); }
 const int &Common_nb_tight() { return vvv.Common_nb_tight(); }
+const int &Common_nb_loose_CSV() { return vvv.Common_nb_loose_CSV(); }
+const int &Common_nb_medium_CSV() { return vvv.Common_nb_medium_CSV(); }
+const int &Common_nb_tight_CSV() { return vvv.Common_nb_tight_CSV(); }
 const vector<int> &Common_gen_idx() { return vvv.Common_gen_idx(); }
 const vector<int> &Common_gen_mother_idx() { return vvv.Common_gen_mother_idx(); }
 const vector<int> &Common_gen_mother_id() { return vvv.Common_gen_mother_id(); }
