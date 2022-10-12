@@ -7,7 +7,9 @@ Copy paste the following and it should work right away to produce the plots
     ssh uaf-10.t2.ucsd.edu
     cd your/favoriate/working/directory
     git clone --recursive --branch Run3_WWZ git@github.com:cmstas/VVVNanoLooper.git
-    cd VVVNanoLooper/
+    cd VVVNanoLooper/rooutil
+    make -j
+    cd ..
     source setup.sh
     cd analysis/
     make -j
