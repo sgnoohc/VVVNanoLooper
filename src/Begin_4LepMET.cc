@@ -187,10 +187,10 @@ void Begin_4LepMET_NanoAOD()
                     RooUtil::error("It should have been 4 leptons! how come you have != 2 other leptons here after accounting for the Z leptons??", __FILE__);
 
                 // set the idxs
-                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_0"   , other_lep_idxs[0]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_0"   , idxs[0]);
                 ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_pdgid_0" , other_lep_pdgids[0]);
                 ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"    , other_lep_p4s[0]);
-                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_1"   , other_lep_idxs[1]);
+                ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_idx_1"   , idxs[1]);
                 ana.tx.setBranch<int>          ("Var_4LepMET_other_lep_pdgid_1" , other_lep_pdgids[1]);
                 ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"    , other_lep_p4s[1]);
 

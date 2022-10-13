@@ -421,29 +421,50 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutAdditionalLeptonID", 
                                       [&]()
                                       {
+                                          // Z candidate leptons
                                           std::vector<int> Zcand_lep_idxs = {vvv.Var_4LepMET_Zcand_lep_idx_0(), vvv.Var_4LepMET_Zcand_lep_idx_1()};
                                           for (auto& idx : Zcand_lep_idxs)
                                           {
+                                              // Electron
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
                                                   if (not (vvv.Common_lep_relIso03_all()[idx] < 0.2)) return false;
                                               }
+                                              // Muon
                                               else if (abs(vvv.Common_lep_pdgid()[idx]) == 13)
                                               {
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
                                                   if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 2)) return false;
                                               }
                                           }
+                                          if (vvv.Common_evt()==1800924) std::cout << "1HERE" << std::endl;
+                                          // W candidate leptons
                                           std::vector<int> other_lep_idxs = {vvv.Var_4LepMET_other_lep_idx_0(), vvv.Var_4LepMET_other_lep_idx_1()};
                                           for (auto& idx : other_lep_idxs)
                                           {
+                                              if (vvv.Common_evt()==1800924) std::cout << "2HERE" << std::endl;
+                                              if (vvv.Common_evt()==1800924)
+                                              std::cout <<  " abs(vvv.Common_lep_pdgid()[idx]): " << abs(vvv.Common_lep_pdgid()[idx]) <<  std::endl;
+                                              // Electron
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
+                                                  if (vvv.Common_evt()==1800924)
+                                                  {
+                                                      std::cout << "3ERE" << std::endl;
+                                                  }
+                                                  if (vvv.Common_evt()==1800924)
+                                                  {
+                                                      std::cout <<  "1 vvv.Common_lep_p4()[idx].pt(): " << vvv.Common_lep_p4()[idx].pt() <<  std::endl;
+                                                      std::cout <<  "1 vvv.Common_lep_p4()[idx].eta(): " << vvv.Common_lep_p4()[idx].eta() <<  std::endl;
+                                                      std::cout <<  "1 vvv.Common_lep_p4()[idx].phi(): " << vvv.Common_lep_p4()[idx].phi() <<  std::endl;
+                                                      std::cout <<  "1 (vvv.Common_lep_ID()[idx]&(1<<4)): " << (vvv.Common_lep_ID()[idx]&(1<<4)) <<  std::endl;
+                                                  }
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
                                                   if (not (vvv.Common_lep_relIso03_all()[idx] < 0.2)) return false;
                                                   if (not (vvv.Common_lep_ID()[idx] & (1 << 4) /* IsoWP90 */)) return false;
                                               }
+                                              // Muon
                                               else if (abs(vvv.Common_lep_pdgid()[idx]) == 13)
                                               {
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
@@ -607,6 +628,9 @@ int main(int argc, char** argv)
     // Book Event list
     ana.cutflow.bookEventLists();
 
+    // Load event list
+    RooUtil::EventList eventlist_to_check("eventlist_to_check.txt");
+
     // Looping input file
     while (ana.looper.nextEvent())
     {
@@ -625,29 +649,34 @@ int main(int argc, char** argv)
 
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
 
-        // 1:1802:1801785
-        // 1:2318:2317296
-        // 1:2320:2319992
-        // 1:2999:2998826
+        //Do what you need to do in for each event here
+        //To save use the following function
+        ana.cutflow.fill();
 
-        if (vvv.Common_run() == 1 and vvv.Common_lumi() == 1802 and vvv.Common_evt() == 1801785)
+        if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt()))
         {
+            std::cout <<  " vvv.Common_run(): " << vvv.Common_run() <<  " vvv.Common_lumi(): " << vvv.Common_lumi() <<  " vvv.Common_evt(): " << vvv.Common_evt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().pt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().eta(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().eta() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().phi(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().phi() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_pdgid_0(): " << vvv.Var_4LepMET_Zcand_lep_pdgid_0() <<  std::endl;
+            std::cout <<  " vvv.Common_lep_ID()[vvv.Var_4LepMET_Zcand_lep_idx_0()]: " << vvv.Common_lep_ID()[vvv.Var_4LepMET_Zcand_lep_idx_0()] <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().pt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().eta(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().eta() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().phi(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().phi() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_pdgid_1(): " << vvv.Var_4LepMET_Zcand_lep_pdgid_1() <<  std::endl;
+            std::cout <<  " vvv.Common_lep_ID()[vvv.Var_4LepMET_Zcand_lep_idx_1()]: " << vvv.Common_lep_ID()[vvv.Var_4LepMET_Zcand_lep_idx_1()] <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().pt(): " << vvv.Var_4LepMET_other_lep_p4_0().pt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().eta(): " << vvv.Var_4LepMET_other_lep_p4_0().eta() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().phi(): " << vvv.Var_4LepMET_other_lep_p4_0().phi() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_pdgid_0(): " << vvv.Var_4LepMET_other_lep_pdgid_0() <<  std::endl;
+            std::cout <<  " vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_0()]: " << vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_0()] <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().pt(): " << vvv.Var_4LepMET_other_lep_p4_1().pt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().eta(): " << vvv.Var_4LepMET_other_lep_p4_1().eta() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().phi(): " << vvv.Var_4LepMET_other_lep_p4_1().phi() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_lep_pdgid_1(): " << vvv.Var_4LepMET_other_lep_pdgid_1() <<  std::endl;
+            std::cout <<  " vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_1()]: " << vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_1()] <<  std::endl;
+            std::cout <<  " (vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_1()]&(1<<4)): " << (vvv.Common_lep_ID()[vvv.Var_4LepMET_other_lep_idx_1()]&(1<<4)) <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_mll(): " << vvv.Var_4LepMET_Zcand_mll() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_other_mll(): " << vvv.Var_4LepMET_other_mll() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_mt2(): " << vvv.Var_4LepMET_mt2() <<  std::endl;
@@ -658,13 +687,9 @@ int main(int argc, char** argv)
                 std::cout <<  " vvv.Common_jet_p4()[ijet].eta(): " << vvv.Common_jet_p4()[ijet].eta() <<  std::endl;
                 std::cout <<  " vvv.Common_jet_p4()[ijet].phi(): " << vvv.Common_jet_p4()[ijet].phi() <<  std::endl;
                 std::cout <<  " vvv.Common_jet_passBloose_CSV()[ijet]: " << vvv.Common_jet_passBloose_CSV()[ijet] <<  std::endl;
-
             }
+            ana.cutflow.printCuts();
         }
-
-        //Do what you need to do in for each event here
-        //To save use the following function
-        ana.cutflow.fill();
     }
 
     ana.cutflow.getCut("CutEMuMT2").writeEventList("eventlist.txt");
@@ -675,3 +700,4 @@ int main(int argc, char** argv)
     // The below can be sometimes crucial
     delete ana.output_tfile;
 }
+
