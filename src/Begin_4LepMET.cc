@@ -144,10 +144,12 @@ void Begin_4LepMET_NanoAOD()
                 if (not (abs(mll - 91.1876) < 10.)) return false;
 
                 // If found a Z then set the variables
-                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_0"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx1]);
+                //ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_0"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx1]);
+                ana.tx.setBranch<int>	       ("Var_4LepMET_Zcand_lep_idx_0"   , idx1);
                 ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_0" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx1]);
                 ana.tx.setBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_0"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1]);
-                ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_1"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx2]);
+                //ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_idx_1"   , ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[idx2]);
+                ana.tx.setBranch<int>	       ("Var_4LepMET_Zcand_lep_idx_1"   , idx2);
                 ana.tx.setBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_1" , ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[idx2]);
                 ana.tx.setBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1"    , ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx2]);
 
@@ -172,7 +174,8 @@ void Begin_4LepMET_NanoAOD()
                 // Loop over the indices and pdgid and if it is Z candidnate lepton then skip
                 for (unsigned int ilep = 0; ilep < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); ++ilep)
                 {
-                    int idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
+                    //int idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
+                    int idx = ilep;
                     int pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep];
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_0") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_0")) continue;
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_1") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_1")) continue;
