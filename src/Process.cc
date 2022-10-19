@@ -19,6 +19,10 @@ void Process()
     }
 
     // At this point, variables are all computed and set
+    // Adding a check for a given event
+    if (nt.run() == 1 and nt.luminosityBlock() == 1801 and nt.event() == 1800501){
+	ana.cutflow.printCuts();
+    }
 
     // Now fill all the histograms that are booked!
     ana.cutflow.fill();

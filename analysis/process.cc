@@ -421,11 +421,39 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutAdditionalLeptonID", 
                                       [&]()
                                       {
+
+				          //TODO: 
+				          //The lepton indices in Common_lep_idxs refer to the indices WITHIN the muon and electron collections
+				          // Because of this, there are duplicates when trying to access the Common_lep_{variable}[index]
+				          //
+				          //Need to convert indices from the common_lep_idxs to unique indices {0,1,2,3} that determine 
+				          //which index of the list 
+				          //
+				          //i.e. loop over the collection of Common_lep_idxs and match the Var_lep_idxs and Var_lep_ids 
+				          //and store the looping index if there is a match
+				          //
                                           // Z candidate leptons
                                           std::vector<int> Zcand_lep_idxs = {vvv.Var_4LepMET_Zcand_lep_idx_0(), vvv.Var_4LepMET_Zcand_lep_idx_1()};
+
+					  if (vvv.Common_evt() == 1800501){
+					      std::cout << "Zcand_lep_idx_0: " << vvv.Var_4LepMET_Zcand_lep_idx_0() << endl;
+					      //std::cout << "Zcand lep index in Common_lep_idxs: " << vvv.Common_lep_idxs()[vvv.Var_4LepMET_Zcand_lep_idx_0()] << endl;
+					      //std::cout << "Common_lep_pt_0: " << vvv.Common_lep_p4()[vvv.Common_lep_idxs()[Zcand_lep_idxs[0]]].pt() << endl;
+					      std::cout << "Zcand_lep_idx_1: " << vvv.Var_4LepMET_Zcand_lep_idx_1() << endl;
+					      //std::cout << "Zcand lep index in Common_lep_idxs: " << vvv.Common_lep_idxs()[vvv.Var_4LepMET_Zcand_lep_idx_1()] << endl;
+					      //std::cout << "Common_lep_pt_1: " << vvv.Common_lep_p4()[vvv.Common_lep_idxs()[Zcand_lep_idxs[1]]].pt() << endl;
+                                          }					
+
                                           for (auto& idx : Zcand_lep_idxs)
                                           {
                                               // Electron
+                                              if (vvv.Common_evt()==1800501){ 
+						  std::cout << "idx = " << idx << endl;
+						  std::cout << "Common lep pt = " << vvv.Common_lep_p4()[idx].pt() << endl;
+					      }
+
+					      
+
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
@@ -438,30 +466,73 @@ int main(int argc, char** argv)
                                                   if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 2)) return false;
                                               }
                                           }
-                                          if (vvv.Common_evt()==1800924) std::cout << "1HERE" << std::endl;
+                                          if (vvv.Common_evt()==1800329) std::cout << "1HERE" << std::endl;
                                           // W candidate leptons
                                           std::vector<int> other_lep_idxs = {vvv.Var_4LepMET_other_lep_idx_0(), vvv.Var_4LepMET_other_lep_idx_1()};
+
+					  if (vvv.Common_evt() == 1800501){ 
+					      std::cout << "other_lep_idx_0: " << vvv.Var_4LepMET_other_lep_idx_0() << endl;
+					      //std::cout << "Wcand lep index in Common_lep_idxs: " << vvv.Common_lep_idxs()[vvv.Var_4LepMET_other_lep_idx_0()] << endl;
+					      //std::cout << "Common_lep_pt_other_0: " << vvv.Common_lep_p4()[vvv.Common_lep_idxs()[other_lep_idxs[0]]].pt() << endl;
+					      std::cout << "other_lep_idx_1: " << vvv.Var_4LepMET_other_lep_idx_1() << endl;
+					      //std::cout << "Wcand lep index in Common_lep_idxs: " << vvv.Common_lep_idxs()[vvv.Var_4LepMET_other_lep_idx_1()] << endl;
+					      //std::cout << "Common_lep_pt_other_1: " << vvv.Common_lep_p4()[vvv.Common_lep_idxs()[other_lep_idxs[1]]].pt() << endl;				
+				              std::cout << "Common lep idx entry 0: " << vvv.Common_lep_idxs()[0] << endl;
+					      std::cout << "Common lep idx entry 1: " << vvv.Common_lep_idxs()[1] << endl;	
+					      std::cout << "Common lep idx entry 2: " << vvv.Common_lep_idxs()[2] << endl;
+					      std::cout << "Common lep idx entry 3: " << vvv.Common_lep_idxs()[3] << endl;
+					      std::cout << "Common lep p4 entry 0: " << vvv.Common_lep_p4()[0] << endl;
+                                              std::cout << "Common lep p4 entry 1: " << vvv.Common_lep_p4()[1] << endl;
+                                              std::cout << "Common lep p4 entry 2: " << vvv.Common_lep_p4()[2] << endl;
+                                              std::cout << "Common lep p4 entry 3: " << vvv.Common_lep_p4()[3] << endl;
+					  }
+					
                                           for (auto& idx : other_lep_idxs)
                                           {
-                                              if (vvv.Common_evt()==1800924) std::cout << "2HERE" << std::endl;
-                                              if (vvv.Common_evt()==1800924)
+                                              
+					      if (vvv.Common_evt()==1800501){
+						 std::cout << "idx_other = " << idx << endl;
+						 std::cout << "Other common lep pt = " << vvv.Common_lep_p4()[idx].pt() << endl;
+					      }
+
+					      if (vvv.Common_evt()==1800329) std::cout << "2HERE" << std::endl;
+                                              if (vvv.Common_evt()==1800329)
                                               std::cout <<  " abs(vvv.Common_lep_pdgid()[idx]): " << abs(vvv.Common_lep_pdgid()[idx]) <<  std::endl;
                                               // Electron
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
-                                                  if (vvv.Common_evt()==1800924)
+                                                  if (vvv.Common_evt()==1800329)
                                                   {
                                                       std::cout << "3ERE" << std::endl;
                                                   }
-                                                  if (vvv.Common_evt()==1800924)
+                                                  if (vvv.Common_evt()==1800501)
                                                   {
                                                       std::cout <<  "1 vvv.Common_lep_p4()[idx].pt(): " << vvv.Common_lep_p4()[idx].pt() <<  std::endl;
                                                       std::cout <<  "1 vvv.Common_lep_p4()[idx].eta(): " << vvv.Common_lep_p4()[idx].eta() <<  std::endl;
                                                       std::cout <<  "1 vvv.Common_lep_p4()[idx].phi(): " << vvv.Common_lep_p4()[idx].phi() <<  std::endl;
                                                       std::cout <<  "1 (vvv.Common_lep_ID()[idx]&(1<<4)): " << (vvv.Common_lep_ID()[idx]&(1<<4)) <<  std::endl;
                                                   }
+						  if (vvv.Common_evt()==1800501){
+                                                      std::cout << "////////////////////////////////" << endl;
+                                                      std::cout << "Electron sip3d = " << vvv.Common_lep_sip3d()[idx] << endl;
+                                                      std::cout << "////////////////////////////////" << endl;
+
+                                                  }
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
+						  if (vvv.Common_evt()==1800501){
+                                                      std::cout << "////////////////////////////////" << endl;
+                                                      std::cout << "Electron relIso03all = " << vvv.Common_lep_relIso03_all()[idx] << endl;
+                                                      std::cout << "////////////////////////////////" << endl;
+
+                                                  }
+
                                                   if (not (vvv.Common_lep_relIso03_all()[idx] < 0.2)) return false;
+						  if (vvv.Common_evt()==1800501){
+						      std::cout << "////////////////////////////////" << endl;
+						      std::cout << "Electron ID = " << vvv.Common_lep_ID()[idx] << endl;
+						      std::cout << "////////////////////////////////" << endl;
+						      
+						  }
                                                   if (not (vvv.Common_lep_ID()[idx] & (1 << 4) /* IsoWP90 */)) return false;
                                               }
                                               // Muon
@@ -473,6 +544,13 @@ int main(int argc, char** argv)
                                           }
                                           if (not (vvv.Var_4LepMET_other_lep_p4_1().pt() > 15)) return false;
                                           if (not (vvv.Var_4LepMET_Zcand_lep_p4_1().pt() > 15)) return false;
+
+					  //if (vvv.Common_evt()==runNum){
+
+					      //std::cout << "vvv.Var_4LepMET_other_lep_p4_1 = " << vvv.Var_4LepMET_other_p4_1().pt() << endl;
+
+					  //}						
+
                                           return true;
                                       },
                                       [&]()
@@ -653,7 +731,14 @@ int main(int argc, char** argv)
         //To save use the following function
         ana.cutflow.fill();
 
+        if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt())){
+
+		ana.cutflow.printCuts();
+       
+	}
+
         if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt()))
+        //if (vvv.Common_run() == 1 and vvv.Common_lumi() == 1801 and vvv.Common_evt() == 1800329)
         {
             std::cout <<  " vvv.Common_run(): " << vvv.Common_run() <<  " vvv.Common_lumi(): " << vvv.Common_lumi() <<  " vvv.Common_evt(): " << vvv.Common_evt() <<  std::endl;
             std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().pt() <<  std::endl;
