@@ -133,6 +133,8 @@ void Begin_4LepMET_NanoAOD()
             }, UNITY);
 
     // Select Z candidate
+    int index1 = 0;
+    int index2 = 0;
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_HasZCandidate",
             [&]()
             {
@@ -140,6 +142,8 @@ void Begin_4LepMET_NanoAOD()
                 auto [ has_sfos, idx1, idx2, mll ] = RooUtil::Calc::pickZcandidateIdxs(
                         ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid"),
                         ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4"));
+		index1 = idx1;
+		index2 = idx2;
                 if (not (has_sfos)) return false;
                 if (not (abs(mll - 91.1876) < 10.)) return false;
 
@@ -167,22 +171,26 @@ void Begin_4LepMET_NanoAOD()
             {
                 // The other two lepton indices
                 vector<int> idxs;
+		vector<int> idxs_coll;
                 vector<int> other_lep_idxs;
                 vector<int> other_lep_pdgids;
+		vector<int> other_lep_IDs;
                 vector<LorentzVector> other_lep_p4s;
 
                 // Loop over the indices and pdgid and if it is Z candidnate lepton then skip
                 for (unsigned int ilep = 0; ilep < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); ++ilep)
                 {
-                    //int idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
+                    int idx_coll = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep];
                     int idx = ilep;
                     int pdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep];
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_0") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_0")) continue;
                     if (idx == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_idx_1") and pdgid == ana.tx.getBranchLazy<int>("Var_4LepMET_Zcand_lep_pdgid_1")) continue;
                     idxs            .push_back(ilep);
+		    idxs_coll       .push_back(idx_coll);
                     other_lep_idxs  .push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[ilep]);
                     other_lep_pdgids.push_back(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[ilep]);
-                    other_lep_p4s   .push_back(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[ilep]);
+                    other_lep_p4s   .push_back(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[ilep]);   
+		    
                 }
 
                 // Sanity check that it must be 2 leptons
@@ -198,6 +206,63 @@ void Begin_4LepMET_NanoAOD()
                 ana.tx.setBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"    , other_lep_p4s[1]);
 
                 ana.tx.setBranch<float>("Var_4LepMET_other_mll", (other_lep_p4s[0] + other_lep_p4s[1]).mass());
+
+		int W_lep_ID_0;
+		int W_lep_ID_1;
+		int Z_lep_ID_0;
+		int Z_lep_ID_1;
+
+		// Perform another loop to match common_lep_IDs
+		for (unsigned int i = 0; i < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); ++i)  // Loop over common lep indices
+                {
+		     if ( std::abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[i]) == 13 ){     // If the pdg is muon
+			  for (int mu = 0; mu < nt.nMuon(); mu++){					  // Loop over all muons in the collection, and pick the one that matches the index and pdgid 
+			       if ( mu == ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[i] and nt.Muon_pdgId()[mu] == ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[i] ){
+				    if ( idxs_coll[0] == i ){  // if the index matches the first W candidate lepton
+					 // store the ith value of common lep ID as the corresponding lepton's ID
+					 W_lep_ID_0 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];				 
+				    }
+				    if ( idxs_coll[1] == i ){
+					 W_lep_ID_1 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+				    }
+				    if ( ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[index1] == i ){
+					 Z_lep_ID_0 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+				    }
+				    if ( ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[index2] == i ){
+					 Z_lep_ID_1 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+				    }
+			       }
+			  }
+		     }
+		     // Do the same for electrons
+		     if ( std::abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[i]) == 11 ){
+			  for (int el = 0; el < nt.nElectron(); el++){
+			       if ( el == ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[i] and nt.Electron_pdgId()[el] == ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[i] ){
+				    if ( idxs_coll[0] == i ){
+					 W_lep_ID_0 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+				    }
+				    if ( idxs_coll[1] == i ){
+                                         W_lep_ID_1 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+                                    }
+                                    if ( ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[index1] == i ){
+                                         Z_lep_ID_0 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+                                    }
+                                    if ( ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[index2] == i ){
+                                         Z_lep_ID_1 = ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[i];
+                                    }
+
+			       }
+			  }
+		     }		     
+
+		}
+
+
+                ana.tx.setBranch<int>      ("Var_4LepMET_Zcand_lep_ID_0" , Z_lep_ID_0 );
+		ana.tx.setBranch<int>      ("Var_4LepMET_Zcand_lep_ID_1" , Z_lep_ID_1 );
+		ana.tx.setBranch<int>      ("Var_4LepMET_other_lep_ID_0" , W_lep_ID_0 );
+		ana.tx.setBranch<int>      ("Var_4LepMET_other_lep_ID_1" , W_lep_ID_1 );
+
 
                 // The leading one has to pass 25 GeV
                 if (not (other_lep_p4s[0].pt() > 25.)) return false;
@@ -295,6 +360,8 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
     ana.tx.createBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1");     // p4 of the lepton
     ana.tx.createBranch<float>        ("Var_4LepMET_Zcand_mll");          // Invariant mass of the Z candidate
+    ana.tx.createBranch<int>          ("Var_4LepMET_Zcand_lep_ID_0");     // ID of leading lepton
+    ana.tx.createBranch<int>	      ("Var_4LepMET_Zcand_lep_ID_1");     // ID of subleading lepton
 
     // The other two leptons from the 4 lepton event (they must be oppositely charged)
     ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_idx_0");    // idxs to the NanoAOD
@@ -304,6 +371,8 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_pdgid_1");  // pdgid of lepton (so that when accessing NanoAOD we know which containers to look at)
     ana.tx.createBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1");     // p4 of the lepton
     ana.tx.createBranch<float>        ("Var_4LepMET_other_mll");          // Invariant mass of the Z candidate
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_ID_0");     // ID of leading lepton
+    ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_ID_1");     // ID of subleading lepton
 
     // Additional variables
     ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate

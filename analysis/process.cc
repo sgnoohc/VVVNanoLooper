@@ -436,6 +436,13 @@ int main(int argc, char** argv)
                                           std::vector<int> Zcand_lep_idxs = {vvv.Var_4LepMET_Zcand_lep_idx_0(), vvv.Var_4LepMET_Zcand_lep_idx_1()};
                                           //std::vector<int> Zcand_lep_idxs = {Zcand_idx_0, Zcand_idx_1};
 
+					  if (vvv.Common_evt()==1800501){
+					      std::cout << "Z_lep_0 ID: " << vvv.Var_4LepMET_Zcand_lep_ID_0() << std::endl;
+					      std::cout << "Z_lep_1 ID: " << vvv.Var_4LepMET_Zcand_lep_ID_1() << std::endl;
+					      std::cout << "W_lep_0 ID: " << vvv.Var_4LepMET_other_lep_ID_0() << std::endl;
+					      std::cout << "W_lep_1 ID: " << vvv.Var_4LepMET_other_lep_ID_1() << std::endl;
+					  }
+
 
                                           for (auto& idx : Zcand_lep_idxs)
                                           {

@@ -202,6 +202,18 @@ void Process_Common_NanoAOD()
         ID |= nt.Electron_mvaFall17V2Iso_WP90()[iel] << 4;
         ID |= nt.Electron_mvaFall17V2Iso_WP80()[iel] << 5;
         ana.tx.pushbackToBranch<int>("Common_lep_ID", ID);
+	
+	if (nt.run() == 1 and nt.luminosityBlock() == 1801 and nt.event() == 1800501){
+		std::cout << "//////////////////////////////////////////////////" << std::endl;
+		std::cout << "Electron idx: " << iel << std::endl;
+		//std::cout << "Electron idx: " << ana.tx.getBranchLazy<vector<int>>("Common_lep_idx")[iel] << std::endl;
+		std::cout << "Electron pt: " << nt.Electron_p4()[iel].pt() << std::endl;
+		//std::cout << "Electron pt: " << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[iel].pt() << std::endl;
+		std::cout << "Electron ID: " << ID << std::endl;
+		//std::cout << "Electron ID: " << ana.tx.getBranchLazy<vector<int>>("Common_lep_ID")[iel] << std::endl;
+		std::cout << "//////////////////////////////////////////////////" << std::endl;
+	}
+
         //---------
         // bool istight = nt.Electron_mvaFall17V2Iso_WP80()[iel];
         float pt = std::min(std::max(nt.Electron_p4()[iel].pt(), 10.01f), 499.9f);
@@ -273,6 +285,15 @@ void Process_Common_NanoAOD()
         ID |= nt.Muon_tightId()[imu] << 1;
         ID |= nt.Muon_pfIsoId()[imu] << 2;
         ana.tx.pushbackToBranch<int>("Common_lep_ID", ID);
+
+	if (nt.run() == 1 and nt.luminosityBlock() == 1801 and nt.event() == 1800501){
+	    std::cout << "/////////////////////////////////////////////////////" << std::endl;
+	    std::cout << "Muon idx: " << imu << std::endl;
+	    std::cout << "Muon pt: " << nt.Muon_p4()[imu].pt() << std::endl;
+	    std::cout << "Muon ID: " << ID << std::endl;
+	    std::cout << "/////////////////////////////////////////////////////" << std::endl;
+	}
+
         //---------
         // bool istight = nt.Muon_pfRelIso04_all()[imu] < 0.15;
         // float ptreco = std::min(std::max(nt.Muon_p4()[imu].pt(), 2.01f), 39.9f);	//scale factor for reco pt of muon ranged in [2,40]
@@ -1468,7 +1489,7 @@ void Process_Common_NanoAOD()
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_lep_p4",
             /* names of any associated vector<float> branches to sort along */ {"Common_lep_dxy", "Common_lep_dz", "Common_lep_ip3d", "Common_lep_sip3d", "Common_lep_SF", "Common_lep_SFTight", "Common_lep_SFdn", "Common_lep_SFdnTight", "Common_lep_SFup", "Common_lep_SFupTight"},
-            /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight"},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_lep_idxs", "Common_lep_pdgid", "Common_lep_tight","Common_lep_ID","Common_lep_IsoID","Common_lep_relIso03_all"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
@@ -1477,7 +1498,7 @@ void Process_Common_NanoAOD()
             /* name of the 4vector branch to use to pt sort by*/               "Common_jet_p4",
             /* names of any associated vector<float> branches to sort along */ {},
             /* names of any associated vector<int>   branches to sort along */ {"Common_jet_idxs", "Common_jet_overlapfatjet", "Common_jet_id",},
-            /* names of any associated vector<bool>  branches to sort along */ {"Common_jet_passBloose", "Common_jet_passBmedium", "Common_jet_passBtight"}
+            /* names of any associated vector<bool>  branches to sort along */ {"Common_jet_passBloose", "Common_jet_passBmedium", "Common_jet_passBtight","Common_jet_passBloose_CSV","Common_jet_passBmedium_CSV","Common_jet_passBtight_CSV"}
             );
 
     // Sorting fatjet branches
