@@ -20,7 +20,7 @@ void Process()
 
     // At this point, variables are all computed and set
     // Adding a check for a given event
-    if (nt.run() == 1 and nt.luminosityBlock() == 1801 and nt.event() == 1800501){
+    if (nt.run() == 1 and nt.luminosityBlock() == 3000 and nt.event() == 2999700){
 	ana.cutflow.printCuts();
 
     }
