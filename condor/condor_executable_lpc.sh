@@ -100,8 +100,8 @@ ls -lrth
 echo -e "\n--- begin running ---\n" #                           <----- section division
 
 EXTRAARGS="$(getjobad metis_extraargs)"
-echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w ${EXTRAARGS}
-./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w ${EXTRAARGS}
+echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w  ${EXTRAARGS}
+./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w  ${EXTRAARGS}
 RET=$?
 
 if [ ${RET} != 0 ]; then

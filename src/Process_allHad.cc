@@ -16,7 +16,7 @@ void Process_allHad_NanoAOD()
 
 void Process_allHad_VVVTree()
 {
-
+    //2 fj class
     int fj_class = 0;
     if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() == 2){
         int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[0];
@@ -38,7 +38,61 @@ void Process_allHad_VVVTree()
         if( wp_0 == 3 && wp_1 == 1) fj_class = 9;
     }
     
-    ana.tx.setBranch<int>  ("allHad_FatJet_Class_MD", fj_class);
+    ana.tx.setBranch<int>  ("allHad_FatJet_Class_2fj_MD", fj_class);
+
+
+    //3 fj class
+    fj_class = 0;
+    
+    vector<float> empty;
+    empty.clear();
+    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Class_3fj_MD",        empty);
+
+    if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD").size() >= 3){
+        int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[0];
+        int wp_1 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[1];
+        int wp_2 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[2];
+        
+        fj_class = 0;
+
+        //all pass at least same
+        if( wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 1 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 1);
+        if( wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 2 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 2);
+        if( wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 3 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 3);
+
+        //1 med, 2 loose
+        if( (wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 2 ) || 
+            (wp_0 >= 1 && wp_1 >= 2 && wp_2 >= 1 ) ||
+            (wp_0 >= 2 && wp_1 >= 1 && wp_2 >= 1 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 4);
+        
+        //2 med 1 loose
+        if( (wp_0 >= 1 && wp_1 >= 2 && wp_2 >= 2 ) || 
+            (wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 1 ) ||
+            (wp_0 >= 2 && wp_1 >= 1 && wp_2 >= 2 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 5);
+
+        //2 loose 1 tight
+        if( (wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 3 ) || 
+            (wp_0 >= 1 && wp_1 >= 3 && wp_2 >= 1 ) ||
+            (wp_0 >= 3 && wp_1 >= 1 && wp_2 >= 1 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 6);
+
+        //2 tight 1 loose
+        if( (wp_0 >= 1 && wp_1 >= 3 && wp_2 >= 3 ) || 
+            (wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 1 ) ||
+            (wp_0 >= 3 && wp_1 >= 1 && wp_2 >= 3 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 7);
+
+        //2 med 1 tight
+        if( (wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 3 ) || 
+            (wp_0 >= 2 && wp_1 >= 3 && wp_2 >= 2 ) ||
+            (wp_0 >= 3 && wp_1 >= 2 && wp_2 >= 2 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 8);
+
+        //2 tight 1 med
+        if( (wp_0 >= 2 && wp_1 >= 3 && wp_2 >= 3 ) || 
+            (wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 2 ) ||
+            (wp_0 >= 3 && wp_1 >= 2 && wp_2 >= 3 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 9);
+    }
+    //ana.tx.setBranch<int>  ("allHad_FatJet_Class_3fj_MD", fj_class);
+        
+
     /*
 
     //==============================================

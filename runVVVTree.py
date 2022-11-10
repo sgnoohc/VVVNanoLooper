@@ -3,12 +3,25 @@ import argparse
 import subprocess
 import sys
 
+#p2
 eft_to_run = {
-    "WWW": { "42": "EFT__FM0_p2", "90":  "EFT__FT0_p2", "6": "EFT__FS0_p2"},
-#    "WWZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
-#    "WZZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
-#    "ZZZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
+    "WWW": { "43": "EFT__FM0_p2", "91":  "EFT__FT0_p2", "7": "EFT__FS0_p2"},
+    #"WWW": { "48": "EFT__FM0_p30", "96":  "EFT__FT0_p30", "12": "EFT__FS0_p30", "0": "EFT__SM"},
+     #"WWW": { "11": "EFT__FS0_p15"},
+    "WWZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
+    "WZZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
+    "ZZZ": { "42": "EFT__FM0_p2", "138": "EFT__FT0_p2", "6": "EFT__FS0_p2"},
 }
+
+#p15
+
+eft_to_run = {
+    "WWW": { "94": "EFT__FT0_p15"},
+    "WWZ": { "142": "EFT__FT0_p15"},
+    "WZZ": { "142": "EFT__FT0_p15"},
+    "ZZZ": { "142": "EFT__FT0_p15"},
+}
+
 
 #eft_to_run = {}
 
@@ -28,14 +41,12 @@ to_run = os.listdir(args.inPath)
 
 for f in to_run:
     out_name = f.split("/")[-1]
-    #if not ("QCD" in out_name or "WWW" in out_name)  : continue
-    if "JetHT" in out_name: continue
     if ".root" not in out_name: continue
     print "RUNNING ", out_name
+    #if "JetHT" not in out_name: continue
     print out_name.strip(".root"), eft_to_run
     if out_name.strip(".root") not in eft_to_run:
         print out_name
-    #    continue
         subprocess.call(["./doVVVAnalysis", "--input", args.inPath+f, "--tree", "t", "--mode", "8", "-V", "--output", out_name] )
         subprocess.call(["mv", out_name, args.outPath])
     else:

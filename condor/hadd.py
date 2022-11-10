@@ -13,14 +13,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
 ## print sample map we ran submitMetis over
-sample_map = samples.QCD_2018
-sample_map.update(samples.Vplusjets_2018)
-sample_map.update(samples.top_2018)
-sample_map.update(samples.diboson_2018)
-sample_map.update(samples.JetHT_2018)
+#sample_map = samples.QCD_2018
+#sample_map.update(samples.Vplusjets_2018)
+#sample_map.update(samples.top_2018)
+#sample_map.update(samples.diboson_2018)
+#sample_map.update(samples.JetHT_2018)
 
-#sample_map = samples.JetHT_2018
-#sample_map = samples.sos
+
+#sample_map = samples.QCD_2018
+
+sample_map = samples.QCD_2018
+sample_map.update(samples.Vplusjets_2018_1L)
+sample_map.update(samples.Data_2018_1L)
+sample_map.update(samples.top_2018_1L)
+sample_map.update(samples.diboson_2018)
+#sample_map.update(samples.Vplusjets_2018_1L)
 
 
 #print os.listdir(args.inPath)
