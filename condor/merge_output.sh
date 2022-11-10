@@ -62,7 +62,7 @@ do
   shortname=${dir[i]}
   src=${dir[i+1]}
   des="${merged_dir}${shortname}.root"
-  if [ -z "$(eosls $merged_dir)" ] && [ ! -z "$(eosls $src)" ]
+  if [ -z "$(eosls $des)" ] && [ ! -z "$(eosls $src)" ]
   then
     hadd ~/nobackup/${shortname}.root `xrdfsls -u $src | grep '\.root'`
     xrdcp ~/nobackup/${shortname}.root root://cmseos.fnal.gov/$des

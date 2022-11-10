@@ -31,7 +31,7 @@ function chirp {
     echo "[chirp] Chirped $1 => $2 with exit code $ret"
 }
 
-#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd-site.fnal.gov\/\/store}
+#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd.fnal.gov/\/\/store}
 #INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
 INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmseos.fnal.gov\/\/store\/group\/lpcvvv\/NanoAODv9\/store}
 
