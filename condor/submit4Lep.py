@@ -10,7 +10,8 @@ import glob
 from time import sleep
 import sys
 
-condorpath = os.path.dirname(os.path.realpath(__file__))
+#condorpath = os.path.dirname(os.path.realpath(__file__))
+condorpath = "/home/users/kdownham/Triboson/VVVNanoLooper/condor"
 
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
@@ -38,7 +39,8 @@ if __name__ == "__main__":
     
     sample_map = {}
 
-    sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
+    #sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
+    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/GluGluToContinToZZTo4e*")
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 
@@ -77,7 +79,8 @@ if __name__ == "__main__":
                     cmssw_version = "CMSSW_11_2_0_pre5",
                     scram_arch = "slc7_amd64_gcc900",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
-                    tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
+                    #tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
+		    tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
                     special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,
