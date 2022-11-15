@@ -49,39 +49,41 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.mode
     
-    # Specify a dataset name and a short name for the output root file on nfs
-    sample_map = samples.mc_2018 # See condor/samples.py
-    if args.year==2017:
-        sample_map = samples.mc_2017 # See condor/samples.py
-    elif args.year==2016:
-        sample_map = samples.mc_2016 # See condor/samples.py
-    if args.datamc:
-        sample_map = samples.data_2018 # See condor/samples.py
-        if args.year==2017:
-            sample_map = samples.data_2017 # See condor/samples.py
-        elif args.year==2016:
-            sample_map = samples.data_2016 # See condor/samples.py
-    if args.mysample:
-        # sample_map = samples.samples_VVV4L_2018 # See condor/samples.py
-        sample_map = samples.samples_VVV4L_2018_Skimmed # See condor/samples.py
-        sample_map.update(samples.samples_VVV4L_2018_EFT) # See condor/samples.py
-        if args.year==2017:
-            # sample_map = samples.samples_VVV4L_2017 # See condor/samples.py
-            sample_map = samples.samples_VVV4L_2017_Skimmed # See condor/samples.py
-            sample_map.update(samples.samples_VVV4L_2017_EFT) # See condor/samples.py
-        elif args.year==2016:
-            # sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
-            sample_map = samples.samples_VVV4L_2016_Skimmed # See condor/samples.py
-            sample_map.update(samples.samples_VVV4L_2016_EFT) # See condor/samples.py
-        
-    #sample_map = samples.JetHT_2018
-    sample_map = samples.QCD_2018
-    #sample_map.update(samples.QCD_2018)
-    sample_map.update(samples.Vplusjets_2018)
-    sample_map.update(samples.diboson_2018)
-    sample_map.update(samples.top_2018)
+    
+    if args.year == 2018:    
+        sample_map = samples.JetHT_2018
+    #    sample_map.update(samples.QCD_2018)
+    #    sample_map.update(samples.Vplusjets_2018)
+    #    sample_map.update(samples.diboson_2018)
+    #    sample_map.update(samples.top_2018)
+    elif args.year == 2017:    
+        sample_map = samples.JetHT_2017
+        sample_map.update(samples.QCD_2017)
+        sample_map.update(samples.Vplusjets_2017)
+        sample_map.update(samples.diboson_2017)
+        sample_map.update(samples.top_2017)
+    elif args.year == 2016:    
+        sample_map = samples.JetHT_2016
+        sample_map.update(samples.QCD_2016)
+        sample_map.update(samples.Vplusjets_2016)
+        sample_map.update(samples.diboson_2016)
+        sample_map.update(samples.top_2016)
     # submission tag
     tag = args.thetag 
+    
+    ### 1l samples
+    #sample_map = samples.QCD_2018
+    #sample_map.update(samples.Vplusjets_2018_1L)
+    # submission tag
+    tag = args.thetag 
+    
+    ### 1l samples
+    #sample_map = samples.QCD_2018
+    #sample_map.update(samples.Vplusjets_2018_1L)
+    #sample_map.update(samples.Data_2018_1L)
+    #sample_map.update(samples.top_2018_1L)
+    #sample_map.update(samples.diboson_2018)
+    
 
     # Where the merged output will go
     # merged_dir = "/store/group/lpcvvv/{}/merged/VVV/{}/output/{}".format(os.getenv("USER"),tag,args.year)
@@ -89,6 +91,8 @@ if __name__ == "__main__":
 
     # Task summary for printing out msummary
     task_summary = {}
+        
+    print sample_map
 
     # Infinite loop until all tasks are complete
     # It will sleep every 10 minutes (600 seconds) and re-check automatically

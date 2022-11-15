@@ -31,6 +31,7 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_isData", nt.isData());
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
+    ana.tx.setBranch<int>                  ("Common_year", nt.year());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
     try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
@@ -46,12 +47,10 @@ void Process_Common_NanoAOD()
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", 1); // TODO
         else
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
-        if (ana.is_EFT_sample)
-<<<<<<< HEAD
+        if (ana.is_EFT_sample){
             ana.tx.setBranch<vector<float>>("Common_LHEReweightingWeight", nt.LHEReweightingWeight());
-=======
-            ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEReweightingWeight());
->>>>>>> c9b8ceb22c21f84de87419c8efe503171fd77bd5
+            //ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEReweightingWeight());
+        }
         ana.tx.setBranch<float>            ("Common_wgt", ana.wgt * ((nt.genWeight() > 0) - (nt.genWeight() < 0)));
     }
     else
@@ -74,6 +73,7 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL"    , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ());  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , 0); } // Lowest unprescaled
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , 0); } 
+    
     try { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"                                       , nt.HLT_PFHT1050());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"     , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"                                     , nt.HLT_AK8PFJet500());                                   } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"     , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"     , nt.HLT_AK8PFJet380_TrimMass30());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"     , 0); } 
@@ -85,9 +85,18 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , nt.HLT_AK8PFHT850_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , nt.HLT_AK8PFHT900_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , 0); } 
 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"            , nt.HLT_PFHT650_WideJetMJJ900DEtaJJ1p5());               } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"            , nt.HLT_PFHT650_WideJetMJJ950DEtaJJ1p5());                } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT800"                                   , nt.HLT_PFHT800());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT800"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT900"                                   , nt.HLT_PFHT900());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT900"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFJet450"                                  , nt.HLT_PFJet450());                                      } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet450"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFJet500"                                  , nt.HLT_PFJet500());                                      } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet500"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50"           , nt.HLT_AK8PFHT700_TrimR0p1PT0p03Mass50());               } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50"     , 0); } 
+    
+
     //2018 1L triggers
-    try { ana.tx.setBranch<bool>("Common_HLT_IsoMu24"     , nt.HLT_IsoMu24());     } catch (std::runtime_error) { std::cout << "HLT_IsoMu24 not found"<< std::endl; ana.tx.setBranch<bool>("HLT_IsoMu24"     , 0); }
-    try { ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"     , nt.HLT_Ele32_WPTight_Gsf());     } catch (std::runtime_error) { std::cout << "HLT_Ele32_WPTight not found"<< std::endl; ana.tx.setBranch<bool>("HLT_Ele32_WPTight"     , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_IsoMu24"     , nt.HLT_IsoMu24());     } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoMu24"     , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"     , nt.HLT_Ele32_WPTight_Gsf());     } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"     , 0); }
 
 
 
@@ -1547,6 +1556,7 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL", vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL());
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ", vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()); // Lowest unprescaled
     ana.tx.setBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL", vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());
+    //2017-2018 all had triggers
     ana.tx.setBranch<bool>                 ("Common_HLT_PFHT1050"                                  , vvv.Common_HLT_PFHT1050());                                      
     ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet500"                               , vvv.Common_HLT_AK8PFJet500());                                   
     ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet380_TrimMass30"                    , vvv.Common_HLT_AK8PFJet380_TrimMass30());     
@@ -1556,8 +1566,20 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT750_TrimMass50"                     , vvv.Common_HLT_AK8PFHT750_TrimMass50());      
     ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT800_TrimMass50"                     , vvv.Common_HLT_AK8PFHT800_TrimMass50());     
     ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT850_TrimMass50"                     , vvv.Common_HLT_AK8PFHT850_TrimMass50());     
-    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT900_TrimMass50"                    , vvv.Common_HLT_AK8PFHT900_TrimMass50()); 
-    // Summary triggers
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT900_TrimMass50"                     , vvv.Common_HLT_AK8PFHT900_TrimMass50()); 
+    //2016 all had triggers
+   /* ana.tx.setBranch<bool>                 ("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"             , vvv.Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5());                                      
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"             , vvv.Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5());                                   
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFHT800"                                    , vvv.Common_HLT_PFHT800());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFHT900"                                    , vvv.Common_HLT_PFHT900());    
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFJet450"                                   , vvv.Common_HLT_PFJet450());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_PFJet500"                                   , vvv.Common_HLT_PFJet500());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet450"                                , vvv.Common_HLT_AK8PFJet450());      
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet500"                                , vvv.Common_HLT_AK8PFJet500());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFJet360_TrimMass30"                     , vvv.Common_HLT_AK8PFJet360_TrimMass30());     
+    ana.tx.setBranch<bool>                 ("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50"            , vvv.Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50()); 
+    */
+   // Summary triggers
     ana.tx.setBranch<bool>                 ("Common_HLT_DoubleEl", vvv.Common_HLT_DoubleEl());
     ana.tx.setBranch<bool>                 ("Common_HLT_MuEG", vvv.Common_HLT_MuEG());
     ana.tx.setBranch<bool>                 ("Common_HLT_DoubleMu", vvv.Common_HLT_DoubleMu());

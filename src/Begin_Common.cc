@@ -43,6 +43,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<int>                  ("Common_run");
     ana.tx.createBranch<int>                  ("Common_lumi");
     ana.tx.createBranch<unsigned long long>   ("Common_evt");
+    ana.tx.createBranch<int>                  ("Common_year");
     ana.tx.createBranch<float>                ("Common_genWeight");
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
     ana.tx.createBranch<float>                ("Common_wgt");
@@ -77,6 +78,8 @@ void Begin_Common_Create_Branches()
 
 
     //hadronic triggers
+
+    //2017-2018
     ana.tx.createBranch<bool>("Common_HLT_PFHT1050"); 
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet500");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30");
@@ -87,6 +90,17 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50" );
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50" );
+
+    //2016
+    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"); 
+    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5");
+    ana.tx.createBranch<bool>("Common_HLT_PFHT800");
+    ana.tx.createBranch<bool>("Common_HLT_PFHT900");
+    ana.tx.createBranch<bool>("Common_HLT_PFJet450");
+    ana.tx.createBranch<bool>("Common_HLT_PFJet500" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet450" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50" );
+
     // Summary triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_DoubleEl");
     ana.tx.createBranch<bool>                 ("Common_HLT_MuEG");
