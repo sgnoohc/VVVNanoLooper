@@ -250,7 +250,6 @@ def main(args):
     
     hist_names_to_plot = []
     for hist_name in hist_names:
-        #if "cutflow" in hist_name: continue
         if (args.histname == "all") or args.histname in hist_name :
             if "_v_" not in hist_name:
                 hist_names_to_plot.append(hist_name)
@@ -318,7 +317,6 @@ def main(args):
         xminimum = args.xMin if args.xMin!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(1)
         xmaximum = args.xMax if args.xMax!=-999 else hists[bkg_plot_order[0] ].GetXaxis().GetBinLowEdge(hists[bkg_plot_order[0] ].GetNbinsX()+1)
         x_range = [] if (args.xMin==-999 and args.xMax==-999) else [xminimum,xmaximum]
-        #p.plot_cut_scan(
         p.plot_hist(
                 bgs = [ hists[group].Clone() for group in bkg_plot_order ],
                 sigs = [ hists[group].Clone() for group in sig_plot_order ],
@@ -336,28 +334,53 @@ def main(args):
                     "legend_ncolumns": 3,
                     "legend_scalex": 2,
                     "xaxis_range" : x_range,
-                    "remove_underflow":False,
+                    "remove_underflow":True,
                     "bkg_sort_method":"unsorted",
-                    "ratio_signal":  True,
+                    "ratio_signal":  False if args.data else True,
                     "xaxis_label" : hist_name,
-                    "remove_underflow" : True,
-                    #"signal_scale":args.scale,
+                    "signal_scale": 1.0,
+                    #"variable_rebin": [0, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.1, 3.2]
+                    "variable_rebin": [0,1100, 2000, 2500, 14000]
+                     #"variable_rebin": [0,1500, 2000, 3000, 5000, 14000]
+                    #"variable_rebin": [0, 100,200,300, 400,500, 600,700, 800, 900, 1000, ]
                     },
                 )
+        '''
+        p.plot_cut_scan(
+                bgs = [ hists[group].Clone() for group in bkg_plot_order ],
+                sigs = [ hists[group].Clone() for group in sig_plot_order ],
+                options={
+                    "yaxis_log":args.yaxis_log,
+                    "nbins":args.nbins,
+                    "output_name": "plots/{}/{}/{}.pdf".format(args.tag,yearstring,hist_name),#"output_name": "plots/{}/{}.pdf".format(args.tag,hist_name),
+                    "lumi_value": "{:.1f}".format(get_lumi(args)),
+                    "print_yield": True,
+                    "legend_ncolumns": 3,
+                    "legend_scalex": 2,
+                    "xaxis_range" : x_range,
+                    "remove_underflow":False,
+                    "bkg_sort_method":"unsorted",
+                    "xaxis_label" : hist_name,
+                    #"yaxis_range" : [10**-1, 10],
+                    "remove_underflow" : True,
+                    "signal_scale": 1.0,
+                    },
+                )
+        '''
 
 def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
     print tfile.GetName(), isEFT
     n_eff_events = get_n_eff_events(tfile)
-    #if isEFT: #divide by number of SM events
-    #    sm_idx = 204
-    #    if "WWW" in name: sm_idx = 120
-    #    #n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight").GetBinContent(sm_idx)
-    #    n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting").GetBinContent(sm_idx)
+    print "got events ", n_eff_events
+    if isEFT: #divide by number of SM events
+        sm_idx = 1
+        n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight").GetBinContent(sm_idx)
     xsec = get_xsec(args, tfile)
     lumi = get_lumi(args)
     
     scale1fb = xsec * 1000. * lumi / n_eff_events
-    
+
+    print " now plotting ", name 
     h = tfile.Get(name).Clone()
     h.Scale(scale1fb)
     return h
@@ -366,6 +389,7 @@ def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
 def get_raw_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
+    print "getting ", tfile.GetName()
     h = tfile.Get(name).Clone()
     return h
 
@@ -374,11 +398,21 @@ def get_n_eff_events(tfile):
 
 def get_xsec(args, tfile):
     sample_short_name = os.path.basename(tfile.GetName()).replace(".root","")
+    print
     print sample_short_name
     f = open("scale1fbs_nanoaod.txt")
     for line in f.readlines():
-        if sample_short_name in line:
-            return float(line.split()[1])
+        if line == "": continue
+        if "#" in line: continue
+        if sample_short_name == line.split()[0]:
+        #if sample_short_name in line.split()[0]:
+            print line.split()[0], float(line.split()[1])
+            if "WJets" in sample_short_name: 
+                print "scaling wjets" 
+                return float(line.split()[1])*1.0
+                #return float(line.split()[1])*1.0
+            else: return float(line.split()[1])
+
     sys.exit("ERROR - The specific sample was not found from NanoTools/NanoCORE/scale1fbs_nanoaod.txt. {} not found.".format(sample_short_name))
 
 def get_sample_map(args):

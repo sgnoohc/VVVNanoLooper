@@ -29,9 +29,9 @@ ROOT.gPad.SetLogx()
     unc_Adw = est_A*math.sqrt(1./tot_B + (r_edw/r)**2)
 '''
 
-0LDir = ("/eos/uscms/store/group/lpcvvv/horyn/VVVAnalysis/Mar23_UL_reProc/atleast_3fj/")
+inDir = ("/eos/uscms/store/group/lpcvvv/horyn/VVVAnalysis/Mar23_UL_reProc/atleast_3fj/")
 
-all_files = os.listdir(0LDir)
+all_files = os.listdir(inDir)
 
 subtract_other = True
 rebin = True
@@ -113,7 +113,7 @@ for reg in ["B", "C", "D", "E", "F"]:
 ##  c/d ratio
 g_R_est = ROOT.TGraphAsymmErrors()
 print "entries c d", final_hists["C"].GetEntries(), final_hists["C"].Integral(), final_hists["D"].GetEntries(), final_hists["D"].Integral()
-g_R_est.Divide(final_hists["C"], final_hists["D"], "pois")
+g_R_est.Divide(final_hists["C"], final_hists["D"], "pois w")
 c.Clear()
 g_R_est.Draw('pela')
 c.Modified()

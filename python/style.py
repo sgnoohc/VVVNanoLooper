@@ -6,84 +6,172 @@
 #~~~~~~~~~~~~~~~~
 
 grouping_allHad = {
-    "QCD_HT500to700.root"             : "QCD",
+    "QCD_HT200to300.root"            : "QCD",
+    "QCD_HT300to500.root"            : "QCD",
+    "QCD_HT500to700.root"            : "QCD",
     "QCD_HT700to1000.root"            : "QCD",
     "QCD_HT1000to1500.root"           : "QCD",
     "QCD_HT1500to2000.root"           : "QCD",
     "QCD_HT2000toInf.root"            : "QCD",
-    "WJetstoQQ_HT400to600.root"       : "W+jets",
-    "WJetstoQQ_HT600to800.root"       : "W+jets",
-    "WJetstoQQ_HT800toInf.root"       : "W+jets",
-    "ZJetstoQQ_HT400to600.root"       : "Z+jets",
-    "ZJetstoQQ_HT600to800.root"       : "Z+jets",
-    "ZJetstoQQ_HT800toInf.root"       : "Z+jets",
-#    "TTJets_HT600to800.root"          : "ttbar",
-#    "TTJets_HT800to1200.root"         : "ttbar",
-#    "TTJets_HT1200to2500.root"        : "ttbar",
-#    "TTJets_HT2500toInf.root"         : "ttbar",
-    "TTSemiLeptonic.root"             : "ttbar",
-    "TTHadronic.root"                 : "ttbar",
-    "ST_tW_antitop.root"              : "single top",
-    "ST_tW_top.root"                  : "single top",
+    "WJetsToQQ_HT800toInf.root"       : "W+jets",
+    "WJetstoLNu_HT100to200.root"       : "W+jets",
+    "WJetstoLNu_HT200to400.root"       : "W+jets",
+    "WJetstoLNu_HT400to600.root"       : "W+jets",
+    "WJetstoLNu_HT600to800.root"       : "W+jets",
+    "WJetstoLNu_HT800to1200.root"       : "W+jets",
+    "WJetstoLNu_HT1200to2500.root"       : "W+jets",
+    "WJetstoLNu_HT2500toInf.root"       : "W+jets",
+    "ZJetsToQQ_HT800toInf.root"       : "Z+jets",
+    "TTSL.root"                       : "ttbar",
+    "TTHad.root"                      : "ttbar",
+    "TTWToQQ.root"                    : "ttbar",
+    "TTZToQQ.root"                    : "ttbar",
+    "TTWJetsToLNu.root"                    : "ttbar",
+    "TTTo2L2Nu.root"                    : "ttbar",
+    "TTZToLLNuNu.root"                    : "ttbar",
+    "STantitop_inclusive.root"        : "single top",
+    "STtop_inclusive.root"            : "single top",
     "ST_tchannel_top.root"            : "single top",
     "ST_tchannel_antitop.root"        : "single top",
     "ST_schannel.root"                : "single top",
+    "ST_schannel_antitop.root"                : "single top",
+    "ST_tW_top.root"                : "single top",
+    "ST_tW_antitop.root"                : "single top",
     "WW.root"                         : "diboson",
     "ZZ.root"                         : "diboson",
     "WZ.root"                         : "diboson",
-    "WplusH_HtoBB_WtoQQ.root"         : "diboson",
-    "WminusH_HtoBB_WtoQQ.root"        : "diboson",
-    "ZH_HtoBB_ZtoQQ.root"             : "diboson",
-#    "WWW_SM.root"                     : "WWW SM",
-#    "WWW_FT0_1.root"                  : "WWW FT0_1",
-#    "WWW_FT0_5.root"                  : "WWW FT0_5",
-#    "WWW_FT0_10.root"                 : "WWW FT0_10",
-    "WWW_EFT__FM0_p2.root"           : "VVV FM0_p2",
+#    "WplusH_HtoBB_WtoQQ.root"         : "diboson",
+#    "WminusH_HtoBB_WtoQQ.root"        : "diboson",
+#    "ZH_HtoBB_ZtoQQ.root"             : "diboson",
+    
+
+
     "WWW_EFT__FT0_p2.root"           : "VVV FT0_p2",
-    "WWW_EFT__FS0_p2.root"           : "VVV FS0_p2",
-    "WWZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
     "WWZ_EFT__FT0_p2.root"           : "VVV FT0_p2",
-    "WWZ_EFT__FS0_p2.root"           : "VVV FS0_p2",
-    "WZZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
     "WZZ_EFT__FT0_p2.root"           : "VVV FT0_p2",
-    "WZZ_EFT__FS0_p2.root"           : "VVV FS0_p2",
-    "ZZZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
     "ZZZ_EFT__FT0_p2.root"           : "VVV FT0_p2",
+    
+    
+    "WWW_EFT__FM0_p2.root"           : "VVV FM0_p2",
+    "WWZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
+    "WZZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
+    "ZZZ_EFT__FM0_p2.root"           : "VVV FM0_p2",
+    
+    "WWW_EFT__FS0_p2.root"           : "VVV FS0_p2",
+    "WWZ_EFT__FS0_p2.root"           : "VVV FS0_p2",
+    "WZZ_EFT__FS0_p2.root"           : "VVV FS0_p2",
     "ZZZ_EFT__FS0_p2.root"           : "VVV FS0_p2",
-#    "WWW_EFT__FM0_p2.root"           : "WWW FM0_p2",
-#    "WWW_EFT__FT0_p2.root"           : "WWW FT0_p2",
-#    "WWW_EFT__FS0_p2.root"           : "WWW FS0_p2",
-#    "WWZ_EFT__FM0_p2.root"           : "WWZ FM0_p2",
-#    "WWZ_EFT__FT0_p2.root"           : "WWZ FT0_p2",
-#    "WWZ_EFT__FS0_p2.root"           : "WWZ FS0_p2",
-#    "WZZ_EFT__FM0_p2.root"           : "WZZ FM0_p2",
-#    "WZZ_EFT__FT0_p2.root"           : "WZZ FT0_p2",
-#    "WZZ_EFT__FS0_p2.root"           : "WZZ FS0_p2",
-#    "ZZZ_EFT__FM0_p2.root"           : "ZZZ FM0_p2",
-#    "ZZZ_EFT__FT0_p2.root"           : "ZZZ FT0_p2",
-#    "ZZZ_EFT__FS0_p2.root"           : "ZZZ FS0_p2",
+    
+    "WWW_EFT__FT0_p15.root"           : "VVV FT0_p15",
+    "WWZ_EFT__FT0_p15.root"           : "VVV FT0_p15",
+    "WZZ_EFT__FT0_p15.root"           : "VVV FT0_p15",
+    "ZZZ_EFT__FT0_p15.root"           : "VVV FT0_p15",
+    
+    "WWW_EFT__FM0_p2.root"           : "WWW FM0_p2",
+    "WWW_EFT__FT0_p2.root"           : "WWW FT0_p2",
+    "WWW_EFT__FT0_p15.root"           : "WWW FT0_p15",
+    "WWW_EFT__FS0_p2.root"           : "WWW FS0_p2",
+    "WWZ_EFT__FM0_p2.root"           : "WWZ FM0_p2",
+    "WWZ_EFT__FT0_p2.root"           : "WWZ FT0_p2",
+    "WWZ_EFT__FS0_p2.root"           : "WWZ FS0_p2",
+    "WWZ_EFT__FT0_p15.root"           : "WWZ FT0_p15",
+    "WZZ_EFT__FM0_p2.root"           : "WZZ FM0_p2",
+    "WZZ_EFT__FT0_p2.root"           : "WZZ FT0_p2",
+    "WZZ_EFT__FT0_p15.root"           : "WZZ FT0_p15",
+    "WZZ_EFT__FS0_p2.root"           : "WZZ FS0_p2",
+    "ZZZ_EFT__FM0_p2.root"           : "ZZZ FM0_p2",
+    "ZZZ_EFT__FT0_p2.root"           : "ZZZ FT0_p2",
+    "ZZZ_EFT__FT0_p15.root"           : "ZZZ FT0_p15",
+    "ZZZ_EFT__FS0_p2.root"           : "ZZZ FS0_p2",
+    
+    
+    
+
+
     "JetHT_2018A.root"               : "Data",
     "JetHT_2018B.root"               : "Data",
     "JetHT_2018C.root"               : "Data",
     "JetHT_2018D.root"               : "Data",
 
-}
+    "EGamma_2018A.root"               : "Data",
+    "EGamma_2018B.root"               : "Data",
+    "EGamma_2018C.root"               : "Data",
+    "EGamma_2018D.root"               : "Data",
 
-bkg_plot_order_allHad = ["diboson", "Z+jets", "W+jets", "single top", "ttbar", "QCD"]
-colors_allHad =         [2008,      2010,      2011,      2002,      2001,     2005,]
+    "SingleMuon_2018A.root"               : "Data",
+    "SingleMuon_2018B.root"               : "Data",
+    "SingleMuon_2018C.root"               : "Data",
+    "SingleMuon_2018D.root"               : "Data",
+
+}
+bkg_plot_order_allHad = ["diboson", "single top", "ttbar", "Z+jets", "W+jets", "QCD"]
+colors_allHad =         [2008,      2002,         2001,    2010,      2011,     2005,]
+
+
+#colors_allHad =         [2008      , 2005,   2002,         2001,    2011,     ]
+#bkg_plot_order_allHad = ["diboson",   "QCD", "single top", "ttbar", "W+jets" ]
+
+#colors_allHad =         [  2011,     ]
+#bkg_plot_order_allHad = [ "W+jets" ]
+
 #bkg_plot_order_allHad = ["Z+jets", "W+jets"]
 #bkg_plot_order_allHad = ["QCD" ]
 #bkg_plot_order_allHad.reverse() 
 
 legend_labels_allHad = bkg_plot_order_allHad
-#sig_plot_order_allHad = ["WWW SM", "WWW FT0_1", "WWW FT0_5" ]
-#sig_plot_order_allHad = ["VVV FT0_p2", "VVV FS0_p2", "VVV FM0_p2" ]
+##all separate
 #sig_plot_order_allHad = ["WWW FT0_p2", "WWW FS0_p2", "WWW FM0_p2", "WWZ FT0_p2", "WWZ FS0_p2", "WWZ FM0_p2", "WZZ FT0_p2", "WZZ FS0_p2", "WZZ FM0_p2", "ZZZ FT0_p2", "ZZZ FS0_p2", "ZZZ FM0_p2" ]
-#sig_plot_order_allHad = ["VVV FT0_p2" ]
-sig_plot_order_allHad = [ ]
+
+##all combined
+#sig_plot_order_allHad = ["VVV FT0_p2", "VVV FM0_p2", "VVV FS0_p2"]
+#sig_plot_order_allHad = ["VVV FT0_p2", "VVV FM0_p2"]
+#sig_plot_order_allHad = ["VVV FT0_p15"]
+#sig_plot_order_allHad = ["VVV FT0_p2"]
+
+## all FT
+#sig_plot_order_allHad = ["WWW FT0_p2", "WWZ FT0_p2", "WZZ FT0_p2", "ZZZ FT0_p2"]
+sig_plot_order_allHad = ["WWW FT0_p15", "WWZ FT0_p15", "WZZ FT0_p15", "ZZZ FT0_p15"]
+## all FS
+#sig_plot_order_allHad = ["WWW FS0_p2", "WWZ FS0_p2", "WZZ FS0_p2", "ZZZ FS0_p2"]
+## all FM
+#sig_plot_order_allHad = ["WWW FM0_p2", "WWZ FM0_p2", "WZZ FM0_p2", "ZZZ FM0_p2"]
+
+## all range
+#sig_plot_order_allHad = ["VVV FT0_p30", "VVV FT0_m30", "VVV FT0_p15", "VVV FT0_m15", "VVV FT0_p15", "VVV FT0_p10", "VVV FT0_m10", "VVV FT0_p8", "VVV FT0_m8", "VVV FT0_p4", "VVV FT0_m4", "VVV FT0_p2","VVV FT0_m2" ]
+#sig_plot_order_allHad = [ ]
 sig_labels_allHad = sig_plot_order_allHad
 #sig_plot_order_allHad = [ "WWW FT0_1" ]
 #colors_allHad = [8007, 8006, 8005, 8004, 8003, 8001, ]
+
+
+
+grouping_allHad_SRCR = {
+    "WJetsToQQ_HT800toInf.root"       : "W+jets SR",
+    "WJetstoLNu_HT100to200.root"       : "W+jets CR",
+    "WJetstoLNu_HT200to400.root"       : "W+jets CR",
+    "WJetstoLNu_HT400to600.root"       : "W+jets CR",
+    "WJetstoLNu_HT600to800.root"       : "W+jets CR",
+    "WJetstoLNu_HT800to1200.root"       : "W+jets CR",
+    "WJetstoLNu_HT1200to2500.root"       : "W+jets CR",
+    "WJetstoLNu_HT2500toInf.root"       : "W+jets CR",
+    "WJetstoLNu_HT100to200_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT200to400_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT400to600_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT600to800_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT800to1200_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT1200to2500_2.root"       : "W+jets VR",
+    "WJetstoLNu_HT2500toInf_2.root"       : "W+jets VR",
+
+}
+colors_allHad_SRCR =         [ 2011    ]
+bkg_plot_order_allHad_SRCR = ["W+jets SR"   ]
+sig_plot_order_allHad_SRCR = ["W+jets CR", "W+jets VR"]
+sig_labels_allHad_SRCR = sig_plot_order_allHad_SRCR
+legend_labels_allHad_SRCR = bkg_plot_order_allHad_SRCR
+
+
+
+
 
 #~~~~~~~~~~~~~~~~
 # 4Lep MET styles
