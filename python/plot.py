@@ -31,7 +31,7 @@ def main(args):
     else:
         print("The year you selected ("+str(args.year)+") does not exist.")
         return
-
+   
     # Constructing input directory name
     username = os.environ['USER']
     #input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(username, args.tag)
@@ -270,6 +270,7 @@ def main(args):
 
             # Loop over the tfiles
             for f in tfiles_by_group[group]:
+                print f.GetName()
 
                 # Retrieve the histogram after scaling it appropriately according to its cross section and lumi of the year
                 if "Data" in group:
@@ -277,7 +278,8 @@ def main(args):
                 else:
                     isEFT = False
                     if group in sig_plot_order: isEFT = True
-                    thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name, isEFT))
+                    #thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name, isEFT))
+                    thists_by_group[group].append(get_raw_histogram(f, hist_name))
 
         # Now create a list of histogram one per each grouping
         hists = {}
@@ -292,9 +294,11 @@ def main(args):
 
                 # If the group key does not exist in the mapping, it means a histogram for it hasn't be created yet
                 if group not in hists:
+                    print "ADDING FIRST", h.GetName(), group, h.Integral()
                     hists[group] = h.Clone(group)
                 # If it exists, then there is a base histogram, we add to it
                 else:
+                    print "ADDING", h.GetName(), group, h.Integral()
                     hists[group].Add(h)
 
                 if "Data" in group:
@@ -335,14 +339,17 @@ def main(args):
                     "legend_scalex": 2,
                     "xaxis_range" : x_range,
                     "remove_underflow":True,
+                    "yield_prec": 10,
                     "bkg_sort_method":"unsorted",
-                    "ratio_signal":  False if args.data else True,
-                    "xaxis_label" : hist_name,
+                    #"ratio_signal":  False if args.data else True,
+                    "xaxis_label" : args.label if args.label else hist_name,
                     "signal_scale": 1.0,
                     #"variable_rebin": [0, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.1, 3.2]
-                    "variable_rebin": [0,1100, 2000, 2500, 14000]
+                    #"variable_rebin": [0,1100, 2000, 3500, 4000]
                      #"variable_rebin": [0,1500, 2000, 3000, 5000, 14000]
                     #"variable_rebin": [0, 100,200,300, 400,500, 600,700, 800, 900, 1000, ]
+                    #"variable_rebin": [0, 40,65,105, 150,200 ]
+                    #"variable_rebin": [0, 1,10 ]
                     },
                 )
         '''
@@ -379,6 +386,7 @@ def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
     lumi = get_lumi(args)
     
     scale1fb = xsec * 1000. * lumi / n_eff_events
+    scale1fb = 1.0
 
     print " now plotting ", name 
     h = tfile.Get(name).Clone()
@@ -391,6 +399,7 @@ def get_raw_histogram(tfile, name):
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
     print "getting ", tfile.GetName()
     h = tfile.Get(name).Clone()
+    print "integral", h.Integral()
     return h
 
 def get_n_eff_events(tfile):
@@ -434,14 +443,19 @@ def get_sample_map(args):
         sys.exit("ERROR - Year is not recognized. You said the year is {}".format(args.year))
 
 def get_lumi(args):
-    if args.year == 2016:
-        return 35.9
+    if args.year == 2006: #2016 APV (comes first)
+        return 19.52
+    elif args.year == 2016: #2016 non-APV
+        return 16.81
     elif args.year == 2017:
-        return 41.3
+        #return 41.3
+        return 41.48
     elif args.year == 2018:
-        return 59.7
+        #return 59.7
+        return 59.83
     elif args.year == 0:
-        return 137.
+        #return 137.
+        return 137.64
     else:
         sys.exit("ERROR - Year is not recognized. You said the year is {}".format(args.year))
 
@@ -460,6 +474,7 @@ if __name__ == "__main__":
     parser.add_argument('-xn', '--xMin'     , dest='xMin'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
     parser.add_argument('-xx', '--xMax'     , dest='xMax'     , help='X-axis range setting' , type=float,  default=-999., required=False) 
     parser.add_argument('-i',  '--inDir'     , dest='inputDir'     , help='input director' ,   required=True) 
+    parser.add_argument('-la', '--label'     , dest='label'     , help='x axis label' ,   required=False) 
     # Argument parser
     args = parser.parse_args()
     args.tag
