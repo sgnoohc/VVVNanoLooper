@@ -1677,27 +1677,27 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<int>>          ("Common_fatjet_WP_MD", vvv.Common_fatjet_WP_MD());            // WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.setBranch<vector<int>>          ("Common_fatjet_WP_antimasscut", vvv.Common_fatjet_WP_antimasscut());// WP: 0: VLoose (5%), 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFVLoose", vvv.Common_fatjet_SFVLoose());      // single fatjet SF
-    ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFLoose", vvv.Common_fatjet_SFLoose());       // single fatjet SF
+    //ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFLoose", vvv.Common_fatjet_SFLoose());       // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFMedium", vvv.Common_fatjet_SFMedium());      // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFTight", vvv.Common_fatjet_SFTight());       // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFdnVLoose", vvv.Common_fatjet_SFdnVLoose());    // single fatjet SF
-    ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFdnLoose", vvv.Common_fatjet_SFdnLoose());     // single fatjet SF
+    //ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFdnLoose", vvv.Common_fatjet_SFdnLoose());     // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFdnMedium", vvv.Common_fatjet_SFdnMedium());    // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFdnTight", vvv.Common_fatjet_SFdnTight());     // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFupVLoose", vvv.Common_fatjet_SFupVLoose());    // single fatjet SF
-    ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFupLoose", vvv.Common_fatjet_SFupLoose());     // single fatjet SF
+    //ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFupLoose", vvv.Common_fatjet_SFupLoose());     // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFupMedium", vvv.Common_fatjet_SFupMedium());    // single fatjet SF
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_SFupTight", vvv.Common_fatjet_SFupTight());     // single fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFVLoose", vvv.Common_eventweight_fatjet_SFVLoose());      // event fatjet SF
-    ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFLoose", vvv.Common_eventweight_fatjet_SFLoose());       // event fatjet SF
+    //ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFLoose", vvv.Common_eventweight_fatjet_SFLoose());       // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFMedium", vvv.Common_eventweight_fatjet_SFMedium());      // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFTight", vvv.Common_eventweight_fatjet_SFTight());       // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFdnVLoose", vvv.Common_eventweight_fatjet_SFdnVLoose());    // event fatjet SF
-    ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFdnLoose", vvv.Common_eventweight_fatjet_SFdnLoose());     // event fatjet SF
+    //ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFdnLoose", vvv.Common_eventweight_fatjet_SFdnLoose());     // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFdnMedium", vvv.Common_eventweight_fatjet_SFdnMedium());    // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFdnTight", vvv.Common_eventweight_fatjet_SFdnTight());     // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFupVLoose", vvv.Common_eventweight_fatjet_SFupVLoose());    // event fatjet SF
-    ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFupLoose", vvv.Common_eventweight_fatjet_SFupLoose());     // event fatjet SF
+   // ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFupLoose", vvv.Common_eventweight_fatjet_SFupLoose());     // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFupMedium", vvv.Common_eventweight_fatjet_SFupMedium());    // event fatjet SF
     ana.tx.setBranch<float>        ("Common_eventweight_fatjet_SFupTight", vvv.Common_eventweight_fatjet_SFupTight());     // event fatjet SF
 
@@ -1737,6 +1737,16 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());
+
+    ana.tx.setBranch<float>                ("Common_event_puWeight", vvv.Common_event_puWeight());        //Pile up weight
+    ana.tx.setBranch<float>                ("Common_event_puWeightup", vvv.Common_event_puWeightup());      //Pile up weight
+    ana.tx.setBranch<float>                ("Common_event_puWeightdn", vvv.Common_event_puWeightdn());      //Pile up weight
+    ana.tx.setBranch<float>                ("Common_event_prefireWeight", vvv.Common_event_prefireWeight());   //Prefiring weight
+    ana.tx.setBranch<float>                ("Common_event_prefireWeightup", vvv.Common_event_prefireWeightup()); //Prefiring weight
+    ana.tx.setBranch<float>                ("Common_event_prefireWeightdn", vvv.Common_event_prefireWeightdn()); //Prefiring weight
+    ana.tx.setBranch<float>                ("Common_event_triggerWeight", vvv.Common_event_triggerWeight());   //trigger weight
+    ana.tx.setBranch<float>                ("Common_event_triggerWeightup", vvv.Common_event_triggerWeightup());   //trigger weight
+    ana.tx.setBranch<float>                ("Common_event_triggerWeightdn", vvv.Common_event_triggerWeightdn());   //trigger weight
 
 
 }

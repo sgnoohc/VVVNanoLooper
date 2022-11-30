@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-// makeCMS3ClassFiles("/uscms/home/horyn/nobackup/vvv/VVVNanoLooper_clean/qcd_test_UL18.root", "t", "VVVTree", "tas", "vvv")
+// makeCMS3ClassFiles("/eos/uscms/store/user/lpcvvv/horyn/VVVAnalysis/Nov15_AllHad_allYears/2006/merged/WZ.root", "t", "VVVTree", "tas", "vvv")
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -39,6 +39,10 @@ class VVVTree {
 /*                              Common_evt*/  unsigned long long Common_evt_;
 /*                              Common_evt*/  TBranch *Common_evt_branch;
 /*                              Common_evt*/  bool     Common_evt_isLoaded;
+//---------------------------------------------------------------------------------
+/*                             Common_year*/  int      Common_year_;
+/*                             Common_year*/  TBranch *Common_year_branch;
+/*                             Common_year*/  bool     Common_year_isLoaded;
 //---------------------------------------------------------------------------------
 /*                        Common_genWeight*/  float    Common_genWeight_;
 /*                        Common_genWeight*/  TBranch *Common_genWeight_branch;
@@ -179,6 +183,38 @@ class VVVTree {
 /*        Common_HLT_AK8PFHT900_TrimMass50*/  bool     Common_HLT_AK8PFHT900_TrimMass50_;
 /*        Common_HLT_AK8PFHT900_TrimMass50*/  TBranch *Common_HLT_AK8PFHT900_TrimMass50_branch;
 /*        Common_HLT_AK8PFHT900_TrimMass50*/  bool     Common_HLT_AK8PFHT900_TrimMass50_isLoaded;
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5*/  bool     Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_;
+/*Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5*/  TBranch *Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_branch;
+/*Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5*/  bool     Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_isLoaded;
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5*/  bool     Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_;
+/*Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5*/  TBranch *Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_branch;
+/*Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5*/  bool     Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_isLoaded;
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT800*/  bool     Common_HLT_PFHT800_;
+/*                      Common_HLT_PFHT800*/  TBranch *Common_HLT_PFHT800_branch;
+/*                      Common_HLT_PFHT800*/  bool     Common_HLT_PFHT800_isLoaded;
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT900*/  bool     Common_HLT_PFHT900_;
+/*                      Common_HLT_PFHT900*/  TBranch *Common_HLT_PFHT900_branch;
+/*                      Common_HLT_PFHT900*/  bool     Common_HLT_PFHT900_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet450*/  bool     Common_HLT_PFJet450_;
+/*                     Common_HLT_PFJet450*/  TBranch *Common_HLT_PFJet450_branch;
+/*                     Common_HLT_PFJet450*/  bool     Common_HLT_PFJet450_isLoaded;
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet500*/  bool     Common_HLT_PFJet500_;
+/*                     Common_HLT_PFJet500*/  TBranch *Common_HLT_PFJet500_branch;
+/*                     Common_HLT_PFJet500*/  bool     Common_HLT_PFJet500_isLoaded;
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet450*/  bool     Common_HLT_AK8PFJet450_;
+/*                  Common_HLT_AK8PFJet450*/  TBranch *Common_HLT_AK8PFJet450_branch;
+/*                  Common_HLT_AK8PFJet450*/  bool     Common_HLT_AK8PFJet450_isLoaded;
+//---------------------------------------------------------------------------------
+/*Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50*/  bool     Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_;
+/*Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50*/  TBranch *Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_branch;
+/*Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50*/  bool     Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_isLoaded;
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  bool     Common_HLT_DoubleEl_;
 /*                     Common_HLT_DoubleEl*/  TBranch *Common_HLT_DoubleEl_branch;
@@ -436,6 +472,10 @@ class VVVTree {
 /*                           Common_jet_id*/  TBranch *Common_jet_id_branch;
 /*                           Common_jet_id*/  bool     Common_jet_id_isLoaded;
 //---------------------------------------------------------------------------------
+/*                         Common_jet_puid*/  vector<int> *Common_jet_puid_;
+/*                         Common_jet_puid*/  TBranch *Common_jet_puid_branch;
+/*                         Common_jet_puid*/  bool     Common_jet_puid_isLoaded;
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  vector<int> *Common_jet_overlapfatjet_;
 /*                Common_jet_overlapfatjet*/  TBranch *Common_jet_overlapfatjet_branch;
 /*                Common_jet_overlapfatjet*/  bool     Common_jet_overlapfatjet_isLoaded;
@@ -624,6 +664,10 @@ class VVVTree {
 /*            Common_fatjet_WP_antimasscut*/  TBranch *Common_fatjet_WP_antimasscut_branch;
 /*            Common_fatjet_WP_antimasscut*/  bool     Common_fatjet_WP_antimasscut_isLoaded;
 //---------------------------------------------------------------------------------
+/*         Common_fatjet_WP_MD_antimasscut*/  vector<int> *Common_fatjet_WP_MD_antimasscut_;
+/*         Common_fatjet_WP_MD_antimasscut*/  TBranch *Common_fatjet_WP_MD_antimasscut_branch;
+/*         Common_fatjet_WP_MD_antimasscut*/  bool     Common_fatjet_WP_MD_antimasscut_isLoaded;
+//---------------------------------------------------------------------------------
 /*                  Common_fatjet_SFVLoose*/  vector<float> *Common_fatjet_SFVLoose_;
 /*                  Common_fatjet_SFVLoose*/  TBranch *Common_fatjet_SFVLoose_branch;
 /*                  Common_fatjet_SFVLoose*/  bool     Common_fatjet_SFVLoose_isLoaded;
@@ -671,6 +715,42 @@ class VVVTree {
 /*                 Common_fatjet_SFupTight*/  vector<float> *Common_fatjet_SFupTight_;
 /*                 Common_fatjet_SFupTight*/  TBranch *Common_fatjet_SFupTight_branch;
 /*                 Common_fatjet_SFupTight*/  bool     Common_fatjet_SFupTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFLoose*/  vector<float> *Common_fatjet_MD_SFLoose_;
+/*                Common_fatjet_MD_SFLoose*/  TBranch *Common_fatjet_MD_SFLoose_branch;
+/*                Common_fatjet_MD_SFLoose*/  bool     Common_fatjet_MD_SFLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/*               Common_fatjet_MD_SFMedium*/  vector<float> *Common_fatjet_MD_SFMedium_;
+/*               Common_fatjet_MD_SFMedium*/  TBranch *Common_fatjet_MD_SFMedium_branch;
+/*               Common_fatjet_MD_SFMedium*/  bool     Common_fatjet_MD_SFMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFTight*/  vector<float> *Common_fatjet_MD_SFTight_;
+/*                Common_fatjet_MD_SFTight*/  TBranch *Common_fatjet_MD_SFTight_branch;
+/*                Common_fatjet_MD_SFTight*/  bool     Common_fatjet_MD_SFTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnLoose*/  vector<float> *Common_fatjet_MD_SFdnLoose_;
+/*              Common_fatjet_MD_SFdnLoose*/  TBranch *Common_fatjet_MD_SFdnLoose_branch;
+/*              Common_fatjet_MD_SFdnLoose*/  bool     Common_fatjet_MD_SFdnLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFdnMedium*/  vector<float> *Common_fatjet_MD_SFdnMedium_;
+/*             Common_fatjet_MD_SFdnMedium*/  TBranch *Common_fatjet_MD_SFdnMedium_branch;
+/*             Common_fatjet_MD_SFdnMedium*/  bool     Common_fatjet_MD_SFdnMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnTight*/  vector<float> *Common_fatjet_MD_SFdnTight_;
+/*              Common_fatjet_MD_SFdnTight*/  TBranch *Common_fatjet_MD_SFdnTight_branch;
+/*              Common_fatjet_MD_SFdnTight*/  bool     Common_fatjet_MD_SFdnTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupLoose*/  vector<float> *Common_fatjet_MD_SFupLoose_;
+/*              Common_fatjet_MD_SFupLoose*/  TBranch *Common_fatjet_MD_SFupLoose_branch;
+/*              Common_fatjet_MD_SFupLoose*/  bool     Common_fatjet_MD_SFupLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFupMedium*/  vector<float> *Common_fatjet_MD_SFupMedium_;
+/*             Common_fatjet_MD_SFupMedium*/  TBranch *Common_fatjet_MD_SFupMedium_branch;
+/*             Common_fatjet_MD_SFupMedium*/  bool     Common_fatjet_MD_SFupMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupTight*/  vector<float> *Common_fatjet_MD_SFupTight_;
+/*              Common_fatjet_MD_SFupTight*/  TBranch *Common_fatjet_MD_SFupTight_branch;
+/*              Common_fatjet_MD_SFupTight*/  bool     Common_fatjet_MD_SFupTight_isLoaded;
 //---------------------------------------------------------------------------------
 /*                  Common_fatjet_pt_jesup*/  vector<float> *Common_fatjet_pt_jesup_;
 /*                  Common_fatjet_pt_jesup*/  TBranch *Common_fatjet_pt_jesup_branch;
@@ -799,6 +879,42 @@ class VVVTree {
 /*     Common_eventweight_fatjet_SFupTight*/  float    Common_eventweight_fatjet_SFupTight_;
 /*     Common_eventweight_fatjet_SFupTight*/  TBranch *Common_eventweight_fatjet_SFupTight_branch;
 /*     Common_eventweight_fatjet_SFupTight*/  bool     Common_eventweight_fatjet_SFupTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFLoose*/  float    Common_eventweight_fatjet_MD_SFLoose_;
+/*    Common_eventweight_fatjet_MD_SFLoose*/  TBranch *Common_eventweight_fatjet_MD_SFLoose_branch;
+/*    Common_eventweight_fatjet_MD_SFLoose*/  bool     Common_eventweight_fatjet_MD_SFLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/*   Common_eventweight_fatjet_MD_SFMedium*/  float    Common_eventweight_fatjet_MD_SFMedium_;
+/*   Common_eventweight_fatjet_MD_SFMedium*/  TBranch *Common_eventweight_fatjet_MD_SFMedium_branch;
+/*   Common_eventweight_fatjet_MD_SFMedium*/  bool     Common_eventweight_fatjet_MD_SFMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFTight*/  float    Common_eventweight_fatjet_MD_SFTight_;
+/*    Common_eventweight_fatjet_MD_SFTight*/  TBranch *Common_eventweight_fatjet_MD_SFTight_branch;
+/*    Common_eventweight_fatjet_MD_SFTight*/  bool     Common_eventweight_fatjet_MD_SFTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnLoose*/  float    Common_eventweight_fatjet_MD_SFdnLoose_;
+/*  Common_eventweight_fatjet_MD_SFdnLoose*/  TBranch *Common_eventweight_fatjet_MD_SFdnLoose_branch;
+/*  Common_eventweight_fatjet_MD_SFdnLoose*/  bool     Common_eventweight_fatjet_MD_SFdnLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFdnMedium*/  float    Common_eventweight_fatjet_MD_SFdnMedium_;
+/* Common_eventweight_fatjet_MD_SFdnMedium*/  TBranch *Common_eventweight_fatjet_MD_SFdnMedium_branch;
+/* Common_eventweight_fatjet_MD_SFdnMedium*/  bool     Common_eventweight_fatjet_MD_SFdnMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnTight*/  float    Common_eventweight_fatjet_MD_SFdnTight_;
+/*  Common_eventweight_fatjet_MD_SFdnTight*/  TBranch *Common_eventweight_fatjet_MD_SFdnTight_branch;
+/*  Common_eventweight_fatjet_MD_SFdnTight*/  bool     Common_eventweight_fatjet_MD_SFdnTight_isLoaded;
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupLoose*/  float    Common_eventweight_fatjet_MD_SFupLoose_;
+/*  Common_eventweight_fatjet_MD_SFupLoose*/  TBranch *Common_eventweight_fatjet_MD_SFupLoose_branch;
+/*  Common_eventweight_fatjet_MD_SFupLoose*/  bool     Common_eventweight_fatjet_MD_SFupLoose_isLoaded;
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFupMedium*/  float    Common_eventweight_fatjet_MD_SFupMedium_;
+/* Common_eventweight_fatjet_MD_SFupMedium*/  TBranch *Common_eventweight_fatjet_MD_SFupMedium_branch;
+/* Common_eventweight_fatjet_MD_SFupMedium*/  bool     Common_eventweight_fatjet_MD_SFupMedium_isLoaded;
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupTight*/  float    Common_eventweight_fatjet_MD_SFupTight_;
+/*  Common_eventweight_fatjet_MD_SFupTight*/  TBranch *Common_eventweight_fatjet_MD_SFupTight_branch;
+/*  Common_eventweight_fatjet_MD_SFupTight*/  bool     Common_eventweight_fatjet_MD_SFupTight_isLoaded;
 //---------------------------------------------------------------------------------
 /*                         Common_nb_loose*/  int      Common_nb_loose_;
 /*                         Common_nb_loose*/  TBranch *Common_nb_loose_branch;
@@ -1009,6 +1125,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                              Common_evt*/  const unsigned long long &Common_evt();
 //---------------------------------------------------------------------------------
+/*                             Common_year*/  const int &Common_year();
+//---------------------------------------------------------------------------------
 /*                        Common_genWeight*/  const float &Common_genWeight();
 //---------------------------------------------------------------------------------
 /*              Common_btagWeight_DeepCSVB*/  const float &Common_btagWeight_DeepCSVB();
@@ -1078,6 +1196,22 @@ void LoadAllBranches();
 /*        Common_HLT_AK8PFHT850_TrimMass50*/  const bool &Common_HLT_AK8PFHT850_TrimMass50();
 //---------------------------------------------------------------------------------
 /*        Common_HLT_AK8PFHT900_TrimMass50*/  const bool &Common_HLT_AK8PFHT900_TrimMass50();
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5*/  const bool &Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5();
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5*/  const bool &Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT800*/  const bool &Common_HLT_PFHT800();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT900*/  const bool &Common_HLT_PFHT900();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet450*/  const bool &Common_HLT_PFJet450();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet500*/  const bool &Common_HLT_PFJet500();
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet450*/  const bool &Common_HLT_AK8PFJet450();
+//---------------------------------------------------------------------------------
+/*Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50*/  const bool &Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  const bool &Common_HLT_DoubleEl();
 //---------------------------------------------------------------------------------
@@ -1207,6 +1341,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*                           Common_jet_id*/  const vector<int> &Common_jet_id();
 //---------------------------------------------------------------------------------
+/*                         Common_jet_puid*/  const vector<int> &Common_jet_puid();
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
 /*                     Common_jet_pt_jesup*/  const vector<float> &Common_jet_pt_jesup();
@@ -1301,6 +1437,8 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  const vector<int> &Common_fatjet_WP_antimasscut();
 //---------------------------------------------------------------------------------
+/*         Common_fatjet_WP_MD_antimasscut*/  const vector<int> &Common_fatjet_WP_MD_antimasscut();
+//---------------------------------------------------------------------------------
 /*                  Common_fatjet_SFVLoose*/  const vector<float> &Common_fatjet_SFVLoose();
 //---------------------------------------------------------------------------------
 /*                   Common_fatjet_SFLoose*/  const vector<float> &Common_fatjet_SFLoose();
@@ -1324,6 +1462,24 @@ void LoadAllBranches();
 /*                Common_fatjet_SFupMedium*/  const vector<float> &Common_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_SFupTight*/  const vector<float> &Common_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFLoose*/  const vector<float> &Common_fatjet_MD_SFLoose();
+//---------------------------------------------------------------------------------
+/*               Common_fatjet_MD_SFMedium*/  const vector<float> &Common_fatjet_MD_SFMedium();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFTight*/  const vector<float> &Common_fatjet_MD_SFTight();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnLoose*/  const vector<float> &Common_fatjet_MD_SFdnLoose();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFdnMedium*/  const vector<float> &Common_fatjet_MD_SFdnMedium();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnTight*/  const vector<float> &Common_fatjet_MD_SFdnTight();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupLoose*/  const vector<float> &Common_fatjet_MD_SFupLoose();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFupMedium*/  const vector<float> &Common_fatjet_MD_SFupMedium();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupTight*/  const vector<float> &Common_fatjet_MD_SFupTight();
 //---------------------------------------------------------------------------------
 /*                  Common_fatjet_pt_jesup*/  const vector<float> &Common_fatjet_pt_jesup();
 //---------------------------------------------------------------------------------
@@ -1388,6 +1544,24 @@ void LoadAllBranches();
 /*    Common_eventweight_fatjet_SFupMedium*/  const float &Common_eventweight_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*     Common_eventweight_fatjet_SFupTight*/  const float &Common_eventweight_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFLoose*/  const float &Common_eventweight_fatjet_MD_SFLoose();
+//---------------------------------------------------------------------------------
+/*   Common_eventweight_fatjet_MD_SFMedium*/  const float &Common_eventweight_fatjet_MD_SFMedium();
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFTight*/  const float &Common_eventweight_fatjet_MD_SFTight();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnLoose*/  const float &Common_eventweight_fatjet_MD_SFdnLoose();
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFdnMedium*/  const float &Common_eventweight_fatjet_MD_SFdnMedium();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnTight*/  const float &Common_eventweight_fatjet_MD_SFdnTight();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupLoose*/  const float &Common_eventweight_fatjet_MD_SFupLoose();
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFupMedium*/  const float &Common_eventweight_fatjet_MD_SFupMedium();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupTight*/  const float &Common_eventweight_fatjet_MD_SFupTight();
 //---------------------------------------------------------------------------------
 /*                         Common_nb_loose*/  const int &Common_nb_loose();
 //---------------------------------------------------------------------------------
@@ -1505,6 +1679,8 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                              Common_evt*/  const unsigned long long &Common_evt();
 //---------------------------------------------------------------------------------
+/*                             Common_year*/  const int &Common_year();
+//---------------------------------------------------------------------------------
 /*                        Common_genWeight*/  const float &Common_genWeight();
 //---------------------------------------------------------------------------------
 /*              Common_btagWeight_DeepCSVB*/  const float &Common_btagWeight_DeepCSVB();
@@ -1574,6 +1750,22 @@ namespace tas {
 /*        Common_HLT_AK8PFHT850_TrimMass50*/  const bool &Common_HLT_AK8PFHT850_TrimMass50();
 //---------------------------------------------------------------------------------
 /*        Common_HLT_AK8PFHT900_TrimMass50*/  const bool &Common_HLT_AK8PFHT900_TrimMass50();
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5*/  const bool &Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5();
+//---------------------------------------------------------------------------------
+/*Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5*/  const bool &Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT800*/  const bool &Common_HLT_PFHT800();
+//---------------------------------------------------------------------------------
+/*                      Common_HLT_PFHT900*/  const bool &Common_HLT_PFHT900();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet450*/  const bool &Common_HLT_PFJet450();
+//---------------------------------------------------------------------------------
+/*                     Common_HLT_PFJet500*/  const bool &Common_HLT_PFJet500();
+//---------------------------------------------------------------------------------
+/*                  Common_HLT_AK8PFJet450*/  const bool &Common_HLT_AK8PFJet450();
+//---------------------------------------------------------------------------------
+/*Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50*/  const bool &Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50();
 //---------------------------------------------------------------------------------
 /*                     Common_HLT_DoubleEl*/  const bool &Common_HLT_DoubleEl();
 //---------------------------------------------------------------------------------
@@ -1703,6 +1895,8 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*                           Common_jet_id*/  const vector<int> &Common_jet_id();
 //---------------------------------------------------------------------------------
+/*                         Common_jet_puid*/  const vector<int> &Common_jet_puid();
+//---------------------------------------------------------------------------------
 /*                Common_jet_overlapfatjet*/  const vector<int> &Common_jet_overlapfatjet();
 //---------------------------------------------------------------------------------
 /*                     Common_jet_pt_jesup*/  const vector<float> &Common_jet_pt_jesup();
@@ -1797,6 +1991,8 @@ namespace tas {
 //---------------------------------------------------------------------------------
 /*            Common_fatjet_WP_antimasscut*/  const vector<int> &Common_fatjet_WP_antimasscut();
 //---------------------------------------------------------------------------------
+/*         Common_fatjet_WP_MD_antimasscut*/  const vector<int> &Common_fatjet_WP_MD_antimasscut();
+//---------------------------------------------------------------------------------
 /*                  Common_fatjet_SFVLoose*/  const vector<float> &Common_fatjet_SFVLoose();
 //---------------------------------------------------------------------------------
 /*                   Common_fatjet_SFLoose*/  const vector<float> &Common_fatjet_SFLoose();
@@ -1820,6 +2016,24 @@ namespace tas {
 /*                Common_fatjet_SFupMedium*/  const vector<float> &Common_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*                 Common_fatjet_SFupTight*/  const vector<float> &Common_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFLoose*/  const vector<float> &Common_fatjet_MD_SFLoose();
+//---------------------------------------------------------------------------------
+/*               Common_fatjet_MD_SFMedium*/  const vector<float> &Common_fatjet_MD_SFMedium();
+//---------------------------------------------------------------------------------
+/*                Common_fatjet_MD_SFTight*/  const vector<float> &Common_fatjet_MD_SFTight();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnLoose*/  const vector<float> &Common_fatjet_MD_SFdnLoose();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFdnMedium*/  const vector<float> &Common_fatjet_MD_SFdnMedium();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFdnTight*/  const vector<float> &Common_fatjet_MD_SFdnTight();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupLoose*/  const vector<float> &Common_fatjet_MD_SFupLoose();
+//---------------------------------------------------------------------------------
+/*             Common_fatjet_MD_SFupMedium*/  const vector<float> &Common_fatjet_MD_SFupMedium();
+//---------------------------------------------------------------------------------
+/*              Common_fatjet_MD_SFupTight*/  const vector<float> &Common_fatjet_MD_SFupTight();
 //---------------------------------------------------------------------------------
 /*                  Common_fatjet_pt_jesup*/  const vector<float> &Common_fatjet_pt_jesup();
 //---------------------------------------------------------------------------------
@@ -1884,6 +2098,24 @@ namespace tas {
 /*    Common_eventweight_fatjet_SFupMedium*/  const float &Common_eventweight_fatjet_SFupMedium();
 //---------------------------------------------------------------------------------
 /*     Common_eventweight_fatjet_SFupTight*/  const float &Common_eventweight_fatjet_SFupTight();
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFLoose*/  const float &Common_eventweight_fatjet_MD_SFLoose();
+//---------------------------------------------------------------------------------
+/*   Common_eventweight_fatjet_MD_SFMedium*/  const float &Common_eventweight_fatjet_MD_SFMedium();
+//---------------------------------------------------------------------------------
+/*    Common_eventweight_fatjet_MD_SFTight*/  const float &Common_eventweight_fatjet_MD_SFTight();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnLoose*/  const float &Common_eventweight_fatjet_MD_SFdnLoose();
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFdnMedium*/  const float &Common_eventweight_fatjet_MD_SFdnMedium();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFdnTight*/  const float &Common_eventweight_fatjet_MD_SFdnTight();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupLoose*/  const float &Common_eventweight_fatjet_MD_SFupLoose();
+//---------------------------------------------------------------------------------
+/* Common_eventweight_fatjet_MD_SFupMedium*/  const float &Common_eventweight_fatjet_MD_SFupMedium();
+//---------------------------------------------------------------------------------
+/*  Common_eventweight_fatjet_MD_SFupTight*/  const float &Common_eventweight_fatjet_MD_SFupTight();
 //---------------------------------------------------------------------------------
 /*                         Common_nb_loose*/  const int &Common_nb_loose();
 //---------------------------------------------------------------------------------
