@@ -16,10 +16,10 @@ eft_to_run = {
 #p15
 
 eft_to_run = {
-    "WWW": { "94": "EFT__FT0_p15"},
-    "WWZ": { "142": "EFT__FT0_p15"},
-    "WZZ": { "142": "EFT__FT0_p15"},
-    "ZZZ": { "142": "EFT__FT0_p15"},
+    "WWW": { "95": "EFT__FT0_p15"},
+    "WWZ": { "143": "EFT__FT0_p15"},
+    "WZZ": { "143": "EFT__FT0_p15"},
+    "ZZZ": { "143": "EFT__FT0_p15"},
 }
 
 
@@ -43,7 +43,7 @@ for f in to_run:
     out_name = f.split("/")[-1]
     if ".root" not in out_name: continue
     print "RUNNING ", out_name
-    #if "JetHT" not in out_name: continue
+    if "JetHT" in out_name: continue
     print out_name.strip(".root"), eft_to_run
     if out_name.strip(".root") not in eft_to_run:
         print out_name
