@@ -26,12 +26,15 @@ def main(args):
         yearstring = "combined"
     elif args.year >= 2016 and args.year <= 2018:
         yearstring = str(args.year)
+    elif args.year == 2006:
+        yearstring = str(args.year)
     elif args.year == -1:
         yearstring = "" #for backwards compatibility
     else:
         print("The year you selected ("+str(args.year)+") does not exist.")
         return
    
+    #years = ["2006","2016","2017","2018"]
     # Constructing input directory name
     username = os.environ['USER']
     #input_dir = "/nfs-7/userdata/{}/tupler_babies/merged/VVV/{}/output/".format(username, args.tag)
@@ -229,6 +232,7 @@ def main(args):
 
     # Open all TFiles
     tfiles_by_group = {}
+    
     for group in sorted(root_file_groups.keys()):
 
         # If NOTUSED skip the group
@@ -241,7 +245,8 @@ def main(args):
         # Now open and push it to tfiles_by_group
         for f in root_file_groups[group]:
             tfiles_by_group[group].append(r.TFile(f))
-
+    
+    print tfiles_by_group
     # Open last group's first TFile (assuming same histograms exist on every file) and obtain list of histogram names
     hist_names = []
     for key in tfiles_by_group[group][0].GetListOfKeys():
@@ -270,7 +275,7 @@ def main(args):
 
             # Loop over the tfiles
             for f in tfiles_by_group[group]:
-                print f.GetName()
+                print f.GetName(), group
 
                 # Retrieve the histogram after scaling it appropriately according to its cross section and lumi of the year
                 if "Data" in group:
@@ -278,8 +283,8 @@ def main(args):
                 else:
                     isEFT = False
                     if group in sig_plot_order: isEFT = True
-                    #thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name, isEFT))
-                    thists_by_group[group].append(get_raw_histogram(f, hist_name))
+                    thists_by_group[group].append(get_xsec_lumi_scaled_histogram(f, hist_name, isEFT))
+                    #thists_by_group[group].append(get_raw_histogram(f, hist_name))
 
         # Now create a list of histogram one per each grouping
         hists = {}
@@ -301,13 +306,17 @@ def main(args):
                     print "ADDING", h.GetName(), group, h.Integral()
                     hists[group].Add(h)
 
-                if "Data" in group:
-                    if args.year==2016 and group != "Data_2016": continue
-                    if args.year==2017 and group != "Data_2017": continue
-                    if args.year==2018 and group != "Data_2018": continue
-                    if "Data" not in hists:
-                        hists["Data"] = h.Clone("Data")
-                    else: hists["Data"].Add(h)
+                #if "Data" in group:
+                    #if args.year==2016 and group != "Data_2016": continue
+                    #if args.year==2017 and group != "Data_2017": continue
+                    #if args.year==2018 and group != "Data_2018": continue
+                    #if "Data" not in hists:
+                    #    hists["Data"] = h.Clone("Data")
+                    #else: hists["Data"].Add(h)
+
+        for group in sorted(hists.keys()):
+            print group, hists[group].Integral()
+
 
         # # Printing histograms we have
         # for group in hists:
@@ -386,10 +395,11 @@ def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
     lumi = get_lumi(args)
     
     scale1fb = xsec * 1000. * lumi / n_eff_events
-    scale1fb = 1.0
 
     print " now plotting ", name 
-    h = tfile.Get(name).Clone()
+    h = tfile.Get(name).Clone("{}_{}".format(tfile.GetName(), name))
+    #h = tfile.Get(name).Clone()
+    #h.SetDirectory(0)
     h.Scale(scale1fb)
     return h
 
@@ -397,8 +407,8 @@ def get_xsec_lumi_scaled_histogram(tfile, name, isEFT):
 def get_raw_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
-    print "getting ", tfile.GetName()
-    h = tfile.Get(name).Clone()
+    print "RAW getting ", tfile.GetName()
+    h = tfile.Get(name).Clone("{}_{}".format(tfile.GetName(), name))
     print "integral", h.Integral()
     return h
 
@@ -424,26 +434,10 @@ def get_xsec(args, tfile):
 
     sys.exit("ERROR - The specific sample was not found from NanoTools/NanoCORE/scale1fbs_nanoaod.txt. {} not found.".format(sample_short_name))
 
-def get_sample_map(args):
-    
-    sample_map = samples.QCD_2018
-    sample_map.update(samples.Vplusjets_2018)
-    sample_map.update(samples.top_2018)
-    sample_map.update(samples.diboson_2018)
-    
-    return sample_map
-     
-    if args.year == 2016:
-        return samples.mc_2016
-    elif args.year == 2017:
-        return samples.mc_2017
-    elif args.year == 2018:
-        return samples.mc_2018
-    else:
-        sys.exit("ERROR - Year is not recognized. You said the year is {}".format(args.year))
 
 def get_lumi(args):
     if args.year == 2006: #2016 APV (comes first)
+        print "year is 2006!"
         return 19.52
     elif args.year == 2016: #2016 non-APV
         return 16.81

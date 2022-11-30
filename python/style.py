@@ -7,8 +7,8 @@
 
 grouping_allHad = {
     #"QCD_HT200to300.root"            : "QCD",
-    #"QCD_HT300to500.root"            : "QCD",
-    #"QCD_HT500to700.root"            : "QCD",
+    "QCD_HT300to500.root"            : "QCD",
+    "QCD_HT500to700.root"            : "QCD",
     "QCD_HT700to1000.root"            : "QCD",
     "QCD_HT1000to1500.root"           : "QCD",
     "QCD_HT1500to2000.root"           : "QCD",
@@ -95,8 +95,24 @@ grouping_allHad = {
     "JetHT_2018C.root"               : "Data",
     "JetHT_2018D.root"               : "Data",
     
-}
+    "JetHT_2016F.root"               : "Data",
+    "JetHT_2016G.root"               : "Data",
+    "JetHT_2016H.root"               : "Data",
     
+    "JetHT_2016B_ver1.root"               : "Data",
+    "JetHT_2016B_ver2.root"               : "Data",
+    "JetHT_2016C.root"               : "Data",
+    "JetHT_2016D.root"               : "Data",
+    "JetHT_2016E.root"               : "Data",
+    "JetHT_2016F_HIPM.root"               : "Data",
+    
+    "JetHT_2017B.root"               : "Data",
+    "JetHT_2017C.root"               : "Data",
+    "JetHT_2017D.root"               : "Data",
+    "JetHT_2017E.root"               : "Data",
+    "JetHT_2017F.root"               : "Data",
+    
+}
 
 '''
 
@@ -112,8 +128,6 @@ grouping_allHad = {
 '''
 bkg_plot_order_allHad = ["diboson", "single top", "ttbar", "Z+jets", "W+jets", "QCD"]
 colors_allHad =         [2008,      2002,         2001,   2010,      2011,     2005,]
-#bkg_plot_order_allHad = ["ttbar"]
-#colors_allHad =         [2001,]
 
 
 legend_labels_allHad = bkg_plot_order_allHad
