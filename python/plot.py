@@ -8,6 +8,7 @@ import os
 import glob
 import style
 import fnmatch
+import ROOT as r
 
 looper_base_dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append("{}/condor/".format(looper_base_dir_path))
@@ -142,7 +143,6 @@ def main(args):
         #
         #-------------------------------------------------------
 
-        import ROOT as r
 
         # Open all TFiles
         tfiles_by_group = {}
@@ -175,6 +175,9 @@ def main(args):
             
         # Loop over the histograms to plot
         for hist_name in hist_names_to_plot:
+            
+            if hist_name not in all_hists["0"]: all_hists["0"][hist_name] = {}
+            if hist_name not in all_hists[year]: all_hists[year][hist_name] =  {}
 
             # Open all hists
             thists_by_group = {}
@@ -203,8 +206,6 @@ def main(args):
 
             # Now create a list of histogram one per each grouping
             hists = {}
-            all_hists["0"][hist_name] =  {}
-            all_hists[year][hist_name] =  {}
             for group in sorted(thists_by_group.keys()):
                 print group
 
@@ -227,13 +228,14 @@ def main(args):
                     
                     ## do the same for the all years category
                     if group not in all_hists["0"][hist_name]:
+                        print "making new for 0 ", hist_name, group, year
                         all_hists["0"][hist_name][group] = h.Clone(group)
                         all_hists["0"][hist_name][group].SetDirectory(0)
                     # If it exists, then there is a base histogram, we add to it
                     else:
+                        print "Adding ", hist_name, year
                         all_hists["0"][hist_name][group].Add(h)
-            
-
+    
             all_hists[year][hist_name] = hists
     
     print all_hists    
@@ -272,6 +274,7 @@ def main(args):
                         "remove_underflow":True,
                         "yield_prec": 10,
                         "bkg_sort_method":"unsorted",
+                        #"bkg_sort_method":"ascending",
                         #"ratio_signal":  False if args.data else True,
                         "xaxis_label" : args.label if args.label else hist_name,
                         "signal_scale": 1.0,
@@ -309,7 +312,6 @@ def main(args):
 def get_xsec_lumi_scaled_histogram(tfile, name, isEFT, year):
     print tfile.GetName(), isEFT
     n_eff_events = get_n_eff_events(tfile)
-    print "got events ", n_eff_events
     if isEFT: #divide by number of SM events
         sm_idx = 1
         n_eff_events = tfile.Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight").GetBinContent(sm_idx)
@@ -326,9 +328,7 @@ def get_xsec_lumi_scaled_histogram(tfile, name, isEFT, year):
 def get_raw_histogram(tfile, name):
     # The Wgt__h_nevents holds the information about the total number of events processed for this sample
     # The Wgt__h_nevents will hold (total # of positive weight events) - (total # of neg weight events)
-    print "RAW getting ", tfile.GetName()
     h = tfile.Get(name).Clone("{}_{}".format(tfile.GetName(), name))
-    print "integral", h.Integral()
     return h
 
 def get_n_eff_events(tfile):
@@ -336,7 +336,6 @@ def get_n_eff_events(tfile):
 
 def get_xsec(tfile):
     sample_short_name = os.path.basename(tfile.GetName()).replace(".root","")
-    print sample_short_name
     f = open("scale1fbs_nanoaod.txt")
     for line in f.readlines():
         if line == "": continue
