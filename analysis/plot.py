@@ -4,7 +4,9 @@ import plottery_wrapper as p
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
-"MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
+"MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} ,
+"PFMET"            : {"xaxis_label" : "pf MET [GeV]"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} ,
+"PuppiMET"         : {"xaxis_label" : "Puppi MET [GeV]"                        , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "MT2"              : {"xaxis_label" : "MT2 [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "SRBin"            : {"xaxis_label" : "SR bins"                                , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "STLep"            : {"xaxis_label" : "#Sigmap_{T,lep,MET} [GeV]"              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -50,12 +52,12 @@ def plot(year, filterpattern):
                 # "outputs/{0}/WWZ.root".format(year),
                 ],
             sig_fnames=[
-                "outputs/{0}/WWZ.root".format(year),
+                #"outputs/{0}/WWZ.root".format(year),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
-            #data_fname="outputs/{0}/data.root".format(year),
-            dirname="~/public_html/WWZ/signal_and_ZZ/{0}".format(year),
+            data_fname="outputs/{0}/data.root".format(year),
+            dirname="~/public_html/WWZ/data_and_ZZ/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 #"t#bar{t}Z",
@@ -66,7 +68,7 @@ def plot(year, filterpattern):
                 #"WWZ",
                 ],
             signal_labels=[
-                "WWZ",
+                #"WWZ",
                 #"NonResWWZ",
                 #"ZHWWZ",
                 ],
@@ -85,8 +87,8 @@ def plot(year, filterpattern):
                 "print_yield": True,
                 "lumi_value": lumi,
                 "nbins": 30,
-                # "yaxis_log": True,
-                "ratio_range": [0., 2.],
+                "yaxis_log": True,
+                "ratio_range": [0., 6.],
                 # "signal_scale":"auto",
                 "legend_scalex": 2.0,
                 "legend_ncolumns": 3,
@@ -102,6 +104,8 @@ if __name__ == "__main__":
         "Yield",
         "CutBVeto__SRBin",
         "CutOnZ",
+	"CutEMuMT2__SRBin",
+	"CutOffZ__SRBin",
         ]
 
     years = [

@@ -4,6 +4,10 @@ vvvtree vvv;
 void vvvtree::Init(TTree *tree) {
   Common_met_p4_branch = tree->GetBranch("Common_met_p4");
   if (Common_met_p4_branch) Common_met_p4_branch->SetAddress(&Common_met_p4_);
+  Common_met_p4_MET_branch = tree->GetBranch("Common_met_p4_MET");
+  if (Common_met_p4_MET_branch) Common_met_p4_MET_branch->SetAddress(&Common_met_p4_MET_);
+  Common_met_p4_PuppiMET_branch = tree->GetBranch("Common_met_p4_PuppiMET");
+  if (Common_met_p4_PuppiMET_branch) Common_met_p4_PuppiMET_branch->SetAddress(&Common_met_p4_PuppiMET_);
   Common_met_p4_jesup_branch = tree->GetBranch("Common_met_p4_jesup");
   if (Common_met_p4_jesup_branch) Common_met_p4_jesup_branch->SetAddress(&Common_met_p4_jesup_);
   Common_met_p4_jesdn_branch = tree->GetBranch("Common_met_p4_jesdn");
@@ -595,6 +599,8 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_noiseFlagMC_isLoaded = false;
   Common_passGoodRun_isLoaded = false;
   Common_met_p4_isLoaded = false;
+  Common_met_p4_MET_isLoaded = false;
+  Common_met_p4_PuppiMET_isLoaded = false;
   Common_met_p4_jesup_isLoaded = false;
   Common_met_p4_jesdn_isLoaded = false;
   Common_met_p4_jerup_isLoaded = false;
@@ -868,6 +874,8 @@ void vvvtree::LoadAllBranches() {
   if (Common_noiseFlagMC_branch != 0) Common_noiseFlagMC();
   if (Common_passGoodRun_branch != 0) Common_passGoodRun();
   if (Common_met_p4_branch != 0) Common_met_p4();
+  if (Common_met_p4_MET_branch != 0) Common_met_p4_MET();
+  if (Common_met_p4_PuppiMET_branch != 0) Common_met_p4_PuppiMET();
   if (Common_met_p4_jesup_branch != 0) Common_met_p4_jesup();
   if (Common_met_p4_jesdn_branch != 0) Common_met_p4_jesdn();
   if (Common_met_p4_jerup_branch != 0) Common_met_p4_jerup();
@@ -1677,6 +1685,32 @@ const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Commo
     Common_met_p4_isLoaded = true;
   }
   return *Common_met_p4_;
+}
+
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_MET() {
+  if (not Common_met_p4_MET_isLoaded) {
+    if (Common_met_p4_MET_branch != 0) {
+      Common_met_p4_MET_branch->GetEntry(index);
+    } else {
+      printf("branch Common_met_p4_MET_branch does not exist!\n");
+      exit(1);
+    }
+    Common_met_p4_MET_isLoaded = true;
+  }
+  return *Common_met_p4_MET_;
+}
+
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_PuppiMET() {
+  if (not Common_met_p4_PuppiMET_isLoaded) {
+    if (Common_met_p4_PuppiMET_branch != 0) {
+      Common_met_p4_PuppiMET_branch->GetEntry(index);
+    } else {
+      printf("branch Common_met_p4_PuppiMET_branch does not exist!\n");
+      exit(1);
+    }
+    Common_met_p4_PuppiMET_isLoaded = true;
+  }
+  return *Common_met_p4_PuppiMET_;
 }
 
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_jesup() {
@@ -4659,6 +4693,8 @@ const bool &Common_noiseFlag() { return vvv.Common_noiseFlag(); }
 const bool &Common_noiseFlagMC() { return vvv.Common_noiseFlagMC(); }
 const bool &Common_passGoodRun() { return vvv.Common_passGoodRun(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4() { return vvv.Common_met_p4(); }
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_MET() { return vvv.Common_met_p4_MET(); }
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_PuppiMET() { return vvv.Common_met_p4_PuppiMET(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesup() { return vvv.Common_met_p4_jesup(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesdn() { return vvv.Common_met_p4_jesdn(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerup() { return vvv.Common_met_p4_jerup(); }

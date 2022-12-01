@@ -39,8 +39,8 @@ if __name__ == "__main__":
     
     sample_map = {}
 
-    #sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
-    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/GluGluToContinToZZTo4e*")
+    #sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/Double*")
+    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/GluGluToContinToZZ*")
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 
@@ -49,6 +49,7 @@ if __name__ == "__main__":
 
     # Where the merged output will go
     merged_dir = "{}/../vvvtree/{}".format(condorpath, tag)
+    #merged_dir = "{}/../vvvtree/metstudy".format(condorpath)
 
     # Task summary for printing out msummary
     task_summary = {}

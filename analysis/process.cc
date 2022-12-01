@@ -594,6 +594,8 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("other_lep1_dz", 180, 0, 0.1, [&]() { return abs(vvv.Common_lep_dz()[vvv.Var_4LepMET_other_lep_idx_1()]); } );
     ana.histograms.addHistogram("other_lep_diffdz", 180, -0.5, 0.5, [&]() { return abs(vvv.Common_lep_dz()[vvv.Var_4LepMET_other_lep_idx_0()]-vvv.Common_lep_dz()[vvv.Var_4LepMET_other_lep_idx_1()]); } );
     ana.histograms.addHistogram("MET", 180, 0, 150, [&]() { return vvv.Common_met_p4().pt(); } );
+    ana.histograms.addHistogram("pfMET", 180, 0, 150, [&]() { return vvv.Common_met_p4_MET().pt(); } );
+    ana.histograms.addHistogram("PuppiMET", 180, 0, 150, [&]() { return vvv.Common_met_p4_PuppiMET().pt(); } );
     ana.histograms.addHistogram("DRll", 180, 0, 5, [&]() { return DRll; } );
     ana.histograms.addHistogram("STLepFit", {0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0}, [&]() { return STLep; } );
     ana.histograms.addHistogram("STLepHadFit", {0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0}, [&]() { return STLepHad; } );

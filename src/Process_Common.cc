@@ -1178,6 +1178,9 @@ void Process_Common_NanoAOD()
         ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
     }
 
+    ana.tx.setBranch<LorentzVector>("Common_met_p4_MET", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
+    ana.tx.setBranch<LorentzVector>("Common_met_p4_PuppiMET", RooUtil::Calc::getLV(nt.PuppiMET_pt(), 0., nt.PuppiMET_phi(), 0));
+
     //---------------------------------------------------------------------------------------------
     // Gen-level particle selection
     //---------------------------------------------------------------------------------------------

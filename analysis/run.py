@@ -156,8 +156,6 @@ process={
 
 #____________________________________________________________________________________________
 # Data root files and their short names
-data={
-#"ee_Bv1_2016APV" : "{skimdir}/DoubleEG_Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2_NANOAOD_{skimversion}.root",
 #"ee_Bv2_2016APV" : "{skimdir}/DoubleEG_Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v3_NANOAOD_{skimversion}.root",
 #"ee_C_2016APV" : "{skimdir}/DoubleEG_Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2_NANOAOD_{skimversion}.root",
 #"ee_D_2016APV" : "{skimdir}/DoubleEG_Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2_NANOAOD_{skimversion}.root",
@@ -431,6 +429,8 @@ mc={
 #"VHToNonbb_2016APV" : "{skimdir}/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_{skimversion}.root",
 #"VHToNonbb_2016" : "{skimdir}/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_{skimversion}.root",
 #"VHToNonbb_2017" : "{skimdir}/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_{skimversion}.root",
+#"VHToNonbb_2018" : "{skimdir}/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_{skimversion}.root",
+}
 #"VHToNonbb_2018" : "{skimdir}/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_{skimversion}.root",
 }
 

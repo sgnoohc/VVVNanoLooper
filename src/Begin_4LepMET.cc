@@ -79,6 +79,10 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_Z1W1_pt", 180, 0, 150, [&]() { return (ana.tx.getBranch<LorentzVector>("Var_4LepMET_Zcand_lep_p4_1") + ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1")).pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").pt(); } );
     ana.histograms.addHistogram("h_4LepMET_met_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4").phi(); } );
+    ana.histograms.addHistogram("h_4LepMET_met_MET", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4_MET").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_met_MET_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4_MET").phi(); } );
+    ana.histograms.addHistogram("h_4LepMET_met_PuppiMET", 180, 0, 450, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4_PuppiMET").pt(); } );
+    ana.histograms.addHistogram("h_4LepMET_met_PuppiMET_phi", 180, -3.1416, 3.1416, [&]() { return ana.tx.getBranch<LorentzVector>("Common_met_p4_PuppiMET").phi(); } );
     ana.histograms.addHistogram("h_4LepMET_nb_loose", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_loose"); } );
     ana.histograms.addHistogram("h_4LepMET_nb_medium", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_medium"); } );
     ana.histograms.addHistogram("h_4LepMET_nb_tight", 8, 0, 8, [&]() { return ana.tx.getBranch<int>("Common_nb_tight"); } );

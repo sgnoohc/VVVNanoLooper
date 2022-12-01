@@ -91,6 +91,10 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
 
+    // New 4 vectors for different MET values
+    ana.tx.createBranch<LorentzVector>	      ("Common_met_p4_MET");
+    ana.tx.createBranch<LorentzVector>	      ("Common_met_p4_PuppiMET");
+
     
     ana.tx.createBranch<float>                ("Common_event_lepSF");      // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFelup");  // lepSF

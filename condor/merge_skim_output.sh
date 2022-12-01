@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for DIR in $(ls -d /ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*); do
+for DIR in $(ls -d /ceph/cms/store/user/kdownham/VVVAnalysis/113022/*); do
     echo ""
     echo "---------------------------------------------------------------"
     if [ -f ${DIR}/merged/output.root ];then
