@@ -724,7 +724,7 @@ void Begin_allHad_VVVTree()
     }, [&]() { return 1; } );
 
     ana.cutflow.getCut("allHad_3fj_3tight");
-    ana.cutflow.addCutToLastActiveCut("allHad_3fj_1lowMSD", [&]() {
+    ana.cutflow.addCutToLastActiveCut("allHad_3fj_1outsideMSD", [&]() {
         
         int n_fail = 0;
         int n_pass = 0;
@@ -732,7 +732,7 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
         if( n_fail == 1 && n_pass == 2) return true;
@@ -740,7 +740,7 @@ void Begin_allHad_VVVTree()
     }, [&]() { return 1; } );
 
     ana.cutflow.getCut("allHad_3fj_3tight");
-    ana.cutflow.addCutToLastActiveCut("allHad_3fj_2lowMSD", [&]() {
+    ana.cutflow.addCutToLastActiveCut("allHad_3fj_2outsideMSD", [&]() {
         
         int n_fail = 0;
         int n_pass = 0;
@@ -748,7 +748,7 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
         if( n_fail == 2 && n_pass == 1) return true;
@@ -764,10 +764,10 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
-        if( n_fail == 0 && n_pass == 3) return true;
+        if(  n_pass == 3) return true;
         else return false;
     }, [&]() { return 1; } );
 
@@ -1709,7 +1709,7 @@ void Begin_1L_VVVTree()
 
 
 bool is_baseline_jet(unsigned int i){
-    //7 in 2016, 6 in 2017-2018
+    //always 6 despite twiki...
     if ( ! (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6) ) return false;    
    
     if ( ana.tx.getBranchLazy<vector<int>>("Common_jet_overlapfatjet")[i]) return false;
@@ -1721,6 +1721,7 @@ bool is_baseline_fatjet(unsigned int i, bool firstPTcut, bool SDcut){
     if( ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt() < 200 ) return false;
     if( abs(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Eta()) > 2.4 ) return false;
 
+    //always 6 despite twiki...
     if (! (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6) ) return false;
 
     //first jet pT > 500 GeV
