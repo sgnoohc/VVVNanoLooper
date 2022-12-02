@@ -1,4 +1,5 @@
 #include "Process_allHad.h"
+#include "Begin_allHad.h"
 
 void Process_allHad()
 {
@@ -15,6 +16,84 @@ void Process_allHad_NanoAOD()
 
 void Process_allHad_VVVTree()
 {
+    //2 fj class
+    int fj_class = 0;
+    if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() == 2){
+        int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[0];
+        int wp_1 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[1];
+        
+        if( wp_0 == 3 && wp_1 == 3) fj_class = 1;
+        if( wp_0 == 2 && wp_1 == 2) fj_class = 2;
+
+        if( wp_0 >= 2 && wp_1 >= 2) fj_class = 3;
+
+        //1 tight, 1 at least med
+        if( (wp_0 >= 3 && wp_1 >= 2) || (wp_0 >= 2 && wp_1 >= 3)) fj_class = 4;
+
+        
+        if( wp_0 == 2 && wp_1 == 1) fj_class = 6;
+        if( wp_0 == 1 && wp_1 == 2) fj_class = 7;
+        
+        if( wp_0 == 1 && wp_1 == 3) fj_class = 8;
+        if( wp_0 == 3 && wp_1 == 1) fj_class = 9;
+    }
+    
+    ana.tx.setBranch<int>  ("allHad_FatJet_Class_2fj_MD", fj_class);
+
+
+    //3 fj class
+    fj_class = 0;
+    
+    vector<float> empty;
+    empty.clear();
+    ana.tx.setBranch<vector<float>>  ("allHad_FatJet_Class_3fj_MD",        empty);
+
+    if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD").size() >= 3){
+        int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[0];
+        int wp_1 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[1];
+        int wp_2 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[2];
+        
+        fj_class = 0;
+
+        //all pass at least same
+        if( wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 1 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 1);
+        if( wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 2 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 2);
+        if( wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 3 ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 3);
+
+        //1 med, 2 loose
+        if( (wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 2 ) || 
+            (wp_0 >= 1 && wp_1 >= 2 && wp_2 >= 1 ) ||
+            (wp_0 >= 2 && wp_1 >= 1 && wp_2 >= 1 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 4);
+        
+        //2 med 1 loose
+        if( (wp_0 >= 1 && wp_1 >= 2 && wp_2 >= 2 ) || 
+            (wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 1 ) ||
+            (wp_0 >= 2 && wp_1 >= 1 && wp_2 >= 2 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 5);
+
+        //2 loose 1 tight
+        if( (wp_0 >= 1 && wp_1 >= 1 && wp_2 >= 3 ) || 
+            (wp_0 >= 1 && wp_1 >= 3 && wp_2 >= 1 ) ||
+            (wp_0 >= 3 && wp_1 >= 1 && wp_2 >= 1 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 6);
+
+        //2 tight 1 loose
+        if( (wp_0 >= 1 && wp_1 >= 3 && wp_2 >= 3 ) || 
+            (wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 1 ) ||
+            (wp_0 >= 3 && wp_1 >= 1 && wp_2 >= 3 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 7);
+
+        //2 med 1 tight
+        if( (wp_0 >= 2 && wp_1 >= 2 && wp_2 >= 3 ) || 
+            (wp_0 >= 2 && wp_1 >= 3 && wp_2 >= 2 ) ||
+            (wp_0 >= 3 && wp_1 >= 2 && wp_2 >= 2 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 8);
+
+        //2 tight 1 med
+        if( (wp_0 >= 2 && wp_1 >= 3 && wp_2 >= 3 ) || 
+            (wp_0 >= 3 && wp_1 >= 3 && wp_2 >= 2 ) ||
+            (wp_0 >= 3 && wp_1 >= 2 && wp_2 >= 3 )  ) ana.tx.pushbackToBranch<float>("allHad_FatJet_Class_3fj_MD", 9);
+    }
+    //ana.tx.setBranch<int>  ("allHad_FatJet_Class_3fj_MD", fj_class);
+        
+
+    /*
 
     //==============================================
     // Process_allHad:
@@ -76,6 +155,9 @@ void Process_allHad_VVVTree()
     int nloose = 0;
     int nmed = 0;
     int ntight = 0;
+    int nloose_MD = 0;
+    int nmed_MD = 0;
+    int ntight_MD = 0;
     vector<LorentzVector> savedFj;
     vector<LorentzVector> savedFj_SD;
 
@@ -83,6 +165,7 @@ void Process_allHad_VVVTree()
     for (unsigned int i=0; i < ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); i++){
         LorentzVector tmp = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i];
         int fjid = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[i];
+        int fjid_MD = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[i];
         //if (tmp.Pt() < 200 || abs(tmp.Eta()) > 2.4) continue;
         //if (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] != 6) continue;
 
@@ -90,6 +173,11 @@ void Process_allHad_VVVTree()
 
         if( fjid >= 1) nloose += 1;
         if( fjid >= 2) nmed += 1;
+        if( fjid >= 3) ntight += 1;
+       
+        if( fjid_MD >= 1) nloose_MD += 1;
+        if( fjid_MD >= 2) nmed_MD += 1;
+        if( fjid_MD >= 3) ntight_MD += 1;
 
         selected_p4.push_back(tmp);
         HT_fj += tmp.Pt();
@@ -107,33 +195,81 @@ void Process_allHad_VVVTree()
         if( dPhiMet < minMetdPhi) minMetdPhi = dPhiMet;
             
             
-       // }
     }
 
     ana.tx.setBranch<int>  ("allHad_NFatJet_loose", nloose);
     ana.tx.setBranch<int>  ("allHad_NFatJet_medium", nmed);
     ana.tx.setBranch<int>  ("allHad_NFatJet_tight", ntight);
+    ana.tx.setBranch<int>  ("allHad_NFatJet_loose_MD", nloose_MD);
+    ana.tx.setBranch<int>  ("allHad_NFatJet_medium_MD", nmed_MD);
+    ana.tx.setBranch<int>  ("allHad_NFatJet_tight_MD", ntight_MD);
+    
+
+    //2fj MD classification
+
+    
+    if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() == 2){
+        int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[0];
+        int wp_1 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP")[1];
+        
+        if( wp_0 == 3 && wp_1 == 3) fj_class = 3;
+        if( wp_0 == 2 && wp_1 == 2) fj_class = 2;
+        if( wp_0 == 1 && wp_1 == 1) fj_class = 1;
+        
+        if( wp_0 == 3 && wp_1 == 2) fj_class = 4;
+        if( wp_0 == 2 && wp_1 == 3) fj_class = 5;
+        
+        if( wp_0 == 2 && wp_1 == 1) fj_class = 6;
+        if( wp_0 == 1 && wp_1 == 2) fj_class = 7;
+        
+        if( wp_0 == 1 && wp_1 == 3) fj_class = 8;
+        if( wp_0 == 3 && wp_1 == 1) fj_class = 9;
+    }
+    
+    ana.tx.setBranch<int>  ("allHad_FatJet_Class", fj_class);
+    /*
+    //3fj MD classification
+    fj_class = 0;
+    if(ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size() == 3){
+        int wp_0 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[0];
+        int wp_1 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[1];
+        int wp_2 = ana.tx.getBranchLazy<vector<int>>("Common_fatjet_WP_MD")[2];
+        
+        if( wp_0 == 3 && wp_1 == 3 && wp_2 == 3) fj_class = 3;
+        if( wp_0 == 2 && wp_1 == 2 && wp_2 == 2) fj_class = 2;
+        if( wp_0 == 1 && wp_1 == 1 && wp_2 == 1) fj_class = 1;
+        
+        if( wp_0 == 2 && wp_1 == 3 && wp_2 == 3) fj_class = 4;
+        if( wp_0 == 3 && wp_1 == 2 && wp_2 == 3) fj_class = 5;
+        if( wp_0 == 3 && wp_1 == 3 && wp_2 == 2) fj_class = 6;
+        
+        if( wp_0 == 3 && wp_1 == 2 && wp_2 == 2) fj_class = 7;
+        if( wp_0 == 2 && wp_1 == 3 && wp_2 == 2) fj_class = 8;
+        if( wp_0 == 2 && wp_1 == 2 && wp_2 == 3) fj_class = 9;
+        
+    }*/
+    
+
+/*
 
     ST_fj = HT_fj + ana.tx.getBranchLazy<LorentzVector>("Common_met_p4").Pt();
 
     ana.tx.setBranch<float>  ("allHad_mindPhi_MetFJ",   minMetdPhi);
 
-    ana.tx.setBranch<float>  ("allHad_fj_mVVV_reco_nomet",   vvv_reco_fj.M());
-    ana.tx.setBranch<float>  ("allHad_fj_ptVVV_reco_nomet",  vvv_reco_fj.Pt());
-    ana.tx.setBranch<float>  ("allHad_fj_mVVV_reco_nomet_SD",   vvv_reco_fj_SD.M());
-    ana.tx.setBranch<float>  ("allHad_fj_ptVVV_reco_nomet_SD",  vvv_reco_fj_SD.Pt());
+    //ana.tx.setBranch<float>  ("allHad_fj_mVVV_reco_nomet_SD",   vvv_reco_fj_SD.M());
+    //ana.tx.setBranch<float>  ("allHad_fj_ptVVV_reco_nomet_SD",  vvv_reco_fj_SD.Pt());
     
     ana.tx.setBranch<float>  ("allHad_FatJet_SF",  SF);
     
     vvv_reco_fj += ana.tx.getBranchLazy<LorentzVector>("Common_met_p4");
+    */
     
-    ana.tx.setBranch<float>  ("allHad_fj_HT",   HT_fj);
-    ana.tx.setBranch<float>  ("allHad_fj_ST",   ST_fj);
-    ana.tx.setBranch<float>  ("allHad_fj_mVVV_reco",   vvv_reco_fj.M());
-    ana.tx.setBranch<float>  ("allHad_fj_ptVVV_reco",  vvv_reco_fj.Pt());
+    //ana.tx.setBranch<float>  ("allHad_fj_HT",   HT_fj);
+    //ana.tx.setBranch<float>  ("allHad_fj_ST",   ST_fj);
 
     //2 fatjets
-    if(nfat > 1){
+    
+    /*if(nfat > 1){
         TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]));
         TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1]));
         ana.tx.setBranch<float>  ("allHad_fj12_dPhi",  abs(fj1.DeltaPhi(fj2)));
@@ -144,10 +280,10 @@ void Process_allHad_VVVTree()
         ana.tx.setBranch<float>  ("allHad_fj12_dPhi",  -999);
         ana.tx.setBranch<float>  ("allHad_fj12_dEta",  -999);
         ana.tx.setBranch<float>  ("allHad_fj12_dR",    -999);
-    }
+    }*/
 
     //3 fatjets
-    if(nfat > 2){
+    /*if(nfat > 2){
         TLorentzVector fj1 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[0].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[0]));
         TLorentzVector fj2 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[1].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[1]));
         TLorentzVector fj3 = RooUtil::Calc::getTLV(RooUtil::Calc::getLV(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Pt(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Eta(), ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[2].Phi(), ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[2]));
@@ -168,8 +304,8 @@ void Process_allHad_VVVTree()
         ana.tx.setBranch<float>  ("allHad_fj31_dEta",  -999);
         ana.tx.setBranch<float>  ("allHad_fj31_dR",    -999);
 
-    }
-
+    }*/
+/*
     int nb_loose = 0;
     int nb_tight = 0;
     int nb_medium = 0;
@@ -177,10 +313,9 @@ void Process_allHad_VVVTree()
 
     for (unsigned int i=0; i < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); i++){
         
-        //if (ana.tx.getBranchLazy<vector<int>>("Common_jet_id")[i] != 6) continue;
+        if(ana.tx.getBranchLazy<vector<int>>("Common_jet_id")[i] != 6) continue;
         
         LorentzVector tmp = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i];
-        if (abs(tmp.Eta()) > 2.4) continue;
         
         //do jet/fatjet overlap removal after b-veto 
         if( ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBmedium")[i] ) nb_medium++;
@@ -195,7 +330,6 @@ void Process_allHad_VVVTree()
         ana.tx.pushbackToBranch<float>  ("allHad_Jet_phi", tmp.Phi());
         ana.tx.pushbackToBranch<float>  ("allHad_Jet_M",   tmp.M());
         
-        //ana.tx.pushbackToBranch<float>  ("allHad_Jet_ID", ana.tx.getBranchLazy<vector<int>>("Common_jet_id")[i]);
 
         selected_p4.push_back(tmp);
     }
@@ -255,18 +389,23 @@ void Process_allHad_VVVTree()
     }
     ST = HT + ana.tx.getBranchLazy<LorentzVector>("Common_met_p4").Pt();
     
-    ana.tx.setBranch<float>  ("allHad_mVVV_reco_nomet",   vvv_reco.M());
-    ana.tx.setBranch<float>  ("allHad_ptVVV_reco_nomet",   vvv_reco.Pt());
     vvv_reco += ana.tx.getBranchLazy<LorentzVector>("Common_met_p4");
         
     
-    ana.tx.setBranch<float>  ("allHad_HT",   HT);
+    //ana.tx.setBranch<float>  ("allHad_HT",   HT);
     ana.tx.setBranch<float>  ("allHad_ST",   ST);
-    ana.tx.setBranch<float>  ("allHad_mVVV_reco",   vvv_reco.M());
-    ana.tx.setBranch<float>  ("allHad_ptVVV_reco",  vvv_reco.Pt());
-
-        
     
+    //std::cout << "HT is " << HT << std::endl; 
+    /*if (HT < 1100){
+        std::cout << "LOW HT -- WHY!!!!!!!!!" << std::endl;
+        for (unsigned int i=0; i < ana.tx.getBranchLazy<vector<int>>("Common_jet_idxs").size(); i++)
+            std::cout << "jet " << i << " pt " << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4")[i].Pt() << std::endl;
+        for (unsigned int i=0; i < ana.tx.getBranchLazy<vector<int>>("Common_fatjet_idxs").size(); i++)
+            std::cout << "fatjet " << i << " pt " << ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt() << std::endl;
+        std::cout << std::endl;
+    }*/
+    
+    /*
     if(! ana.tx.getBranchLazy<bool>("Common_isData")){
 
         //truth level stuff
@@ -430,7 +569,7 @@ void Process_allHad_VVVTree()
                 vs.push_back(v);
             }*/
 
-
+/*
         if (nfat > 2){
             //std::cout << std::endl;
             //std::cout << bosonI.size() << " bosons with matched " << matchedI.size() << std::endl;
@@ -482,6 +621,7 @@ void Process_allHad_VVVTree()
     // Semi-complete list of NanoAOD for 102X can be found here: https://cms-nanoaod-integration.web.cern.ch/integration/master-102X/mc102X_doc.html
     // Also consult here: https://github.com/cmstas/NanoTools/blob/d641a6d6c1aa9ecc8094a1af73d5e1bd7d6502ab/NanoCORE/Nano.h#L4875 (if new variables are added they may show up in master)
 
+*/
 }
 
 
@@ -495,6 +635,7 @@ void PostProcess_allHad()
     }
     else{
         if (ana.cutflow.getCut("allHad_HT").pass)
+        //if (ana.cutflow.getCut("CommonCut").pass)
         {
             ana.tx.fill();
         }

@@ -29,7 +29,6 @@ void Begin_Common()
     {
         //setup GRL
         Begin_Common_Set_Run_List();
-
         // Configure the gconf from NanoTools/NanoCORE/Config.h
         Begin_Common_Set_Config();
         Begin_Common_NanoAOD();
@@ -44,6 +43,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<int>                  ("Common_run");
     ana.tx.createBranch<int>                  ("Common_lumi");
     ana.tx.createBranch<unsigned long long>   ("Common_evt");
+    ana.tx.createBranch<int>                  ("Common_year");
     ana.tx.createBranch<float>                ("Common_genWeight");
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
     ana.tx.createBranch<float>                ("Common_wgt");
@@ -58,7 +58,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_event_triggerWeightdn");   //trigger weight
 
     // EFT weightings
-    ana.tx.createBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting");
+    ana.tx.createBranch<vector<float>>        ("Common_LHEReweightingWeight");
 
     // 2016 only triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"); // Lowest unprescaled
@@ -71,7 +71,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"); // Lowest unprescaled
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL");
+    
+    //1L triggers
+    ana.tx.createBranch<bool>("Common_HLT_IsoMu24"); 
+    ana.tx.createBranch<bool>("Common_HLT_Ele32_WPTight");
+
+
     //hadronic triggers
+
+    //2017-2018
     ana.tx.createBranch<bool>("Common_HLT_PFHT1050"); 
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet500");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30");
@@ -82,6 +90,17 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50" );
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50" );
+
+    //2016
+    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"); 
+    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5");
+    ana.tx.createBranch<bool>("Common_HLT_PFHT800");
+    ana.tx.createBranch<bool>("Common_HLT_PFHT900");
+    ana.tx.createBranch<bool>("Common_HLT_PFJet450");
+    ana.tx.createBranch<bool>("Common_HLT_PFJet500" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFJet450" );
+    ana.tx.createBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50" );
+
     // Summary triggers
     ana.tx.createBranch<bool>                 ("Common_HLT_DoubleEl");
     ana.tx.createBranch<bool>                 ("Common_HLT_MuEG");
@@ -217,12 +236,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_antimasscut");// WP: 0: VLoose (5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_WP_MD_antimasscut");// WP: 1: Loose (2.5%), 2: Medium (1%), 3: Tight (0.5%)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFVLoose");      // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFLoose");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFMedium");      // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFTight");       // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnLoose");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnVLoose");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFdnTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupVLoose");    // single fatjet SF
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupLoose");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupMedium");    // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_SFupTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFLoose");       // single fatjet SF
@@ -257,12 +279,15 @@ void Begin_Common_Create_Branches()
 
 
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFLoose");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFMedium");      // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFTight");       // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnVLoose");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnLoose");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFdnTight");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupVLoose");    // event fatjet SF
+    ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupLoose");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupMedium");    // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFupTight");     // event fatjet SF
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_MD_SFLoose");       // event fatjet SF
@@ -319,7 +344,10 @@ void Begin_Common_Determine_Is_EFT()
     if (ana.run_VVVTree)
     {
         // Determine whether the sample being run over is a EFT sample or not by checking whether a branch exist with the name "LHEWeight_mg_reweighting"
-        ana.is_EFT_sample = vvv.Common_LHEWeight_mg_reweighting().size() > 0; // If there are weights it's is EFT
+        //ana.is_EFT_sample = vvv.Common_LHEReweightingWeight().size() > 0; // If there are weights it's is EFT
+        //ana.is_EFT_sample = true; //fix this
+        if( ana.eft_reweighting_idx >= 0) ana.is_EFT_sample = true;
+        else ana.is_EFT_sample = false;
     }
     else
     {
@@ -659,14 +687,15 @@ void Begin_Common_VVVTree()
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not vvv.Common_isData()) return (vvv.Common_genWeight() > 0) - (vvv.Common_genWeight() < 0); else return 1; } );
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == vvv.Common_gen_VH_channel());}, UNITY );
     ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() {
-        
+        return true;
+        /*
         //check golden json -- branch is true if MC
         if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
 
         //check basic filters 
         if ( vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
         else if ( !vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
-        else return false;
+        else return false;*/
         }, [&]() { return 1; } );
 
 }
