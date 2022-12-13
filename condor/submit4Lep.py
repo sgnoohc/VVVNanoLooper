@@ -40,7 +40,7 @@ if __name__ == "__main__":
     sample_map = {}
 
     #sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/Double*")
-    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/SSWW_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL17*")
+    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18*")
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 

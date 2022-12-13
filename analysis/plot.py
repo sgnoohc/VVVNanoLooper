@@ -4,9 +4,9 @@ import plottery_wrapper as p
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
-"MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} ,
+"MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 30} ,
 "PFMET"            : {"xaxis_label" : "pf MET [GeV]"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} ,
-"PuppiMET"         : {"xaxis_label" : "Puppi MET [GeV]"                        , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
+"PuppiMET"         : {"xaxis_label" : "Puppi MET [GeV]"                        , "xaxis_ndivisions" : 505 , "nbins" : 30} , 
 "MT2"              : {"xaxis_label" : "MT2 [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "SRBin"            : {"xaxis_label" : "SR bins"                                , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "STLep"            : {"xaxis_label" : "#Sigmap_{T,lep,MET} [GeV]"              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -49,15 +49,15 @@ def plot(year, filterpattern):
                 "outputs/{0}/WZ.root".format(year),
                 "outputs/{0}/Other.root".format(year),
                 #"outputs/{0}/NonWWZ.root".format(year),
-                # "outputs/{0}/WWZ.root".format(year),
+                #"outputs/{0}/WWZ.root".format(year),
                 ],
             sig_fnames=[
-                #"outputs/{0}/WWZ.root".format(year),
+                "outputs/{0}/WWZ.root".format(year),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
             data_fname="outputs/{0}/data.root".format(year),
-            dirname="~/public_html/WWZ/data_and_some_bkgds/{0}".format(year),
+            dirname="~/public_html/WWZ/signal_data_all_bkgds/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
@@ -65,10 +65,10 @@ def plot(year, filterpattern):
                 "WZ",
                 "Other",
                 #"NonWWZ",
-                #"WWZ",
+                "WWZ",
                 ],
             signal_labels=[
-                #"WWZ",
+                "WWZ",
                 #"NonResWWZ",
                 #"ZHWWZ",
                 ],
@@ -101,18 +101,21 @@ def plot(year, filterpattern):
 if __name__ == "__main__":
 
     filterpatterns = [
-        "Yield",
-        "CutBVeto__SRBin",
-        "CutOnZ",
-	"CutEMuMT2__SRBin",
-	"CutOffZ__SRBin",
+        #"Yield",
+        #"CutBVeto__MET",
+	#"CutBVeto__PuppiMET",
+        #"CutOnZ",
+	#"CutEMuMT2__MET",
+	#"CutEMuMT2__PuppiMET",
+	"CutOffZ__MET",
+	"CutOffZ__PuppiMET",
         ]
 
     years = [
-        "2016",
-        "2016APV",
-        "2017",
-        "2018",
+        #"2016",
+        #"2016APV",
+        #"2017",
+        #"2018",
         "Run2",
         ]
 
