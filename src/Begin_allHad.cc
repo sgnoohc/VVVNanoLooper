@@ -52,6 +52,7 @@ void Begin_allHad_NanoAOD()
         }, [&]() { return  1;} );
 
     ana.cutflow.addCutToLastActiveCut("allHad_trigger", [&]() {
+        //std::cout << "year is " << ana.tx.getBranchLazy<int>("Common_year");
 
         if(  (ana.tx.getBranchLazy<int>("Common_year") == 2018 || ana.tx.getBranchLazy<int>("Common_year") == 2017 )
           &&  (ana.tx.getBranchLazy<bool>("Common_HLT_PFHT1050") || 
@@ -64,7 +65,11 @@ void Begin_allHad_NanoAOD()
                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT800_TrimMass50") || 
                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT850_TrimMass50") || 
                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT900_TrimMass50")  
-        )) return true;
+        )) 
+        {
+
+            return true;
+        }
 
         if(  (ana.tx.getBranchLazy<int>("Common_year") == 2016 )
           &&  (  ana.tx.getBranchLazy<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5") || 
@@ -585,35 +590,6 @@ void Begin_allHad_VVVTree()
         float HT_fj = 0 ;
         unsigned int nselect = 0;
         LorentzVector vvv_reco_fj_SD; 
-        if(  !((ana.tx.getBranchLazy<int>("Common_year") == 2018 || ana.tx.getBranchLazy<int>("Common_year") == 2017 )
-          &&  (ana.tx.getBranchLazy<bool>("Common_HLT_PFHT1050") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet500") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet360_TrimMass30") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet380_TrimMass30") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet400_TrimMass30") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet420_TrimMass30") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT750_TrimMass50") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT800_TrimMass50") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT850_TrimMass50") || 
-               ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT900_TrimMass50")  
-        ))) return false;
-
-        if(  !((ana.tx.getBranchLazy<int>("Common_year") == 2016 )
-          &&  (  ana.tx.getBranchLazy<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5") || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5") || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_PFHT800") || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_PFHT900") || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_PFJet450") || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_PFJet500" ) || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet450" ) || 
-                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet500") ||
-                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFJet360_TrimMass30") ||
-                ana.tx.getBranchLazy<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50" ) 
-        ) )) 
-        {
-            std::cout << "i had to correct the trigger?!" << std::endl;
-            return true;
-        }
 
         for( unsigned int i=0; i < ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); i++){
             if(is_baseline_jet(i)){
@@ -996,8 +972,6 @@ void Begin_allHad_VVVTree()
 
     
 
-
-
     //3 tight fatjets
     ana.cutflow.getCut("allHad_3fj_withB");
     ana.cutflow.addCutToLastActiveCut("allHad_3fj_3tight", [&]() {
@@ -1008,7 +982,7 @@ void Begin_allHad_VVVTree()
     }, [&]() { return 1; } );
 
     ana.cutflow.getCut("allHad_3fj_3tight");
-    ana.cutflow.addCutToLastActiveCut("allHad_3fj_1lowMSD", [&]() {
+    ana.cutflow.addCutToLastActiveCut("allHad_3fj_1outsideMSD", [&]() {
         
         int n_fail = 0;
         int n_pass = 0;
@@ -1016,7 +990,7 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
         if( n_fail == 1 && n_pass == 2) return true;
@@ -1024,7 +998,7 @@ void Begin_allHad_VVVTree()
     }, [&]() { return 1; } );
 
     ana.cutflow.getCut("allHad_3fj_3tight");
-    ana.cutflow.addCutToLastActiveCut("allHad_3fj_2lowMSD", [&]() {
+    ana.cutflow.addCutToLastActiveCut("allHad_3fj_2outsideMSD", [&]() {
         
         int n_fail = 0;
         int n_pass = 0;
@@ -1032,7 +1006,7 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
         if( n_fail == 2 && n_pass == 1) return true;
@@ -1048,10 +1022,10 @@ void Begin_allHad_VVVTree()
         for(unsigned int i=0; i<3; i++)
         {
             if(is_baseline_fatjet(i, true, true)) n_pass++;
-            else if(ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] >= 40. && ana.tx.getBranchLazy<vector<float>>("Common_fatjet_msoftdrop")[i] < 65. ) n_fail++;
+            else n_fail++;
         } 
 
-        if( n_fail == 0 && n_pass == 3) return true;
+        if(  n_pass == 3) return true;
         else return false;
     }, [&]() { return 1; } );
 
@@ -1993,7 +1967,8 @@ void Begin_1L_VVVTree()
 
 
 bool is_baseline_jet(unsigned int i){
-    if (not (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6)) return false;    
+    //always 6 despite twiki...
+    if ( ! (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6) ) return false;    
    
     if ( ana.tx.getBranchLazy<vector<int>>("Common_jet_overlapfatjet")[i]) return false;
 
@@ -2004,7 +1979,8 @@ bool is_baseline_fatjet(unsigned int i, bool firstPTcut, bool SDcut){
     if( ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Pt() < 200 ) return false;
     if( abs(ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4")[i].Eta()) > 2.4 ) return false;
 
-    if (not (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6)) return false;    
+    //always 6 despite twiki...
+    if (! (ana.tx.getBranchLazy<vector<int>>("Common_fatjet_id")[i] == 6) ) return false;
 
     //first jet pT > 500 GeV
     if(firstPTcut){
