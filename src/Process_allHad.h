@@ -6,6 +6,7 @@
 void Process_allHad();
 void Process_allHad_NanoAOD();
 void Process_allHad_VVVTree();
+void Process_allHad_VVVTree_writeTree();
 void PostProcess_allHad();
 
 

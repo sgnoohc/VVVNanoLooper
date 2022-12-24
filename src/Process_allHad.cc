@@ -3,15 +3,31 @@
 
 void Process_allHad()
 {
-    if(ana.run_VVVTree)
-        Process_allHad_VVVTree();
+    if (ana.run_VVVTree)
+    {
+        if (ana.write_tree)
+        {
+            Process_allHad_VVVTree_writeTree();
+        }
+        else
+        {
+            Process_allHad_VVVTree();
+        }
+    }
     else
+    {
         Process_allHad_NanoAOD();
+    }
 }
 
 void Process_allHad_NanoAOD()
 {
 
+}
+
+void Process_allHad_VVVTree_writeTree()
+{
+    return;
 }
 
 void Process_allHad_VVVTree()
@@ -634,10 +650,19 @@ void PostProcess_allHad()
         }
     }
     else{
-        if (ana.cutflow.getCut("allHad_HT").pass)
-        //if (ana.cutflow.getCut("CommonCut").pass)
+        if (ana.run_VVVTree)
         {
-            ana.tx.fill();
+            if (ana.cutflow.getCut("allHad_computeVariables").pass)
+            {
+                ana.tx.fill();
+            }
+        }
+        else
+        {
+            if (ana.cutflow.getCut("allHad_HT").pass)
+            {
+                ana.tx.fill();
+            }
         }
 
     }
