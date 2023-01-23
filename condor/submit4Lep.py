@@ -11,7 +11,8 @@ from time import sleep
 import sys
 
 #condorpath = os.path.dirname(os.path.realpath(__file__))
-condorpath = "/home/users/kdownham/Triboson/VVVNanoLooper/condor"
+#condorpath = "/home/users/kdownham/Triboson/VVVNanoLooper/condor"
+condorpath = os.environ["condorPath"]
 
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
@@ -39,8 +40,8 @@ if __name__ == "__main__":
     
     sample_map = {}
 
-    #sample_list = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/Double*")
-    sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18*")
+    #sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/*")  # this currently points towards running over all skimmed samples 
+    sample_list = glob.glob(os.environ["skimDir"]+"/*") # change the "*" to the sample names that you want to run over (currently runs over all skimmed samples)
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 
@@ -80,8 +81,8 @@ if __name__ == "__main__":
                     cmssw_version = "CMSSW_11_2_0_pre5",
                     scram_arch = "slc7_amd64_gcc900",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
-                    #tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
-		    tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
+		    #tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
+		    tarfile = os.environ["condorPath"]+"/package.tar.xz" # your tarfile with assorted goodies here
                     special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,

@@ -6,8 +6,8 @@ import os
 #skimdir = "/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/{skimversion}".format(skimversion=skimversion)
 
 skimversion = "WWZ_4L"
-#skimdir = "/home/users/kdownham/Triboson/VVVNanoLooper/vvvtree/110422" 
-skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
+#skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
+skimdir = os.environ["looperOutput"]
 dataversion = "120222"
 
 #____________________________________________________________________________________________

@@ -1,13 +1,15 @@
 #!/bin/env python
 
 import plottery_wrapper as p
+import os
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 30} ,
 "PFMET"            : {"xaxis_label" : "pf MET [GeV]"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} ,
-"PuppiMET"         : {"xaxis_label" : "Puppi MET [GeV]"                        , "xaxis_ndivisions" : 505 , "nbins" : 30} , 
-"MT2"              : {"xaxis_label" : "MT2 [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
+"PuppiMET"         : {"xaxis_label" : "Puppi MET [GeV]"                        , "xaxis_ndivisions" : 505 , "nbins" : 45} , 
+"MT2"              : {"xaxis_label" : "MT2 [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 30} ,
+"Pt4l"		   : {"xaxis_label" : "p_{T,4l}"			       , "xaxis_ndivisions" : 505 , "nbins" : 48} , 
 "SRBin"            : {"xaxis_label" : "SR bins"                                , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "STLep"            : {"xaxis_label" : "#Sigmap_{T,lep,MET} [GeV]"              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "STLepFit"         : {"xaxis_label" : "#Sigmap_{T,lep,MET} [GeV]"              , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -57,7 +59,7 @@ def plot(year, filterpattern):
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
             data_fname="outputs/{0}/data.root".format(year),
-            dirname="~/public_html/WWZ/signal_data_all_bkgds/{0}".format(year),
+            #dirname="~/public_html/WWZ/signal_data_all_bkgds/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
@@ -86,9 +88,12 @@ def plot(year, filterpattern):
             extraoptions={
                 "print_yield": True,
                 "lumi_value": lumi,
-                "nbins": 30,
-                "yaxis_log": True,
-                "ratio_range": [0., 6.],
+                #"nbins": 30,
+		"nbins": 45,
+                #"yaxis_log": True,
+		"yaxis_log": False,
+                "ratio_range": [0., 2.],
+		#"xaxis_range": [0., 300.],
                 # "signal_scale":"auto",
                 "legend_scalex": 2.0,
                 "legend_ncolumns": 3,
@@ -102,13 +107,24 @@ if __name__ == "__main__":
 
     filterpatterns = [
         #"Yield",
+	#"CutEMuBT__MET",
+	#"CutEMuBT__PuppiMET",
+	#"CutEMuBT__MT2",
+	#"CutEMuBT__other_mll",
+	#"CutEMuBT__other_mll_full",
+	#"CutEMuBT__other_mll_varbin",
         #"CutBVeto__MET",
 	#"CutBVeto__PuppiMET",
-        #"CutOnZ",
+        #"CutOnZ__MET",
+	"CutOnZ__PuppiMET",
+	#"CutOnZ__Pt4l",
+	#"CutOnZ__MT2",
+	#"CutOnZ__other_mll",
+	#"CutOnZ__MT2",
 	#"CutEMuMT2__MET",
 	#"CutEMuMT2__PuppiMET",
-	"CutOffZ__MET",
-	"CutOffZ__PuppiMET",
+	#"CutOffZ__MET",
+	#"CutOffZ__PuppiMET",
         ]
 
     years = [

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-for DIR in $(ls -d /ceph/cms/store/user/kdownham/VVVAnalysis/120222/*); do
+#for DIR in $(ls -d /ceph/cms/store/user/kdownham/VVVAnalysis/120222/*); do
+for DIR in $(ls -d ${looperOutput}/*); do
     echo ""
     echo "---------------------------------------------------------------"
     if [ -f ${DIR}/merged/output.root ];then
