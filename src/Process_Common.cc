@@ -1,4 +1,5 @@
 #include "Process_Common.h"
+#include "MuonIDHelper.h"
 
 void Process_Common()
 {
@@ -262,6 +263,12 @@ void Process_Common_NanoAOD()
     // Loop over muons and select POG medium muons
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
+
+	//Test to make sure the MuonIDHelper functions are implemented correctly
+	//if (MuonIDHelper::muonIDscore(nt.year(),imu,"tight")){
+	//    std::cout << "Muon at index " << imu << " has passed tight requirements" << std::endl;
+	//}
+
         // Selections
         if (not (nt.Muon_looseId()[imu]              )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
         if (not (nt.Muon_p4()[imu].pt()        > 10. )) continue;
