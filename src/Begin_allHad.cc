@@ -241,6 +241,10 @@ void Begin_allHad_VVVTree_writeTree()
     ana.tx.createBranch<float>("allHad_HT");
     ana.tx.createBranch<float>("allHad_HT_FJ");
 
+    ana.tx.createBranch<int>("allHad_nb_loose");
+    ana.tx.createBranch<int>("allHad_nb_medium");
+    ana.tx.createBranch<int>("allHad_nb_tight");
+
     ana.tx.createBranch<float>("allHad_FJ01_dPhi");
     ana.tx.createBranch<float>("allHad_FJ01_dEta");
     ana.tx.createBranch<float>("allHad_FJ01_dR");
@@ -299,6 +303,10 @@ void Begin_allHad_VVVTree_writeTree()
             float HT = 0;
             float HT_fj = 0 ;
 
+            int nb_loose = 0;
+            int nb_medium = 0;
+            int nb_tight = 0;
+
             // Loop over the common jets from common jet selections in *_Common.cc
             for (unsigned int ijet = 0; ijet < ana.tx.getBranchLazy<vector<LV>>("Common_jet_p4").size(); ijet++)
             {
@@ -306,6 +314,13 @@ void Begin_allHad_VVVTree_writeTree()
                 {
                     // Get the jet
                     LV jet = ana.tx.getBranchLazy<vector<LV>>("Common_jet_p4")[ijet];
+                    bool pass_loose  = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBloose")[ijet];
+                    bool pass_medium = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBmedium")[ijet];
+                    bool pass_tight  = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBtight")[ijet];
+
+                    if (pass_loose) nb_loose++;
+                    if (pass_medium) nb_medium++;
+                    if (pass_tight) nb_tight++;
 
                     // Save to list of jets for allHad
                     ana.tx.pushbackToBranch<LV>("allHad_jets_p4", jet);
@@ -314,6 +329,10 @@ void Begin_allHad_VVVTree_writeTree()
                     HT += jet.Pt();
                 }
             }
+
+            ana.tx.setBranch<int>("allHad_nb_loose", nb_loose);
+            ana.tx.setBranch<int>("allHad_nb_medium", nb_medium);
+            ana.tx.setBranch<int>("allHad_nb_tight", nb_tight);
 
             // Looping over the fat-jets
             for (unsigned int ifatjet = 0; ifatjet < ana.tx.getBranchLazy<vector<LV>>("Common_fatjet_p4").size(); ifatjet++)

@@ -581,6 +581,12 @@ void VVV0LepTree::Init(TTree *tree) {
   if (allHad_HT_branch) allHad_HT_branch->SetAddress(&allHad_HT_);
   allHad_HT_FJ_branch = tree->GetBranch("allHad_HT_FJ");
   if (allHad_HT_FJ_branch) allHad_HT_FJ_branch->SetAddress(&allHad_HT_FJ_);
+  allHad_nb_loose_branch = tree->GetBranch("allHad_nb_loose");
+  if (allHad_nb_loose_branch) allHad_nb_loose_branch->SetAddress(&allHad_nb_loose_);
+  allHad_nb_medium_branch = tree->GetBranch("allHad_nb_medium");
+  if (allHad_nb_medium_branch) allHad_nb_medium_branch->SetAddress(&allHad_nb_medium_);
+  allHad_nb_tight_branch = tree->GetBranch("allHad_nb_tight");
+  if (allHad_nb_tight_branch) allHad_nb_tight_branch->SetAddress(&allHad_nb_tight_);
   allHad_FJ01_dPhi_branch = tree->GetBranch("allHad_FJ01_dPhi");
   if (allHad_FJ01_dPhi_branch) allHad_FJ01_dPhi_branch->SetAddress(&allHad_FJ01_dPhi_);
   allHad_FJ01_dEta_branch = tree->GetBranch("allHad_FJ01_dEta");
@@ -906,6 +912,9 @@ void VVV0LepTree::GetEntry(unsigned int idx) {
   allHad_ptVVV_isLoaded = false;
   allHad_HT_isLoaded = false;
   allHad_HT_FJ_isLoaded = false;
+  allHad_nb_loose_isLoaded = false;
+  allHad_nb_medium_isLoaded = false;
+  allHad_nb_tight_isLoaded = false;
   allHad_FJ01_dPhi_isLoaded = false;
   allHad_FJ01_dEta_isLoaded = false;
   allHad_FJ01_dR_isLoaded = false;
@@ -1213,6 +1222,9 @@ void VVV0LepTree::LoadAllBranches() {
   if (allHad_ptVVV_branch != 0) allHad_ptVVV();
   if (allHad_HT_branch != 0) allHad_HT();
   if (allHad_HT_FJ_branch != 0) allHad_HT_FJ();
+  if (allHad_nb_loose_branch != 0) allHad_nb_loose();
+  if (allHad_nb_medium_branch != 0) allHad_nb_medium();
+  if (allHad_nb_tight_branch != 0) allHad_nb_tight();
   if (allHad_FJ01_dPhi_branch != 0) allHad_FJ01_dPhi();
   if (allHad_FJ01_dEta_branch != 0) allHad_FJ01_dEta();
   if (allHad_FJ01_dR_branch != 0) allHad_FJ01_dR();
@@ -4974,6 +4986,45 @@ const float &VVV0LepTree::allHad_HT_FJ() {
   return allHad_HT_FJ_;
 }
 
+const int &VVV0LepTree::allHad_nb_loose() {
+  if (not allHad_nb_loose_isLoaded) {
+    if (allHad_nb_loose_branch != 0) {
+      allHad_nb_loose_branch->GetEntry(index);
+    } else {
+      printf("branch allHad_nb_loose_branch does not exist!\n");
+      exit(1);
+    }
+    allHad_nb_loose_isLoaded = true;
+  }
+  return allHad_nb_loose_;
+}
+
+const int &VVV0LepTree::allHad_nb_medium() {
+  if (not allHad_nb_medium_isLoaded) {
+    if (allHad_nb_medium_branch != 0) {
+      allHad_nb_medium_branch->GetEntry(index);
+    } else {
+      printf("branch allHad_nb_medium_branch does not exist!\n");
+      exit(1);
+    }
+    allHad_nb_medium_isLoaded = true;
+  }
+  return allHad_nb_medium_;
+}
+
+const int &VVV0LepTree::allHad_nb_tight() {
+  if (not allHad_nb_tight_isLoaded) {
+    if (allHad_nb_tight_branch != 0) {
+      allHad_nb_tight_branch->GetEntry(index);
+    } else {
+      printf("branch allHad_nb_tight_branch does not exist!\n");
+      exit(1);
+    }
+    allHad_nb_tight_isLoaded = true;
+  }
+  return allHad_nb_tight_;
+}
+
 const float &VVV0LepTree::allHad_FJ01_dPhi() {
   if (not allHad_FJ01_dPhi_isLoaded) {
     if (allHad_FJ01_dPhi_branch != 0) {
@@ -5480,6 +5531,9 @@ const float &allHad_mVVV() { return vvv.allHad_mVVV(); }
 const float &allHad_ptVVV() { return vvv.allHad_ptVVV(); }
 const float &allHad_HT() { return vvv.allHad_HT(); }
 const float &allHad_HT_FJ() { return vvv.allHad_HT_FJ(); }
+const int &allHad_nb_loose() { return vvv.allHad_nb_loose(); }
+const int &allHad_nb_medium() { return vvv.allHad_nb_medium(); }
+const int &allHad_nb_tight() { return vvv.allHad_nb_tight(); }
 const float &allHad_FJ01_dPhi() { return vvv.allHad_FJ01_dPhi(); }
 const float &allHad_FJ01_dEta() { return vvv.allHad_FJ01_dEta(); }
 const float &allHad_FJ01_dR() { return vvv.allHad_FJ01_dR(); }

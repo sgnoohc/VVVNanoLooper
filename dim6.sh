@@ -20,8 +20,8 @@ done
 #____________________________________________________________________________________________________________________
 mkdir -p dim6_vvvtree/merged
 rm -f .dim6haddjobs.txt
-echo "hadd -f dim6_vvvtree/merged/WWW_Dim6.root dim6_vvvtree/WWW_*.root > dim6_vvvtree/merged/WWW_Dim6.log 2>&1" >> .dim6haddjobs.txt
-echo "hadd -f dim6_vvvtree/merged/WWZ_Dim6.root dim6_vvvtree/WWZ_*.root > dim6_vvvtree/merged/WWZ_Dim6.log 2>&1" >> .dim6haddjobs.txt
-echo "hadd -f dim6_vvvtree/merged/WZZ_Dim6.root dim6_vvvtree/WZZ_*.root > dim6_vvvtree/merged/WZZ_Dim6.log 2>&1" >> .dim6haddjobs.txt
-echo "hadd -f dim6_vvvtree/merged/ZZZ_Dim6.root dim6_vvvtree/ZZZ_*.root > dim6_vvvtree/merged/ZZZ_Dim6.log 2>&1" >> .dim6haddjobs.txt
+echo "hadd -f dim6_vvvtree/merged/Dim6_WWW.root dim6_vvvtree/WWW_*.root > dim6_vvvtree/merged/Dim6_WWW.log 2>&1" >> .dim6haddjobs.txt
+echo "hadd -f dim6_vvvtree/merged/Dim6_WWZ.root dim6_vvvtree/WWZ_*.root > dim6_vvvtree/merged/Dim6_WWZ.log 2>&1" >> .dim6haddjobs.txt
+echo "hadd -f dim6_vvvtree/merged/Dim6_WZZ.root dim6_vvvtree/WZZ_*.root > dim6_vvvtree/merged/Dim6_WZZ.log 2>&1" >> .dim6haddjobs.txt
+echo "hadd -f dim6_vvvtree/merged/Dim6_ZZZ.root dim6_vvvtree/ZZZ_*.root > dim6_vvvtree/merged/Dim6_ZZZ.log 2>&1" >> .dim6haddjobs.txt
 xargs.sh .dim6haddjobs.txt
