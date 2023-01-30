@@ -1,0 +1,5 @@
+python ../rooutil/yield_for_keynote.py plots/2006/plots_d8/NFJGeq3ClosePassWP__NL.txt | grep -v "Bin0" | grep -v "Bin7" | grep "QCD\|Bin1,"
+python ../rooutil/yield_for_keynote.py plots/2016/plots_d8/NFJGeq3ClosePassWP__NL.txt | grep -v "Bin0" | grep -v "Bin7" | grep "Bin1,"
+python ../rooutil/yield_for_keynote.py plots/2017/plots_d8/NFJGeq3ClosePassWP__NL.txt | grep -v "Bin0" | grep -v "Bin7" | grep "Bin1,"
+python ../rooutil/yield_for_keynote.py plots/2018/plots_d8/NFJGeq3ClosePassWP__NL.txt | grep -v "Bin0" | grep -v "Bin7" | grep "Bin1,"
+python ../rooutil/yield_for_keynote.py plots/all/plots_d8/NFJGeq3ClosePassWP__NL.txt | grep -v "Bin0" | grep -v "Bin7" | grep "Bin1,"

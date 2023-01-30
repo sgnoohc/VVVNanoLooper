@@ -36,6 +36,8 @@
         "STtop_inclusive"           : 34.91,
         "ST_antitop_inclusive"      : 34.97,
         "ST_top_inclusive"          : 34.91,
+        "ST_antitop_inclusive"      : 34.97,
+        "ST_top_inclusive"          : 34.91,
         "ST_tchannel_top"           : 113.3 ,
         "ST_tchannel_antitop"       : 69.09,
         "ST_schannel"               : 3.74 ,

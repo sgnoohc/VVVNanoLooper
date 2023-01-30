@@ -5,8 +5,15 @@
 import sys
 from errors import E
 import math
+import ROOT as r
 
-def getSF(fname):
+# Plotting the efficieny graph
+c1 = r.TCanvas()
+c1.SetLeftMargin(0.15)
+c1.SetBottomMargin(0.2)
+
+
+def getSF(fname, selection, printineff=False):
     f = open(fname)
     lines = f.readlines()
     datafail = 0
@@ -67,45 +74,117 @@ def getSF(fname):
     # print(mceff)
     sf = dataeff / mceff
     sfineff = dataineff / mcineff
-    return sf, sfineff
+    if printineff:
+        print("            if ({}) return {}; // ineff_data={}".format(selection, sfineff.val, dataineff))
+    else:
+        print("            if ({}) return {}; // eff_data={}".format(selection, sf.val, dataeff))
+    return (sf, sfineff, mceff, dataeff)
 
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1200250__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1250300__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1300350__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1350400__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1400450__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1450500__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1500550__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1550600__V1SF.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1600Inf__V1SF.txt"))
 
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1200250__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1250300__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1300350__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1350400__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1400450__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1450500__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1500550__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1550600__V1SF0p8.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1600Inf__V1SF0p8.txt"))
 
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1200250__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1250300__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1300350__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1350400__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1400450__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1450500__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1500550__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1550600__V1SF0p6.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1600Inf__V1SF0p6.txt"))
+def printSF(year, WP, printineff=False):
+    suffix = WP
+    if WP == "0p4": suffix = ""
+    if WP == "0p6": suffix = "0p6"
+    if WP == "0p8": suffix = "0p8"
+    if WP == "0p9": suffix = "0p9"
+    print("    //_______________________________________________________________________________")
+    if printineff:
+        print("    auto VMD{}_ineffSF_{} = [&](float pt)".format(WP, year))
+    else:
+        print("    auto VMD{}_SF_{} = [&](float pt)".format(WP, year))
+    print("        {")
+    results = []
+    getSF("plots/{}/plots_d8_SF/NFJEq2MSD1__V1SF{}.txt".format(year, suffix)        , "false", printineff=printineff)
+    bounds = ["200", "250", "300", "350", "400", "450", "500", "550", "600", "650", "700", "750", "800", "850", "1000"]
+    for idx, bound in enumerate(bounds):
+        lowbound = bound
+        # If last element then special
+        if idx == len(bounds) - 1:
+            results.append(
+                    getSF(
+                        "plots/{}/plots_d8_SF/NFJEq2Pt1{}Inf__V1SF{}.txt".format(year, lowbound, suffix),
+                        "pt >= {}              ".format(lowbound),
+                        printineff=printineff)
+                    )
+        else:
+            highbound = bounds[idx+1]
+            results.append(
+                    getSF(
+                        "plots/{}/plots_d8_SF/NFJEq2Pt1{}{}__V1SF{}.txt".format(year, lowbound, highbound, suffix),
+                        "pt >= {}  and pt < {:4s}".format(lowbound, highbound),
+                        printineff=printineff)
+                    )
+    print("            else                        return 1.00000000000;")
+    print("        };")
 
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1200250__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1250300__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1300350__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1350400__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1400450__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1450500__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1500550__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1550600__V1SF0p9.txt"))
-print(getSF("plots/plots_d8_SF/NFJEq2Pt1600Inf__V1SF0p9.txt"))
+    gSF = r.TGraphErrors(len(results))
+    gDE = r.TGraphErrors(len(results))
+    gME = r.TGraphErrors(len(results))
+    gSF.SetTitle("VMD SF {} {}".format(year, WP))
+    gDE.SetTitle("VMD data eff {} {}".format(year, WP))
+    gME.SetTitle("VMD MC eff {} {}".format(year, WP))
+    for idx, res in enumerate(results):
+        if idx == len(results) - 1:
+            width =  500
+            center = 1250
+        else:
+            width = float(bounds[idx+1]) - float(bounds[idx])
+            center = float(bounds[idx]) + (width / 2)
+        gSF.SetPoint(idx, center, results[idx][0].val)
+        gSF.SetPointError(idx, width / 2., results[idx][0].err)
+        gDE.SetPoint(idx, center, results[idx][2].val)
+        gDE.SetPointError(idx, width / 2., results[idx][2].err)
+        gME.SetPoint(idx, center, results[idx][3].val)
+        gME.SetPointError(idx, width / 2., results[idx][3].err)
+    gSF.SetMarkerStyle(19)
+    gSF.Draw("ape")
+    gSF.GetYaxis().SetTitle("Scale Factor")
+    gSF.GetXaxis().SetTitle("p_{T} [GeV]")
+    gSF.GetYaxis().SetTitleOffset(1)
+    gSF.GetXaxis().SetTitleOffset(1)
+    gSF.GetYaxis().SetTitleSize(0.08)
+    gSF.GetXaxis().SetTitleSize(0.08)
+    gSF.GetYaxis().SetLabelSize(0.06)
+    gSF.GetXaxis().SetLabelSize(0.06)
+    c1.Print("plots/vmd_tagger_performance/SF.pdf", "pdf")
+    gDE.SetMarkerStyle(19)
+    gDE.Draw("ape")
+    gDE.GetYaxis().SetTitle("VMD Tagger Eff. (QCD Data)")
+    gDE.GetXaxis().SetTitle("p_{T} [GeV]")
+    c1.Print("plots/vmd_tagger_performance/data_eff.pdf", "pdf")
+    gME.SetMarkerStyle(19)
+    gME.Draw("ape")
+    gME.GetYaxis().SetTitle("VMD Tagger Eff. (QCD MC)")
+    gME.GetXaxis().SetTitle("p_{T} [GeV]")
+    c1.Print("plots/vmd_tagger_performance/mc_eff.pdf", "pdf")
 
+
+
+
+
+years = ["2006", "2016", "2017", "2018"]
+
+c1.Print("plots/vmd_tagger_performance/SF.pdf(", "pdf")
+c1.Print("plots/vmd_tagger_performance/data_eff.pdf(", "pdf")
+c1.Print("plots/vmd_tagger_performance/mc_eff.pdf(", "pdf")
+for year in years:
+    printSF(year, "0p4", False)
+    printSF(year, "0p6", False)
+    printSF(year, "0p8", False)
+    printSF(year, "0p9", False)
+    printSF(year, "0p4", True)
+    printSF(year, "0p6", True)
+    printSF(year, "0p8", True)
+    printSF(year, "0p9", True)
+printSF("2006", "WP06", False)
+printSF("2006", "WP06", True)
+printSF("2016", "WP16", False)
+printSF("2016", "WP16", True)
+printSF("2017", "WP17", False)
+printSF("2017", "WP17", True)
+printSF("2018", "WP18", False)
+printSF("2018", "WP18", True)
+c1.Print("plots/vmd_tagger_performance/SF.pdf)", "pdf")
+c1.Print("plots/vmd_tagger_performance/data_eff.pdf)", "pdf")
+c1.Print("plots/vmd_tagger_performance/mc_eff.pdf)", "pdf")

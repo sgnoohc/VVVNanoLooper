@@ -42,6 +42,9 @@ public:
     // Custom Histograms object compatible with RooUtil::Cutflow framework
     RooUtil::Histograms histograms;
 
+    // EFT idx
+    int EFT_idx;
+
 };
 
 AnalysisConfig ana;
@@ -69,6 +72,7 @@ int main(int argc, char** argv)
         ("n,nevents"     , "N events to loop over"                                                                               , cxxopts::value<int>()->default_value("-1"))
         ("j,nsplit_jobs" , "Enable splitting jobs by N blocks (--job_index must be set)"                                         , cxxopts::value<int>())
         ("I,job_index"   , "job_index of split jobs (--nsplit_jobs must be set. index starts from 0. i.e. 0, 1, 2, 3, etc...)"   , cxxopts::value<int>())
+        ("e,eftidx"      , "EFT index"                                                                                           , cxxopts::value<int>()->default_value("0"))
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
         ("h,help"        , "Print help")
         ;
@@ -181,6 +185,24 @@ int main(int argc, char** argv)
         ana.job_index = -1;
     }
 
+    //_______________________________________________________________________________
+    // --nsplit_jobs
+    if (result.count("eftidx"))
+    {
+        ana.EFT_idx = result["eftidx"].as<int>();
+        if (ana.EFT_idx < 0)
+        {
+            std::cout << options.help() << std::endl;
+            std::cout << "ERROR: option string --eftidx" << ana.EFT_idx << " has negative value!" << std::endl;
+            std::cout << "I am not sure what this means..." << std::endl;
+            exit(1);
+        }
+    }
+    else
+    {
+        ana.EFT_idx = -1;
+    }
+
 
     // Sanity check for split jobs (if one is set the other must be set too)
     if (result.count("job_index") or result.count("nsplit_jobs"))
@@ -261,15 +283,26 @@ int main(int argc, char** argv)
     // (because each job will produce a proper total nevents, and then there are 5 rootfiles that contain same information.)
     // (so after hadding, the histogram contains 5x the correct value)
     // I know it's a bit stupid and confusing... and hacky... but it works.
-    std::ifstream njobs("data/njobs.json");
-    json n;
-    njobs >> n;
+    std::ifstream njobs_2006("data/2006_njobs.json");
+    json n2006;
+    njobs_2006 >> n2006;
 
+    std::ifstream njobs_2016("data/2016_njobs.json");
+    json n2016;
+    njobs_2016 >> n2016;
 
+    std::ifstream njobs_2017("data/2017_njobs.json");
+    json n2017;
+    njobs_2017 >> n2017;
 
+    std::ifstream njobs_2018("data/2018_njobs.json");
+    json n2018;
+    njobs_2018 >> n2018;
 
-
-
+    float VWP_2006 = 0.839528979067;
+    float VWP_2016 = 0.823930363111;
+    float VWP_2017 = 0.808252544662;
+    float VWP_2018 = 0.811534096267;
 
 //********************************************************************************
 //
@@ -428,97 +461,125 @@ int main(int argc, char** argv)
             return sqrt(pow(VMD0 - 85, 2) + pow(VMD1 - 85, 2) + pow(VMD2 - 85, 2));
         };
 
+#include "vmd_sf.h"
+
     //_______________________________________________________________________________
     auto VMD0p4_SF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 1.29440907471;
-            if (pt >= 250 and pt < 300) return 1.28090117769;
-            if (pt >= 300 and pt < 350) return 1.27446411485;
-            if (pt >= 350 and pt < 400) return 1.26306236664;
-            if (pt >= 400 and pt < 450) return 1.27071708912;
-            if (pt >= 450 and pt < 500) return 1.27804980241;
-            if (pt >= 500 and pt < 550) return 1.27762531922;
-            if (pt >= 550 and pt < 600) return 1.30006570695;
-            if (pt >= 600             ) return 1.33278758211;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p4_SF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p4_SF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p4_SF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p4_SF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
     auto VMD0p4_ineffSF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 0.829922666647;
-            if (pt >= 250 and pt < 300) return 0.813447622921;
-            if (pt >= 300 and pt < 350) return 0.816607145368;
-            if (pt >= 350 and pt < 400) return 0.829859429613;
-            if (pt >= 400 and pt < 450) return 0.834301979291;
-            if (pt >= 450 and pt < 500) return 0.832412094501;
-            if (pt >= 500 and pt < 550) return 0.833088639958;
-            if (pt >= 550 and pt < 600) return 0.827573867412;
-            if (pt >= 600             ) return 0.822212583505;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p4_ineffSF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p4_ineffSF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p4_ineffSF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p4_ineffSF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
     auto VMD0p6_SF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 1.3147757453 ;
-            if (pt >= 250 and pt < 300) return 1.27669956731;
-            if (pt >= 300 and pt < 350) return 1.28397877821;
-            if (pt >= 350 and pt < 400) return 1.26613857403;
-            if (pt >= 400 and pt < 450) return 1.27522074525;
-            if (pt >= 450 and pt < 500) return 1.30206287535;
-            if (pt >= 500 and pt < 550) return 1.30323904979;
-            if (pt >= 550 and pt < 600) return 1.32972185118;
-            if (pt >= 600             ) return 1.35072225183;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p6_SF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p6_SF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p6_SF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p6_SF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
     auto VMD0p6_ineffSF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 0.90641678061;
-            if (pt >= 250 and pt < 300) return 0.90183402933;
-            if (pt >= 300 and pt < 350) return 0.89967876043;
-            if (pt >= 350 and pt < 400) return 0.90895086656;
-            if (pt >= 400 and pt < 450) return 0.91056483827;
-            if (pt >= 450 and pt < 500) return 0.90493233241;
-            if (pt >= 500 and pt < 550) return 0.90528953116;
-            if (pt >= 550 and pt < 600) return 0.90276189051;
-            if (pt >= 600             ) return 0.90315561665;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p6_ineffSF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p6_ineffSF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p6_ineffSF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p6_ineffSF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
     auto VMD0p8_SF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 1.32893107015;
-            if (pt >= 250 and pt < 300) return 1.25901767329;
-            if (pt >= 300 and pt < 350) return 1.25500490767;
-            if (pt >= 350 and pt < 400) return 1.25073549711;
-            if (pt >= 400 and pt < 450) return 1.22783508114;
-            if (pt >= 450 and pt < 500) return 1.27004526173;
-            if (pt >= 500 and pt < 550) return 1.30545185756;
-            if (pt >= 550 and pt < 600) return 1.28263025928;
-            if (pt >= 600             ) return 1.32223397985;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p8_SF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p8_SF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p8_SF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p8_SF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
     auto VMD0p8_ineffSF = [&](float pt)
         {
-            if (pt >= 200 and pt < 250) return 0.96069773538;
-            if (pt >= 250 and pt < 300) return 0.96270916190;
-            if (pt >= 300 and pt < 350) return 0.96258385092;
-            if (pt >= 350 and pt < 400) return 0.96409010593;
-            if (pt >= 400 and pt < 450) return 0.96833122554;
-            if (pt >= 450 and pt < 500) return 0.96424362855;
-            if (pt >= 500 and pt < 550) return 0.96085705434;
-            if (pt >= 550 and pt < 600) return 0.96453807666;
-            if (pt >= 600             ) return 0.96258145395;
-            else                        return 1.00000000000;
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p8_ineffSF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p8_ineffSF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p8_ineffSF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p8_ineffSF_2018(pt);
+            return 1.;
         };
 
     //_______________________________________________________________________________
+    auto VMD0p9_SF = [&](float pt)
+        {
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p9_SF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p9_SF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p9_SF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p9_SF_2018(pt);
+            return 1.;
+        };
+
+    //_______________________________________________________________________________
+    auto VMD0p9_ineffSF = [&](float pt)
+        {
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMD0p9_ineffSF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMD0p9_ineffSF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMD0p9_ineffSF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMD0p9_ineffSF_2018(pt);
+            return 1.;
+        };
+
+    //_______________________________________________________________________________
+    auto VMDWP_SF = [&](float pt)
+        {
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMDWP06_SF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMDWP16_SF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMDWP17_SF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMDWP18_SF_2018(pt);
+            return 1.;
+        };
+
+    //_______________________________________________________________________________
+    auto VMDWP_ineffSF = [&](float pt)
+        {
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VMDWP06_ineffSF_2006(pt);
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VMDWP16_ineffSF_2016(pt);
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VMDWP17_ineffSF_2017(pt);
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VMDWP18_ineffSF_2018(pt);
+            return 1.;
+        };
+
+    //_______________________________________________________________________________
+    auto VWP = [&]()
+        {
+            if (ana.looper.getCurrentFileName().Contains("2006")) return VWP_2006;
+            if (ana.looper.getCurrentFileName().Contains("2016")) return VWP_2016;
+            if (ana.looper.getCurrentFileName().Contains("2017")) return VWP_2017;
+            if (ana.looper.getCurrentFileName().Contains("2018")) return VWP_2018;
+            return VWP_2018;
+        };
+
+    //_______________________________________________________________________________
+    auto PassWP0 = [&]() { return vvv.allHad_FJ0_VMD() >= VWP(); };
+    auto PassWP1 = [&]() { return vvv.allHad_FJ1_VMD() >= VWP(); };
+    auto PassWP2 = [&]() { return vvv.allHad_FJ2_VMD() >= VWP(); };
+    auto FailWP0 = [&]() { return vvv.allHad_FJ0_VMD() <  VWP(); };
+    auto FailWP1 = [&]() { return vvv.allHad_FJ1_VMD() <  VWP(); };
+    auto FailWP2 = [&]() { return vvv.allHad_FJ2_VMD() <  VWP(); };
     auto Pass80 = [&]() { return vvv.allHad_FJ0_VMD() >= 0.8; };
     auto Pass81 = [&]() { return vvv.allHad_FJ1_VMD() >= 0.8; };
     auto Pass82 = [&]() { return vvv.allHad_FJ2_VMD() >= 0.8; };
@@ -547,6 +608,12 @@ int main(int argc, char** argv)
     auto Shell = [&]() { return radius_012() <= 50. and radius_012() > 35.; };
     auto Open = [&]() { return radius_012() > 50.; };
 
+    auto PassWP0SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_SF(vvv.allHad_FJ0_mSD_p4().pt()) : 1.; };
+    auto PassWP1SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_SF(vvv.allHad_FJ1_mSD_p4().pt()) : 1.; };
+    auto PassWP2SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_SF(vvv.allHad_FJ2_mSD_p4().pt()) : 1.; };
+    auto FailWP0SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_ineffSF(vvv.allHad_FJ0_mSD_p4().pt()) : 1.; };
+    auto FailWP1SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_ineffSF(vvv.allHad_FJ1_mSD_p4().pt()) : 1.; };
+    auto FailWP2SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMDWP_ineffSF(vvv.allHad_FJ2_mSD_p4().pt()) : 1.; };
     auto Pass80SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMD0p8_SF(vvv.allHad_FJ0_mSD_p4().pt()) : 1.; };
     auto Pass81SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMD0p8_SF(vvv.allHad_FJ1_mSD_p4().pt()) : 1.; };
     auto Pass82SF = [&]() { return ana.looper.getCurrentFileName().Contains("QCD") ? VMD0p8_SF(vvv.allHad_FJ2_mSD_p4().pt()) : 1.; };
@@ -688,7 +755,21 @@ int main(int argc, char** argv)
                 return true;
             }
         };
-
+    auto HTSF = [&]()
+        {
+            if (ana.looper.getCurrentFileName().Contains("QCD"))
+            {
+                if (ana.looper.getCurrentFileName().Contains("2006")) return 1.16962;
+                if (ana.looper.getCurrentFileName().Contains("2016")) return 1.16955;
+                if (ana.looper.getCurrentFileName().Contains("2017")) return 1.21582;
+                if (ana.looper.getCurrentFileName().Contains("2018")) return 1.1116193638;
+                return 1.;
+            }
+            else
+            {
+                return 1.;
+            }
+        };
 
 
 
@@ -700,7 +781,7 @@ int main(int argc, char** argv)
 
 // Weighting and preselections______________________________________________________________________________________________________________________________________
     ana.cutflow.addCut("WeightByXsec", UNITY,
-                       [&, j, n]()
+                       [&, j, n2006, n2016, n2017, n2018]()
                        {
                            TString filename = ana.looper.getCurrentFileBaseName();
                            TString samplename = filename.ReplaceAll(".root", "");
@@ -727,7 +808,14 @@ int main(int argc, char** argv)
                            if (j.find(samplename.Data()) != j.end())
                            {
                                xsec = j[samplename.Data()];
-                               nfact = n[samplename.Data()];
+                               if (ana.looper.getCurrentFileName().Contains("2006"))
+                                   nfact = n2006[samplename.Data()];
+                               if (ana.looper.getCurrentFileName().Contains("2016"))
+                                   nfact = n2016[samplename.Data()];
+                               if (ana.looper.getCurrentFileName().Contains("2017"))
+                                   nfact = n2017[samplename.Data()];
+                               if (ana.looper.getCurrentFileName().Contains("2018"))
+                                   nfact = n2018[samplename.Data()];
                            }
                            else
                            {
@@ -737,28 +825,38 @@ int main(int argc, char** argv)
                            float nevts = 1;
                            if (vvv.Common_LHEReweightingWeight().size() > 0)
                            {
+                               // TODO: Get rid of this once all year samples provided
+                               if (ana.looper.getCurrentFileName().Contains("2018"))
+                               {
+                                   lumi = 137.64;
+                               }
+                               else
+                               {
+                                   lumi = 0;
+                               }
+
                                nevts = ((TH1F*)ana.looper.getCurrentFile()->Get("Root__h_Common_LHEWeight_mg_reweighting_times_genWeight"))->GetBinContent(1);
-                               int idx = 0;
+                               int idx = ana.EFT_idx;
                                // if (samplename.EqualTo("WWW")) idx = 94;
                                // if (samplename.EqualTo("WWZ")) idx = 142;
                                // if (samplename.EqualTo("WZZ")) idx = 142;
                                // if (samplename.EqualTo("ZZZ")) idx = 142;
-                               if (samplename.EqualTo("WWW")) idx = 91; // FT0 0.2
-                               if (samplename.EqualTo("WWZ")) idx = 139; // FT0 0.2
-                               if (samplename.EqualTo("WZZ")) idx = 139; // FT0 0.2
-                               if (samplename.EqualTo("ZZZ")) idx = 139; // FT0 0.2
-                               // if (samplename.EqualTo("WWW")) idx = 92;
-                               // if (samplename.EqualTo("WWZ")) idx = 140;
-                               // if (samplename.EqualTo("WZZ")) idx = 140;
-                               // if (samplename.EqualTo("ZZZ")) idx = 140;
-                               if (samplename.EqualTo("Dim6_WWW")) idx = 13; // cW 0.3
-                               if (samplename.EqualTo("Dim6_WWZ")) idx = 13; // cW 0.3
-                               if (samplename.EqualTo("Dim6_WZZ")) idx = 13; // cW 0.3
-                               if (samplename.EqualTo("Dim6_ZZZ")) idx = 13; // cW 0.3
-                               // if (samplename.EqualTo("Dim6_WWW")) idx = 19;
-                               // if (samplename.EqualTo("Dim6_WWZ")) idx = 19;
-                               // if (samplename.EqualTo("Dim6_WZZ")) idx = 19;
-                               // if (samplename.EqualTo("Dim6_ZZZ")) idx = 19;
+                               // if (samplename.EqualTo("WWW")) idx = 91; // FT0 0.2
+                               // if (samplename.EqualTo("WWZ")) idx = 139; // FT0 0.2
+                               // if (samplename.EqualTo("WZZ")) idx = 139; // FT0 0.2
+                               // if (samplename.EqualTo("ZZZ")) idx = 139; // FT0 0.2
+                               // // if (samplename.EqualTo("WWW")) idx = 92;
+                               // // if (samplename.EqualTo("WWZ")) idx = 140;
+                               // // if (samplename.EqualTo("WZZ")) idx = 140;
+                               // // if (samplename.EqualTo("ZZZ")) idx = 140;
+                               // if (samplename.EqualTo("Dim6_WWW")) idx = 13; // cW 0.3
+                               // if (samplename.EqualTo("Dim6_WWZ")) idx = 13; // cW 0.3
+                               // if (samplename.EqualTo("Dim6_WZZ")) idx = 13; // cW 0.3
+                               // if (samplename.EqualTo("Dim6_ZZZ")) idx = 13; // cW 0.3
+                               // // if (samplename.EqualTo("Dim6_WWW")) idx = 19;
+                               // // if (samplename.EqualTo("Dim6_WWZ")) idx = 19;
+                               // // if (samplename.EqualTo("Dim6_WZZ")) idx = 19;
+                               // // if (samplename.EqualTo("Dim6_ZZZ")) idx = 19;
                                wgt *= vvv.Common_genWeight() * vvv.Common_LHEReweightingWeight()[idx];
                            }
                            else
@@ -805,7 +903,7 @@ int main(int argc, char** argv)
     ana.cutflow.getCut("Preselection");
     ana.cutflow.addCutToLastActiveCut("NFJGeq3"       , [&]() { return vvv.allHad_nFJ() >= 3; }, UNITY);
     ana.cutflow.addCutToLastActiveCut("NFJGeq3HTFJ"   , [&]() { return vvv.allHad_HT_FJ() > 1250.; }, UNITY);
-    ana.cutflow.addCutToLastActiveCut("NFJGeq3SF"     , UNITY, [&]() { if (ana.looper.getCurrentFileName().Contains("QCD")) return 1.1116193638; else return 1.; } );
+    ana.cutflow.addCutToLastActiveCut("NFJGeq3SF"     , UNITY, HTSF );
     // ana.cutflow.addCutToLastActiveCut("NFJGeq3Blind"  , UNITY, BlindingCut );
     ana.cutflow.addCutToLastActiveCut("NFJGeq3All"    , UNITY, UNITY);
 
@@ -813,48 +911,45 @@ int main(int argc, char** argv)
     ana.cutflow.getCut("NFJGeq3All"); ana.cutflow.addCutToLastActiveCut("NFJGeq3Shell", Shell, UNITY);
     ana.cutflow.getCut("NFJGeq3All"); ana.cutflow.addCutToLastActiveCut("NFJGeq3Open", Open, UNITY);
 
-    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ClosePass8", [&]() { return Pass80() and Pass81() and Pass82(); }, [&]() { return Pass80SF() * Pass81SF() * Pass82SF(); });
-    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFail8", [&]() { return Fail80() and Fail81() and Fail82(); }, [&]() { return Fail80SF() * Fail81SF() * Fail82SF(); });
-    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellPass8", [&]() { return Pass80() and Pass81() and Pass82(); }, [&]() { return Pass80SF() * Pass81SF() * Pass82SF(); });
-    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFail8", [&]() { return Fail80() and Fail81() and Fail82(); }, [&]() { return Fail80SF() * Fail81SF() * Fail82SF(); });
-    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenPass8", [&]() { return Pass80() and Pass81() and Pass82(); }, [&]() { return Pass80SF() * Pass81SF() * Pass82SF(); });
-    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFail8", [&]() { return Fail80() and Fail81() and Fail82(); }, [&]() { return Fail80SF() * Fail81SF() * Fail82SF(); });
-    ana.cutflow.getCut("NFJGeq3CloseFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFail8Pass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
-    ana.cutflow.getCut("NFJGeq3ShellFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFail8Pass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
-    ana.cutflow.getCut("NFJGeq3OpenFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFail8Pass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
+    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ClosePassWP", [&]() { return PassWP0() and PassWP1() and PassWP2(); }, [&]() { return PassWP0SF() * PassWP1SF() * PassWP2SF(); });
+    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFailWP", [&]() { return FailWP0() and FailWP1() and FailWP2(); }, [&]() { return FailWP0SF() * FailWP1SF() * FailWP2SF(); });
+    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellPassWP", [&]() { return PassWP0() and PassWP1() and PassWP2(); }, [&]() { return PassWP0SF() * PassWP1SF() * PassWP2SF(); });
+    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFailWP", [&]() { return FailWP0() and FailWP1() and FailWP2(); }, [&]() { return FailWP0SF() * FailWP1SF() * FailWP2SF(); });
+    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenPassWP", [&]() { return PassWP0() and PassWP1() and PassWP2(); }, [&]() { return PassWP0SF() * PassWP1SF() * PassWP2SF(); });
+    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFailWP", [&]() { return FailWP0() and FailWP1() and FailWP2(); }, [&]() { return FailWP0SF() * FailWP1SF() * FailWP2SF(); });
 
-    ana.cutflow.getCut("NFJGeq3ClosePass8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ClosePass8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-    ana.cutflow.getCut("NFJGeq3CloseFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFail8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-    ana.cutflow.getCut("NFJGeq3ShellPass8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellPass8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-    ana.cutflow.getCut("NFJGeq3ShellFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFail8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-    ana.cutflow.getCut("NFJGeq3OpenPass8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenPass8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-    ana.cutflow.getCut("NFJGeq3OpenFail8"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFail8HT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
-
-    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseNotPass8", NotPass8, NotPass8SF);
-    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellNotPass8", NotPass8, NotPass8SF);
-    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenNotPass8", NotPass8, NotPass8SF);
-
-    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ClosePass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
-    ana.cutflow.getCut("NFJGeq3Close"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFail4", [&]() { return Fail40() and Fail41() and Fail42(); }, [&]() { return Fail40SF() * Fail41SF() * Fail42SF(); });
-    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellPass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
-    ana.cutflow.getCut("NFJGeq3Shell"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFail4", [&]() { return Fail40() and Fail41() and Fail42(); }, [&]() { return Fail40SF() * Fail41SF() * Fail42SF(); });
-    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenPass4", [&]() { return Pass40() and Pass41() and Pass42(); }, [&]() { return Pass40SF() * Pass41SF() * Pass42SF(); });
-    ana.cutflow.getCut("NFJGeq3Open"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFail4", [&]() { return Fail40() and Fail41() and Fail42(); }, [&]() { return Fail40SF() * Fail41SF() * Fail42SF(); });
-
+    ana.cutflow.getCut("NFJGeq3ClosePassWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ClosePassWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
+    ana.cutflow.getCut("NFJGeq3CloseFailWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3CloseFailWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
+    ana.cutflow.getCut("NFJGeq3ShellPassWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellPassWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
+    ana.cutflow.getCut("NFJGeq3ShellFailWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3ShellFailWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
+    ana.cutflow.getCut("NFJGeq3OpenPassWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenPassWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
+    ana.cutflow.getCut("NFJGeq3OpenFailWP"); ana.cutflow.addCutToLastActiveCut("NFJGeq3OpenFailWPHT2000", [&]() { return vvv.allHad_HT_FJ() > 2000.; }, UNITY);
 
 
     //
     // Two fat-jet channel SF measurement region________________________________________________________________________________________________________________________
     //
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1200250" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 200. and vvv.allHad_FJ1_mSD_p4().pt() <  250; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1250300" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 250. and vvv.allHad_FJ1_mSD_p4().pt() <  300; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1300350" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 300. and vvv.allHad_FJ1_mSD_p4().pt() <  350; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1350400" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 350. and vvv.allHad_FJ1_mSD_p4().pt() <  400; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1400450" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 400. and vvv.allHad_FJ1_mSD_p4().pt() <  450; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1450500" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 450. and vvv.allHad_FJ1_mSD_p4().pt() <  500; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1500550" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 500. and vvv.allHad_FJ1_mSD_p4().pt() <  550; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1550600" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 550. and vvv.allHad_FJ1_mSD_p4().pt() <  600; }, UNITY);
-    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1600Inf" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 600.                                        ; }, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1200250"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 200.  and vvv.allHad_FJ1_mSD_p4().pt() <  250 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1250300"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 250.  and vvv.allHad_FJ1_mSD_p4().pt() <  300 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1300350"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 300.  and vvv.allHad_FJ1_mSD_p4().pt() <  350 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1350400"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 350.  and vvv.allHad_FJ1_mSD_p4().pt() <  400 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1400450"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 400.  and vvv.allHad_FJ1_mSD_p4().pt() <  450 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1450500"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 450.  and vvv.allHad_FJ1_mSD_p4().pt() <  500 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1500550"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 500.  and vvv.allHad_FJ1_mSD_p4().pt() <  550 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1550600"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 550.  and vvv.allHad_FJ1_mSD_p4().pt() <  600 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1600650"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 600.  and vvv.allHad_FJ1_mSD_p4().pt() <  650 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1650700"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 650.  and vvv.allHad_FJ1_mSD_p4().pt() <  700 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1700750"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 700.  and vvv.allHad_FJ1_mSD_p4().pt() <  750 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1750800"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 750.  and vvv.allHad_FJ1_mSD_p4().pt() <  800 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1800850"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 800.  and vvv.allHad_FJ1_mSD_p4().pt() <  850 ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt18501000" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 850.  and vvv.allHad_FJ1_mSD_p4().pt() <  1000;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt110001250", [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 1000. and vvv.allHad_FJ1_mSD_p4().pt() <  1250;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt112501500", [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 1250. and vvv.allHad_FJ1_mSD_p4().pt() <  1500;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1600Inf"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 600.                                          ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt1800Inf"  , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 800.                                          ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt11000Inf" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 1000.                                         ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt11250Inf" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 1250.                                         ;}, UNITY);
+    ana.cutflow.getCut("NFJEq2MSD1"); ana.cutflow.addCutToLastActiveCut("NFJEq2Pt11500Inf" , [&]() { return vvv.allHad_FJ1_mSD_p4().pt() >= 1500.                                         ;}, UNITY);
 
 
 
@@ -895,6 +990,8 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("W2"     , 180 , 0  , 1    , [&]() { return vvv.allHad_FJ2_WMD(); } );
     ana.histograms.addHistogram("V0"     , 180 , 0  , 1    , [&]() { return vvv.allHad_FJ0_VMD(); } );
     ana.histograms.addHistogram("V1"     , 180 , 0  , 1    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("V1WP"   , 1000, 0  , 1    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("VcWP"   , 1000, 0  , 1    , [&]() { return VMDsDescending()[2]; } );
     ana.histograms.addHistogram("V2"     , 180 , 0  , 1    , [&]() { return vvv.allHad_FJ2_VMD(); } );
     ana.histograms.addHistogram("Va"     , 180 , 0  , 1    , [&]() { return VMDsDescending()[0]; } );
     ana.histograms.addHistogram("Vb"     , 180 , 0  , 1    , [&]() { return VMDsDescending()[1]; } );
@@ -904,8 +1001,11 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("V1SF0p6", {0., 0.6, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
     ana.histograms.addHistogram("V1SF0p8", {0., 0.8, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
     ana.histograms.addHistogram("V1SF0p9", {0., 0.9, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("V1SFWP06", {0., VWP_2006, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("V1SFWP16", {0., VWP_2016, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("V1SFWP17", {0., VWP_2017, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
+    ana.histograms.addHistogram("V1SFWP18", {0., VWP_2018, 1}    , [&]() { return vvv.allHad_FJ1_VMD(); } );
 
-    ana.histograms.addHistogram("OnOff"  , 2   , 0  , 1    , [&]() { return radius_ab() <= 30; } );
 
     ana.histograms.addHistogram("NbLoose"      , 5  , 0 , 5  , [&]() { return vvv.allHad_nb_loose(); } );
     ana.histograms.addHistogram("NbMedium"     , 5  , 0 , 5  , [&]() { return vvv.allHad_nb_medium(); } );
@@ -921,39 +1021,34 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("HT"     , 180 , 0 , 8500 , [&]() { return vvv.allHad_HT(); } );
     ana.histograms.addHistogram("HT_FJ"  , 180 , 0 , 5500 , [&]() { return vvv.allHad_HT_FJ(); } );
     ana.histograms.addHistogram("HT_AK4" , 180 , 0 , 2500 , HT_ak4 );
-    ana.histograms.addHistogram("HT_FJSR", {1250., 1500., 1750., 2000., 2250., 2500., 2750., 3000., 3500., 5000.},[&]() { return vvv.allHad_HT_FJ(); } );
-    ana.histograms.addHistogram("HT_FJSR2", {1250., 1500., 1750., 2000., 2500., 3000., 3500., 5000.},[&]() { return vvv.allHad_HT_FJ(); } );
-    ana.histograms.addHistogram("HT_FJSR3", {1250., 1500., 1750., 2000., 2500., 3000., 4000.},[&]() { return vvv.allHad_HT_FJ(); } );
-    ana.histograms.addHistogram("HT_FJSR4", {1250., 1500., 1750., 2000., 2500., 4000.},[&]() { return vvv.allHad_HT_FJ(); } );
+    ana.histograms.addHistogram("HT_FJSR3", {1250., 1500., 1750., 2000., 2500., 3000., 4000.},[&]() { return vvv.allHad_HT_FJ() >= 4000. ? 3999. : vvv.allHad_HT_FJ(); } );
 
-    ana.histograms.addHistogram("MVVV"  , 180 , 0 , 8500 , [&]() { return vvv.allHad_mVVV(); } );
-    ana.histograms.addHistogram("PtVVV" , 180 , 0 , 5500 , [&]() { return vvv.allHad_ptVVV(); } );
-    ana.histograms.addHistogram("MVVVSR", {1000., 1250., 1500., 1750., 2000., 2250., 2500., 2750., 3000., 3500., 4000., 5000., 8000.}, [&]() { return vvv.allHad_mVVV(); } );
+    // ana.histograms.addHistogram("MVVV"  , 180 , 0 , 8500 , [&]() { return vvv.allHad_mVVV(); } );
+    // ana.histograms.addHistogram("PtVVV" , 180 , 0 , 5500 , [&]() { return vvv.allHad_ptVVV(); } );
+    // ana.histograms.addHistogram("MVVVSR", {1000., 1250., 1500., 1750., 2000., 2250., 2500., 2750., 3000., 3500., 4000., 5000., 8000.}, [&]() { return vvv.allHad_mVVV(); } );
 
-    ana.histograms.addHistogram("nGenHadV", 5, -1, 4, nGenHadV);
-    ana.histograms.addHistogram("nFJGenMatched", 5, -1, 4, nFJGenMatched);
+    // ana.histograms.addHistogram("nGenHadV", 5, -1, 4, nGenHadV);
+    // ana.histograms.addHistogram("nFJGenMatched", 5, -1, 4, nFJGenMatched);
 
-    ana.histograms.add2DHistogram("MSDb", 15, 40., 150., "MSDc", 15, 40., 150., [&]() { return VMDsorted()[1].mass(); }, [&]() { return VMDsorted()[2].mass(); });
+    // ana.histograms.add2DHistogram("MSDb", 15, 40., 150., "MSDc", 15, 40., 150., [&]() { return VMDsorted()[1].mass(); }, [&]() { return VMDsorted()[2].mass(); });
 
-    ana.histograms.addHistogram("ABCD", 4, 0, 4, ABCD);
+    // ana.histograms.addHistogram("FJ01_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ01_dPhi()); } );
+    // ana.histograms.addHistogram("FJ01_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ01_dEta()); } );
+    // ana.histograms.addHistogram("FJ01_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ01_dR()); } );
+    // ana.histograms.addHistogram("FJ01_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ01_dPtFrac(); } );
+    // ana.histograms.addHistogram("FJ01_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ01_pPRel(); } );
 
-    ana.histograms.addHistogram("FJ01_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ01_dPhi()); } );
-    ana.histograms.addHistogram("FJ01_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ01_dEta()); } );
-    ana.histograms.addHistogram("FJ01_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ01_dR()); } );
-    ana.histograms.addHistogram("FJ01_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ01_dPtFrac(); } );
-    ana.histograms.addHistogram("FJ01_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ01_pPRel(); } );
+    // ana.histograms.addHistogram("FJ02_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ02_dPhi()); } );
+    // ana.histograms.addHistogram("FJ02_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ02_dEta()); } );
+    // ana.histograms.addHistogram("FJ02_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ02_dR()); } );
+    // ana.histograms.addHistogram("FJ02_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ02_dPtFrac(); } );
+    // ana.histograms.addHistogram("FJ02_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ02_pPRel(); } );
 
-    ana.histograms.addHistogram("FJ02_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ02_dPhi()); } );
-    ana.histograms.addHistogram("FJ02_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ02_dEta()); } );
-    ana.histograms.addHistogram("FJ02_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ02_dR()); } );
-    ana.histograms.addHistogram("FJ02_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ02_dPtFrac(); } );
-    ana.histograms.addHistogram("FJ02_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ02_pPRel(); } );
-
-    ana.histograms.addHistogram("FJ12_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ12_dPhi()); } );
-    ana.histograms.addHistogram("FJ12_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ12_dEta()); } );
-    ana.histograms.addHistogram("FJ12_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ12_dR()); } );
-    ana.histograms.addHistogram("FJ12_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ12_dPtFrac(); } );
-    ana.histograms.addHistogram("FJ12_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ12_pPRel(); } );
+    // ana.histograms.addHistogram("FJ12_dPhi", 180, 0, 3.1416, [&]() { return fabs(vvv.allHad_FJ12_dPhi()); } );
+    // ana.histograms.addHistogram("FJ12_dEta", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ12_dEta()); } );
+    // ana.histograms.addHistogram("FJ12_dR", 180, 0, 7, [&]() { return fabs(vvv.allHad_FJ12_dR()); } );
+    // ana.histograms.addHistogram("FJ12_dPtFrac", 180, -2, 2, [&]() { return vvv.allHad_FJ12_dPtFrac(); } );
+    // ana.histograms.addHistogram("FJ12_pPRel", 180, 0, 5500, [&]() { return vvv.allHad_FJ12_pPRel(); } );
 
 
 
@@ -968,7 +1063,7 @@ int main(int argc, char** argv)
 
 
     // Book cutflows
-    ana.cutflow.bookCutflows();
+    // ana.cutflow.bookCutflows();
 
     // Book Histograms
     ana.cutflow.bookHistograms(ana.histograms); // if just want to book everywhere
