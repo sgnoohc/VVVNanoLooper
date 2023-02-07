@@ -33,6 +33,9 @@ public:
     // Debug boolean
     bool debug;
 
+    // Lepton ID boolean
+    bool new_lepton_ID = true;
+
     // TChain that holds the input TTree's
     TChain* events_tchain;
 
@@ -428,15 +431,8 @@ int main(int argc, char** argv)
 
                                           for (auto& idx : Zcand_lep_idxs)
                                           {
-                                              // Electron
-                                              //if (vvv.Common_evt()==1800501){ 
-						//  std::cout << "idx = " << idx << endl;
-						//  std::cout << "Common lep pt = " << vvv.Common_lep_p4()[idx].pt() << endl;
-					      //}
 
-					      // Print the indices 
-					      
-
+					      //Electron
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
 
@@ -448,7 +444,10 @@ int main(int argc, char** argv)
                                               else if (abs(vvv.Common_lep_pdgid()[idx]) == 13)
                                               {
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
-                                                  if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 2)) return false;
+						  
+						  if (not (new_lepton_ID)){
+                                                  	if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 2)) return false;
+						  }
                                               }
                                           }
                                           if (vvv.Common_evt()==1800329) std::cout << "1HERE" << std::endl;
@@ -463,16 +462,18 @@ int main(int argc, char** argv)
                                               // Electron
                                               if (abs(vvv.Common_lep_pdgid()[idx]) == 11)
                                               {
-                                                  if (vvv.Common_evt()==1800329)
-                                                  {
-                                                      std::cout << "3ERE" << std::endl;
-                                                  }
+                                                  //if (vvv.Common_evt()==1800329)
+                                                  //{
+                                                  //    std::cout << "3ERE" << std::endl;
+                                                  //}
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
 
 
                                                   if (not (vvv.Common_lep_relIso03_all()[idx] < 0.2)) return false;
-						      
-                                                  if (not (vvv.Common_lep_ID()[idx] & (1 << 4) /* IsoWP90 */)) return false;
+						  
+						  if (not (new_lepton_ID)){
+                                                  	if (not (vvv.Common_lep_ID()[idx] & (1 << 4) /* IsoWP90 */)) return false;
+						  }
                                               }
                                               // Muon
                                               else if (abs(vvv.Common_lep_pdgid()[idx]) == 13)
@@ -480,7 +481,10 @@ int main(int argc, char** argv)
 						      
 
                                                   if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
-                                                  if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 3)) return false;
+						
+					          if (not (new_lepton_ID)){
+                                                  	if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 3)) return false;
+						  }
                                               }
                                           }
                                           if (not (vvv.Var_4LepMET_other_lep_p4_1().pt() > 15)) return false;

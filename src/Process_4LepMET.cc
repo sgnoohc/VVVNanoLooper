@@ -123,9 +123,14 @@ void PostProcess_4LepMET()
     //==============================================
 
     // If it passes the preselection than decide to write the TTree
+    //std::cout << "Debug Process_4LepMET 1" << std::endl;    
+
     if (ana.cutflow.getCut("Cut_4LepMET_Preselection").pass)
     {
+        //std::cout << "Debug Process_4LepMET 2" << std::endl;
         ana.tx.fill();
+	//std::cout << "Debug Process_4LepMET 3" << std::endl;
     }
+    //std::cout << "Debug Process_4LepMET 4" << std::endl;
 
 }

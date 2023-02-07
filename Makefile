@@ -6,19 +6,27 @@ SOURCES=$(wildcard src/*.cc) $(wildcard NanoTools/NanoCORE/*.cc) $(wildcard Nano
 OBJECTS=$(SOURCES:.cc=.o)
 HEADERS=$(SOURCES:.cc=.h)
 
+# XGBOOST essentials
+XGBOOSTLIBDIR = ${XGBOOST_PATH}/lib/
+XGBOOSTINCDIR = ${XGBOOSTLIBDIR}../include/
+RABITINCDIR = ${XGBOOSTLIBDIR}../rabit/include/
+XGBOOSTCXXFLAGS = -I$(XGBOOSTINCDIR) -I$(RABITINCDIR) -L$(XGBOOSTLIBDIR)
+XGBOOSTLIBS = -lxgboost
+
+EXTCXXFLAGS = $(XGBOOSTCXXFLAGS)
+EXTLIBS     = $(XGBOOSTLIBS)
+
 CC          = g++
 CXX         = g++
-CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual
 LD          = g++
 LDFLAGS     = -g -O2
 SOFLAGS     = -g -shared
-CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual
 LDFLAGS     = -g -O2
 ROOTLIBS    = $(shell root-config --libs)
 ROOTCFLAGS  = $(shell root-config --cflags) -INanoTools/NanoCORE/ -DLorentzVectorPtEtaPhiM4D
-CXXFLAGS   += $(ROOTCFLAGS)
+CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual $(EXTCXXFLAGS) $(ROOTCFLAGS) $(EXTLIBS)
 CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tracking
-EXTRACFLAGS = $(shell rooutil-config)
+EXTRACFLAGS = $(shell rooutil-config) $(EXTCXXFLAGS)
 EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer -lMinuit
 
 all: rooutil $(EXE)

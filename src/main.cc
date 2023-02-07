@@ -291,11 +291,12 @@ int main(int argc, char** argv)
 //********************************************************************************
 
     Begin();
+    //std::cout << "Debug main.cc 1" << std::endl;
 
     // Looping input file
     while (ana.looper.nextEvent())
     {
-
+        //std::cout << "Debug main.cc 2" << std::endl;
         // If splitting jobs are requested then determine whether to process the event or not based on remainder
         if (result.count("job_index") and result.count("nsplit_jobs"))
         {
@@ -304,9 +305,11 @@ int main(int argc, char** argv)
         }
 
         Process();
+	//std::cout << "Debug main.cc 3" << std::endl;
 
     }
 
     Terminate();
+    //std::cout << "Debug main.cc 4" << std::endl;
 
 }

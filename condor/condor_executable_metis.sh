@@ -44,6 +44,8 @@ echo "IFILE: $IFILE"
 echo "CMSSWVERSION: $CMSSWVERSION"
 echo "SCRAMARCH: $SCRAMARCH"
 
+#printenv
+
 echo "GLIDEIN_CMSSite: $GLIDEIN_CMSSite"
 echo "hostname: $(hostname)"
 echo "uname -a: $(uname -a)"
@@ -68,17 +70,24 @@ fi
 
 export SCRAM_ARCH=${SCRAMARCH}
 
+#export condorPath=${condorPath}
+
 eval `scramv1 project CMSSW $CMSSWVERSION`
 cd $CMSSWVERSION
 eval `scramv1 runtime -sh`
-mv ../package.tar.gz package.tar.gz
-tar xf package.tar.gz
+echo "Printing current directory-----------------------------------------------------------------"
+echo "-------------------------------------------------------------------------------------------"
+pwd
+mv ../package.tar.xz package.tar.xz
+#cp ~/Triboson/VVVNanoLooper/condor/package.tar.xz package.tar.xz
+tar xf package.tar.xz
 
 cat gitversion.txt
 
 # need this to find the .so files, even though they are in the same
 # directory
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+# export LD_LIBRARY_PATH=${XGBOOST_PATH}/lib:.
 
 echo "before running: ls -lrth"
 ls -lrth 

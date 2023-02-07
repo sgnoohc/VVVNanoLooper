@@ -1,5 +1,6 @@
 #include "Process_Common.h"
 #include "MuonIDHelper.h"
+#include "ElectronIDHelper.h"
 
 void Process_Common()
 {
@@ -21,11 +22,22 @@ void Process_Common_NanoAOD()
     //---------------------------------------------------------------------------------------------
     // Event information
     //---------------------------------------------------------------------------------------------
+    // Flag for lepton ID
+    bool new_lepton_ID = true;  // true for new ID, false for old ID
+    const ULong64_t event_check = 999999999999999999999999999;
+
+    if (nt.event() == event_check) std::cout << "Debug 0.1" << endl;
+
     // Event level information
     ana.tx.setBranch<int>                  ("Common_isData", nt.isData());
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+
+    //std::cout << "Run = " << nt.run() << endl;
+    //std::cout << "Lumi Block = " << nt.luminosityBlock() << endl;
+    //std::cout << "Event = " << nt.event() << endl;
+
     try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
@@ -55,6 +67,8 @@ void Process_Common_NanoAOD()
     // Trigger information
     //---------------------------------------------------------------------------------------------
 
+    if (nt.event() == event_check) std::cout << "Debug 0.2" << endl;
+
     try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ());                } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                , 0); } // Lowest unprescaled
     try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                   , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL());                   } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                   , 0); } // Lowest unprescaled
     try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8"        , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8());        } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8"        , 0); } // Lowest unprescaled for >= 2017C
@@ -75,6 +89,8 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , nt.HLT_AK8PFHT850_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , 0); } 
     try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , nt.HLT_AK8PFHT900_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , 0); } 
 
+
+    if (nt.event() == event_check) std::cout << "Debug 0.3" << endl;
 
     bool is_pd_ee = ana.looper.getCurrentFileName().Contains("DoubleEG") or ana.looper.getCurrentFileName().Contains("EGamma");
     bool is_pd_em = ana.looper.getCurrentFileName().Contains("MuonEG");
@@ -107,6 +123,8 @@ void Process_Common_NanoAOD()
             break;
     }
 
+    if (nt.event() == event_check) std::cout << "Debug 0.4" << endl;
+
     ana.tx.setBranch<bool>("Common_HLT_DoubleEl", trig_ee);
     ana.tx.setBranch<bool>("Common_HLT_MuEG", trig_em);
     ana.tx.setBranch<bool>("Common_HLT_DoubleMu", trig_mm);
@@ -133,6 +151,7 @@ void Process_Common_NanoAOD()
             pass_duplicate_mm_em_ee = true;
     }
 
+    if (nt.event() == event_check) std::cout << "Debug 0.5" << endl;
 
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_ee_em_mm", pass_duplicate_ee_em_mm); // Flag to identify whether the event passes duplicate removal
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_mm_em_ee", pass_duplicate_mm_em_ee); // Flag to identify whether the event passes duplicate removal
@@ -153,6 +172,9 @@ void Process_Common_NanoAOD()
             filterflagMC = nt.Flag_goodVertices() and                                              nt.Flag_HBHENoiseFilter() and nt.Flag_HBHENoiseIsoFilter() and nt.Flag_EcalDeadCellTriggerPrimitiveFilter() and nt.Flag_BadPFMuonFilter() and nt.Flag_ecalBadCalibFilter();
             break;
     }
+
+    if (nt.event() == event_check) std::cout << "Debug 0.6" << endl;
+
     ana.tx.setBranch<bool>("Common_noiseFlag"  , filterflag  ); // Flag to identify whether the event passes noise filter
     ana.tx.setBranch<bool>("Common_noiseFlagMC", filterflagMC); // Flag to identify whether the event passes noise filter
 
@@ -161,8 +183,8 @@ void Process_Common_NanoAOD()
     if(nt.isData()) goodRun = goodrun(nt.run(), nt.luminosityBlock());
 
     ana.tx.setBranch<bool>("Common_passGoodRun", goodRun);
-    
-
+     
+    if (nt.event() == event_check) std::cout << "Debug 0.7" << endl;
 
     // Example of reading from Nano
     // std::vector<LorentzVector> electron_p4s = nt.Electron_p4(); // nt is a global variable that accesses NanoAOD
@@ -175,15 +197,28 @@ void Process_Common_NanoAOD()
     // Electron selection
     //---------------------------------------------------------------------------------------------
     // Loop over electrons and select Fall17V2Iso_WP90 electrons
+    
+    if (nt.event() == event_check) std::cout << "N electrons = " << nt.Electron_p4().size() << endl;    
+
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
     {
-        // Selections
-        if (not (nt.Electron_mvaFall17V2noIso_WPL()[iel])) continue;
-        if (not (nt.Electron_pfRelIso03_all()[iel] < 0.4)) continue;
-        if (not (nt.Electron_p4()[iel].pt()       > 10.)) continue;
-        if (not (abs(nt.Electron_p4()[iel].eta()) < 2.5)) continue;
-        if (abs(nt.Electron_p4()[iel].eta()) < 1.566 && abs(nt.Electron_p4()[iel].eta()) > 1.444) continue; 
 
+	// New lepton ID
+	if (new_lepton_ID){
+	   if (!ElectronIDHelper::electronIDscore(nt.year(),iel,"tight")) continue;
+	   else{
+	      //std::cout << "Electron at index " << iel << " has passed tight ID requirements!" << std::endl;
+	   }
+	}
+
+        // Selections
+        if (!new_lepton_ID){
+           if (not (nt.Electron_mvaFall17V2noIso_WPL()[iel])) continue;
+           if (not (nt.Electron_pfRelIso03_all()[iel] < 0.4)) continue;
+           if (not (nt.Electron_p4()[iel].pt()       > 10.)) continue;
+           if (not (abs(nt.Electron_p4()[iel].eta()) < 2.5)) continue;
+           if (abs(nt.Electron_p4()[iel].eta()) < 1.566 && abs(nt.Electron_p4()[iel].eta()) > 1.444) continue; 
+	}
         // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", iel);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Electron_pdgId()[iel]);
@@ -264,17 +299,35 @@ void Process_Common_NanoAOD()
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
 
+	
+	if (nt.event() == event_check){
+	    std::cout << "Muon index = " << imu << std::endl;
+	    std::cout << "Muon pt = " << nt.Muon_pt()[imu] << std::endl;
+	    std::cout << "Muon eta = " << nt.Muon_eta()[imu] << std::endl;
+	    std::cout << "Muon pfRelIso04_all = " << nt.Muon_pfRelIso04_all()[imu] << std::endl;	
+	}
+
+	if (nt.event() == event_check) std::cout << "Debug 1" << endl;
+
 	//Test to make sure the MuonIDHelper functions are implemented correctly
-	//if (MuonIDHelper::muonIDscore(nt.year(),imu,"tight")){
-	//    std::cout << "Muon at index " << imu << " has passed tight requirements" << std::endl;
-	//}
-
+	if (new_lepton_ID){
+	    if (nt.event() == event_check) std::cout << "Debug 1.1" << endl;
+	    if (!MuonIDHelper::muonIDscore(nt.year(),imu,"tight")){
+		//std::cout << "Muon at index " << imu << " has failed tight requirements" << std::endl;
+		continue;
+	    }
+	    else{
+	 	//std::cout << "Muon at index " << imu << " has passed tight requirements" << std::endl;
+	    }
+        }
+	if (nt.event() == event_check) std::cout << "Debug 2" << endl;
         // Selections
-        if (not (nt.Muon_looseId()[imu]              )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
-        if (not (nt.Muon_p4()[imu].pt()        > 10. )) continue;
-        if (not (nt.Muon_pfIsoId()[imu]          >= 1)) continue; // i.e. Loose from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
-        if (not (abs(nt.Muon_p4()[imu].eta())  < 2.4 )) continue;
-
+        if (!new_lepton_ID){
+            if (not (nt.Muon_looseId()[imu]              )) continue; // TODO: What is Muon_mediumPromptId in NanoAOD?
+            if (not (nt.Muon_p4()[imu].pt()        > 10. )) continue;
+            if (not (nt.Muon_pfIsoId()[imu]          >= 1)) continue; // i.e. Loose from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
+            if (not (abs(nt.Muon_p4()[imu].eta())  < 2.4 )) continue;
+	}
         // If passed up to here add it to the index list
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", imu);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Muon_pdgId()[imu]);
@@ -285,6 +338,7 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<float>("Common_lep_ip3d", nt.Muon_ip3d()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_sip3d", nt.Muon_sip3d()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_relIso03_all", nt.Muon_pfRelIso03_all()[imu]);
+        if (nt.event() == event_check) std::cout << "Debug 3" << endl;
         int ID = 0;
         ID |= nt.Muon_mediumId()[imu] << 0;
         ID |= nt.Muon_tightId()[imu] << 1;
@@ -347,6 +401,7 @@ void Process_Common_NanoAOD()
         // lepSFdm *= sf;
         // ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         // ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
+	if (nt.event() == event_check) std::cout << "Debug 4" << endl;
     }
 
     ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc );
@@ -354,6 +409,8 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<float>("Common_event_lepSFeldn"  , lepSFde);
     ana.tx.setBranch<float>("Common_event_lepSFmuup"  , lepSFum);
     ana.tx.setBranch<float>("Common_event_lepSFmudn"  , lepSFdm);
+
+    if (nt.event() == event_check) std::cout << "Debug 5" << endl;
 
     ana.tx.setBranch<float>("Common_event_lepSFTight"      , lepSFcTight );
     ana.tx.setBranch<float>("Common_event_lepSFelupTight"  , lepSFueTight);
@@ -796,6 +853,8 @@ void Process_Common_NanoAOD()
         }
     }
 
+    if (nt.event() == event_check) std::cout << "Debug 6" << endl;
+
     ana.tx.setBranch<float>("Common_event_tightBtagSF"      , btagTight_prob_DATA       / btagTight_prob_MC);
     ana.tx.setBranch<float>("Common_event_tightBtagSFup"    , btagTight_up_prob_DATA    / btagTight_prob_MC);
     ana.tx.setBranch<float>("Common_event_tightBtagSFdn"    , btagTight_dn_prob_DATA    / btagTight_prob_MC);
@@ -824,6 +883,8 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>("Common_nb_loose_CSV", nb_loose_CSV);
     ana.tx.setBranch<int>("Common_nb_medium_CSV", nb_medium_CSV);
     ana.tx.setBranch<int>("Common_nb_tight_CSV", nb_tight_CSV);
+
+    if (nt.event() == event_check) std::cout << "Debug 7" << endl;
 
     //---------------------------------------------------------------------------------------------
     // Fat Jet selection
@@ -1129,6 +1190,8 @@ void Process_Common_NanoAOD()
         }
     }
 
+    if (nt.event() == event_check) std::cout << "Debug 8" << endl;
+
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFVLoose",   fjSFvlc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFMedium",    fjSFmc);
     ana.tx.setBranch<float>("Common_eventweight_fatjet_SFTight",     fjSFtc);
@@ -1164,6 +1227,8 @@ void Process_Common_NanoAOD()
     }
 
 
+    if (nt.event() == event_check) std::cout << "Debug 9" << endl;
+
     //---------------------------------------------------------------------------------------------
     // MET selection
     //---------------------------------------------------------------------------------------------
@@ -1187,6 +1252,8 @@ void Process_Common_NanoAOD()
 
     ana.tx.setBranch<LorentzVector>("Common_met_p4_MET", RooUtil::Calc::getLV(nt.MET_pt(), 0., nt.MET_phi(), 0));
     ana.tx.setBranch<LorentzVector>("Common_met_p4_PuppiMET", RooUtil::Calc::getLV(nt.PuppiMET_pt(), 0., nt.PuppiMET_phi(), 0));
+
+    if (nt.event() == event_check) std::cout << "Debug 10" << endl;
 
     //---------------------------------------------------------------------------------------------
     // Gen-level particle selection
@@ -1490,6 +1557,8 @@ void Process_Common_NanoAOD()
         ana.tx.setBranch<bool>("Common_isSignal", false);
     }
 
+    if (nt.event() == event_check) std::cout << "Debug 11" << endl;
+
     //---------------------------------------------------------------------------------------------
     // Organizing object indices and sorting by Pt
     //---------------------------------------------------------------------------------------------
@@ -1502,6 +1571,8 @@ void Process_Common_NanoAOD()
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
+    if (nt.event() == event_check) std::cout << "Debug 12" << endl;
+
     // Sorting jet branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_jet_p4",
@@ -1509,6 +1580,8 @@ void Process_Common_NanoAOD()
             /* names of any associated vector<int>   branches to sort along */ {"Common_jet_idxs", "Common_jet_overlapfatjet", "Common_jet_id",},
             /* names of any associated vector<bool>  branches to sort along */ {"Common_jet_passBloose", "Common_jet_passBmedium", "Common_jet_passBtight","Common_jet_passBloose_CSV","Common_jet_passBmedium_CSV","Common_jet_passBtight_CSV"}
             );
+
+    if (nt.event() == event_check) std::cout << "Debug 13" << endl;
 
     // Sorting fatjet branches
     ana.tx.sortVecBranchesByPt(
@@ -1518,6 +1591,9 @@ void Process_Common_NanoAOD()
             /* names of any associated vector<int>   branches to sort along */ {"Common_fatjet_idxs", "Common_fatjet_id", "Common_fatjet_WP", "Common_fatjet_WP_antimasscut"},
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
+ 
+     if (nt.event() == event_check) std::cout << "Debug 14" << endl;
+
      //-------------------------------------------------------------------------------------------
      // Setting Trigger weights
      //-------------------------------------------------------------------------------------------
@@ -1571,6 +1647,8 @@ void Process_Common_NanoAOD()
          ana.tx.setBranch<float>("Common_event_triggerWeightup", 1.);
          ana.tx.setBranch<float>("Common_event_triggerWeightdn", 1.);
      }  
+
+     if (nt.event() == event_check) std::cout << "Debug 15" << endl;
 
 }
 

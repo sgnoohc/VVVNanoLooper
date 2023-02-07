@@ -13,20 +13,28 @@ void Process()
 
     // Then depending on the analysis mode, different "Process" runs
 
+    //std::cout << "Debug Process 1" << std::endl;
+
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Process_4LepMET(); break;
     }
 
+    //std::cout << "Debug Process 2" << std::endl;
+
     // At this point, variables are all computed and set
     // Adding a check for a given event
-    if (nt.run() == 1 and nt.luminosityBlock() == 3000 and nt.event() == 2999700){
+    if (nt.run() == 1 and nt.luminosityBlock() == 131 and nt.event() == 130004){
 	ana.cutflow.printCuts();
 
     }
 
+    //std::cout << "Debug Process 3" << std::endl;
+
     // Now fill all the histograms that are booked!
     ana.cutflow.fill();
+
+    //std::cout << "Debug Process 4" << std::endl;
 
     // If there are certain things people wish to do "Post" processing of the cutflows and histogramming
     // For example this is where one would write out TTree
@@ -37,6 +45,7 @@ void Process()
             case AnalysisConfig::k4LepMET: PostProcess_4LepMET(); break;
         }
     }
+    //std::cout << "Debug Process 5" << std::endl;
 
     // Reset all the variables!
     ana.tx.clear();

@@ -2,12 +2,21 @@
 #define MUONIDHELPER_H
 #include "../NanoTools/NanoCORE/Nano.h"
 #include "../NanoTools/NanoCORE/Base.h"
+#include "../interface/XGBoostInterface.h"
 
 namespace MuonIDHelper {
 
+    enum SelectionType{
+      kCutbased_Run2 = 0,
+      kTopMVA_Run2
+    };
+
+    extern SelectionType selection_type;
+
     bool muonIDscore(int year, unsigned int idx, std::string level);
     bool muonPassPreselection(unsigned int idx, std::string level);
-
+    void muonLoadMVA(int year);
+    float computeMVAScore(unsigned int idx); 
 }
 
 #endif

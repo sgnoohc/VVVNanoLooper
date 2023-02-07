@@ -135,7 +135,7 @@ void Begin_4LepMET_NanoAOD()
                     return false;
                 return true;
             }, UNITY);
-
+    
     // Select Z candidate
     int index1 = 0;
     int index2 = 0;
@@ -168,7 +168,7 @@ void Begin_4LepMET_NanoAOD()
 
                 return true;
             }, UNITY);
-
+    
     // Apply lepton selection on the two extra leptons
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_OtherLeptons",
             [&]()
@@ -273,7 +273,7 @@ void Begin_4LepMET_NanoAOD()
 
                 return true;
             }, UNITY);
-
+    
     // Apply min Mll > 12 GeV selection on any opposite sign pair
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_VetoLowMassResonance",
             [&]()
@@ -301,7 +301,7 @@ void Begin_4LepMET_NanoAOD()
                 return true;
 
             }, UNITY);
-
+    
     // Apply b-tag veto
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_bVeto",
             [&]()
@@ -314,7 +314,7 @@ void Begin_4LepMET_NanoAOD()
                 return true;
             },
             [&]() { return 1./* TODO: Implement b-tagging scalefactors */; });
-
+    
     // Compute MT2 variable
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_Variables",
             [&]()
@@ -323,16 +323,19 @@ void Begin_4LepMET_NanoAOD()
                 return true;
             },
             UNITY);
-
-    // Compute weight
+    
+    // Compute weight   TODO: This function needs fixing (returns an out_of_range exception)
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Compute_ScaleLumi",
             [&]()
             {
                 if (not ana.tx.getBranch<int>("Common_isData"))
                 {
+		    //Make sure weights/scaleLumis.txt points to the correct directory!
                     TString key = gSystem->DirName(ana.looper.getCurrentFileName());
                     ana.tx.setBranch<float>("Var_4LepMET_scaleLumi", fourlep::scaleLumis.at(key));
                     ana.tx.setBranch<float>("Var_4LepMET_intLumi", fourlep::intLumis.at(key));
+                    //ana.tx.setBranch<float>("Var_4LepMET_intLumi", 1);
+		    //ana.tx.setBranch<float>("Var_4LepMET_scaleLumi", 1);
                 }
                 else
                 {
@@ -341,7 +344,7 @@ void Begin_4LepMET_NanoAOD()
                 return true;
             },
             UNITY);
-
+     
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { ana.tx.setBranch<bool>("Cut_4LepMET_Preselection", true); return true; }, UNITY); // This "cut" does not do anything. It works as a middle point
 

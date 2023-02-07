@@ -14,6 +14,9 @@ import sys
 #condorpath = "/home/users/kdownham/Triboson/VVVNanoLooper/condor"
 condorpath = os.environ["condorPath"]
 
+print("Condor path: ")
+print(condorpath)
+
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
 def split_func(dsname):
@@ -41,16 +44,27 @@ if __name__ == "__main__":
     sample_map = {}
 
     #sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/*")  # this currently points towards running over all skimmed samples 
-    sample_list = glob.glob(os.environ["skimDir"]+"/*") # change the "*" to the sample names that you want to run over (currently runs over all skimmed samples)
+    print("Samples that are currently being run on: ")
+    sample_list = glob.glob(os.environ["skimDir"]+"/WWZJetsTo4L2Nu*") # change the "*" to the sample names that you want to run over (currently runs over all skimmed samples)
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
+	print(sample)
 
     # submission tag
     tag = args.thetag 
 
     # Where the merged output will go
     merged_dir = "{}/../vvvtree/{}".format(condorpath, tag)
-    #merged_dir = "{}/../vvvtree/metstudy".format(condorpath)
+
+    print("Merged output goes to: ")
+    print(merged_dir)
+
+    print("Input executable: ")
+    print("{}/condor_executable_metis.sh".format(condorpath))
+
+    print("Tarfile: ")
+    print(os.environ["condorPath"]+"/package.tar.xz")
+    #print("/ceph/cms/store/user/kdownham/VVVAnalysis/test/package.tar.xz")
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -81,8 +95,11 @@ if __name__ == "__main__":
                     cmssw_version = "CMSSW_11_2_0_pre5",
                     scram_arch = "slc7_amd64_gcc900",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
-		    #tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
-		    tarfile = os.environ["condorPath"]+"/package.tar.xz" # your tarfile with assorted goodies here
+		    #input_executable = "{}/print_environment.sh".format(condorpath),
+		    tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
+		    additional_input_files = ["/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz"],
+		    #tarfile = os.environ["condorPath"]+"/package.tar.xz", # your tarfile with assorted goodies here
+		    #tarfile = "/ceph/cms/store/user/kdownham/VVVAnalysis/test/package.tar.xz",
                     special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,
