@@ -13,9 +13,9 @@ namespace ElectronIDHelper {
 
     extern SelectionType selection_type;
 
-    bool electronIDscore(int year, unsigned int idx, std::string level);
+    bool electronIDscore(int year, unsigned int idx, std::string level, bool isAPV);
     bool electronPassPreselection(unsigned int idx, std::string level);
-    void electronLoadMVA(int year);
+    void electronLoadMVA(int year, bool isAPV);
     float computeMVAScore(unsigned int idx, int year); 
 }
 

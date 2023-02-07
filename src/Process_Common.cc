@@ -205,7 +205,7 @@ void Process_Common_NanoAOD()
 
 	// New lepton ID
 	if (new_lepton_ID){
-	   if (!ElectronIDHelper::electronIDscore(nt.year(),iel,"tight")) continue;
+	   if (!ElectronIDHelper::electronIDscore(nt.year(),iel,"tight",gconf.isAPV)) continue;
 	   else{
 	      //std::cout << "Electron at index " << iel << " has passed tight ID requirements!" << std::endl;
 	   }
@@ -312,7 +312,7 @@ void Process_Common_NanoAOD()
 	//Test to make sure the MuonIDHelper functions are implemented correctly
 	if (new_lepton_ID){
 	    if (nt.event() == event_check) std::cout << "Debug 1.1" << endl;
-	    if (!MuonIDHelper::muonIDscore(nt.year(),imu,"tight")){
+	    if (!MuonIDHelper::muonIDscore(nt.year(),imu,"tight",gconf.isAPV)){
 		//std::cout << "Muon at index " << imu << " has failed tight requirements" << std::endl;
 		continue;
 	    }

@@ -8,7 +8,7 @@
 
 namespace MuonIDHelper{
 
-     bool muonIDscore(int year, unsigned int idx, std::string level);
+     bool muonIDscore(int year, unsigned int idx, std::string level, bool isAPV);
 
      bool muonPassPreselection(unsigned int idx, std::string level);
 
@@ -17,7 +17,7 @@ namespace MuonIDHelper{
      //std::unordered_map<SelectionType, std::shared_ptr<XGBoostInterface> > mvareader_map;
      std::shared_ptr<XGBoostInterface> mvareader_map;
 
-     void muonLoadMVA(int year);
+     void muonLoadMVA(int year, bool isAPV);
 
      //float computeMVAScore(SelectionType const& type, unsigned int idx);
      float computeMVAScore(unsigned int idx);
@@ -26,19 +26,15 @@ namespace MuonIDHelper{
 
 using namespace std;
 
-bool MuonIDHelper::muonIDscore(int year, unsigned int idx, std::string level){
+bool MuonIDHelper::muonIDscore(int year, unsigned int idx, std::string level, bool isAPV){
 
-     if (tas::event() == 1847002) std::cout << "MuonIDHelper Debug 1" << std::endl; 
      bool pass_id;
      // Function to apply preselection cuts for muon
      bool pass_preselection = muonPassPreselection(idx,level);
-     if (tas::event() == 1847002) std::cout << "MuonIDHelper Debug 2" << std::endl;
      // Function to load MVA
-     MuonIDHelper::muonLoadMVA(year); 
-     if (tas::event() == 1847002) std::cout << "MuonIDHelper Debug 3" << std::endl;
+     MuonIDHelper::muonLoadMVA(year,isAPV); 
      // Function to compute MVA using XGBoost
      float score = computeMVAScore(idx);    
-     if (tas::event() == 1847002) std::cout << "MuonIDHelper Debug 4" << std::endl;
      //std::cout << "MVA score = " << score << endl;
      //Require muon to pass preselection and cut on the MVA value
      if (!pass_preselection) pass_id = false;
@@ -80,7 +76,7 @@ bool MuonIDHelper::muonPassPreselection(unsigned int idx, std::string level){
 
 }
 
-void MuonIDHelper::muonLoadMVA(int year){
+void MuonIDHelper::muonLoadMVA(int year, bool isAPV){
 
      //auto& mvareader_xgb = mvareader_map.find(selection_type)->second;
      auto& mvareader_xgb = mvareader_map;
@@ -93,6 +89,9 @@ void MuonIDHelper::muonLoadMVA(int year){
      else if (year==2016){ 
 	fname += "UL16";
 	// Need to add option for APV as well....
+	if (isAPV){
+	    fname += "APV";
+	}
      }
 	
      fname += "_XGB.weights.bin";

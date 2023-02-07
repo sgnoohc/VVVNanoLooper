@@ -8,7 +8,7 @@
 
 namespace ElectronIDHelper{
 
-     bool electronIDscore(int year, unsigned int idx, std::string level);
+     bool electronIDscore(int year, unsigned int idx, std::string level, bool isAPV);
 
      bool electronPassPreselection(unsigned int idx, std::string level);
 
@@ -17,7 +17,7 @@ namespace ElectronIDHelper{
      //std::unordered_map<SelectionType, std::shared_ptr<XGBoostInterface> > mvareader_map;
      std::shared_ptr<XGBoostInterface> mvareader_map;
 
-     void electronLoadMVA(int year);
+     void electronLoadMVA(int year, bool isAPV);
 
      //float computeMVAScore(SelectionType const& type, unsigned int idx);
      float computeMVAScore(unsigned int idx, int year);
@@ -26,14 +26,14 @@ namespace ElectronIDHelper{
 
 using namespace std;
 
-bool ElectronIDHelper::electronIDscore(int year, unsigned int idx, std::string level){
+bool ElectronIDHelper::electronIDscore(int year, unsigned int idx, std::string level, bool isAPV){
 
 
      bool pass_id;
      // Function to apply preselection cuts for electron
      bool pass_preselection = electronPassPreselection(idx,level);
      // Function to load MVA
-     ElectronIDHelper::electronLoadMVA(year); 
+     ElectronIDHelper::electronLoadMVA(year,isAPV); 
      // Function to compute MVA using XGBoost
      float score = computeMVAScore(idx,year);    
      //std::cout << "MVA score = " << score << endl;
@@ -79,7 +79,7 @@ bool ElectronIDHelper::electronPassPreselection(unsigned int idx, std::string le
 
 }
 
-void ElectronIDHelper::electronLoadMVA(int year){
+void ElectronIDHelper::electronLoadMVA(int year, bool isAPV){
 
      //auto& mvareader_xgb = mvareader_map.find(selection_type)->second;
      auto& mvareader_xgb = mvareader_map;
@@ -92,6 +92,9 @@ void ElectronIDHelper::electronLoadMVA(int year){
      else if (year==2016){ 
 	fname += "UL16";
 	// Need to add option for APV as well....
+	if (isAPV){
+	    fname += "APV";
+	}
      }
 	
      fname += "_XGB.weights.bin";

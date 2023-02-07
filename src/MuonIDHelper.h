@@ -13,9 +13,9 @@ namespace MuonIDHelper {
 
     extern SelectionType selection_type;
 
-    bool muonIDscore(int year, unsigned int idx, std::string level);
+    bool muonIDscore(int year, unsigned int idx, std::string level, bool isAPV);
     bool muonPassPreselection(unsigned int idx, std::string level);
-    void muonLoadMVA(int year);
+    void muonLoadMVA(int year, bool isAPV);
     float computeMVAScore(unsigned int idx); 
 }
 
