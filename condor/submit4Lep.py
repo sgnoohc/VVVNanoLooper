@@ -11,7 +11,6 @@ from time import sleep
 import sys
 
 #condorpath = os.path.dirname(os.path.realpath(__file__))
-#condorpath = "/home/users/kdownham/Triboson/VVVNanoLooper/condor"
 condorpath = os.environ["condorPath"]
 
 print("Condor path: ")
@@ -56,15 +55,6 @@ if __name__ == "__main__":
     # Where the merged output will go
     merged_dir = "{}/../vvvtree/{}".format(condorpath, tag)
 
-    print("Merged output goes to: ")
-    print(merged_dir)
-
-    print("Input executable: ")
-    print("{}/condor_executable_metis.sh".format(condorpath))
-
-    print("Tarfile: ")
-    print(os.environ["condorPath"]+"/package.tar.xz")
-    #print("/ceph/cms/store/user/kdownham/VVVAnalysis/test/package.tar.xz")
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -95,11 +85,10 @@ if __name__ == "__main__":
                     cmssw_version = "CMSSW_11_2_0_pre5",
                     scram_arch = "slc7_amd64_gcc900",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
-		    #input_executable = "{}/print_environment.sh".format(condorpath),
-		    tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
-		    additional_input_files = ["/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz"],
-		    #tarfile = os.environ["condorPath"]+"/package.tar.xz", # your tarfile with assorted goodies here
-		    #tarfile = "/ceph/cms/store/user/kdownham/VVVAnalysis/test/package.tar.xz",
+		    #tarfile = "/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz",
+		    #additional_input_files = ["/home/users/kdownham/Triboson/VVVNanoLooper/condor/package.tar.xz"],
+		    tarfile = os.environ["condorPath"]+"/package.tar.xz", # your tarfile with assorted goodies here
+		    additional_input_files = [os.environ["condorPath"]+"/package.tar.xz"],
                     special_dir = "VVVAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 10,
