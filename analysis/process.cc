@@ -34,7 +34,7 @@ public:
     bool debug;
 
     // Lepton ID boolean
-    bool new_lepton_ID = true;
+    //bool new_lepton_ID = true;
 
     // TChain that holds the input TTree's
     TChain* events_tchain;
@@ -56,6 +56,7 @@ AnalysisConfig ana;
 int main(int argc, char** argv)
 {
 
+    bool new_lepton_ID = true;
 //********************************************************************************
 //
 // 1. Parsing options
@@ -489,6 +490,8 @@ int main(int argc, char** argv)
                                           }
                                           if (not (vvv.Var_4LepMET_other_lep_p4_1().pt() > 15)) return false;
                                           if (not (vvv.Var_4LepMET_Zcand_lep_p4_1().pt() > 15)) return false;
+					  if (not (vvv.Var_4LepMET_other_lep_p4_0().pt() > 25)) return false;
+					  if (not (vvv.Var_4LepMET_Zcand_lep_p4_0().pt() > 25)) return false;
 
 
                                           return true;

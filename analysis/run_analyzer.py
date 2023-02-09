@@ -5,10 +5,10 @@ import os
 #skimversion = "v9"
 #skimdir = "/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/{skimversion}".format(skimversion=skimversion)
 
-skimversion = "WWZ_4L"
+skimversion = "WWZ_newLepID"
 #skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
 skimdir = os.environ["looperOutput"]
-dataversion = "120222"
+dataversion = "NewLepID"
 
 #____________________________________________________________________________________________
 def main():

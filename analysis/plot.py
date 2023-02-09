@@ -51,15 +51,15 @@ def plot(year, filterpattern):
                 "outputs/{0}/WZ.root".format(year),
                 "outputs/{0}/Other.root".format(year),
                 #"outputs/{0}/NonWWZ.root".format(year),
-                #"outputs/{0}/WWZ.root".format(year),
+                "outputs/{0}/WWZ.root".format(year),
                 ],
             sig_fnames=[
-                "outputs/{0}/WWZ.root".format(year),
+                #"outputs/{0}/WWZ.root".format(year),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
-            data_fname="outputs/{0}/data.root".format(year),
-            #dirname="~/public_html/WWZ/signal_data_all_bkgds/{0}".format(year),
+            #data_fname="outputs/{0}/data.root".format(year),
+            dirname="../../../public_html/WWZ/lepton_ID_study/newID/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
@@ -70,7 +70,7 @@ def plot(year, filterpattern):
                 "WWZ",
                 ],
             signal_labels=[
-                "WWZ",
+                #"WWZ",
                 #"NonResWWZ",
                 #"ZHWWZ",
                 ],
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         #"CutBVeto__MET",
 	#"CutBVeto__PuppiMET",
         #"CutOnZ__MET",
-	"CutOnZ__PuppiMET",
+	#"CutOnZ__PuppiMET",
 	#"CutOnZ__Pt4l",
 	#"CutOnZ__MT2",
 	#"CutOnZ__other_mll",
@@ -125,13 +125,16 @@ if __name__ == "__main__":
 	#"CutEMuMT2__PuppiMET",
 	#"CutOffZ__MET",
 	#"CutOffZ__PuppiMET",
+	"CutOffZ", # this is the SF signal region
+	"CutEMuMT2", # this is the OF signal region
+	"cutflow",
         ]
 
     years = [
-        #"2016",
-        #"2016APV",
-        #"2017",
-        #"2018",
+        "2016",
+        "2016APV",
+        "2017",
+        "2018",
         "Run2",
         ]
 
