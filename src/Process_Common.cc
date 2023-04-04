@@ -965,22 +965,11 @@ void Process_Common_NanoAOD()
         if (W_MD > fjWPmedium_MD) WPid_MD = 2; 
         if (W_MD > fjWPtight_MD) WPid_MD = 3; 
         
-        if (fatjet_p4.pt() > 200.)
-        {
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", -999);
-        }
-        else
-        {
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", WPid); // store W DNN cut even off mass peak
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", WPid_MD); 
-            WPid = -999;                                                       // I reset WPid to not store the fatjet SF for offmass peak
-            WPid_MD = -999;
-        }
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", -999);
+        
         int year=(gconf.isAPV && nt.year()==2016)?10:nt.year();//use 0 for APV samples
         if (WPid >= 0)
         {
