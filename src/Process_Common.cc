@@ -32,6 +32,10 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+
+    try { ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , nt.LHEPdfWeight());                                     } catch (std::runtime_error) { }
+    try { ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , nt.LHEScaleWeight());                                   } catch (std::runtime_error) { }
+
     try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
