@@ -33,6 +33,11 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<int>                  ("Common_year", nt.year());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+
+    try { ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , nt.LHEPdfWeight());                                     } catch (std::runtime_error) { }
+    try { ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , nt.LHEScaleWeight());                                   } catch (std::runtime_error) { }
+
+
     try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
@@ -1737,8 +1742,7 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_W", vvv.Common_fatjet_particleNet_W());
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_Z", vvv.Common_fatjet_particleNet_Z());
     ana.tx.setBranch<vector<float>>        ("Common_fatjet_particleNet_T", vvv.Common_fatjet_particleNet_T());
-
-    ana.tx.setBranch<float>                ("Common_event_puWeight", vvv.Common_event_puWeight());        //Pile up weight
+    ana.tx.setBranch<float>                ("Common_event_puWeight", vvv.Common_event_puWeight());          //Pile up weight
     ana.tx.setBranch<float>                ("Common_event_puWeightup", vvv.Common_event_puWeightup());      //Pile up weight
     ana.tx.setBranch<float>                ("Common_event_puWeightdn", vvv.Common_event_puWeightdn());      //Pile up weight
     ana.tx.setBranch<float>                ("Common_event_prefireWeight", vvv.Common_event_prefireWeight());   //Prefiring weight
@@ -1747,6 +1751,4 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<float>                ("Common_event_triggerWeight", vvv.Common_event_triggerWeight());   //trigger weight
     ana.tx.setBranch<float>                ("Common_event_triggerWeightup", vvv.Common_event_triggerWeightup());   //trigger weight
     ana.tx.setBranch<float>                ("Common_event_triggerWeightdn", vvv.Common_event_triggerWeightdn());   //trigger weight
-
-
 }

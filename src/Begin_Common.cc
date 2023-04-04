@@ -47,6 +47,8 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_genWeight");
     ana.tx.createBranch<float>                ("Common_btagWeight_DeepCSVB");
     ana.tx.createBranch<float>                ("Common_wgt");
+    ana.tx.createBranch<vector<float>>        ("Common_event_PDF");             //PDF+alpha_S
+    ana.tx.createBranch<vector<float>>        ("Common_event_QCDScale");        //QCDScale
     ana.tx.createBranch<float>                ("Common_event_puWeight");        //Pile up weight
     ana.tx.createBranch<float>                ("Common_event_puWeightup");      //Pile up weight
     ana.tx.createBranch<float>                ("Common_event_puWeightdn");      //Pile up weight
