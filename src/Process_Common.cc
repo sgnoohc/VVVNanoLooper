@@ -1511,6 +1511,16 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<float>                ("Common_genWeight", vvv.Common_genWeight());
     ana.tx.setBranch<float>                ("Common_btagWeight_DeepCSVB", vvv.Common_btagWeight_DeepCSVB());
 
+    ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , vvv.Common_event_PDF());                                     
+    ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , vvv.Common_event_QCDScale());
+
+    ana.tx.setBranch<float>("Common_event_puWeight"                                       , vvv.Common_event_puWeight());
+    ana.tx.setBranch<float>("Common_event_puWeightup"                                     , vvv.Common_event_puWeightup());
+    ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , vvv.Common_event_puWeightdn());
+
+    ana.tx.setBranch<float>("Common_event_prefireWeight"                                  , vvv.Common_event_prefireWeight());
+    ana.tx.setBranch<float>("Common_event_prefireWeightup"                                , vvv.Common_event_prefireWeightup());
+    ana.tx.setBranch<float>("Common_event_prefireWeightdn"                                , vvv.Common_event_prefireWeightdn());
     // EFT weightings
     ana.tx.setBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting", vvv.Common_LHEWeight_mg_reweighting());
 
