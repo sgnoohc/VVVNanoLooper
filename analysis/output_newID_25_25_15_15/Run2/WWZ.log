@@ -1,5 +1,0 @@
-hadd Target file: output_newID_25_25_15_15/Run2/WWZ.root
-hadd compression setting for all output: 1
-hadd Source file 1: output_newID_25_25_15_15/Run2/ZHWWZ.root
-hadd Source file 2: output_newID_25_25_15_15/Run2/NonResWWZ.root
-hadd Target path: output_newID_25_25_15_15/Run2/WWZ.root:/
