@@ -1,627 +1,0 @@
-=========================================================
- Setting of the analysis job based on provided arguments 
----------------------------------------------------------
- ana.input_file_list_tstring: /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
- ana.output_tfile: output_newID_jetCounting/Run2/ZZ_5.root
- ana.n_events: -1
- ana.nsplit_jobs: 9
- ana.job_index: 5
-=========================================================
->>> Hostname is uaf-8.t2.ucsd.edu
-inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Start EventLooping
-                                                                                                    RooUtil:: System info:
-uaf-8.t2.ucsd.edu
-Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Tue Apr  4 15:43:47 PDT 2023
-kdownham
-/home/users/kdownham/Triboson/VVVNanoLooper/analysis
-                                                                                                    RooUtil::  _
-                                                                                                    RooUtil:: /\\
-                                                                                                    RooUtil:: \ \\  \__/ \__/
-                                                                                                    RooUtil::  \ \\ (oo) (oo)  Here we come!
-                                                                                                    RooUtil::   \_\\/~~\_/~~\_
-                                                                                                    RooUtil::  _.-~===========~-._
-                                                                                                    RooUtil:: (___________________)
-                                                                                                    RooUtil::       \_______/
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil::  Your friendly aliens
-                                                                                                    RooUtil::      Surf & Turf
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil:: Total Events in this Chain to process = 5666893
-                                                                                                    RooUtil:: Cut name|pass|weight|systs
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil:: Root| 0 | 0.000000|
-                                                                                                    RooUtil::   CutWeight                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
-                                                                                                    RooUtil::     CutAdditionalLeptonID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 0 | 0.000000|
-                                                                                                    RooUtil::       CutDuplicate                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 0 | 0.000000|
-                                                                                                    RooUtil::         CutVetoLowMassResonance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0 | 0.000000|
-                                                                                                    RooUtil::           CutVetoZHZWW                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 0 | 0.000000|
-                                                                                                    RooUtil::             CutPresel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 0 | 0.000000|
-                                                                                                    RooUtil::              +CutBVeto| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutEMu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |  CutEMuMT2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsAll| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsIn| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsOut| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsAll| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsIn| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsOut| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutOFSR_3e1mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutOFSR_1e3mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutEMuMT2_trgMatch| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutOffZ| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_4el| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_4mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_2e2mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutOffZ_trgMatch| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutBTag| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutOnZ| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_4el| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_4mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_2e2mu| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutOppFlav| 0 | 0.000000|
-                                                                                                    RooUtil::              |  CutEMuBT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 0 | 0.000000|
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsAll
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsIn
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsOut
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutBTag
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuBT
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuMT2_trgMatch
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_1e3mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_3e1mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOffZ_trgMatch
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_2e2mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4el
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_2e2mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4el
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsAll
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsIn
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsOut
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsAll
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsIn
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsOut
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutBTag
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuBT
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuMT2_trgMatch
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_1e3mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_3e1mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOffZ_trgMatch
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_2e2mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4el
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_2e2mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4el
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsAll
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsIn
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsOut
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  4  4  0  117.688  -1.21948  64.9235  0  0.00151069
-0  0  0  0  0  0  -1  0  0.00151069
-0  1  1  0  32.5625  0.198822  56.8621  0  0.00151069
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  0  0  0  0  0  -1  1  0.00341124
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  0  0  0  0  0  -1  1  0.000565703
-0  1  1  0  571.5  -0.67395  424.66  2  0.000565703
-0  1  1  0  21.3125  -1.90283  68.0901  1  0.000565703
-0  1  1  0  69.75  0.897095  123.799  0  0.000565703
-0  1  1  0  39.4375  -0.350159  61.7105  0  0.000565703
-0  1  1  0  24.0312  -2.34424  52.5626  2  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  1  1  0  35.8125  0.398682  89.9535  3  0.000565703
-0  0  0  0  0  0  -1  2  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  1  1  0  50.4688  0.371704  72.2276  3  0.000565703
-0  1  1  0  32.375  -0.0690155  58.7254  3  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  2  2  0  22.7969  0.292664  33.3988  1  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  1  1  0  24.5312  -0.735229  37.9599  0  0.000565703
-0  0  0  0  0  0  -1  2  0.000565703
-0  1  1  0  20.9375  1.2561  115.633  2  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  2  2  0  29.8438  -1.01318  56.1699  3  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  1  1  0  21.375  0.260925  35.3878  1  0.000565703
-0  1  1  0  114.625  0.713989  82.5126  2  0.000565703
-0  2  2  0  187.375  -2.30908  47.3824  0  0.000565703
-0  2  2  0  30.0938  -0.847046  118.781  1  0.000565703
-0  1  1  0  147.75  -1.81787  147.335  1  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  1  1  0  54.5  0.370789  53.0231  1  0.000565703
-0  0  0  0  0  0  -1  2  0.000565703
-0  1  1  0  32.4375  0.0927734  66.8755  2  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  2  2  0  211.625  0.285095  163.217  1  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  2  2  0  39.5  -1.52197  108.403  2  0.000565703
-0  1  1  0  110.938  1.64648  41.4536  3  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  1  1  0  29.2031  0.109024  86.4067  1  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-0  1  1  0  30.5469  0.762695  54.4721  0  0.000565703
-0  1  1  0  77.75  -0.862183  131.724  0  0.000565703
-0  1  1  0  61.3438  -1.15967  66.6758  3  0.000565703
-0  2  2  0  42.4375  0.610107  57.0147  0  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  0  0  0  0  0  -1  2  0.000565703
-0  1  1  0  90.5625  1.37915  244.396  1  0.000565703
-0  2  2  0  37.2812  -1.22559  29.3648  3  0.000565703
-0  1  1  0  30.9219  -1.06079  51.73  2  0.000565703
-0  1  1  0  48.9062  2.12842  57.7956  0  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  0  0  0  0  0  -1  1  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  0  0  0  0  0  -1  0  0.000565703
-0  0  0  0  0  0  -1  3  0.000565703
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  0  0  0  0  0  -1  0  0.000193432
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  90.4375  -1.71606  131.525  0  0.0037961
-0  2  2  0  60.9375  1.03296  79.9642  0  0.0037961
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  2  2  0  92.0625  -1.53809  81.6488  0  0.00043384
-0  2  2  0  22.5781  0.547241  62.7922  1  0.00043384
-0  0  0  0  0  0  -1  1  0.00043384
-0  0  0  0  0  0  -1  1  0.00043384
-0  1  1  0  55.5938  2.021  114.158  2  0.00043384
-0  2  2  0  51.0312  -1.23462  41.0168  1  0.00043384
-0  1  1  0  21.2969  -1.802  87.202  1  0.00043384
-0  1  1  0  65.1875  -1.16748  100.444  1  0.00043384
-0  0  0  0  0  0  -1  2  0.00043384
-0  1  1  0  58.0938  0.803345  61.7355  0  0.00043384
-0  0  0  0  0  0  -1  1  0.00043384
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  3  3  0  35.5312  -0.552368  44.6925  2  4.55267e-05
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  141.875  -0.444214  99.565  0  0.000117573
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  22.7031  0.153107  40.2597  0  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  0  0  0  0  0  -1  2  0.000499756
-0  2  2  0  83.0625  -0.683838  81.383  3  0.000499756
-0  1  1  0  38.625  -0.836914  39.572  0  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  1  1  0  33.6562  1.46924  52.5863  0  0.000499756
-0  1  1  0  39.625  -1.19629  47.8954  0  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  1  1  0  20.8125  -2.375  124.35  1  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  2  2  0  117.375  -0.409973  54.151  0  0.000499756
-0  1  1  0  24.0625  2.25488  25.4771  0  0.000499756
-0  1  1  0  142  -0.411804  156.583  0  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  1  1  0  23.9531  2.16455  16.6532  1  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  4  4  0  203.375  -1.09619  44.6229  0  0.000499756
-0  1  1  0  28.9688  0.965332  115.894  3  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  5  5  0  126.75  -2.22168  35.334  1  0.000499756
-0  1  1  0  57  -1.31274  160.42  0  0.000499756
-0  2  2  0  61.5938  -2.05615  29.1262  3  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  0  0  0  0  0  -1  2  0.000499756
-0  0  0  0  0  0  -1  2  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  1  1  0  73.625  2.22314  82.7707  2  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  2  2  0  25.6719  -2.32861  67.1316  3  0.000499756
-0  1  1  0  54.75  -1.50806  56.2364  2  0.000499756
-0  1  1  0  74.25  -1.26562  136.04  1  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  0  0  0  0  0  -1  1  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  2  2  0  27.75  -0.734497  26.6359  0  0.000499756
-0  1  1  0  61.4375  0.689209  180.406  2  0.000499756
-0  1  1  0  25.3906  -1.45703  40.6594  2  0.000499756
-0  0  0  0  0  0  -1  2  0.000499756
-0  2  2  0  25.0156  -0.157806  46.0054  0  0.000499756
-0  1  1  0  56.9688  -1.23462  135.154  3  0.000499756
-0  1  1  0  25.6719  -0.724365  36.2362  2  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  1  1  0  40.1562  0.611206  49.1409  1  0.000499756
-0  2  2  0  42.5938  -2.00684  13.2722  0  0.000499756
-0  0  0  0  0  0  -1  0  0.000499756
-0  1  1  0  79.3125  0.633179  93.3823  1  0.000499756
-0  1  1  0  389  -0.89502  187.42  0  0.000499756
-0  1  1  0  21.0469  -1.8103  107.843  0  0.000499756
-0  0  0  0  0  0  -1  3  0.000499756
-0  2  2  0  154.5  1.66602  111.553  2  0.000499756
-0  2  2  0  30.5938  2.32422  30.9788  1  0.000499756
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  0  0  0  0  0  -1  3  0.000792445
-0  1  1  0  30.3281  0.50708  41.3854  1  0.000792445
-0  1  1  0  26.6875  -0.785889  27.8443  1  0.000792445
-0  2  2  0  21.8906  0.36554  21.3151  1  0.000792445
-0  1  1  0  22.4375  1.66382  65.6636  1  0.000792445
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  77.5  1.52368  209.192  0  0.000760319
-0  1  1  0  21.2812  0.103165  37.3779  0  0.000760319
-0  0  0  0  0  0  -1  1  0.000760319
-0  0  0  0  0  0  -1  1  0.000760319
-0  0  0  0  0  0  -1  1  0.000760319
-0  1  1  0  49.25  -1.23315  56.2776  2  0.000760319
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  2  2  0  22.3281  2.39502  39.0496  1  0.000141138
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  0  0  0  0  0  -1  3  0.000633455
-0  1  1  0  122.125  0.811401  131.377  0  0.000633455
-0  1  1  0  47.0312  -0.013443  50.572  1  0.000633455
-0  1  1  0  156.375  -1.09644  73.2248  0  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  2  2  0  54.9688  -0.571533  43.3971  3  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  2  2  0  26.5938  0.657593  69.3369  1  0.000633455
-0  1  1  0  71.1875  1.29956  97.3108  1  0.000633455
-0  1  1  0  137.25  -1.76685  330.099  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  2  2  0  22.625  1.09839  14.2844  1  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  1  1  0  41.125  0.679932  24.9153  2  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  1  1  0  28.5938  -1.18115  13.4698  1  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  51.1562  0.160004  101.612  3  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  46.9062  -0.19873  85.435  2  0.000633455
-0  1  1  0  31.125  -0.85022  82.8876  2  0.000633455
-0  3  3  0  84.75  2.04346  46.1179  1  0.000633455
-0  2  2  0  23.9844  0.302429  25.0076  0  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  2  2  0  33.6562  -0.205444  69.3236  0  0.000633455
-0  3  3  0  116.188  0.504761  28.9467  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  2  2  0  34.5938  0.175262  76.5471  3  0.000633455
-0  2  2  0  141.75  -1.75635  25.8474  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  71.25  -0.391052  79.8082  1  0.000633455
-0  1  1  0  20.7344  0.185486  60.3305  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  1  1  0  63.5625  0.74646  80.5327  3  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  1  1  0  22.2344  -2.04688  113.582  2  0.000633455
-0  1  1  0  29.4688  2.19385  27.2226  1  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  1  1  0  22.8438  1.54443  247.657  3  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  200.625  -0.929565  362.776  1  0.000633455
-0  2  2  0  272.5  -2.04004  97.5686  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  2  2  0  37.125  -1.42261  40.3331  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  2  2  0  32.75  1.69189  37.9191  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  3  3  0  44.7188  -1.90454  34.6576  0  0.000633455
-0  1  1  0  27.6562  -1.60669  36.5988  1  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  1  1  0  44.625  -0.935181  61.3559  1  0.000633455
-0  1  1  0  94.875  -0.380737  119.217  1  0.000633455
-0  1  1  0  25.3906  1.07202  80.0075  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  1  1  0  58.1562  -0.529541  26.1147  1  0.000633455
-0  1  1  0  23.6094  -1.15039  45.4717  1  0.000633455
-0  1  1  0  54.5938  1.13867  22.7565  2  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  2  2  0  30.7969  -1.51392  27.6756  0  0.000633455
-0  1  1  0  29.0312  0.085968  29.7186  1  0.000633455
-0  2  2  0  48.7188  -1.58447  31.4339  0  0.000633455
-0  1  1  0  24.125  -1.59497  60.1769  3  0.000633455
-0  1  1  0  22.0781  0.368408  103.212  3  0.000633455
-0  1  1  0  20.4219  -0.578613  34.0965  3  0.000633455
-0  1  1  0  151.625  -1.65283  97.1249  3  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  1  1  0  105.312  -1.41187  244.079  1  0.000633455
-0  1  1  0  26.2031  0.0986023  38.8929  1  0.000633455
-0  2  2  0  224.875  1.21582  50.8105  0  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  1  1  0  91.8125  -2.34619  56.082  0  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  3  3  0  194.875  1.42896  62.0656  1  0.000633455
-0  1  1  0  352.75  -0.667236  152.625  0  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  0  0  0  0  0  -1  3  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  2  2  0  29.3906  0.139893  62.7376  3  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  1  1  0  231  0.0607224  234.564  0  0.000633455
-0  0  0  0  0  0  -1  0  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  0  0  0  0  0  -1  1  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  61.4375  -1.3457  76.6413  1  0.000633455
-0  1  1  0  23.2969  -1.20752  72.5493  0  0.000633455
-0  0  0  0  0  0  -1  2  0.000633455
-0  1  1  0  53.7812  1.5127  130.242  1  0.000633455
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2e2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo2Q2L_mllmin4p0_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo2mu2tau_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  100.75  1.36108  251.097  3  0.000653821
-0  0  0  0  0  0  -1  1  0.000653821
-0  0  0  0  0  0  -1  1  0.000653821
-0  1  1  0  37.8438  -1.69531  97.7464  1  0.000653821
-0  0  0  0  0  0  -1  1  0.000653821
-0  0  0  0  0  0  -1  2  0.000653821
-0  1  1  0  65.25  1.39355  130.865  3  0.000653821
-0  1  1  0  70.5625  -1.51343  140.704  1  0.000653821
-0  1  1  0  56.5938  0.431335  117.245  1  0.000653821
-0  0  0  0  0  0  -1  3  0.000653821
-0  0  0  0  0  0  -1  0  0.000653821
-0  0  0  0  0  0  -1  2  0.000653821
-0  0  0  0  0  0  -1  1  0.000653821
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4mu_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  57.2812  0.591797  35.3248  2  0.000191237
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/GluGluToContinToZZTo4e_TuneCP5_13TeV-mcfm701-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  25.2969  0.712158  22.6582  1  0.000229601
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  1  1  0  39.375  2.09766  32.6279  2  0.00077487
-0  1  1  0  46.4062  -1.06909  138.069  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  2  2  0  25.5312  -0.0324783  60.1953  0  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  1  1  0  203.25  -0.686523  153.439  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  1  1  0  36.4688  -0.323425  65.7811  2  0.00077487
-0  3  3  0  44.0625  -1.13184  46.8666  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  1  1  0  65.5  -1.86865  88.7545  0  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  24.7344  -1.53638  98.6608  1  0.00077487
-0  1  1  0  48.1562  -0.411438  95.9259  3  0.00077487
-0  1  1  0  59.0938  -1.48608  226.601  2  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  1  1  0  48.3125  1.32886  150.425  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  3  3  0  169.25  -1.43457  47.0889  0  0.00077487
-0  2  2  0  175  0.711792  86.5101  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  4  4  0  31.75  -1.46558  38.0142  2  0.00077487
-0  2  2  0  175.375  0.325745  101.71  1  0.00077487
-0  1  1  0  25.0938  -0.87915  46.6013  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  3  3  0  96.625  -1.24414  51.2682  1  0.00077487
-0  2  2  0  78.9375  -0.290527  18.7659  1  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  1  1  0  20.5781  0.243439  35.8552  0  0.00077487
-0  1  1  0  25.7031  -1.81934  92.1938  1  0.00077487
-0  1  1  0  49.25  2.13477  35.7007  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  64.3125  1.24487  126.365  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  1  1  0  176.75  0.919556  109.273  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  2  2  0  117.375  0.447205  65.3194  3  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  1  1  0  22.5469  -1.56128  84.2479  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  2  2  0  35.9688  -1.45166  86.1078  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  30.9844  0.364624  40.0285  2  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  1  1  0  23.1562  2.37256  78.3459  2  0.00077487
-0  1  1  0  22.3125  0.358826  50.7305  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  2  2  0  54.1875  1.29224  52.3777  0  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  3  3  0  179.375  1.13257  26.7762  0  0.00077487
-0  1  1  0  604.5  0.0704651  247.986  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  1  1  0  40.4375  -1.84204  63.7239  3  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  1  1  0  102  -1.20654  48.3455  2  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  360.25  1.72388  351.953  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  2  2  0  153.25  1.72681  76.4784  0  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  20.1094  -1.4585  63.2038  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  3  3  0  171.5  -0.445923  191.813  1  0.00077487
-0  1  1  0  21.0312  1.42017  35.8839  1  0.00077487
-0  5  5  0  95.75  0.240875  34.0659  1  0.00077487
-0  1  1  0  21.3594  -2.31836  42.4117  0  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  2  2  0  51.75  -0.920166  28.7755  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  1  1  0  79.8125  -0.448364  69.7059  1  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  3  3  0  189.875  -1.41895  57.0322  2  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  1  1  0  27.9062  1.271  75.8422  2  0.00077487
-0  3  3  0  138  -0.201385  42.772  0  0.00077487
-0  2  2  0  28.0156  -0.157776  26.5878  0  0.00077487
-0  5  5  0  77.375  0.653809  32.3002  0  0.00077487
-0  1  1  0  68  -0.174194  51.8659  1  0.00077487
-0  1  1  0  20.0469  0.000652194  42.2909  3  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  4  4  0  114.812  2.00195  75.6103  1  0.00077487
-0  1  1  0  53.8125  -1.92432  52.4393  2  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  2  2  0  59.1562  -0.250488  66.7984  3  0.00077487
-0  0  0  0  0  0  -1  3  0.00077487
-0  2  2  0  30.2812  -0.0777283  88.3616  0  0.00077487
-0  1  1  0  26.1875  -0.523804  53.6036  2  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  2  2  0  29.5  -1.67139  60.2244  1  0.00077487
-0  1  1  0  40.0312  -0.706787  96.178  3  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  1  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  1  1  0  20.9844  0.114029  68.5053  3  0.00077487
-0  1  1  0  23.2656  2.28418  210.502  2  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  1  1  0  112.938  1.76318  39.7282  1  0.00077487
-0  0  0  0  0  0  -1  0  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-0  0  0  0  0  0  -1  2  0.00077487
-                                                                                                    RooUtil:: Wrote output to output_newID_jetCounting/Run2/ZZ_5.root
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil::    \__/    \__/
-                                                                                                    RooUtil::  S (oo)    (oo)
-                                                                                                    RooUtil:: (\//~~\\  //~~\\
-                                                                                                    RooUtil::  \/\__//  \\__//\T
-                                                                                                    RooUtil::    ||||    ||\\ Who cares!
-                                                                                                    RooUtil:: __ |||| __ |||| ___
-                                                                                                    RooUtil::   (_)(_)  (_)(_)
-                                                                                                    RooUtil:: 
-
-------------------------------
-CPU  Time:	80.0
-Real Time:	84.3
-

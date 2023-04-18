@@ -1,145 +1,0 @@
-=========================================================
- Setting of the analysis job based on provided arguments 
----------------------------------------------------------
- ana.input_file_list_tstring: /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
- ana.output_tfile: output_newID_jetCounting/2016/Higgs.root
- ana.n_events: -1
- ana.nsplit_jobs: -1
- ana.job_index: -1
-=========================================================
->>> Hostname is uaf-8.t2.ucsd.edu
-inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
-                                                                                                    RooUtil:: Start EventLooping
-                                                                                                    RooUtil:: System info:
-uaf-8.t2.ucsd.edu
-Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Tue Apr  4 15:44:01 PDT 2023
-kdownham
-/home/users/kdownham/Triboson/VVVNanoLooper/analysis
-                                                                                                    RooUtil::  _
-                                                                                                    RooUtil:: /\\
-                                                                                                    RooUtil:: \ \\  \__/ \__/
-                                                                                                    RooUtil::  \ \\ (oo) (oo)  Here we come!
-                                                                                                    RooUtil::   \_\\/~~\_/~~\_
-                                                                                                    RooUtil::  _.-~===========~-._
-                                                                                                    RooUtil:: (___________________)
-                                                                                                    RooUtil::       \_______/
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil::  Your friendly aliens
-                                                                                                    RooUtil::      Surf & Turf
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil:: Total Events in this Chain to process = 1134
-                                                                                                    RooUtil:: Cut name|pass|weight|systs
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil:: Root| 0 | 0.000000|
-                                                                                                    RooUtil::   CutWeight                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
-                                                                                                    RooUtil::     CutAdditionalLeptonID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 0 | 0.000000|
-                                                                                                    RooUtil::       CutDuplicate                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 0 | 0.000000|
-                                                                                                    RooUtil::         CutVetoLowMassResonance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0 | 0.000000|
-                                                                                                    RooUtil::           CutVetoZHZWW                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 0 | 0.000000|
-                                                                                                    RooUtil::             CutPresel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 0 | 0.000000|
-                                                                                                    RooUtil::              +CutBVeto| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutEMu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |  CutEMuMT2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsAll| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsIn| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutZeroJetsOut| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsAll| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsIn| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +Cut1pJetsOut| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutOFSR_3e1mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutOFSR_1e3mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | |   +CutEMuMT2_trgMatch| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutOffZ| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_4el| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_4mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutSFSR_2e2mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | | +CutOffZ_trgMatch| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutBTag| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutOnZ| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_4el| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_4mu| 0 | 0.000000|
-                                                                                                    RooUtil::              | +CutZZCR_2e2mu| 0 | 0.000000|
-                                                                                                    RooUtil::              +CutOppFlav| 0 | 0.000000|
-                                                                                                    RooUtil::              |  CutEMuBT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 0 | 0.000000|
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsAll
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsIn
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsOut
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutBTag
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuBT
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuMT2_trgMatch
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_1e3mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_3e1mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOffZ_trgMatch
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_2e2mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4el
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_2e2mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4el
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4mu
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsAll
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsIn
-                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsOut
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsAll
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsIn
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsOut
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutBTag
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuBT
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuMT2_trgMatch
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_1e3mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_3e1mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOffZ_trgMatch
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_2e2mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4el
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_2e2mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4el
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4mu
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsAll
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsIn
-                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsOut
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/VHToNonbb_M125_TuneCP5_13TeV-amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  2  2  0  44.7188  -1.22144  31.0587  3  0.0985386
-0  0  0  0  0  0  -1  1  -0.0985386
-0  0  0  0  0  0  -1  1  0.0985386
-0  2  2  0  67.875  0.328552  46.7217  1  0.0985386
-                                                                                                    RooUtil:: TTreeCache enabled
-                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
-0  2  2  0  64.5625  -1.72827  45.5308  3  0.00530005
-0  0  0  0  0  0  -1  1  0.00530005
-0  3  3  0  53.1875  2.00049  41.6106  3  0.00530005
-0  4  4  0  82.875  -1.65186  45.1468  2  0.00530005
-0  3  3  0  177.875  -1.1687  79.6938  3  -0.00530005
-0  4  4  0  208.75  1.1665  32.856  3  0.00530005
-0  3  3  0  53.6562  1.19629  44.412  1  0.00530005
-0  3  3  0  106.312  0.475891  33.7631  3  0.00530005
-0  1  1  0  96.875  0.790039  104.748  2  0.00530005
-0  4  4  0  86.25  0.128357  49.9151  3  0.00530005
-0  1  1  0  106.438  -1.7644  179.26  0  -0.00530005
-0  3  3  0  221.375  1.56201  73.318  1  0.00530005
-0  1  1  0  57.4375  1.51074  109.504  3  0.00530005
-0  1  1  0  39.7188  1.5835  67.1757  1  0.00530005
-0  3  3  0  39.6875  0.225342  47.6282  3  0.00530005
-0  2  2  0  49.125  -1.82446  25.7945  0  0.00530005
-0  2  2  0  45.9688  -1.4624  65.8385  3  0.00530005
-0  5  5  0  163.625  0.584351  14.7291  3  0.00530005
-0  2  2  0  117.562  1.38794  62.7579  0  0.00530005
-0  3  3  0  104.75  1.396  63.429  1  0.00530005
-                                                                                                    RooUtil:: Wrote output to output_newID_jetCounting/2016/Higgs.root
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil::    \__/    \__/
-                                                                                                    RooUtil::  S (oo)    (oo)
-                                                                                                    RooUtil:: (\//~~\\  //~~\\
-                                                                                                    RooUtil::  \/\__//  \\__//\T
-                                                                                                    RooUtil::    ||||    ||\\ Who cares!
-                                                                                                    RooUtil:: __ |||| __ |||| ___
-                                                                                                    RooUtil::   (_)(_)  (_)(_)
-                                                                                                    RooUtil:: 
-
-------------------------------
-CPU  Time:	0.4
-Real Time:	0.4
-
