@@ -3,6 +3,7 @@
 
 #include "AnalysisConfig.h"
 #include "Terminate_4LepMET.h"
+#include "Terminate_3LepTauMET.h"
 #include "Terminate_Common.h"
 
 void Terminate();

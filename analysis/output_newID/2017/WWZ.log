@@ -1,0 +1,5 @@
+hadd Target file: output_newID/2017/WWZ.root
+hadd compression setting for all output: 1
+hadd Source file 1: output_newID/2017/ZHWWZ.root
+hadd Source file 2: output_newID/2017/NonResWWZ.root
+hadd Target path: output_newID/2017/WWZ.root:/

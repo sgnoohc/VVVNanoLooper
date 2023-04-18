@@ -33,7 +33,7 @@ bool XGBoostInterface::build(std::string fname, std::vector<std::string> const& 
   booster = new BoosterHandle;
   SAFE_XGBOOST(XGBoosterCreate(nullptr, 0, booster));
 
-  std::cout << "XGBoostInterface::build: A new xgboost is created. Loading the model in " << fname << "..." << endl;
+  //std::cout << "XGBoostInterface::build: A new xgboost is created. Loading the model in " << fname << "..." << endl;
 
   SAFE_XGBOOST(XGBoosterLoadModel(*booster, fname.data()));
 

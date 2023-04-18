@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     #sample_list = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/*")  # this currently points towards running over all skimmed samples 
     print("Samples that are currently being run on: ")
-    sample_list = glob.glob(os.environ["skimDir"]+"/*") # change the "*" to the sample names that you want to run over (currently runs over all skimmed samples)
+    sample_list = glob.glob(os.environ["skimDir"]+"/WWZJets*") # change the "*" to the sample names that you want to run over (currently runs over all skimmed samples)
     for sample in sample_list:
         sample_map[DirectorySample( location=sample, dataset="/"+os.path.basename(sample))] = os.path.basename(sample)
 	print(sample)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode 0 -w"]
+                            ["metis_extraargs", "--mode 1 -w"]
                             ]
                         },
                     cmssw_version = "CMSSW_11_2_0_pre5",

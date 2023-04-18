@@ -1,0 +1,12 @@
+=========================================================
+ Setting of the analysis job based on provided arguments 
+---------------------------------------------------------
+ ana.input_file_list_tstring: /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/*Run2018*/merged/output.root
+ ana.output_tfile: output_newID_fakestudy/2018/data.root
+ ana.n_events: -1
+ ana.nsplit_jobs: -1
+ ana.job_index: -1
+=========================================================
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  glob() failed with return_value 3
+

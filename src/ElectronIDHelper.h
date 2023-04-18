@@ -17,6 +17,7 @@ namespace ElectronIDHelper {
     bool electronPassPreselection(unsigned int idx, std::string level);
     void electronLoadMVA(int year, bool isAPV);
     float computeMVAScore(unsigned int idx, int year); 
+    //float convert_BDTscore_raw(float const& mva);
 }
 
 #endif

@@ -225,6 +225,12 @@ void vvvtree::Init(TTree *tree) {
   if (Common_lep_SFupTight_branch) Common_lep_SFupTight_branch->SetAddress(&Common_lep_SFupTight_);
   Common_jet_idxs_branch = tree->GetBranch("Common_jet_idxs");
   if (Common_jet_idxs_branch) Common_jet_idxs_branch->SetAddress(&Common_jet_idxs_);
+  Common_jet_genJetIdx_branch = tree->GetBranch("Common_jet_genJetIdx");
+  if (Common_jet_genJetIdx_branch) Common_jet_genJetIdx_branch->SetAddress(&Common_jet_genJetIdx_);
+  Common_jet_hadronFlavour_branch = tree->GetBranch("Common_jet_hadronFlavour");
+  if (Common_jet_hadronFlavour_branch) Common_jet_hadronFlavour_branch->SetAddress(&Common_jet_hadronFlavour_);
+  Common_jet_partonFlavour_branch = tree->GetBranch("Common_jet_partonFlavour");
+  if (Common_jet_partonFlavour_branch) Common_jet_partonFlavour_branch->SetAddress(&Common_jet_partonFlavour_);
   Common_jet_passBloose_branch = tree->GetBranch("Common_jet_passBloose");
   if (Common_jet_passBloose_branch) Common_jet_passBloose_branch->SetAddress(&Common_jet_passBloose_);
   Common_jet_passBmedium_branch = tree->GetBranch("Common_jet_passBmedium");
@@ -655,6 +661,9 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_lep_SFupTight_isLoaded = false;
   Common_jet_p4_isLoaded = false;
   Common_jet_idxs_isLoaded = false;
+  Common_jet_genJetIdx_isLoaded = false;
+  Common_jet_hadronFlavour_isLoaded = false;
+  Common_jet_partonFlavour_isLoaded = false;
   Common_jet_passBloose_isLoaded = false;
   Common_jet_passBmedium_isLoaded = false;
   Common_jet_passBtight_isLoaded = false;
@@ -930,6 +939,9 @@ void vvvtree::LoadAllBranches() {
   if (Common_lep_SFupTight_branch != 0) Common_lep_SFupTight();
   if (Common_jet_p4_branch != 0) Common_jet_p4();
   if (Common_jet_idxs_branch != 0) Common_jet_idxs();
+  if (Common_jet_genJetIdx_branch != 0) Common_jet_genJetIdx();
+  if (Common_jet_hadronFlavour_branch != 0) Common_jet_hadronFlavour();
+  if (Common_jet_partonFlavour_branch != 0) Common_jet_partonFlavour();
   if (Common_jet_passBloose_branch != 0) Common_jet_passBloose();
   if (Common_jet_passBmedium_branch != 0) Common_jet_passBmedium();
   if (Common_jet_passBtight_branch != 0) Common_jet_passBtight();
@@ -2413,6 +2425,45 @@ const vector<int> &vvvtree::Common_jet_idxs() {
     Common_jet_idxs_isLoaded = true;
   }
   return *Common_jet_idxs_;
+}
+
+const vector<int> &vvvtree::Common_jet_genJetIdx() {
+  if (not Common_jet_genJetIdx_isLoaded) {
+    if (Common_jet_genJetIdx_branch != 0) {
+      Common_jet_genJetIdx_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_genJetIdx_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_genJetIdx_isLoaded = true;
+  }
+  return *Common_jet_genJetIdx_;
+}
+
+const vector<int> &vvvtree::Common_jet_hadronFlavour() {
+  if (not Common_jet_hadronFlavour_isLoaded) {
+    if (Common_jet_hadronFlavour_branch != 0) {
+      Common_jet_hadronFlavour_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_hadronFlavour_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_hadronFlavour_isLoaded = true;
+  }
+  return *Common_jet_hadronFlavour_;
+}
+
+const vector<int> &vvvtree::Common_jet_partonFlavour() {
+  if (not Common_jet_partonFlavour_isLoaded) {
+    if (Common_jet_partonFlavour_branch != 0) {
+      Common_jet_partonFlavour_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_partonFlavour_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_partonFlavour_isLoaded = true;
+  }
+  return *Common_jet_partonFlavour_;
 }
 
 const vector<bool> &vvvtree::Common_jet_passBloose() {
@@ -4749,6 +4800,9 @@ const vector<float> &Common_lep_SFup() { return vvv.Common_lep_SFup(); }
 const vector<float> &Common_lep_SFupTight() { return vvv.Common_lep_SFupTight(); }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_jet_p4() { return vvv.Common_jet_p4(); }
 const vector<int> &Common_jet_idxs() { return vvv.Common_jet_idxs(); }
+const vector<int> &Common_jet_genJetIdx() { return vvv.Common_jet_genJetIdx(); }
+const vector<int> &Common_jet_hadronFlavour() { return vvv.Common_jet_hadronFlavour(); }
+const vector<int> &Common_jet_partonFlavour() { return vvv.Common_jet_partonFlavour(); }
 const vector<bool> &Common_jet_passBloose() { return vvv.Common_jet_passBloose(); }
 const vector<bool> &Common_jet_passBmedium() { return vvv.Common_jet_passBmedium(); }
 const vector<bool> &Common_jet_passBtight() { return vvv.Common_jet_passBtight(); }

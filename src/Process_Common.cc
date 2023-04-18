@@ -203,6 +203,22 @@ void Process_Common_NanoAOD()
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
     {
 
+
+        // Gen matching the muons
+        //bool elGenMatched = false;
+        //
+        //for (int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen){
+        //     if ( std::abs(nt.GenPart_pdgId()[igen]) != 11 ) continue;
+        //     if ( !(nt.GenPart_status().at(igen) == 1) || !((nt.GenPart_statusFlags().at(igen) >> 0) & 1) ) continue;
+        //     if ( ROOT::Math::VectorUtil::DeltaR(nt.GenPart_p4().at(igen),nt.Electron_p4().at(iel)) < 0.05 ){
+        //          elGenMatched = true;
+ 	//	  break;
+        //     }
+        //}
+        //// Discard muon if it is not matched to gen Muon
+        //if (!elGenMatched) continue;
+
+
 	// New lepton ID
 	if (new_lepton_ID){
 	   if (!ElectronIDHelper::electronIDscore(nt.year(),iel,"tight",gconf.isAPV)) continue;
@@ -223,6 +239,7 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", iel);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Electron_pdgId()[iel]);
         ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Electron_p4()[iel]);
+	//ana.tx.pushbackToBranch<float>("Common_lep_eta", nt.Electron_eta()[iel]);
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Electron_mvaFall17V2Iso_WP80()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Electron_dxy()[iel]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Electron_dz()[iel]);
@@ -299,6 +316,19 @@ void Process_Common_NanoAOD()
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)
     {
 
+	// Gen matching the muons
+	//bool muGenMatched = false;
+	//
+        //for (int igen = 0; igen < nt.GenPart_pdgId().size(); ++igen){
+	//     if ( std::abs(nt.GenPart_pdgId()[igen]) != 13 ) continue;
+	//     if ( !(nt.GenPart_status().at(igen) == 1) || !((nt.GenPart_statusFlags().at(igen) >> 0) & 1) ) continue;
+	//     if ( ROOT::Math::VectorUtil::DeltaR(nt.GenPart_p4().at(igen),nt.Muon_p4().at(imu)) < 0.05 ){
+	//	  muGenMatched = true;
+	//	  break;
+	//     }
+	//}
+	//// Discard muon if it is not matched to gen Muon
+        //if (!muGenMatched) continue;
 	
 	if (nt.event() == event_check){
 	    std::cout << "Muon index = " << imu << std::endl;
@@ -332,6 +362,7 @@ void Process_Common_NanoAOD()
         ana.tx.pushbackToBranch<int>("Common_lep_idxs", imu);
         ana.tx.pushbackToBranch<int>("Common_lep_pdgid", nt.Muon_pdgId()[imu]);
         ana.tx.pushbackToBranch<LorentzVector>("Common_lep_p4", nt.Muon_p4()[imu]);
+	//ana.tx.pushbackToBranch<float>("Common_lep_eta", nt.Muon_eta()[imu]);
         ana.tx.pushbackToBranch<int>("Common_lep_tight", nt.Muon_pfRelIso04_all()[imu] < 0.15); // i.e. Tight from https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonSelection#Particle_Flow_isolation
         ana.tx.pushbackToBranch<float>("Common_lep_dxy", nt.Muon_dxy()[imu]);
         ana.tx.pushbackToBranch<float>("Common_lep_dz", nt.Muon_dz()[imu]);
@@ -402,6 +433,52 @@ void Process_Common_NanoAOD()
         // ana.tx.pushbackToBranch<float>("Common_lep_SFdn",      sf);
         // ana.tx.pushbackToBranch<float>("Common_lep_SFdnTight", sf);
 	if (nt.event() == event_check) std::cout << "Debug 4" << endl;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // Tau selection
+    // --------------------------------------------------------------------------------------------
+    // Loop over taus and select according to HH -> gamma gamma tau tau analysis requirements
+    // TODO add tau branches to pT sorting function at the bottom of this file
+    for (unsigned int itau = 0; itau < nt.Tau_p4().size(); ++itau){
+
+	 if ( not (nt.Tau_pt()[itau] > 20.)) continue;
+	 if ( not (std::abs(nt.Tau_eta()[itau]) < 2.3)) continue;
+	 if ( not (std::abs(nt.Tau_dz()[itau]) < 0.2)) continue;
+	 if ( not (nt.Tau_idDeepTau2017v2p1VSe()[itau] >= 0)) continue;      // VVVLoose WP (Kept intentionally loose for studying which WPs give best sensitivity)
+	 if ( not (nt.Tau_idDeepTau2017v2p1VSmu()[itau] >= 0)) continue;     // VLoose WP
+	 if ( not (nt.Tau_idDeepTau2017v2p1VSjet()[itau] >= 0)) continue;    // VVVLoose WP
+
+	 // tau overlap removal: if a tau is within dR < 0.5 of a selected lepton, discard the tau
+	 bool isOverlap = false;
+	 for (unsigned int lep = 0; lep < ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size(); lep++){
+	      int ilep_idx = ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs")[lep];
+	      if ( abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[lep]) == 11 ){     
+	          if (RooUtil::Calc::DeltaR(nt.Tau_p4()[itau], nt.Electron_p4()[ilep_idx]) < 0.5) isOverlap = true;	   
+	      }
+	      if ( abs(ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[lep]) == 13 ){
+		  if (RooUtil::Calc::DeltaR(nt.Tau_p4()[itau], nt.Muon_p4()[ilep_idx]) < 0.5) isOverlap = true;	  
+	      }   
+	 }
+
+	 // Discard any taus that overlap with the selected leptons
+	 if ( isOverlap ) continue;	 
+
+	 // Save branches
+	 ana.tx.pushbackToBranch<LorentzVector>("Common_tau_p4"       ,	 nt.Tau_p4()[itau]);
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_idxs"     ,	 itau);	  	 
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_decayMode",	 nt.Tau_decayMode()[itau]);          
+	 ana.tx.pushbackToBranch<float>(	"Common_tau_dxy"      ,	 nt.Tau_dxy()[itau]);
+	 ana.tx.pushbackToBranch<float>(	"Common_tau_dz"       ,	 nt.Tau_dz()[itau]);
+	 ana.tx.pushbackToBranch<float>(	"Common_tau_eta"      ,  nt.Tau_eta()[itau]);
+	 ana.tx.pushbackToBranch<float>(	"Common_tau_chargedIso", nt.Tau_chargedIso()[itau]);
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_jetIdx"   ,  nt.Tau_jetIdx()[itau]);
+	 ana.tx.pushbackToBranch<float>(	"Common_tau_neutralIso", nt.Tau_neutralIso()[itau]);
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_charge"   ,  nt.Tau_charge()[itau]);
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_idVSe"    ,  nt.Tau_idDeepTau2017v2p1VSe()[itau]);
+	 ana.tx.pushbackToBranch<int>(		"Common_tau_idVSmu"   ,  nt.Tau_idDeepTau2017v2p1VSmu()[itau]);
+ 	 ana.tx.pushbackToBranch<int>(		"Common_tau_idVSjet"  ,  nt.Tau_idDeepTau2017v2p1VSjet()[itau]);
+
     }
 
     ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc );
@@ -508,7 +585,7 @@ void Process_Common_NanoAOD()
             continue;
 
         // For the analysis level jets, consider jets only 30 and above
-        if (jet_p4.pt() > 30. and abs(jet_p4.eta()) < 3.0)//don't trust jets in HF
+        if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 4.7)//don't trust jets in HF
         {
             // For now, accept anything that reaches this point
             ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
@@ -521,6 +598,11 @@ void Process_Common_NanoAOD()
             ana.tx.pushbackToBranch<bool>("Common_jet_passBloose_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose_CSV );
             ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium_CSV", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium_CSV);
             ana.tx.pushbackToBranch<bool>("Common_jet_passBtight_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight_CSV );
+	    if (!nt.isData()){
+	    	ana.tx.pushbackToBranch<int>("Common_jet_genJetIdx", nt.Jet_genJetIdx()[ijet]);
+	    	ana.tx.pushbackToBranch<int>("Common_jet_hadronFlavour", nt.Jet_hadronFlavour()[ijet]);
+	    	ana.tx.pushbackToBranch<int>("Common_jet_partonFlavour", nt.Jet_partonFlavour()[ijet]);
+	    }
             if (ana.is_postprocessed && !nt.isData())
             {
                 ana.tx.pushbackToBranch<float>("Common_jet_pt_jesup", nt.Jet_pt_jesTotalUp()[ijet]);
@@ -1571,13 +1653,21 @@ void Process_Common_NanoAOD()
             /* names of any associated vector<bool>  branches to sort along */ {}
             );
 
+    // Sorting tau branches
+    ana.tx.sortVecBranchesByPt(
+	    /* name of the 4vector branch to use to pt sort by*/	       "Common_tau_p4",
+	    /* names of any associated vector<float> branches to sort along */ {"Common_tau_dxy","Common_tau_dz","Common_tau_eta","Common_tau_chargedIso","Common_tau_neutralIso",},
+	    /* names of any associated vector<int>   branches to sort along */ {"Common_tau_idxs","Common_tau_decayMode","Common_tau_jetIdx","Common_tau_charge","Common_tau_idVSe","Common_tau_idVSmu","Common_tau_idVSjet",},
+	    /* names of any associated vector<bool>  branches to sort along */ {}
+    	    );
+
     if (nt.event() == event_check) std::cout << "Debug 12" << endl;
 
     // Sorting jet branches
     ana.tx.sortVecBranchesByPt(
             /* name of the 4vector branch to use to pt sort by*/               "Common_jet_p4",
             /* names of any associated vector<float> branches to sort along */ {},
-            /* names of any associated vector<int>   branches to sort along */ {"Common_jet_idxs", "Common_jet_overlapfatjet", "Common_jet_id",},
+            /* names of any associated vector<int>   branches to sort along */ {"Common_jet_idxs", "Common_jet_overlapfatjet", "Common_jet_id", "Common_jet_genJetIdx", "Common_jet_hadronFlavour", "Common_jet_partonFlavour",},
             /* names of any associated vector<bool>  branches to sort along */ {"Common_jet_passBloose", "Common_jet_passBmedium", "Common_jet_passBtight","Common_jet_passBloose_CSV","Common_jet_passBmedium_CSV","Common_jet_passBtight_CSV"}
             );
 

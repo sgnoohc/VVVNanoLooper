@@ -18,6 +18,8 @@ void Process()
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Process_4LepMET(); break;
+	case AnalysisConfig::k3LepTauMET: Process_3LepTauMET(); break;
+	case AnalysisConfig::kAll: Process_4LepMET(); Process_3LepTauMET(); break;
     }
 
     //std::cout << "Debug Process 2" << std::endl;
@@ -43,6 +45,8 @@ void Process()
         switch (ana.looperMode)
         {
             case AnalysisConfig::k4LepMET: PostProcess_4LepMET(); break;
+	    case AnalysisConfig::k3LepTauMET: PostProcess_3LepTauMET(); break;
+	    case AnalysisConfig::kAll: PostProcess_4LepMET(); PostProcess_3LepTauMET(); break;
         }
     }
     //std::cout << "Debug Process 5" << std::endl;

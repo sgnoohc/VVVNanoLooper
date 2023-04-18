@@ -5,6 +5,7 @@ XGBOOSTLIBDIR=${XGBOOST_PATH}/lib
 
 cd $DIR/../
 
+make cleansmall;
 make clean;
 make -j 12;
 

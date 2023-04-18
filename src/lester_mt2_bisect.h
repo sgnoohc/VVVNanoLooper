@@ -1,3 +1,5 @@
+//#ifndef lester_mt2_bisect_h
+//#define lester_mt2_bisect_h
 
 /*
  *  Copyright 2014, Christopher Lester, Univeristy of Cambridge
@@ -623,7 +625,7 @@ std::pair <double,double>  ben_findsols(double MT2, double px, double py, double
 
 #endif
 
-
+//#endif
 
 
 

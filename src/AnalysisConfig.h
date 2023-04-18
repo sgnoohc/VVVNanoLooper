@@ -16,6 +16,9 @@ public:
 
     enum LooperMode {
         k4LepMET = 0,
+	k3LepTauMET = 1,
+	k3LepMET = 2,
+	kAll = 3,
     };
 
     LooperMode looperMode;

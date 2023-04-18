@@ -131,7 +131,7 @@ void Begin_4LepMET_NanoAOD()
             [&]()
             {
                 // Needs to be 4 leptons
-                if (not (ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size() == 4))
+                if (not (ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size() == 4 ))
                     return false;
                 return true;
             }, UNITY);
@@ -269,7 +269,7 @@ void Begin_4LepMET_NanoAOD()
 
 
                 // The leading one has to pass 25 GeV
-                if (not (other_lep_p4s[0].pt() > 25.)) return false;
+                //if (not (other_lep_p4s[0].pt() > 25.)) return false;
 
                 return true;
             }, UNITY);
@@ -289,7 +289,7 @@ void Begin_4LepMET_NanoAOD()
                         const LorentzVector& jp4 = ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[jlep];
                         const int& jpdgid = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[jlep];
 
-                        if (ipdgid * jpdgid < 0) // if opposite charge pair
+                        if (ipdgid * jpdgid < 0)
                         {
                             if (not ((ip4 + jp4).mass() > 12))
                                 return false;
@@ -347,6 +347,9 @@ void Begin_4LepMET_NanoAOD()
      
     // Create a middle point of preselection
     ana.cutflow.addCutToLastActiveCut("Cut_4LepMET_Preselection", [&]() { ana.tx.setBranch<bool>("Cut_4LepMET_Preselection", true); return true; }, UNITY); // This "cut" does not do anything. It works as a middle point
+
+    // Create a pre-selection specific to the tau selection
+
 
 }
 

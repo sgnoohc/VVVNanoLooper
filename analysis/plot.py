@@ -45,21 +45,21 @@ def plot(year, filterpattern):
     
     p.dump_plot(
             fnames=[
-                "outputs/{0}/ZZ.root".format(year),
-                "outputs/{0}/TTZ.root".format(year),
-                "outputs/{0}/Higgs.root".format(year),
-                "outputs/{0}/WZ.root".format(year),
-                "outputs/{0}/Other.root".format(year),
-                #"outputs/{0}/NonWWZ.root".format(year),
-                "outputs/{0}/WWZ.root".format(year),
+                "output_newID_jetCounting/{0}/ZZ.root".format(year),
+                "output_newID_jetCounting/{0}/TTZ.root".format(year),
+                "output_newID_jetCounting/{0}/Higgs.root".format(year),
+                "output_newID_jetCounting/{0}/WZ.root".format(year),
+                "output_newID_jetCounting/{0}/Other.root".format(year),
+                #"output_newID_W_25_15_Z_10/{0}/NonWWZ.root".format(year),
+                #"outputs/{0}/WWZ.root".format(year),
                 ],
             sig_fnames=[
-                #"outputs/{0}/WWZ.root".format(year),
+                "output_newID_jetCounting/{0}/WWZ.root".format(year),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
             #data_fname="outputs/{0}/data.root".format(year),
-            dirname="../../../public_html/WWZ/lepton_ID_study/newID/{0}".format(year),
+            dirname="../../../public_html/WWZ/jet_Counting_v2/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
@@ -67,10 +67,10 @@ def plot(year, filterpattern):
                 "WZ",
                 "Other",
                 #"NonWWZ",
-                "WWZ",
+                #"WWZ",
                 ],
             signal_labels=[
-                #"WWZ",
+                "WWZ",
                 #"NonResWWZ",
                 #"ZHWWZ",
                 ],
@@ -107,15 +107,6 @@ if __name__ == "__main__":
 
     filterpatterns = [
         #"Yield",
-	#"CutEMuBT__MET",
-	#"CutEMuBT__PuppiMET",
-	#"CutEMuBT__MT2",
-	#"CutEMuBT__other_mll",
-	#"CutEMuBT__other_mll_full",
-	#"CutEMuBT__other_mll_varbin",
-        #"CutBVeto__MET",
-	#"CutBVeto__PuppiMET",
-        #"CutOnZ__MET",
 	#"CutOnZ__PuppiMET",
 	#"CutOnZ__Pt4l",
 	#"CutOnZ__MT2",
@@ -125,9 +116,25 @@ if __name__ == "__main__":
 	#"CutEMuMT2__PuppiMET",
 	#"CutOffZ__MET",
 	#"CutOffZ__PuppiMET",
-	"CutOffZ", # this is the SF signal region
-	"CutEMuMT2", # this is the OF signal region
-	"cutflow",
+	#"CutOffZ__Yield", # this is the SF signal region
+	"CutEMuMT2__Yield", # this is the OF signal region
+	"CutZeroJetsAll__Yield",
+	"Cut1pJetsAll__Yield",
+	"CutZeroJetsIn__Yield",
+	"Cut1pJetsIn__Yield",
+	"CutZeroJetsOut__Yield",
+	"Cut1pJetsOut__Yield",
+	#"CutOffZ__SRBin",
+	#"CutEMuMT2__SRBin",
+	#"CutEMuMT2__Min_mlj",
+	#"CutOffZ_trgMatch__Yield",
+	#"CutEMuMT2_trgMatch__Yield",
+	#"CutOffZ_trgMatch__SRBin",
+	#"CutEMuMT2_trgMatch__SRBin",
+        #"CutZZCR",
+        #"CutSFSR",
+	#"CutOFSR",
+	#"cutflow",
         ]
 
     years = [

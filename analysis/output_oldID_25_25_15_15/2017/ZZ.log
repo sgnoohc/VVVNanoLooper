@@ -1,0 +1,12 @@
+hadd Target file: output_oldID_25_25_15_15/2017/ZZ.root
+hadd compression setting for all output: 1
+hadd Source file 1: output_oldID_25_25_15_15/2017/ZZ_0.root
+hadd Source file 2: output_oldID_25_25_15_15/2017/ZZ_1.root
+hadd Source file 3: output_oldID_25_25_15_15/2017/ZZ_2.root
+hadd Source file 4: output_oldID_25_25_15_15/2017/ZZ_3.root
+hadd Source file 5: output_oldID_25_25_15_15/2017/ZZ_4.root
+hadd Source file 6: output_oldID_25_25_15_15/2017/ZZ_5.root
+hadd Source file 7: output_oldID_25_25_15_15/2017/ZZ_6.root
+hadd Source file 8: output_oldID_25_25_15_15/2017/ZZ_7.root
+hadd Source file 9: output_oldID_25_25_15_15/2017/ZZ_8.root
+hadd Target path: output_oldID_25_25_15_15/2017/ZZ.root:/

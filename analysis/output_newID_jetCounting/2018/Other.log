@@ -1,0 +1,227 @@
+=========================================================
+ Setting of the analysis job based on provided arguments 
+---------------------------------------------------------
+ ana.input_file_list_tstring: /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/SSWW_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WWTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+ ana.output_tfile: output_newID_jetCounting/2018/Other.root
+ ana.n_events: -1
+ ana.nsplit_jobs: -1
+ ana.job_index: -1
+=========================================================
+>>> Hostname is uaf-8.t2.ucsd.edu
+inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/SSWW_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WWTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/SSWW_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WWTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root
+                                                                                                    RooUtil:: Start EventLooping
+                                                                                                    RooUtil:: System info:
+uaf-8.t2.ucsd.edu
+Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
+Tue Apr  4 15:44:06 PDT 2023
+kdownham
+/home/users/kdownham/Triboson/VVVNanoLooper/analysis
+                                                                                                    RooUtil::  _
+                                                                                                    RooUtil:: /\\
+                                                                                                    RooUtil:: \ \\  \__/ \__/
+                                                                                                    RooUtil::  \ \\ (oo) (oo)  Here we come!
+                                                                                                    RooUtil::   \_\\/~~\_/~~\_
+                                                                                                    RooUtil::  _.-~===========~-._
+                                                                                                    RooUtil:: (___________________)
+                                                                                                    RooUtil::       \_______/
+                                                                                                    RooUtil:: 
+                                                                                                    RooUtil::  Your friendly aliens
+                                                                                                    RooUtil::      Surf & Turf
+                                                                                                    RooUtil:: 
+                                                                                                    RooUtil:: Total Events in this Chain to process = 1101
+                                                                                                    RooUtil:: Cut name|pass|weight|systs
+                                                                                                    RooUtil:: 
+                                                                                                    RooUtil:: Root| 0 | 0.000000|
+                                                                                                    RooUtil::   CutWeight                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
+                                                                                                    RooUtil::     CutAdditionalLeptonID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 0 | 0.000000|
+                                                                                                    RooUtil::       CutDuplicate                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 0 | 0.000000|
+                                                                                                    RooUtil::         CutVetoLowMassResonance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 0 | 0.000000|
+                                                                                                    RooUtil::           CutVetoZHZWW                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | 0 | 0.000000|
+                                                                                                    RooUtil::             CutPresel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 0 | 0.000000|
+                                                                                                    RooUtil::              +CutBVeto| 0 | 0.000000|
+                                                                                                    RooUtil::              | +CutEMu| 0 | 0.000000|
+                                                                                                    RooUtil::              | |  CutEMuMT2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutZeroJetsAll| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutZeroJetsIn| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutZeroJetsOut| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +Cut1pJetsAll| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +Cut1pJetsIn| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +Cut1pJetsOut| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutOFSR_3e1mu| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutOFSR_1e3mu| 0 | 0.000000|
+                                                                                                    RooUtil::              | |   +CutEMuMT2_trgMatch| 0 | 0.000000|
+                                                                                                    RooUtil::              | +CutOffZ| 0 | 0.000000|
+                                                                                                    RooUtil::              | | +CutSFSR_4el| 0 | 0.000000|
+                                                                                                    RooUtil::              | | +CutSFSR_4mu| 0 | 0.000000|
+                                                                                                    RooUtil::              | | +CutSFSR_2e2mu| 0 | 0.000000|
+                                                                                                    RooUtil::              | | +CutOffZ_trgMatch| 0 | 0.000000|
+                                                                                                    RooUtil::              +CutBTag| 0 | 0.000000|
+                                                                                                    RooUtil::              +CutOnZ| 0 | 0.000000|
+                                                                                                    RooUtil::              | +CutZZCR_4el| 0 | 0.000000|
+                                                                                                    RooUtil::              | +CutZZCR_4mu| 0 | 0.000000|
+                                                                                                    RooUtil::              | +CutZZCR_2e2mu| 0 | 0.000000|
+                                                                                                    RooUtil::              +CutOppFlav| 0 | 0.000000|
+                                                                                                    RooUtil::              |  CutEMuBT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 0 | 0.000000|
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsAll
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsIn
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = Cut1pJetsOut
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutBTag
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuBT
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutEMuMT2_trgMatch
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_1e3mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOFSR_3e1mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutOffZ_trgMatch
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_2e2mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4el
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutSFSR_4mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_2e2mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4el
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZZCR_4mu
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsAll
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsIn
+                                                                                                    RooUtil:: Booked cutflow histogram for cut = CutZeroJetsOut
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsAll
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsIn
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = Cut1pJetsOut
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutBTag
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuBT
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutEMuMT2_trgMatch
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_1e3mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOFSR_3e1mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutOffZ_trgMatch
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_2e2mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4el
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutSFSR_4mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_2e2mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4el
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZZCR_4mu
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsAll
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsIn
+                                                                                                    RooUtil:: Booked rawcutflow histogram for cut = CutZeroJetsOut
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/SSWW_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+0  0  0  0  0  0  -1  2  0.00140351
+0  2  2  0  275  -1.95337  35.6749  0  0.00140351
+0  1  1  0  26.5938  0.720215  25.3675  2  -0.00140351
+0  1  1  0  101.062  -1.08911  169.038  1  0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  1  1  0  41.4375  -1.66162  82.786  2  -0.00140351
+0  0  0  0  0  0  -1  1  -0.00140351
+0  3  3  0  147.125  0.478149  96.8503  3  0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  1  1  0  25.6562  -1.6189  60.0987  3  -0.00140351
+0  4  4  0  98.3125  -0.562134  23.1829  1  -0.00140351
+0  1  1  0  31.5625  1.80005  126.503  0  0.00140351
+0  1  1  0  64.6875  -1.83813  123.162  0  0.00140351
+0  1  1  0  24.2812  -2.32227  47.3541  3  0.00140351
+0  2  2  0  122.875  -2.02148  19.7186  1  -0.00140351
+0  0  0  0  0  0  -1  3  0.00140351
+0  1  1  0  97.3125  1.6814  228.69  1  0.00140351
+0  2  2  0  29.3438  0.843994  35.3994  0  0.00140351
+0  1  1  0  115.312  -2.2334  111.878  2  0.00140351
+0  0  0  0  0  0  -1  3  0.00140351
+0  1  1  0  55.9375  0.482056  26.1923  2  0.00140351
+0  1  1  0  33.875  -1.99219  176.614  1  0.00140351
+0  2  2  0  29.9844  2  16.7593  0  0.00140351
+0  1  1  0  36.7812  1.82666  31.6382  3  0.00140351
+0  1  1  0  64.0625  -1.63281  178.042  2  0.00140351
+0  1  1  0  35.4688  1.39551  61.4691  3  -0.00140351
+0  0  0  0  0  0  -1  3  0.00140351
+0  1  1  0  105.562  1.18457  191.709  2  -0.00140351
+0  1  1  0  85.3125  2.31055  106.741  1  0.00140351
+0  3  3  0  25.9531  -1.40234  33.1117  2  -0.00140351
+0  0  0  0  0  0  -1  1  -0.00140351
+0  1  1  0  21.5  -1.22339  116.732  3  0.00140351
+0  1  1  0  105.062  -2.30273  119.089  0  0.00140351
+0  2  2  0  41.8438  -0.896606  32.4953  0  -0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  2  2  0  206.125  -0.948486  35.1506  1  0.00140351
+0  0  0  0  0  0  -1  2  -0.00140351
+0  1  1  0  53.5938  -1.67529  62.8235  2  0.00140351
+0  2  2  0  280.5  1.71338  50.0693  1  0.00140351
+0  1  1  0  72.8125  -1.17627  39.5136  3  0.00140351
+0  1  1  0  20.6406  -0.642822  104.243  2  -0.00140351
+0  1  1  0  37.7188  0.292114  54.163  2  0.00140351
+0  1  1  0  42.5938  -2.19092  48.8515  2  0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  4  4  0  389.25  -0.54895  146.795  1  0.00140351
+0  2  2  0  58.25  -2.30225  52.7018  3  0.00140351
+0  4  4  0  231.75  -1.1272  57.7106  3  -0.00140351
+0  1  1  0  62.9062  -1.23535  61.5624  0  0.00140351
+0  6  6  0  166.75  -2.1875  49.5561  0  0.00140351
+0  3  3  0  213.5  0.0339355  67.9767  1  0.00140351
+0  0  0  0  0  0  -1  3  0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  1  1  0  25.9844  -0.772583  22.006  1  0.00140351
+0  2  2  0  49.0625  -1.11133  45.3027  0  -0.00140351
+0  1  1  0  20.375  2.26416  63.7242  2  -0.00140351
+0  0  0  0  0  0  -1  2  0.00140351
+0  1  1  0  33.4375  -0.938599  78.1407  1  0.00140351
+0  2  2  0  128.25  1.229  117.881  3  -0.00140351
+0  1  1  0  71.0625  2.35986  72.8682  3  0.00140351
+0  2  2  0  190  2.1709  67.3597  3  -0.00140351
+0  0  0  0  0  0  -1  1  0.00140351
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+0  1  1  0  23.9688  1.3645  34.4852  2  0.038284
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/WWTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+                                                                                                    RooUtil:: TTreeCache enabled
+                                                                                                    RooUtil:: Looping /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_v2/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_v2/merged/output.root/TTree:t
+0  1  1  0  132  1.31763  169.73  3  0.00228667
+0  0  0  0  0  0  -1  1  0.00228667
+0  0  0  0  0  0  -1  3  0.00228667
+0  0  0  0  0  0  -1  2  0.00228667
+                                                                                                    RooUtil:: Wrote output to output_newID_jetCounting/2018/Other.root
+                                                                                                    RooUtil:: 
+                                                                                                    RooUtil::    \__/    \__/
+                                                                                                    RooUtil::  S (oo)    (oo)
+                                                                                                    RooUtil:: (\//~~\\  //~~\\
+                                                                                                    RooUtil::  \/\__//  \\__//\T
+                                                                                                    RooUtil::    ||||    ||\\ Who cares!
+                                                                                                    RooUtil:: __ |||| __ |||| ___
+                                                                                                    RooUtil::   (_)(_)  (_)(_)
+                                                                                                    RooUtil:: 
+
+------------------------------
+CPU  Time:	0.7
+Real Time:	1.0
+

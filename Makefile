@@ -16,6 +16,14 @@ XGBOOSTLIBS = -lxgboost
 EXTCXXFLAGS = $(XGBOOSTCXXFLAGS)
 EXTLIBS     = $(XGBOOSTLIBS)
 
+LIBRULE = lib_lepton_helpers.so
+
+LIBDIR = ./
+
+LIB = $(LIBRULE)
+
+LINKERFLAGS = -Wl,-rpath=$(LIBDIR),-soname,$(LIB)
+
 CC          = g++
 CXX         = g++
 LD          = g++
@@ -29,10 +37,13 @@ CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tra
 EXTRACFLAGS = $(shell rooutil-config) $(EXTCXXFLAGS)
 EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer -lMinuit
 
-all: rooutil $(EXE)
+all: rooutil $(EXE) $(LIBRULE)
 
 $(EXE): $(OBJECTS)
 	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) $(EXTRACFLAGS) -o $@
+
+$(LIBRULE): src/ElectronIDHelper.o src/MuonIDHelper.o src/XGBoostInterface.o
+	$(LD) $(LINKERFLAGS) -shared src/ElectronIDHelper.o src/MuonIDHelper.o src/XGBoostInterface.o -o $@
 
 %.o: %.cc
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@

@@ -146,6 +146,23 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight");    // SF tight iso
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");         // SF
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight");    // SF tight iso
+
+    // Tau variables
+    ana.tx.createBranch<vector<LorentzVector>>("Common_tau_p4");     	   // Pt sorted selected tau p4s
+    ana.tx.createBranch<vector<int>>	      ("Common_tau_idxs");	   // Pt sorted selected tau idxs
+    ana.tx.createBranch<vector<int>>          ("Common_tau_decayMode");    // Pt sorted selected tau decay mode
+    ana.tx.createBranch<vector<float>>        ("Common_tau_dxy");	   // Pt sorted selected tau dxy
+    ana.tx.createBranch<vector<float>>        ("Common_tau_dz");	   // Pt sorted selected tau dz
+    ana.tx.createBranch<vector<float>>        ("Common_tau_eta");	   // Pt sorted selected tau eta
+    ana.tx.createBranch<vector<float>>        ("Common_tau_chargedIso");   // Pt sorted selected tau charged Isolation
+    ana.tx.createBranch<vector<int>>          ("Common_tau_jetIdx");	   // Pt sorted selected tau jet index (-1 if none)
+    ana.tx.createBranch<vector<float>>	      ("Common_tau_neutralIso");   // Pt sorted selected tau neutral Isolation
+    ana.tx.createBranch<vector<int>>	      ("Common_tau_charge");	   // Pt sorted selected tau electric charge
+    ana.tx.createBranch<vector<int>>	      ("Common_tau_idVSe");	   // Pt sorted selected tau idDeepTau2017v2p1VSe
+    ana.tx.createBranch<vector<int>>          ("Common_tau_idVSmu");	   // Pt sorted selected tau idDeepTau2017v2p1VSmu
+    ana.tx.createBranch<vector<int>>          ("Common_tau_idVSjet");	   // Pt sorted selected tau idDeepTau2017v2p1VSjet
+    //ana.tx.createBranch<vector<>>	("Common_tau_");
+    //ana.tx.createBranch<vector<>>	("Common_tau_");
  
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s
@@ -158,6 +175,9 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<bool>>         ("Common_jet_passBtight_CSV"); // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
     ana.tx.createBranch<vector<int>>          ("Common_jet_id");    //  https://twiki.cern.ch/twiki/bin/view/CMS/JetID
     ana.tx.createBranch<vector<int>>          ("Common_jet_puid");  //  https://twiki.cern.ch/twiki/bin/view/CMS/PileupJetID
+    ana.tx.createBranch<vector<int>>	      ("Common_jet_genJetIdx");  // Index of matched gen jet
+    ana.tx.createBranch<vector<int>>	      ("Common_jet_hadronFlavour");   // flavour from hadron ghost clustering
+    ana.tx.createBranch<vector<int>>	      ("Common_jet_partonFlavour");   // flavour from parton matching
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFLoose");      // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFMedium");     // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFTight");      // single jet bSF

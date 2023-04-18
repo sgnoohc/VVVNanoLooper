@@ -16,6 +16,8 @@ void Terminate()
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Terminate_4LepMET(); break;
+	case AnalysisConfig::k3LepTauMET: Terminate_3LepTauMET(); break;
+	case AnalysisConfig::kAll: Terminate_4LepMET(); Terminate_3LepTauMET(); break;
     }
 
 

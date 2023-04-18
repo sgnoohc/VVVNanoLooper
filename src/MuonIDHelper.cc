@@ -84,6 +84,7 @@ void MuonIDHelper::muonLoadMVA(int year, bool isAPV){
      std::string fname = "mu_TOP";
      std::vector<std::string> varnames;
      float missing_entry_val = std::numeric_limits<float>::quiet_NaN();
+     //float missing_entry_val = 0.;
      if (year==2018) fname += "UL18";
      else if (year==2017) fname += "UL17";
      else if (year==2016){ 
@@ -95,8 +96,9 @@ void MuonIDHelper::muonLoadMVA(int year, bool isAPV){
      }
 	
      fname += "_XGB.weights.bin";
-     fname = "src/data/external/TopLeptonMVA/" + fname;
- 
+     //fname = "/home/users/kdownham/Triboson/VVVNanoLooper/src/data/external/TopLeptonMVA/" + fname;
+     fname = "src/data/external/TopLeptonMVA/" + fname; 
+
      varnames = std::vector<std::string>{
        "pt",
        "eta",
@@ -114,8 +116,10 @@ void MuonIDHelper::muonLoadMVA(int year, bool isAPV){
      };
 
      // Now need to construct the mvareader_xgb object (done in XGBoostInterface)
-     mvareader_xgb = std::make_shared<XGBoostInterface>();
-     mvareader_xgb->build(fname, varnames, missing_entry_val);    
+     if ( !mvareader_xgb ){
+     	mvareader_xgb = std::make_shared<XGBoostInterface>();
+     	mvareader_xgb->build(fname, varnames, missing_entry_val);    
+     }
 
 }
 
@@ -154,8 +158,8 @@ float MuonIDHelper::computeMVAScore(unsigned int idx){
 	//else if (vname="ak4jet:btagDeepFlavB") input_vars[vname] = (mother ? static_cast<float>(mother->xtras.btagDeepFlavB) : float(0));
 	else if (vname=="ak4jet:btagDeepFlavB"){
 		 if (tas::Muon_jetIdx().at(idx) == -1) input_vars[vname] = static_cast<float>(0.);
-		 std::cout << "Number of jets = " << tas::nJet() << std::endl;
-		 std::cout << "Muon jet index = " << tas::Muon_jetIdx().at(idx) << std::endl;
+		 //std::cout << "Number of jets = " << tas::nJet() << std::endl;
+		 //std::cout << "Muon jet index = " << tas::Muon_jetIdx().at(idx) << std::endl;
 		 //if (tas::Muon_jetIdx().at(idx) != -1) input_vars[vname] = static_cast<float>(tas::Jet_btagDeepFlavB().at(tas::Muon_jetIdx().at(idx)));
 	}
 #define MUON_VARIABLE(TYPE, NAME, DEFVAL) else if (vname==#NAME) input_vars[vname] = static_cast<float>(tas::Muon_NAME().at(idx));

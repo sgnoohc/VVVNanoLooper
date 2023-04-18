@@ -22,6 +22,8 @@ namespace ElectronIDHelper{
      //float computeMVAScore(SelectionType const& type, unsigned int idx);
      float computeMVAScore(unsigned int idx, int year);
 
+     //float convert_BDTscore_raw(float const& mva);
+
 }
 
 using namespace std;
@@ -37,6 +39,9 @@ bool ElectronIDHelper::electronIDscore(int year, unsigned int idx, std::string l
      // Function to compute MVA using XGBoost
      float score = computeMVAScore(idx,year);    
      //std::cout << "MVA score = " << score << endl;
+     //
+     //Convert MVA score from raw to Unsquashed value
+     //float new_score = convert_BDTscore_raw(old_score);
      //Require electron to pass preselection and cut on the MVA value
      if (!pass_preselection) pass_id = false;
      if (pass_preselection && level=="loose"){
@@ -87,6 +92,7 @@ void ElectronIDHelper::electronLoadMVA(int year, bool isAPV){
      std::string fname = "el_TOP";
      std::vector<std::string> varnames;
      float missing_entry_val = std::numeric_limits<float>::quiet_NaN();
+     //float missing_entry_val = 0.;
      if (year==2018) fname += "UL18";
      else if (year==2017) fname += "UL17";
      else if (year==2016){ 
@@ -98,6 +104,7 @@ void ElectronIDHelper::electronLoadMVA(int year, bool isAPV){
      }
 	
      fname += "_XGB.weights.bin";
+     //fname = "/home/users/kdownham/Triboson/VVVNanoLooper/src/data/external/TopLeptonMVA/" + fname;
      fname = "src/data/external/TopLeptonMVA/" + fname;
  
      varnames = std::vector<std::string>{
@@ -118,9 +125,10 @@ void ElectronIDHelper::electronLoadMVA(int year, bool isAPV){
      else if (year==2022) varnames.push_back("mvaNoIso");
 
      // Now need to construct the mvareader_xgb object (done in XGBoostInterface)
-     mvareader_xgb = std::make_shared<XGBoostInterface>();
-     mvareader_xgb->build(fname, varnames, missing_entry_val);    
-
+     if ( !mvareader_xgb ){
+     	mvareader_xgb = std::make_shared<XGBoostInterface>();
+     	mvareader_xgb->build(fname, varnames, missing_entry_val);    
+     }
 }
 
 float ElectronIDHelper::computeMVAScore(unsigned int idx, int year){
@@ -171,3 +179,6 @@ float ElectronIDHelper::computeMVAScore(unsigned int idx, int year){
 
 }
 
+//float ElectronIDHelper::convert_BDTscore_raw(float const& mva){
+  //    return 0.5 * std::log((1. + mva)/(1. - mva)); 
+//}

@@ -5,10 +5,13 @@ import os
 #skimversion = "v9"
 #skimdir = "/home/users/phchang/work/vvv/WWZRun3NanoLooper/vvvtree/{skimversion}".format(skimversion=skimversion)
 
+#skimversion = "WWZ_4L"
 skimversion = "WWZ_newLepID"
 #skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
 skimdir = os.environ["looperOutput"]
-dataversion = "NewLepID"
+#dataversion = "OldLepID"
+dataversion = "NewLepID_v2"
+#outputdir = "output_newID"
 
 #____________________________________________________________________________________________
 def main():
@@ -58,9 +61,9 @@ def main():
     print("")
     print("Hadding ZZ and WWZ output rootfiles ......")
     for year in years + ["Run2"]:
-        os.system("hadd -f outputs/{0}/ZZ.root outputs/{0}/ZZ_*.root > outputs/{0}/ZZ.log 2>&1".format(year))
-        os.system("hadd -f outputs/{0}/WWZ.root outputs/{0}/ZHWWZ.root outputs/{0}/NonResWWZ.root > outputs/{0}/WWZ.log 2>&1".format(year))
-        os.system("hadd -f outputs/{0}/NonWWZ.root outputs/{0}/WWW.root outputs/{0}/WZZ.root outputs/{0}/ZZZ.root > outputs/{0}/NonWWZ.log 2>&1".format(year))
+        os.system("hadd -f output_newID_jetCounting/{0}/ZZ.root output_newID_jetCounting/{0}/ZZ_*.root > output_newID_jetCounting/{0}/ZZ.log 2>&1".format(year))
+        os.system("hadd -f output_newID_jetCounting/{0}/WWZ.root output_newID_jetCounting/{0}/ZHWWZ.root output_newID_jetCounting/{0}/NonResWWZ.root > output_newID_jetCounting/{0}/WWZ.log 2>&1".format(year))
+        os.system("hadd -f output_newID_jetCounting/{0}/NonWWZ.root output_newID_jetCounting/{0}/WWW.root output_newID_jetCounting/{0}/WZZ.root output_newID_jetCounting/{0}/ZZZ.root > output_newID_jetCounting/{0}/NonWWZ.log 2>&1".format(year))
 
     print("Done!")
 
@@ -68,16 +71,16 @@ def main():
 # Get Command
 def get_command(proc, inputs, year, njobs=0, idx=0):
     if njobs > 0:
-        rtn_str = "rm -f outputs/{}/{}_{}.root;".format(year, proc, idx)
+        rtn_str = "rm -f output_newID_jetCounting/{}/{}_{}.root;".format(year, proc, idx)
     else:
-        rtn_str = "rm -f outputs/{}/{}.root;".format(year, proc)
-    rtn_str += "mkdir -p outputs/{};".format(year)
+        rtn_str = "rm -f output_newID_jetCounting/{}/{}.root;".format(year, proc)
+    rtn_str += "mkdir -p output_newID_jetCounting/{};".format(year)
     rtn_str += "./doAnalysis -i {} ".format(inputs)
     if njobs > 0:
         rtn_str += "-j {} -I {} ".format(njobs, idx)
-        rtn_str += "-t t -o outputs/{}/{}_{}.root > outputs/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
+        rtn_str += "-t t -o output_newID_jetCounting/{}/{}_{}.root > output_newID_jetCounting/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
     else:
-        rtn_str += "-t t -o outputs/{}/{}.root > outputs/{}/{}.log 2>&1".format(year, proc, year, proc)
+        rtn_str += "-t t -o output_newID_jetCounting/{}/{}.root > output_newID_jetCounting/{}/{}.log 2>&1".format(year, proc, year, proc)
     return rtn_str
 
 #____________________________________________________________________________________________
@@ -94,14 +97,14 @@ def get_groupping():
         for year in years:
             key = proc+"_"+year
             #print(key)
-            if "WWZ_4l_2016APV" == key: continue
-            if "WWZ_4l_2016" == key: continue
-            if "WWZ_4l_2017" == key: continue
-            if "WWZ_4l_2018" == key: continue
-	    #if "WWZ_2016APV" == key: continue    #keep only for met study
-	    #if "WWZ_2016" == key: continue       #keep only for met study
-	    #if "WWZ_2017" == key: continue       #keep only for met study
-	    #if "WWZ_2018" == key: continue       #keep only for met study (we don't want to include these keys because we are only looking at background)
+            #if "WWZ_4l_2016APV" == key: continue
+            #if "WWZ_4l_2016" == key: continue
+            #if "WWZ_4l_2017" == key: continue
+            #if "WWZ_4l_2018" == key: continue
+	    if "WWZ_2016APV" == key: continue    #keep only for met study
+	    if "WWZ_2016" == key: continue       #keep only for met study
+	    if "WWZ_2017" == key: continue       #keep only for met study
+	    if "WWZ_2018" == key: continue       #keep only for met study (we don't want to include these keys because we are only looking at background)
 	    #if "ZHWW_4l_2016APV" == key: continue  #keep only for met study
 	    #if "ZHWW_4l_2016" == key: continue  #keep only for met study
 	    #if "ZHWW_4l_2017" == key: continue  #keep only for met study
@@ -150,8 +153,8 @@ process={
 "DYM50"		      : "Other",
 "Wlv" 		      : "Other",
 "WWlvlv"	      : "Other",
-"WZ2q2l"	      : "WZ",
-"WZ3l1v"	      : "WZ",
+#"WZ2q2l"	      : "WZ",
+#"WZ3l1v"	      : "WZ",
 "WZ"		      : "WZ",
 "ttHNonbb"	      : "Higgs",
 "VHToNonbb"	      : "Higgs",
@@ -242,13 +245,14 @@ mc={
 "ZHWW_4l_2017" : "{skimdir}/HZJ_HToWWTo2L2Nu_ZTo2L_M-125_TuneCP5_13TeV-powheg-jhugen727-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 "ZHWW_4l_2018" : "{skimdir}/HZJ_HToWWTo2L2Nu_ZTo2L_M-125_TuneCP5_13TeV-powheg-jhugen727-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 # Does not seem to have been produced for APV why?
-#######"WWZ_4l_2016" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-#######"WWZ_4l_2017" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-#######"WWZ_4l_2018" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-"WWZ_2016APV" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-"WWZ_2016" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-"WWZ_2017" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
-"WWZ_2018" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WWZ_4l_2016APV" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root", 
+"WWZ_4l_2016" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WWZ_4l_2017" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WWZ_4l_2018" : "{skimdir}/WWZJetsTo4L2Nu_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#"WWZ_2016APV" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#"WWZ_2016" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#"WWZ_2017" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#"WWZ_2018" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 ####### "WWZ_ext_2016APV" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11_ext1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 ####### "WWZ_ext_2016" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17_ext1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 ####### "WWZ_ext_2017" : "{skimdir}/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9_ext1-v2_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",

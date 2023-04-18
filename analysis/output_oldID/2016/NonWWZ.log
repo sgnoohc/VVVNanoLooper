@@ -1,0 +1,6 @@
+hadd Target file: output_oldID/2016/NonWWZ.root
+hadd compression setting for all output: 1
+hadd Source file 1: output_oldID/2016/WWW.root
+Error in <TFile::TFile>: file output_oldID/2016/WWW.root does not exist
+Error in <TFileMerger::AddFile>: cannot open file output_oldID/2016/WWW.root
+hadd exiting due to error in output_oldID/2016/WWW.root
