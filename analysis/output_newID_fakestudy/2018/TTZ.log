@@ -1,40 +1,0 @@
-=========================================================
- Setting of the analysis job based on provided arguments 
----------------------------------------------------------
- ana.input_file_list_tstring: /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root
- ana.output_tfile: output_newID_fakestudy/2018/TTZ.root
- ana.n_events: -1
- ana.nsplit_jobs: -1
- ana.job_index: -1
-=========================================================
->>> Hostname is uaf-8.t2.ucsd.edu
-inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root,/ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root
-                                                                                                    RooUtil:: Adding /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root
-                                                                                                    RooUtil:: Start EventLooping
-                                                                                                    RooUtil:: System info:
-uaf-8.t2.ucsd.edu
-Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Fri Feb 24 11:01:19 PST 2023
-kdownham
-/home/users/kdownham/Triboson/VVVNanoLooper/analysis
-                                                                                                    RooUtil::  _
-                                                                                                    RooUtil:: /\\
-                                                                                                    RooUtil:: \ \\  \__/ \__/
-                                                                                                    RooUtil::  \ \\ (oo) (oo)  Here we come!
-                                                                                                    RooUtil::   \_\\/~~\_/~~\_
-                                                                                                    RooUtil::  _.-~===========~-._
-                                                                                                    RooUtil:: (___________________)
-                                                                                                    RooUtil::       \_______/
-                                                                                                    RooUtil:: 
-                                                                                                    RooUtil::  Your friendly aliens
-                                                                                                    RooUtil::      Surf & Turf
-                                                                                                    RooUtil:: 
-Error in <TFile::TFile>: file /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root does not exist
-Error in <TFile::TFile>: file /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root does not exist
-Error in <TFile::TFile>: file /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root does not exist
-                                                                                                    RooUtil:: Total Events in this Chain to process = 0
-Error in <TFile::TFile>: file /ceph/cms/store/user/kdownham/VVVAnalysis/NewLepID_fakestudy/TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_WWZ_newLepID_NewLepID_fakestudy/merged/output.root does not exist
-terminate called after throwing an instance of 'std::ios_base::failure[abi:cxx11]'
-  what():  Failed to get TTree from input ntuple: iostream error
