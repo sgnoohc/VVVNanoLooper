@@ -25,6 +25,7 @@ void Terminate()
         case AnalysisConfig::k1Lep4jet: Terminate_1Lep4jet(); break;
         case AnalysisConfig::kallHad: Terminate_allHad(); break;
         case AnalysisConfig::k1Lep2fatJets: Terminate_1Lep2fatjet(); break;
+        case AnalysisConfig::kE: Terminate_E(); break;
     }
 
 
@@ -34,7 +35,10 @@ void Terminate()
     // If write tree then save
     if (ana.write_tree)
     {
-        ana.tx.write();
+        if (ana.looperMode == AnalysisConfig::kE)
+            ana.txskim.write();
+        else
+            ana.tx.write();
     }
     else
     {

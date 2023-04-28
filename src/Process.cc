@@ -25,6 +25,7 @@ void Process()
         case AnalysisConfig::k1Lep4jet: Process_1Lep4jet(); break;
         case AnalysisConfig::kallHad: Process_allHad(); break;
         case AnalysisConfig::k1Lep2fatJets: Process_1Lep2fatjet(); break;
+        case AnalysisConfig::kE: Process_E(); break;
     }
 
     // At this point, variables are all computed and set
@@ -48,6 +49,7 @@ void Process()
             case AnalysisConfig::k1Lep4jet: break;
             case AnalysisConfig::kallHad: PostProcess_allHad(); break;
             case AnalysisConfig::k1Lep2fatJets: break;
+            case AnalysisConfig::kE: PostProcess_E(); break;
         }
     }
 

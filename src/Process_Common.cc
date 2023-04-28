@@ -95,10 +95,12 @@ void Process_Common_NanoAOD()
     
 
     //2018 1L triggers
-    try { ana.tx.setBranch<bool>("Common_HLT_IsoMu24"     , nt.HLT_IsoMu24());     } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoMu24"     , 0); }
-    try { ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"     , nt.HLT_Ele32_WPTight_Gsf());     } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"     , 0); }
-
-
+    try { ana.tx.setBranch<bool>("Common_HLT_IsoMu24"                 , nt.HLT_IsoMu24());                      } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoMu24"                  , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_IsoTkMu24"               , nt.HLT_IsoTkMu24());                    } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoTkMu24"                , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_IsoMu27"                 , nt.HLT_IsoMu27());                      } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoMu27"                  , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele27_WPTight"           , nt.HLT_Ele27_WPTight_Gsf());            } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_Ele27_WPTight"            , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"           , nt.HLT_Ele32_WPTight_Gsf());            } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight"            , 0); }
+    try { ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight_L1DoubleEG", nt.HLT_Ele32_WPTight_Gsf_L1DoubleEG()); } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_Ele32_WPTight_L1DoubleEG" , 0); }
 
     bool is_pd_ee = ana.looper.getCurrentFileName().Contains("DoubleEG") or ana.looper.getCurrentFileName().Contains("EGamma");
     bool is_pd_em = ana.looper.getCurrentFileName().Contains("MuonEG");
@@ -426,7 +428,7 @@ void Process_Common_NanoAOD()
             continue;
 
         // For the analysis level jets, consider jets only 30 and above
-        if (jet_p4.pt() > 30. and abs(jet_p4.eta()) < 3.0)//don't trust jets in HF
+        if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 3.0)//don't trust jets in HF
         {
             // For now, accept anything that reaches this point
             ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
@@ -843,11 +845,18 @@ void Process_Common_NanoAOD()
 
         }
 
+        //computed with instructions from NanoAOD reference "For W vs QCD tagging, use (Xcc+Xqq)/(Xcc+Xqq+QCD)"
+        float V_MD = (nt.FatJet_particleNetMD_Xbb()[ifatjet] + nt.FatJet_particleNetMD_Xcc()[ifatjet] + nt.FatJet_particleNetMD_Xqq()[ifatjet]) / (nt.FatJet_particleNetMD_Xbb()[ifatjet] + nt.FatJet_particleNetMD_Xcc()[ifatjet] + nt.FatJet_particleNetMD_Xqq()[ifatjet] + nt.FatJet_particleNetMD_QCD()[ifatjet]);
+
         // TODO: What is POG recommendation? do we use nt.FatJet_jetId()?
         // Figure this out
-        if (not (fatjet_p4.pt() > 180.))
+        if (not (fatjet_p4.pt() > 200.))
             continue;
         if (not (abs(fatjet_p4.eta()) < 2.4))
+            continue;
+        if (not (fatjet_msoftdrop > 40.))
+            continue;
+        if (not (V_MD > 0.2))
             continue;
 
         // Because every muon and electron shows up in PF FatJet collections
@@ -1592,7 +1601,6 @@ void Process_Common_VVVTree()
 
     ana.tx.setBranch<bool>                 ("Common_HLT_IsoMu24"                    , vvv.Common_HLT_IsoMu24());
     ana.tx.setBranch<bool>                 ("Common_HLT_Ele32_WPTight"                    , vvv.Common_HLT_Ele32_WPTight());
-
 
 
     // Summary 4 vectors of the objects selected

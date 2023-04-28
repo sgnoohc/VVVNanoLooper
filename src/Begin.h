@@ -13,6 +13,7 @@
 #include "Begin_SS2jet.h"
 #include "Begin_allHad.h"
 #include "Begin_1Lep2fatjet.h"
+#include "Begin_E.h"
 
 void Begin();
 

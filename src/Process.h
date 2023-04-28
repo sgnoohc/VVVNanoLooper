@@ -13,6 +13,7 @@
 #include "Process_SS2jet.h"
 #include "Process_allHad.h"
 #include "Process_1Lep2fatjet.h"
+#include "Process_E.h"
 
 void Process();
 

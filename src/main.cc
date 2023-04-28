@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     // Read the options
     options.add_options()
-        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet, 2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet, 7=k1Lep4jet, 8=allHad, 9=1Lep2fatJets)", cxxopts::value<int>())
+        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet, 2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet, 7=k1Lep4jet, 8=allHad, 9=1Lep2fatJets, 10=E)", cxxopts::value<int>())
         ("i,input"       , "Comma separated input file list OR if just a directory is provided it will glob all in the directory BUT must end with '/' for the path", cxxopts::value<std::string>())
         ("t,tree"        , "Name of the tree in the root file to open and loop over"                                             , cxxopts::value<std::string>())
         ("o,output"      , "Output file name"                                                                                    , cxxopts::value<std::string>())
@@ -64,6 +64,7 @@ int main(int argc, char** argv)
             case AnalysisConfig::k1Lep4jet: ana.looperMode = AnalysisConfig::k1Lep4jet; break;
             case AnalysisConfig::kallHad: ana.looperMode = AnalysisConfig::kallHad; break;
             case AnalysisConfig::k1Lep2fatJets: ana.looperMode = AnalysisConfig::k1Lep2fatJets; break;
+            case AnalysisConfig::kE: ana.looperMode = AnalysisConfig::kE; break;
         }
     }
     else
@@ -312,6 +313,10 @@ int main(int argc, char** argv)
     // Create output ttree to write to output.root
     ana.output_tree = new TTree("t", "t");
     ana.output_tx.setTree(ana.output_tree);
+
+    // Create output ttree to write to output.root
+    ana.tree_skim = new TTree("t", "t");
+    ana.txskim.setTree(ana.tree_skim);
 
 //********************************************************************************
 //

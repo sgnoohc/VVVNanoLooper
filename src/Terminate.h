@@ -13,6 +13,7 @@
 #include "Terminate_SS2jet.h"
 #include "Terminate_allHad.h"
 #include "Terminate_1Lep2fatjet.h"
+#include "Terminate_E.h"
 
 void Terminate();
 

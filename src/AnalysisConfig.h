@@ -26,6 +26,7 @@ public:
         k1Lep4jet,
         kallHad,
         k1Lep2fatJets,
+        kE,
     };
 
     LooperMode looperMode;
@@ -81,6 +82,12 @@ public:
 
     // Custom TTreeX object to hold various intermediate variables people want
     RooUtil::TTreeX tx;
+
+    // Output TTree
+    TTree* tree_skim;
+
+    // Custom TTreeX object to hold skim output
+    RooUtil::TTreeX txskim;
 
     // Boolean to trigger output tree writing
     bool write_tree;

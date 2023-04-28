@@ -187,6 +187,7 @@ void Begin_allHad_VVVTree_writeTree()
     float wgt = 1.0;
 
     //===================================================================
+    ana.tx.createBranch<vector<LV>>("allHad_leps_p4");
     ana.tx.createBranch<vector<LV>>("allHad_jets_p4");
     ana.tx.createBranch<vector<LV>>("allHad_fatjets_mSD_p4");
     ana.tx.createBranch<vector<int>>("allHad_fatjets_WP_MD");

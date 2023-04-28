@@ -16,8 +16,8 @@ void Begin_Common()
     Begin_Common_Determine_Is_EFT();
 
     // Determine whether it is postprocessed NanoAOD or not
-    Begin_Common_Determine_Is_Postprocessed(); 
-    
+    Begin_Common_Determine_Is_Postprocessed();
+
 
     // The framework may run over NanoAOD directly or, it may run over VVVTree.
     // ana.run_VVVTree boolean determines this.
@@ -71,16 +71,20 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"); // Lowest unprescaled
     ana.tx.createBranch<bool>                 ("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL");
-    
+
     //1L triggers
-    ana.tx.createBranch<bool>("Common_HLT_IsoMu24"); 
+    ana.tx.createBranch<bool>("Common_HLT_IsoMu24");
+    ana.tx.createBranch<bool>("Common_HLT_IsoMu27");
+    ana.tx.createBranch<bool>("Common_HLT_IsoTkMu24");
     ana.tx.createBranch<bool>("Common_HLT_Ele32_WPTight");
+    ana.tx.createBranch<bool>("Common_HLT_Ele32_WPTight_L1DoubleEG");
+    ana.tx.createBranch<bool>("Common_HLT_Ele27_WPTight");
 
 
     //hadronic triggers
 
     //2017-2018
-    ana.tx.createBranch<bool>("Common_HLT_PFHT1050"); 
+    ana.tx.createBranch<bool>("Common_HLT_PFHT1050");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet500");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30");
     ana.tx.createBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30");
@@ -92,7 +96,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50" );
 
     //2016
-    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"); 
+    ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5");
     ana.tx.createBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5");
     ana.tx.createBranch<bool>("Common_HLT_PFHT800");
     ana.tx.createBranch<bool>("Common_HLT_PFHT900");
@@ -119,7 +123,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
 
-    
+
     ana.tx.createBranch<float>                ("Common_event_lepSF");      // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFelup");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFeldn");  // lepSF
@@ -167,7 +171,7 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFdnTight"); // SF tight iso
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFup");      // SF
     ana.tx.createBranch<vector<float>>        ("Common_lep_SFupTight"); // SF tight iso
- 
+
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s
     ana.tx.createBranch<vector<int>>          ("Common_jet_idxs");          // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
@@ -207,15 +211,15 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_T");      // Pt sorted selected fatjet FatJet_deepTagMD_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deep_T");        // Pt sorted selected fatjet FatJet_deepTag_TvsQCD (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_deepMD_bb");     // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_W");     
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xqq");     
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xcc");     
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xbb");     
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_QCD");     
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_QCD");    
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_W");    
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_Z");   
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_T");  
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_W");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xqq");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xcc");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_Xbb");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNetMD_QCD");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_QCD");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_W");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_Z");
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_particleNet_T");
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau3");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau2");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_tau1");          // Pt sorted selected fatjet FatJet_deepTagMD_bbvsLight (To access rest of the fatjet variables in NanoAOD)
@@ -643,7 +647,7 @@ void Begin_Common_Set_Config()
     {
         RooUtil::error(TString::Format("While setting electron scale factors, found year = %d that is not recognized.", nt.year()));
     }
-    
+
     // Trigger SF
     if (nt.year() == 2016 and isAPV)
     {
@@ -692,7 +696,7 @@ void Begin_Common_VVVTree()
         //check golden json -- branch is true if MC
         if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
 
-        //check basic filters 
+        //check basic filters
         if ( vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return true;
         else if ( !vvv.Common_isData() && ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return true;
         else return false;*/
@@ -707,23 +711,23 @@ void Begin_Common_NanoAOD()
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
     ana.cutflow.addCut("Wgt", [&]() { return 1; }, [&]() { if (not nt.isData()) return (nt.genWeight() > 0) - (nt.genWeight() < 0); else return 1; } );
     ana.cutflow.addCutToLastActiveCut("SelectVH", [&]() { return (ana.vhvvv_channel < 0 ? true: ana.vhvvv_channel == ana.tx.getBranchLazy<int>("Common_gen_VH_channel"));}, UNITY );
-    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() { 
+    ana.cutflow.addCutToLastActiveCut("CommonCut", [&]() {
         //check golden json -- branch is true if MC
         if(! ana.tx.getBranchLazy<bool>("Common_passGoodRun")) return false;
-        
-        
-        //check basic filters 
+
+
+        //check basic filters
         if ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") ) return false;
-        
+
         if ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) return false;
-        
+
        /* std::cout << std::endl << "still here??? " << std::endl;
         std::cout << "noise data? "<< ( nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlag") )<< std::endl;
         std::cout << "noise MC? "<< ( !nt.isData() and !ana.tx.getBranchLazy<bool>("Common_noiseFlagMC") ) << std::endl;
         std::cout << "pass golden json? " << ana.tx.getBranchLazy<bool>("Common_passGoodRun") << std::endl;
-       */ 
+       */
         return true;
-        
+
         }, [&]() { return 1; } );
 
     // Various book keeping variables are included here.
