@@ -38,7 +38,10 @@ void Begin_E()
     ana.txskim.createBranch<float>("MVVX");
     ana.txskim.createBranch<float>("PtVVX");
     ana.txskim.createBranch<float>("HT");
+    ana.txskim.createBranch<float>("HTJ");
     ana.txskim.createBranch<float>("HTFJ");
+    ana.txskim.createBranch<float>("SumPtFJ");
+    ana.txskim.createBranch<float>("SumPtJ");
 
     ana.txskim.createBranch<int>("isData");
     ana.txskim.createBranch<int>("run");

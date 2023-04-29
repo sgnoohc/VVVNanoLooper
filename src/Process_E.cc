@@ -126,6 +126,8 @@ void Process_E()
     // Count the number of AK4 jets
     unsigned int NJ = jet_p4s.size();
 
+
+
     //~~~~~~
     // MET
     //~~~~~~
@@ -140,20 +142,34 @@ void Process_E()
     // HT with AK8 + AK4 + MET
     float HT = 0;
 
+    // HTJ with AK8 + AK4 (no MET)
+    float HTJ = 0;
+
     // HT with AK8 + MET
     float HTFJ = 0;
 
+    // Scalar Sum of AK8 PT
+    float SumPtFJ = 0;
+
+    // Scalar Sum of AK4 PT
+    float SumPtJ = 0;
+
     // Sum the AK8
-    for (auto& AK8 : fatjet_p4s)
+    for (unsigned int fatjet_i = 0; fatjet_i < 3 and fatjet_i < NFJ; ++fatjet_i)
     {
+        LV& AK8 = fatjet_p4s[fatjet_i];
         HT += AK8.pt();
+        HTJ += AK8.pt();
         HTFJ += AK8.pt();
+        SumPtFJ += AK8.pt();
     }
 
     // Sum the AK4
     for (auto& AK4 : jet_p4s)
     {
         HT += AK4.pt();
+        HTJ += AK4.pt();
+        SumPtJ += AK4.pt();
     }
 
     // Sum the MET
@@ -198,6 +214,7 @@ void Process_E()
     ana.txskim.setBranch<float>("MVVX", VVX.mass());
     ana.txskim.setBranch<float>("PtVVX", VVX.pt());
     ana.txskim.setBranch<float>("HT", HT);
+    ana.txskim.setBranch<float>("HTJ", HTJ);
     ana.txskim.setBranch<float>("HTFJ", HTFJ);
 
     ana.txskim.setBranch<int>("isData", ana.tx.getBranch<int>("Common_isData"));
