@@ -30,6 +30,36 @@ void Begin_E()
     ana.txskim.createBranch<float>("WMD3");
     ana.txskim.createBranch<float>("WMD4");
 
+    ana.txskim.createBranch<int>("NQGen0"); // Number of gen quarks matched to the fat-jet
+    ana.txskim.createBranch<int>("NQGen1");
+    ana.txskim.createBranch<int>("NQGen2");
+    ana.txskim.createBranch<int>("NQGen3");
+    ana.txskim.createBranch<int>("NQGen4");
+    ana.txskim.createBranch<int>("NBGen0"); // Number of gen b quarks matched to the fat-jet
+    ana.txskim.createBranch<int>("NBGen1");
+    ana.txskim.createBranch<int>("NBGen2");
+    ana.txskim.createBranch<int>("NBGen3");
+    ana.txskim.createBranch<int>("NBGen4");
+    ana.txskim.createBranch<int>("NLGen0"); // Number of gen light quarks matched to the fat-jet
+    ana.txskim.createBranch<int>("NLGen1");
+    ana.txskim.createBranch<int>("NLGen2");
+    ana.txskim.createBranch<int>("NLGen3");
+    ana.txskim.createBranch<int>("NLGen4");
+
+    ana.txskim.createBranch<LorentzVector>("GenV0"); // leading true V 4-vector
+    ana.txskim.createBranch<LorentzVector>("GenV1"); // subleading true V 4-vector
+    ana.txskim.createBranch<LorentzVector>("GenV2"); // trailing true V 4-vector
+    ana.txskim.createBranch<int>("isHad0"); // is leading true V hadronically decaying?
+    ana.txskim.createBranch<int>("isHad1"); // is subleading true V hadronically decaying?
+    ana.txskim.createBranch<int>("isHad2"); // is trailing true V hadronically decaying?
+    ana.txskim.createBranch<LorentzVector>("GenF00"); // leading fermion from the leading true V
+    ana.txskim.createBranch<LorentzVector>("GenF01"); // subleading fermion from the leading true V
+    ana.txskim.createBranch<LorentzVector>("GenF10"); // leading fermion from the subleading true V
+    ana.txskim.createBranch<LorentzVector>("GenF11"); // subleading fermion from the subleading true V
+    ana.txskim.createBranch<LorentzVector>("GenF20"); // leading fermion from the trailing true V
+    ana.txskim.createBranch<LorentzVector>("GenF21"); // subleading fermion from the trailing true V
+
+    ana.txskim.createBranch<int>("LepFlav");
     ana.txskim.createBranch<int>("NFJ");
     ana.txskim.createBranch<int>("NJ");
     ana.txskim.createBranch<int>("NbLoose");
@@ -59,6 +89,8 @@ void Begin_E()
     // ana.txskim.createBranch<vector<int>>("Common_gen_pdgid");      // Selected gen-particle pdgids
     // ana.txskim.createBranch<vector<LV>>("Common_gen_p4s");         // Selected gen-particle p4s
 
+    ana.txskim.createBranch<int>("trigger");
+
 
     // Define selections
     // CommonCut will contain selections that should be common to all categories, starting from this cut, add cuts for this category of the analysis.
@@ -66,6 +98,9 @@ void Begin_E()
     ana.cutflow.addCutToLastActiveCut("Cut_E_SkimSelection",
         [&]()
         {
+            if (not (ana.txskim.getBranch<int>("trigger")))
+                return false;
+
             if (ana.txskim.getBranch<int>("is0Lep"))
             {
                 return ana.txskim.getBranch<int>("NFJ") >= 2;
