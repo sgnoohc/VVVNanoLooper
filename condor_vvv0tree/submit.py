@@ -31,14 +31,8 @@ def split_func(dsname):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Submit jobs for VVV analysis")
-    parser.add_argument('-a' , '--addflags'    , dest='addflags'  , help='adding flags to metis'     , type=str,                default=""                         )
-    # Argument parser
-    args = parser.parse_args()
-    mode = 10
-    
     # Samples
-    sample_map = samples.top_2018
+    sample_map = samples.ttbar_2018
 
     # submission tag
     tag = "VVV0TreeV1"
@@ -67,7 +61,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode {} {}".format(mode, args.addflags)]
+                            ["metis_extraargs", "-w --mode 10"]
                             ]
                         },
                     cmssw_version = "CMSSW_10_2_13",
