@@ -83,12 +83,6 @@ void Begin_E()
 
     ana.txskim.createBranch<vector<float>>("LHEReweightingWeight");
 
-    // ana.txskim.createBranch<vector<int>>("Common_gen_idx");        // Selected gen-particle idx in NanoAOD
-    // ana.txskim.createBranch<vector<int>>("Common_gen_mother_idx"); // Selected gen-particle mother idx in NanoAOD
-    // ana.txskim.createBranch<vector<int>>("Common_gen_mother_id");  // Selected gen-particle mother id in NanoAOD
-    // ana.txskim.createBranch<vector<int>>("Common_gen_pdgid");      // Selected gen-particle pdgids
-    // ana.txskim.createBranch<vector<LV>>("Common_gen_p4s");         // Selected gen-particle p4s
-
     ana.txskim.createBranch<int>("trigger");
 
 

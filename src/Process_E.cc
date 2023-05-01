@@ -362,16 +362,6 @@ void Process_E()
             NQGen[0]++;
             NBGen[0]++;
         }
-        // std::cout <<  " vvv.allHad_FJ0_mSD_p4().eta(): " << vvv.allHad_FJ0_mSD_p4().eta() <<  std::endl;
-        // std::cout <<  " vvv.allHad_FJ0_mSD_p4().phi(): " << vvv.allHad_FJ0_mSD_p4().phi() <<  std::endl;
-        // std::cout <<  " q.eta(): " << q.eta() <<  " q.phi(): " << q.phi() <<  std::endl;
-        // std::cout <<  " antiq.eta(): " << antiq.eta() <<  " antiq.phi(): " << antiq.phi() <<  std::endl;
-        // std::cout <<  " hadb.eta(): " << hadb.eta() <<  " hadb.phi(): " << hadb.phi() <<  std::endl;
-        // std::cout <<  " W.pt(): " << W.pt() <<  std::endl;
-        // std::cout <<  " t.pt(): " << t.pt() <<  std::endl;
-        // std::cout <<  " NQGen0: " << NQGen0 <<  std::endl;
-        // std::cout <<  " NLGen0: " << NLGen0 <<  std::endl;
-        // std::cout <<  " NBGen0: " << NBGen0 <<  std::endl;
     }
     // ==================================================================================
     // WWW/WWZ/WZZ/ZZZ sample categorization of fat-jets (up to 5 leading VetoID Fat Jet)
@@ -572,8 +562,6 @@ void Process_E()
     ana.txskim.setBranch<LV>("GenF11", GenF11);
     ana.txskim.setBranch<LV>("GenF20", GenF20);
     ana.txskim.setBranch<LV>("GenF21", GenF21);
-
-    // FJ category (q, qq, bq, bqq, etc.)
 }
 
 void PostProcess_E()
