@@ -5,5 +5,6 @@
 
 void Process_E();
 void PostProcess_E();
+LV getNeutrinoP4(LV MET, LV lep);
 
 #endif

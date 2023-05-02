@@ -3,6 +3,8 @@
 void Process_E()
 {
 
+    LV empty; // (to use for place holder for nothing)
+
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -44,6 +46,8 @@ void Process_E()
     int LepFlav = -999;
     if (is1Lep)
         LepFlav = ana.tx.getBranchLazy<vector<int>>("Common_lep_pdgid")[0];
+
+    LV Lep = nVetoLep > 0 ? ana.tx.getBranchLazy<vector<LV>>("Common_lep_p4")[0] : empty;
 
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -127,9 +131,6 @@ void Process_E()
     vector<float> fatjet_VMDs;
     vector<float> fatjet_WMDs;
 
-    // Two or three fatjet representing VV or VVV system 
-    LV VVX;
-
     // Loop over Fat Jets to compute relevant variables
     for (unsigned fatjet_i = 0; fatjet_i < NFJ; ++fatjet_i)
     {
@@ -150,12 +151,6 @@ void Process_E()
         float WMD = (Xqq + Xcc) / (Xqq + Xcc + QCD);
         fatjet_VMDs.push_back(VMD);
         fatjet_WMDs.push_back(WMD);
-
-        // Up to 3 fat-jets we add to the VV/VVV system 4-vector
-        if (fatjet_i < 3)
-        {
-            VVX += fatjet_p4_msd;
-        }
     }
 
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -233,6 +228,9 @@ void Process_E()
     // MET
     //~~~~~~
     LV MET = ana.tx.getBranch<LV>("Common_met_p4");
+    LV Nu;
+    if (is1Lep)
+        Nu = getNeutrinoP4(MET, Lep);
 
 
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -476,6 +474,34 @@ void Process_E()
         GenF21 = f2a.pt() <= f2b.pt() ? f2a : f2b;
     }
 
+
+    // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
+    // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
+    // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
+
+    //~~~~~~~~~~~~~~~~~~~~
+    // VVV System variable
+    //~~~~~~~~~~~~~~~~~~~~
+    // Two or three fatjet representing VV or VVV system 
+    LV VVX;
+
+    // If 0 lep add it up to 3 FJ, if 1 lep add it up to 2 FJ
+    unsigned int max_NFJ_to_consider = is1Lep ? 2 : 3;
+
+    // if 1 lep add the lep + Nu
+    if (is1Lep)
+    {
+        VVX += Lep;
+        VVX += Nu;
+    }
+
+    // Add the FJ's
+    for (unsigned int fatjet_i = 0; fatjet_i < NFJ and fatjet_i < max_NFJ_to_consider; fatjet_i++)
+    {
+        // Up to 3 fat-jets we add to the VV/VVV system 4-vector
+        VVX += fatjet_p4s[fatjet_i];
+    }
+
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -483,14 +509,14 @@ void Process_E()
     //~~~~~~~~~~~~~~~~~~~~~
     // Saving the variables
     //~~~~~~~~~~~~~~~~~~~~~
-    LV empty;
     ana.txskim.setBranch<LV>("FJ0", fatjet_p4s.size() > 0 ? fatjet_p4s[0] : empty);
     ana.txskim.setBranch<LV>("FJ1", fatjet_p4s.size() > 1 ? fatjet_p4s[1] : empty);
     ana.txskim.setBranch<LV>("FJ2", fatjet_p4s.size() > 2 ? fatjet_p4s[2] : empty);
     ana.txskim.setBranch<LV>("FJ3", fatjet_p4s.size() > 3 ? fatjet_p4s[3] : empty);
     ana.txskim.setBranch<LV>("FJ4", fatjet_p4s.size() > 4 ? fatjet_p4s[4] : empty);
-    ana.txskim.setBranch<LV>("Lep", nVetoLep > 0 ? ana.tx.getBranchLazy<vector<LV>>("Common_lep_p4")[0] : empty);
+    ana.txskim.setBranch<LV>("Lep", Lep);
     ana.txskim.setBranch<LV>("MET", MET);
+    ana.txskim.setBranch<LV>("Nu", Nu);
     ana.txskim.setBranch<LV>("J0", jet_p4s.size() > 0 ? jet_p4s[0] : empty);
     ana.txskim.setBranch<LV>("J1", jet_p4s.size() > 1 ? jet_p4s[1] : empty);
     ana.txskim.setBranch<LV>("J2", jet_p4s.size() > 2 ? jet_p4s[2] : empty);
@@ -570,4 +596,128 @@ void PostProcess_E()
 {
     if (ana.cutflow.getCut("Cut_E_SkimSelection").pass)
         ana.txskim.fill();
+}
+
+LV getNeutrinoP4(LV MET, LV lep)
+{
+    const float MW_ = 80.385;
+
+    double leppt = lep.pt();
+    double lepphi = lep.phi();
+    double lepeta = lep.eta();
+    double lepenergy = lep.energy();
+
+    double metpt = MET.pt();
+    double metphi = MET.phi();
+
+    double px = metpt * cos(metphi);
+    double py = metpt * sin(metphi);
+    double pz = 0;
+    double pxl = leppt * cos(lepphi);
+    double pyl = leppt * sin(lepphi);
+    double pzl = leppt * sinh(lepeta);
+    double El = lepenergy;
+    double a = pow(MW_, 2) + pow(px + pxl, 2) + pow(py + pyl, 2) - px * px - py * py - El * El + pzl * pzl;
+    double b = 2. * pzl;
+    double A = b * b - 4. * El * El;
+    double B = 2. * a * b;
+    double C = a * a - 4. * (px * px + py * py) * El * El;
+
+    ///////////////////////////pz for fnal
+    double M_mu = 0;
+    // if(lepType==1) M_mu=0.105658367;//mu
+    // if(lepType==0) M_mu=0.00051099891;//electron
+
+    int type = 2; // use the small abs real root
+
+    a = MW_ * MW_ - M_mu * M_mu + 2.0 * pxl * px + 2.0 * pyl * py;
+    A = 4.0 * (El * El - pzl * pzl);
+    B = -4.0 * a * pzl;
+    C = 4.0 * El * El * (px * px + py * py) - a * a;
+
+    double tmproot = B * B - 4.0 * A * C;
+
+    if (tmproot < 0)
+    {
+        // std::cout << "Complex root detected, taking real part..." << std::endl;
+        pz = -B / (2 * A); // take real part of complex roots
+    }
+    else
+    {
+        double tmpsol1 = (-B + sqrt(tmproot)) / (2.0 * A);
+        double tmpsol2 = (-B - sqrt(tmproot)) / (2.0 * A);
+        // std::cout << " Neutrino Solutions: " << tmpsol1 << ", " << tmpsol2 << std::endl;
+
+        if (type == 0)
+        {
+            // two real roots, pick the one closest to pz of muon
+            if (TMath::Abs(tmpsol2 - pzl) < TMath::Abs(tmpsol1 - pzl))
+            {
+                pz = tmpsol2;
+            }
+            else
+            {
+                pz = tmpsol1;
+            }
+            // if pz is > 300 pick the most central root
+            if (abs(pz) > 300.)
+            {
+                if (TMath::Abs(tmpsol1) < TMath::Abs(tmpsol2))
+                {
+                    pz = tmpsol1;
+                }
+                else
+                {
+                    pz = tmpsol2;
+                }
+            }
+        }
+        if (type == 1)
+        {
+            // two real roots, pick the one closest to pz of muon
+            if (TMath::Abs(tmpsol2 - pzl) < TMath::Abs(tmpsol1 - pzl))
+            {
+                pz = tmpsol2;
+            }
+            else
+            {
+                pz = tmpsol1;
+            }
+        }
+        if (type == 2)
+        {
+            // pick the most central root.
+            if (TMath::Abs(tmpsol1) < TMath::Abs(tmpsol2))
+            {
+                pz = tmpsol1;
+            }
+            else
+            {
+                pz = tmpsol2;
+            }
+        }
+        /*if (type == 3 ) {
+        // pick the largest value of the cosine
+        TVector3 p3w, p3mu;
+        p3w.SetXYZ(pxl+px, pyl+py, pzl+ tmpsol1);
+        p3mu.SetXYZ(pxl, pyl, pzl );
+
+        double sinthcm1 = 2.*(p3mu.Perp(p3w))/MW_;
+        p3w.SetXYZ(pxl+px, pyl+py, pzl+ tmpsol2);
+        double sinthcm2 = 2.*(p3mu.Perp(p3w))/MW_;
+
+        double costhcm1 = sqrt(1. - sinthcm1*sinthcm1);
+        double costhcm2 = sqrt(1. - sinthcm2*sinthcm2);
+
+        if ( costhcm1 > costhcm2 ) { pz = tmpsol1; otherSol_ = tmpsol2; }
+        else { pz = tmpsol2;otherSol_ = tmpsol1; }
+
+        }*///end of type3
+
+    } // endl of if real root
+
+    // dont correct pt neutrino
+    LV outP4;
+    outP4.SetPxPyPzE(px, py, pz, sqrt(px * px + py * py + pz * pz));
+    return outP4;
 }
