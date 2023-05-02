@@ -98,8 +98,11 @@ void Begin_3LepTauMET_NanoAOD()
 	    [&]()
 	    {
 		// Need 3 leptons passing common selection criteria, plus at least one hadronic tau
-		if (not (ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size() == 3 && ana.tx.getBranchLazy<vector<int>>("Common_tau_idxs").size() > 0))
+		if (not (ana.tx.getBranchLazy<vector<int>>("Common_lep_idxs").size() == 3 && ana.tx.getBranchLazy<vector<int>>("Common_tau_idxs").size() > 0)){
+		    ana.tx.setBranch<bool>("Cut_3LepTauMET_Has3LeptonPlusTau", false);
 		    return false;
+		}
+		ana.tx.setBranch<bool>("Cut_3LepTauMET_Has3LeptonPlusTau", true);
 		return true;
 	    }, UNITY);
 
@@ -115,8 +118,14 @@ void Begin_3LepTauMET_NanoAOD()
                         ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4"));
                 index1 = idx1;
                 index2 = idx2;
-                if (not (has_sfos)) return false;
-                if (not (abs(mll - 91.1876) < 10.)) return false;
+                if (not (has_sfos)){ 
+		    ana.tx.setBranch<bool>("Cut_3LepTauMET_HasZCandidate", false);
+		    return false;
+		}
+                if (not (abs(mll - 91.1876) < 10.)){ 
+		    ana.tx.setBranch<bool>("Cut_3LepTauMET_HasZCandidate", false);
+		    return false;
+		}
 
 		// If found a Z then set the variables
 		ana.tx.setBranch<int>          ("Var_3LepTauMET_Zcand_lep_idx_0"   , idx1);
@@ -129,8 +138,12 @@ void Begin_3LepTauMET_NanoAOD()
                 ana.tx.setBranch<float>("Var_3LepTauMET_Zcand_mll", mll);
 
 		// The leading lepton has to pass 25 GeV
-		if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1].pt() > 25.)) return false;
+		if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1].pt() > 25.)){ 
+		    ana.tx.setBranch<bool>("Cut_3LepTauMET_HasZCandidate", false);
+		    return false;
+		}
 
+		ana.tx.setBranch<bool>("Cut_3LepTauMET_HasZCandidate", true);
 		return true;	
 	    }, UNITY);
 
@@ -175,7 +188,10 @@ void Begin_3LepTauMET_NanoAOD()
 		ana.tx.setBranch<LorentzVector>("Var_3LepTauMET_tau_p4_0"	   , leading_tau_p4);
 
 		// Make sure that the tau and the other W candidate lepton have opposite charge
-		if ( other_lep_pdgid * ana.tx.getBranchLazy<vector<int>>("Common_tau_charge")[0] > 0 ) return false;
+		if ( other_lep_pdgid * ana.tx.getBranchLazy<vector<int>>("Common_tau_charge")[0] < 0 ){
+		     ana.tx.setBranch<bool>("Cut_3LepTauMET_OtherLeptons", false);	     
+		     return false;
+		}
 
 		// Set the values for the Tau IDs
 		ana.tx.setBranch<int>	       ("Var_3LepTauMET_tau_idVSe_0"	   , ana.tx.getBranchLazy<vector<int>>("Common_tau_idVSe")[0]);
@@ -229,6 +245,8 @@ void Begin_3LepTauMET_NanoAOD()
 		ana.tx.setBranch<int>	("Var_3LepTauMET_Zcand_lep_ID_1" , Z_lep_ID_1 );
 		ana.tx.setBranch<int>	("Var_3LepTauMET_other_lep_ID_0" , W_lep_ID_0 );
 
+	        ana.tx.setBranch<bool>("Cut_3LepTauMET_OtherLeptons", true);
+
 		return true;
 	    }, UNITY);
 
@@ -248,12 +266,15 @@ void Begin_3LepTauMET_NanoAOD()
 
                         if (ipdgid * jpdgid < 0) 
                         {
-                            if (not ((ip4 + jp4).mass() > 12))
-                                return false;
+                            if (not ((ip4 + jp4).mass() > 12)){
+                                ana.tx.setBranch<bool>("Cut_3LepTauMET_VetoLowMassResonance", false);
+				return false;
+			    }
                         }
                     }
                 }
-		
+	
+		ana.tx.setBranch<bool>("Cut_3LepTauMET_VetoLowMassResonance", true);	
 		return true;
 
 	     }, UNITY);
@@ -296,7 +317,11 @@ void Begin_3LepTauMET_Create_Branches()
     // Categories
     ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_Preselection");
     ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_etauChannel");
-    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_mutauChannel"); 
+    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_mutauChannel");
+    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_Has3LeptonPlusTau");
+    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_HasZCandidate");
+    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_OtherLeptons");
+    ana.tx.createBranch<bool>	      ("Cut_3LepTauMET_VetoLowMassResonance");
 
     // Z candidate idxs, pdgid, and 4 vectors
     // The Z candidate is the SFOS pair that is closest to the Z mass

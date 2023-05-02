@@ -24,7 +24,7 @@ void Process_Common_NanoAOD()
     //---------------------------------------------------------------------------------------------
     // Flag for lepton ID
     bool new_lepton_ID = true;  // true for new ID, false for old ID
-    const ULong64_t event_check = 999999999999999999999999999;
+    const ULong64_t event_check = 1800002;
 
     if (nt.event() == event_check) std::cout << "Debug 0.1" << endl;
 

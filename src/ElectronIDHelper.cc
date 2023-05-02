@@ -60,17 +60,17 @@ bool ElectronIDHelper::electronIDscore(int year, unsigned int idx, std::string l
 bool ElectronIDHelper::electronPassPreselection(unsigned int idx, std::string level){
 
      // These cuts are common for all ID levels of Electron
-     if (tas::Electron_pt().at(idx) < 10.) { return false; }
-     if (fabs(tas::Electron_eta().at(idx)) > 2.5) { return false; }
-     if (fabs(tas::Electron_dxy().at(idx)) > 0.05) { return false; }
-     if (fabs(tas::Electron_dz().at(idx)) > 0.1) { return false; }
-     if (fabs(tas::Electron_sip3d().at(idx)) >= 8) { return false; }
-     if (tas::Electron_miniPFRelIso_all().at(idx) > 0.4) { return false; }
-     if (tas::Electron_lostHits().at(idx) > 1) { return false; }
+     if (not (tas::Electron_pt().at(idx) > 10.)) { return false; }
+     if (not (fabs(tas::Electron_eta().at(idx)) < 2.5)) { return false; }
+     if (not (fabs(tas::Electron_dxy().at(idx)) < 0.05)) { return false; }
+     if (not (fabs(tas::Electron_dz().at(idx)) < 0.1)) { return false; }
+     if (not (fabs(tas::Electron_sip3d().at(idx)) < 8)) { return false; }
+     if (not (tas::Electron_miniPFRelIso_all().at(idx) < 0.4)) { return false; }
+     if (not (tas::Electron_lostHits().at(idx) <= 1)) { return false; }
      if ( level == "loose" ) { return true; }
 
      if ( level == "tight" ){
-        if (!tas::Electron_convVeto().at(idx)) { return false; }  
+        if (not tas::Electron_convVeto().at(idx)) { return false; }  
 	if (tas::Electron_tightCharge().at(idx) != 2) { return false; }
 	return true;
      }

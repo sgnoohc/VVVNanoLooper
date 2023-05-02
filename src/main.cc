@@ -296,6 +296,12 @@ int main(int argc, char** argv)
     //std::cout << "Debug main.cc 1" << std::endl;
 
     // Looping input file
+    int nTot = 0;
+    int n1 = 0;
+    int n2 = 0;
+    int n3 = 0;
+    int n4 = 0;
+    int n5 = 0;
     while (ana.looper.nextEvent())
     {
         //std::cout << "Debug main.cc 2" << std::endl;
@@ -308,10 +314,22 @@ int main(int argc, char** argv)
 
         Process();
 	//std::cout << "Debug main.cc 3" << std::endl;
+	nTot++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_Has3LeptonPlusTau").pass) n1++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_HasZCandidate").pass) n2++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_OtherLeptons").pass) n3++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_VetoLowMassResonance").pass) n4++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_Preselection").pass) n5++;
 
     }
 
     Terminate();
     //std::cout << "Debug main.cc 4" << std::endl;
+    //std::cout << "Total number of events = " << nTot << std::endl;
+    //std::cout << "Number of events passing 3LepTau preselection = " << n1 << std::endl;
+    //std::cout << "Number of events with a Z candidate = " << n2 << std::endl;
+    //std::cout << "Number of events passing other lepton requirements = " << n3 << std::endl;
+    //std::cout << "Number of events passing low mass resonance veto = " << n4 << std::endl;
+    //std::cout << "Number of events passing full preselection = " << n5 << std::endl;
 
 }

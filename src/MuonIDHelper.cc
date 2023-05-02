@@ -56,12 +56,12 @@ bool MuonIDHelper::muonIDscore(int year, unsigned int idx, std::string level, bo
 bool MuonIDHelper::muonPassPreselection(unsigned int idx, std::string level){
 
      // These cuts are common for all ID levels of Muon
-     if (tas::Muon_pt().at(idx) < 10.) { return false; }
-     if (fabs(tas::Muon_eta().at(idx)) > 2.4) { return false; }
-     if (fabs(tas::Muon_dxy().at(idx)) > 0.05) { return false; }
-     if (fabs(tas::Muon_dz().at(idx)) > 0.1) { return false; }
-     if (fabs(tas::Muon_sip3d().at(idx)) >= 8) { return false; }
-     if (tas::Muon_miniPFRelIso_all().at(idx) > 0.4) { return false; }
+     if (not (tas::Muon_pt().at(idx) > 10.)) { return false; }
+     if (not (fabs(tas::Muon_eta().at(idx)) < 2.4)) { return false; }
+     if (not (fabs(tas::Muon_dxy().at(idx)) < 0.05)) { return false; }
+     if (not (fabs(tas::Muon_dz().at(idx)) < 0.1)) { return false; }
+     if (not (fabs(tas::Muon_sip3d().at(idx)) < 8)) { return false; }
+     if (not (tas::Muon_miniPFRelIso_all().at(idx) < 0.4)) { return false; }
      if (!tas::Muon_mediumId().at(idx)) { return false; }
      
      // Loose ID requirement 

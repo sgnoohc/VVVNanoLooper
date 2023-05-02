@@ -48,9 +48,8 @@ public:
     // Custom Histograms object compatible with RooUtil::Cutflow framework
     RooUtil::Histograms histograms;
 
-    RooUtil::Histograms histograms_bj_in;
-    RooUtil::Histograms histograms_bj_out;
-    RooUtil::Histograms histograms_bj_all;
+    RooUtil::Histograms histograms_3LepTau;
+
 
 };
 
@@ -423,6 +422,10 @@ int main(int argc, char** argv)
                            {
                                weight = 0.002067 / 0.0005972;
                            }
+	
+			   //float weight_0 = 0.000000;
+			
+			   //if (vvv.Var_4LepMET_scaleLumi() < -100.) return weight_0;
 
                            return vvv.Var_4LepMET_scaleLumi() * vvv.Common_genWeight() * weight;
                        } );
@@ -646,146 +649,7 @@ int main(int argc, char** argv)
                                          return (nj_in > 0);
                                       }, UNITY);
  
-    //ana.cutflow.getCut("CutPresel");
-    //ana.cutflow.addCutToLastActiveCut("CutBJetInPreVeto", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
 
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-
-    //                                         }
-    //                                    }
-
-    //                                    return (nbj_in > 0);
-    //                                  }, UNITY);
-
-    //ana.cutflow.getCut("CutBVeto");
-    //ana.cutflow.addCutToLastActiveCut("CutBJetInPostVeto", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-
-    //                                         }
-    //                                    }
-
-    //                                    return (nbj_in > 0);
-    //                                  }, UNITY);
-
- 
-    //ana.cutflow.getCut("CutEMuMT2"); 
-    //ana.cutflow.addCutToLastActiveCut("CutBJetIn", [&]() 
-    //    			      {
-    //    				int nbj_in = 0;
-    //    				for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //    				     if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
- 
-    //    					  if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-    //    					  
-    //    				     }	
-    //    				}
-
-    //    				return (nbj_in > 0);
-    //    			      }, UNITY);
-
-    //
-
-    //ana.cutflow.getCut("CutEMuMT2");
-    //ana.cutflow.addCutToLastActiveCut("CutBJetOut", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    int nbj_out = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-
-    //                                         }
-
-    //    				     if ( std::abs(vvv.Common_jet_p4()[i].eta()) > 2.4 && std::abs(vvv.Common_jet_p4()[i].eta()) < 4.7  ){
-
-    //    					  if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_out++;						  
-
-    //    				     }					
-
-    //                                    }
-
-    //                                    return (nbj_in == 0 && nbj_out > 0);
-    //                                  }, UNITY); 
-
-    //ana.cutflow.getCut("CutEMuMT2");
-    //ana.cutflow.addCutToLastActiveCut("CutJetIn", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    int nbj_out = 0;
-    //    				int nj_in = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-    //    					  nj_in++;
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-    //                                         }
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) > 2.4 && std::abs(vvv.Common_jet_p4()[i].eta()) < 4.7 ){
-    //    					  
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_out++;
-
-    //                                         }   
-
-    //                                    }
-
-    //                                    return (nbj_in == 0 && nbj_out == 0 && nj_in > 0);
-    //                                  }, UNITY);
-
-    //ana.cutflow.getCut("CutEMuMT2");
-    //ana.cutflow.addCutToLastActiveCut("CutJetOut", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    int nbj_out = 0;
-    //                                    int nj_in = 0;
-    //    				int nj_out = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-    //                                              nj_in++;
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-    //                                         }
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) > 2.4 && std::abs(vvv.Common_jet_p4()[i].eta()) < 4.7 ){
-    //    					  nj_out++;
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_out++;
-
-    //                                         }   
-
-    //                                    }
-
-    //                                    return (nbj_in == 0 && nbj_out == 0 && nj_in == 0 && nj_out > 0);
-    //                                  }, UNITY);
-
-    //ana.cutflow.getCut("CutEMuMT2");
-    //ana.cutflow.addCutToLastActiveCut("CutJetNone", [&]()
-    //                                  {
-    //                                    int nbj_in = 0;
-    //                                    int nbj_out = 0;
-    //                                    int nj_in = 0;
-    //                                    int nj_out = 0;
-    //                                    for (long unsigned int i = 0; i < vvv.Common_jet_idxs().size(); i++ ){
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-    //                                              nj_in++;
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_in++;
-    //                                         }
-    //                                         if ( std::abs(vvv.Common_jet_p4()[i].eta()) > 2.4 && std::abs(vvv.Common_jet_p4()[i].eta()) < 4.7 ){
-    //                                              nj_out++;
-    //                                              if ( vvv.Common_jet_hadronFlavour()[i] == 5 ) nbj_out++;
-
-    //                                         }
-
-    //                                    }
-
-    //                                    return (nbj_in == 0 && nbj_out == 0 && nj_in == 0 && nj_out == 0);
-    //                                  }, UNITY);
-
-    //ana.histograms.addHistogram("Min_mlj_out", 180, 0, 300, [&]() { return min_mlj_in; } );
 
     // ZZ CR: 4e final state
     ana.cutflow.getCut("CutOnZ");
@@ -975,6 +839,276 @@ int main(int argc, char** argv)
     ana.cutflow.addCutToLastActiveCut("CutOppFlav", [&]() { return vvv.Cut_4LepMET_emuChannel(); }, BLIND);
     ana.cutflow.addCutToLastActiveCut("CutEMuBT", [&]() { return vvv.Common_nb_loose_CSV() > 1; }, UNITY);
 
+
+    //ana.cutflow.addCut("CutWeight_3LepTau", UNITY, [&]()
+    //                   {
+    //                       bool isWWZEFT = ana.looper.getCurrentFileName().Contains("WWZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
+    //                       bool isWZZEFT = ana.looper.getCurrentFileName().Contains("WZZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
+    //                       bool isZZZEFT = ana.looper.getCurrentFileName().Contains("ZZZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
+
+    //                       float sm_weight = 1;
+    //                       sm_weight = (isWWZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] * 0.1651 * 0.3272 * 0.3272 * 0.1009 /0.0005972 : 1.)
+    //                                 * (isWZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] : 1.)
+    //                                 * (isZZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] : 1.)
+    //                                 ;
+    //                                 float eftweight = 1;
+    //                                 eftweight = (isWWZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] * 0.1651 * 0.3272 * 0.3272 * 0.1009 /0.0005972 : 1.)
+    //                                 * (isWZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] : 1.)
+    //                                 * (isZZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] : 1.)                                                                                                                                 ; 
+  
+    //                                 float weight = ana.eft_reweighting_idx != 0 ? (eftweight - sm_weight) : sm_weight;
+
+    //    			     if (ana.looper.getCurrentFileName().Contains("WWZJets"))
+    //                                 {
+    //                                     weight = 0.002067 / 0.0005972;
+    //                                 }
+    //                                
+    //    			     //float weight_0 = 0.;
+ 
+    //    			     //if ( vvv.Var_3LepTauMET_scaleLumi() < -100. ) return weight_0;
+    //                                 return vvv.Var_3LepTauMET_scaleLumi() * vvv.Common_genWeight() * weight;
+    //                                                                                                                                                                                                                                                                                                                                                                                                                                                          } );
+    //ana.cutflow.addCutToLastActiveCut("CutAdditionalLeptonID_3LepTau",
+    //    			      [&]()
+    //    			      {
+    //    				  // Z candidate leptons
+    //    				  std::vector<int> Zcand_lep_idxs = {vvv.Var_3LepTauMET_Zcand_lep_idx_0(), vvv.Var_3LepTauMET_Zcand_lep_idx_1()};
+
+    //    				  for (auto& idx : Zcand_lep_idxs){
+    //    				      // Electron
+    //    				      if (abs(vvv.Common_lep_pdgid()[idx]) == 11){
+    //    					  if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
+    //    					  if (not (vvv.Common_lep_relIso03_all()[idx] < 0.2)) return false;
+    //    				      }
+    //    				      // Muon
+    //    				      if (abs(vvv.Common_lep_pdgid()[idx]) == 13){
+    //    					  if (not (vvv.Common_lep_sip3d()[idx] < 4)) return false;
+    //    					  if (not (new_lepton_ID)){
+    //    					      if (not ((vvv.Common_lep_ID()[idx] >> 2) >= 2)) return false;
+    //    					  }
+    //    				      }
+    //    				  }
+
+    //    				  // W candidate lepton
+    //    				  int W_idx = vvv.Var_3LepTauMET_other_lep_idx_0();
+    //    				  // W candidate is electron
+    //    				  if (abs(vvv.Common_lep_pdgid()[W_idx]) == 11){
+    //    				      if (not (vvv.Common_lep_sip3d()[W_idx] < 4)) return false;
+    //    				      if (not (vvv.Common_lep_relIso03_all()[W_idx] < 0.2)) return false;
+    //    				      if (not (new_lepton_ID)){
+    //    					  if (not (vvv.Common_lep_ID()[W_idx] & (1 << 4))) return false; 
+    //    				      }
+    //    				  }
+    //    				  // W candidate is muon
+    //    				  if (abs(vvv.Common_lep_pdgid()[W_idx]) == 13){
+    //    				      if (not (vvv.Common_lep_sip3d()[W_idx] < 4)) return false;
+    //    				      if (not (new_lepton_ID)){
+    //    					  if (not ((vvv.Common_lep_ID()[W_idx] >> 2) >= 3)) return false;
+    //    				      }
+    //    				  }
+
+    //    			          double max_pt = std::max({vvv.Var_3LepTauMET_Zcand_lep_p4_0().pt(),vvv.Var_3LepTauMET_Zcand_lep_p4_1().pt(),vvv.Var_3LepTauMET_other_lep_p4_0().pt()});
+    //    				  if (not ( max_pt > 25. )) return false;
+
+    //    				  double lepton_pts[] = {vvv.Var_3LepTauMET_Zcand_lep_p4_0().pt(),vvv.Var_3LepTauMET_Zcand_lep_p4_1().pt(),vvv.Var_3LepTauMET_other_lep_p4_0().pt()};
+    //    				  int n = sizeof(lepton_pts) / sizeof(lepton_pts[0]);
+    //    				  std::sort(lepton_pts, lepton_pts+n,greater<double>());
+
+    //    				  if (not ( lepton_pts[1] > 15. )) return false;
+
+    //    				  return true;
+    //    		
+    //    			      },
+    //    			      [&]()
+    //    			      {
+    //    				  return 1.;
+    //    			      });
+
+    //ana.cutflow.addCutToLastActiveCut("CutDuplicate_3LepTau", UNITY,
+    //    			      [&]()
+    //    			      {
+    //    				  if (vvv.Common_isData())
+    //    				  {
+    //    				      duplicate_removal::DorkyEventIdentifier id(vvv.Common_run(), vvv.Common_evt(), vvv.Common_lumi());
+    //    				      if (is_duplicate(id))
+    //    					  return false;
+    //    				      else
+    //    					  return true;
+    //    				  }
+    //    				  else
+    //    				  {
+    //    				      return true;
+    //    				  }
+    //    			      
+    //    			       } );
+
+    //// Apply min Mll > 12 GeV selection on any pair of opposite-sign charged leptons
+    //ana.cutflow.addCutToLastActiveCut("CutVetoLowMassResonance_3LepTau",
+    //        [&]()
+    //        {
+
+    //    	// Loop over light charged leptons
+    //    	for (unsigned int ilep = 0; ilep < vvv.Common_lep_pdgid().size(); ++ilep){
+    //    	     const LorentzVector& ip4 = vvv.Common_lep_p4()[ilep];
+    //    	     // Loop over other light leptons
+    //    	     for (unsigned int jlep = ilep + 1; jlep < vvv.Common_lep_pdgid().size(); ++jlep){
+    //    		  const LorentzVector& jp4 = vvv.Common_lep_p4()[jlep];
+    //    		  if ( not ( vvv.Common_lep_pdgid()[ilep]*vvv.Common_lep_pdgid()[jlep] < 0 ) ) continue;
+    //    		  if ( not ( (ip4+jp4).mass() > 12.) ) return false;
+    //    	     }
+    //    	     // Do the same with the tau candidate
+    //    	     const LorentzVector& tau_p4 = vvv.Var_3LepTauMET_tau_p4_0();
+    //    	     if ( not ( vvv.Common_lep_pdgid()[ilep]*vvv.Var_3LepTauMET_tau_pdgid_0() < 0 ) ) continue;
+    //    	     if ( not ( (ip4+tau_p4).mass() > 12.) ) return false;
+    //    	}
+
+    //    	return true;
+
+    //        }, UNITY);
+
+    //ana.cutflow.addCutToLastActiveCut("CutVetoZHZWW_3LepTau", [&]()
+    //    			      {
+    //    				  if (ana.looper.getCurrentFileName().Contains("VHToNonbb"))
+    //    				  {
+    //    				      if (vvv.Common_gen_VH_channel() == 1){
+    //    					  return false;
+    //    				      }
+    //    				  }
+    //    				  return true;
+    //    			      }, UNITY);
+
+    //ana.cutflow.addCutToLastActiveCut("CutPresel_3LepTau", UNITY, UNITY);
+
+    //ana.cutflow.getCut("CutPresel_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutBVeto_3LepTau", [&]() { return vvv.Common_nb_loose_CSV() == 0; }, UNITY);
+
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutETau", [&]() { return vvv.Cut_3LepTauMET_etauChannel(); }, UNITY);
+
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutMuTau", [&]() { return vvv.Cut_3LepTauMET_mutauChannel(); }, UNITY);
+
+
+    //LorentzVector leading_tau_p4;
+    //int ntaus;
+    //// TODO: Need to do this by accessing the Common_tau_ branch and selecting the highest pt one that passes the ID requirements
+    //ana.cutflow.getCut("CutETau");
+    //ana.cutflow.addCutToLastActiveCut("CutETau_idVS", [&]() {
+    //    			
+    //    			     std::vector<float> tau_pts;	
+    //    			     for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    //    				  int idVSe = vvv.Common_tau_idVSe()[itau];
+    //    				  int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    //    				  int idVSjet = vvv.Common_tau_idVSjet()[itau];
+    //    				 
+    //    				  if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    //    				  tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    //    			     }
+
+    //    		             if ( tau_pts.size() < 1 ) return false;
+
+    //    			     return true;
+    //    
+    //                                 }, UNITY);
+
+    ////ana.cutflow.addCutToLastActiveCut("CutETau_1Tau", [&]() {
+
+    ////                                 std::vector<float> tau_pts;        
+    ////                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    ////                                      int idVSe = vvv.Common_tau_idVSe()[itau];
+    ////                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    ////                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+    ////                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    ////                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    ////                                 }
+
+    ////                                 if ( tau_pts.size() != 1 ) return false;
+
+    ////                                 return true;
+
+    ////                                 }, UNITY);
+
+    ////ana.cutflow.getCut("CutETau_idVS");
+    ////ana.cutflow.addCutToLastActiveCut("CutETau_2pTaus", [&]() {
+
+    ////                                 std::vector<float> tau_pts;        
+    ////                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    ////                                      int idVSe = vvv.Common_tau_idVSe()[itau];
+    ////                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    ////                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+    ////                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    ////                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    ////                                 }
+
+    ////                                 if ( tau_pts.size() < 2 ) return false;
+
+    ////                                 return true;
+
+    ////                                 }, UNITY);
+
+    //ana.cutflow.getCut("CutMuTau");
+    //ana.cutflow.addCutToLastActiveCut("CutMuTau_idVS", [&]() {
+
+    //    			     std::vector<float> tau_pts;
+    //                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    //                                      int idVSe = vvv.Common_tau_idVSe()[itau];
+    //                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    //                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+    //                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    //                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    //                                 }
+
+    //                                 if ( tau_pts.size() < 1 ) return false;
+
+    //                                 return true;
+    //                          
+
+    //                                 }, UNITY);
+
+    ////ana.cutflow.addCutToLastActiveCut("CutMuTau_1Tau", [&]() {
+
+    ////                                 std::vector<float> tau_pts;
+    ////                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    ////                                      int idVSe = vvv.Common_tau_idVSe()[itau];
+    ////                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    ////                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+    ////                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    ////                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    ////                                 }
+
+    ////                                 if ( tau_pts.size() != 1 ) return false;
+
+    ////                                 return true;
+
+
+    ////                                 }, UNITY);
+
+    ////ana.cutflow.getCut("CutMuTau_idVS");
+    ////ana.cutflow.addCutToLastActiveCut("CutMuTau_2pTaus", [&]() {
+
+    ////                                 std::vector<float> tau_pts;
+    ////                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+    ////                                      int idVSe = vvv.Common_tau_idVSe()[itau];
+    ////                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
+    ////                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+    ////                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
+    ////                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
+    ////                                 }
+
+    ////                                 if ( tau_pts.size() < 2 ) return false;
+
+    ////                                 return true;
+
+
+    ////                                 }, UNITY);
+    
+
+
     // Print cut structure
     ana.cutflow.printCuts();
 
@@ -1040,7 +1174,7 @@ int main(int argc, char** argv)
                                     return rtn;
                                 } );
 
-    ana.histograms_bj_in.addHistogram("Min_mlj_in", 180, 0., 300.,
+    /*ana.histograms_bj_in.addHistogram("Min_mlj_in", 180, 0., 300.,
 			     [&]()
 			     {  
                                  std::vector<float> mlj_in;
@@ -1120,33 +1254,36 @@ int main(int argc, char** argv)
 			
                                  return min_mlj_all;
                              } );
+    */    
+
+    // Histograms for 3-Lepton + Tau Final State
+    //ana.histograms_3LepTau.addHistogram("Zcand_mll", 180, 60, 120, [&]() { return vvv.Var_3LepTauMET_Zcand_mll(); } );
+    //ana.histograms_3LepTau.addHistogram("Zcand_mll_full", 180, 0, 120, [&]() { return vvv.Var_3LepTauMET_Zcand_mll(); } );
+    //ana.histograms_3LepTau.addHistogram("Zcand_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_0().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("Zcand_lep1_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_1().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("other_mll", 180, 60, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
+    //ana.histograms_3LepTau.addHistogram("other_mll_full", 180, 0, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
+    //ana.histograms_3LepTau.addHistogram("other_mll_varbin", {0., 40., 60., 100., 200.}, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
+    //ana.histograms_3LepTau.addHistogram("other_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_other_lep_p4_0().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("tau0_pt", 180, 0, 150, [&]() { return leading_tau_p4.pt(); } );
+    //ana.histograms_3LepTau.addHistogram("other_lep0_sip3d", 180, 0, 10, [&]() { return abs(vvv.Common_lep_sip3d()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
+    //ana.histograms_3LepTau.addHistogram("other_lep0_dxy", 180, 0, 0.01, [&]() { return abs(vvv.Common_lep_dxy()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
+    //ana.histograms_3LepTau.addHistogram("other_lep0_dz", 180, 0, 0.1, [&]() { return abs(vvv.Common_lep_dz()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
+    //ana.histograms_3LepTau.addHistogram("MET", 180, 0, 300., [&]() { return vvv.Common_met_p4().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("pfMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_MET().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("PuppiMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_PuppiMET().pt(); } );
+    //ana.histograms_3LepTau.addHistogram("Pt4l", 180, 0., 300., [&]() { return (vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()+vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).pt(); } );
+    //ana.histograms_3LepTau.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose(); } );
+    //ana.histograms_3LepTau.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
+    //ana.histograms_3LepTau.addHistogram("ntau", 5, 0, 5, [&]() { return ntaus; } );
 
     // Book cutflows
     ana.cutflow.bookCutflows();
 
     // Book Histograms
     ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms, "CutDuplicate"); // if just want to book everywhere
+    //ana.cutflow.bookHistogramsForCutAndBelow(ana.histograms_3LepTau, "CutDuplicate_3LepTau");
 
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in, "CutBJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutBJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutBJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in, "CutBJetInPreVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutBJetInPreVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutBJetInPreVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in, "CutBJetInPostVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutBJetInPostVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutBJetInPostVeto");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in, "CutBJetOut");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutBJetOut");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutBJetOut");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in, "CutJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutJetIn");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out, "CutJetOut");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all, "CutJetOut");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_in,"CutEMuMT2");  
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_out,"CutEMuMT2");
-    //ana.cutflow.bookHistogramsForCut(ana.histograms_bj_all,"CutEMuMT2");
 
     // Book Event list
     ana.cutflow.bookEventLists();
@@ -1170,6 +1307,21 @@ int main(int argc, char** argv)
         STLepHad = vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.);
         Pt4l = (vvv.Var_4LepMET_Zcand_lep_p4_0() + vvv.Var_4LepMET_Zcand_lep_p4_1() + vvv.Var_4LepMET_other_lep_p4_0() + vvv.Var_4LepMET_other_lep_p4_1()).pt();
 
+        //if (ana.cutflow.getCut("CutETau").pass || ana.cutflow.getCut("CutMuTau").pass){
+        //        std::vector<LorentzVector> tau_p4_vec;
+        //        for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
+        //                int idVSe = vvv.Common_tau_idVSe()[itau];
+        //                int idVSmu = vvv.Common_tau_idVSmu()[itau];
+        //                int idVSjet = vvv.Common_tau_idVSjet()[itau];
+
+        //                if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
+        //                tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
+        //        }
+        //        ntaus = tau_p4_vec.size();
+        //        if ( ntaus < 1 ) continue;
+        //        leading_tau_p4 = tau_p4_vec[0];
+        //}
+
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
 
         //Do what you need to do in for each event here
@@ -1181,7 +1333,7 @@ int main(int argc, char** argv)
 	//	ana.cutflow.printCuts();
        
 	//}
-
+	
 	if (ana.cutflow.getCut("CutEMuMT2").pass){
 	      // TODO
 	      // Loop over jets and count the number of jets in each event
@@ -1252,7 +1404,7 @@ int main(int argc, char** argv)
 		  isSignal = 0;
 	      }
 
-	      std::cout << isSignal << "  "  << nj_in << "  " << nj_in << "  " << nj_out << "  " << lead_jet_pt << "  " << lead_jet_eta << "  " << min_mlj << "  " << SRBin << "  " << evt_weight  << std::endl;
+	      //std::cout << isSignal << "  "  << nj_in << "  " << nj_in << "  " << nj_out << "  " << lead_jet_pt << "  " << lead_jet_eta << "  " << min_mlj << "  " << SRBin << "  " << evt_weight  << std::endl;
 
 	      // Convert the text files to a single root file with all WWZ and TTZ events (add a flag for TTZ vs WWZ)	    	           
 	}

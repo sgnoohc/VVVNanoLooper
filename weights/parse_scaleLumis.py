@@ -30,10 +30,15 @@ def parseLumi(samplename):
 if __name__ == "__main__":
 
     #nanoskims = glob.glob("/ceph/cms/store/user/phchang/FourLepNanoSkim/v9/*")
-    nanoskims = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/WWZ_3L/*")
+    nanoskims = glob.glob("/ceph/cms/store/user/kdownham/skimOutput/3LepTau_4Lep/*")
     xsec_filename = "xsec.txt"
-    #xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_v9", x.split()[1] ] for x in open(xsec_filename).readlines() ])
-    xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_WWZ_3L", x.split()[1] ] for x in open(xsec_filename).readlines() ])
+    #xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_v9", x.split()[1] ] for x in open(xsec_filename).readlines() ]
+    #for x in open(xsec_filename).readlines():
+    #      print("x = {}".format(x))
+    #      print("printout = {}".format(x.split()[0][1:].replace("/","_")+"WWZ_3L"))
+    #      #print(x.split()[1])
+
+    xsecdb = dict([ [ x.split()[0][1:].replace("/","_")+"_3LepTau_4Lep", x.split()[1] ] for x in open(xsec_filename).readlines() ])
 
     for nanoskim in sorted(nanoskims):
         if "Run201" in nanoskim:

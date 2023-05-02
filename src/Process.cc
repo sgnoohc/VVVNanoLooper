@@ -26,10 +26,12 @@ void Process()
 
     // At this point, variables are all computed and set
     // Adding a check for a given event
-    if (nt.run() == 1 and nt.luminosityBlock() == 131 and nt.event() == 130004){
-	ana.cutflow.printCuts();
+    //if (nt.run() == 1 and nt.luminosityBlock() == 80636 and nt.event() == 8063507){
+    //    ana.cutflow.printCuts();
 
-    }
+    //}
+
+    //std::cout << "Run = " << nt.run() << " , Lumi Block = " << nt.luminosityBlock() << " , event = " << nt.event() << std::endl;
 
     //std::cout << "Debug Process 3" << std::endl;
 

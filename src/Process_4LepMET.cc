@@ -127,10 +127,7 @@ void PostProcess_4LepMET()
 
     if (ana.cutflow.getCut("Cut_4LepMET_Preselection").pass)
     {
-        //std::cout << "Debug Process_4LepMET 2" << std::endl;
         ana.tx.fill();
-	//std::cout << "Debug Process_4LepMET 3" << std::endl;
     }
-    //std::cout << "Debug Process_4LepMET 4" << std::endl;
 
 }
