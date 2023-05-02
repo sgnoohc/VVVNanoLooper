@@ -33,6 +33,8 @@ function chirp {
 
 if [[ ${INPUTFILENAMES} == *"Run201"* ]]; then
     INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd.fnal.gov\/\/store}
+elif [[ ${INPUTFILENAMES} == *"ULSignalSamples"* ]]; then
+    :
 else
     INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmseos.fnal.gov\/\/store\/group\/lpcvvv\/NanoAODv9\/store}
 fi

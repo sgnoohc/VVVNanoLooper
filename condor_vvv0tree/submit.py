@@ -32,10 +32,10 @@ def split_func(dsname):
 if __name__ == "__main__":
 
     # Samples
-    sample_map = samples.ttbar_2018
+    sample_map = samples.vvv_dim6_2018
 
     # submission tag
-    tag = "VVV0TreeV1"
+    tag = "VVV0TreeV2"
 
     # Task summary for printing out msummary
     task_summary = {}

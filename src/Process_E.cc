@@ -15,8 +15,8 @@ void Process_E()
     const int& lumi = ana.tx.getBranch<int>("Common_lumi");
     const unsigned long long& evt = ana.tx.getBranch<int>("Common_evt");
     const int& year = ana.tx.getBranch<int>("Common_year");
-    const float& genWeight = ana.tx.getBranch<int>("Common_genWeight");
-    const float& wgt = ana.tx.getBranch<int>("Common_wgt");
+    const float& genWeight = ana.tx.getBranch<float>("Common_genWeight");
+    const float& wgt = ana.tx.getBranch<float>("Common_wgt");
 
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
     // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -537,6 +537,8 @@ void Process_E()
     ana.txskim.setBranch<float>("HT", HT);
     ana.txskim.setBranch<float>("HTJ", HTJ);
     ana.txskim.setBranch<float>("HTFJ", HTFJ);
+    ana.txskim.setBranch<float>("SumPtFJ", SumPtFJ);
+    ana.txskim.setBranch<float>("SumPtJ", SumPtJ);
 
     ana.txskim.setBranch<int>("isData", isData);
     ana.txskim.setBranch<int>("run", run);

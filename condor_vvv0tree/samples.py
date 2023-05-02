@@ -8,6 +8,10 @@ ttbar_2018 = {
     DBSSample(dataset="/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM")                            : "TTHad",
 }
 
+vvv_dim6_2018 = {
+        DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWW_NoFilter_Dim6_merged/", dataset="/WWW_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM") : "WWW_NoFilter_Dim6",
+}
+
 
 mc_2018={
         DBSSample(dataset="/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM")          : "STantitop",
