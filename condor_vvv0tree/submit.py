@@ -32,10 +32,10 @@ def split_func(dsname):
 if __name__ == "__main__":
 
     # Samples
-    sample_map = samples.vvv_dim6_2018
+    samples = samples.testsamples
 
     # submission tag
-    tag = "VVV0TreeV2"
+    tag = "VVV0TreeV3"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         all_tasks_complete = True
 
         # Loop over the dataset provided by the user few lines above, and do the Metis magic
-        for ds, shortname in sample_map.items():
+        for ds in samples:
             task = CondorTask(
                     sample = ds,
                     files_per_output = split_func(ds.get_datasetname()),

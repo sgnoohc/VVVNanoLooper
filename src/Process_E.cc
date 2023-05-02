@@ -372,7 +372,7 @@ void Process_E()
     // I do not know what happens for bkg samples, but for TTToHad for example it kind of interestingly is doing something!!!
     else
     {
-        for (auto& idx : ana.tx.getBranch<vector<int>>("Common_gen_vvvdecay_idx"))
+        for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx"))
         {
             const LV& gen_p4 = nt.GenPart_p4()[idx];
             const int& gen_pdgid = nt.GenPart_pdgId()[idx];
@@ -420,7 +420,7 @@ void Process_E()
 
     vector<LV> fermions;
     vector<int> ishadrons;
-    for (auto& idx : ana.tx.getBranch<vector<int>>("Common_gen_vvvdecay_idx"))
+    for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx"))
     {
         const LV& gen_p4 = nt.GenPart_p4()[idx];
         const int& gen_pdgid = nt.GenPart_pdgId()[idx];
@@ -432,7 +432,7 @@ void Process_E()
     // For signal, the first two entry in the "bosons" are the same boson (3, 4th is the same, and 5, 6th is the same)
     vector<LV> bosons;
     vector<int> pdgids;
-    for (auto& idx : ana.tx.getBranch<vector<int>>("Common_gen_vvvdecay_mother_idx"))
+    for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_mother_idx"))
     {
         const LV& gen_p4 = nt.GenPart_p4()[idx];
         const int& gen_pdgid = nt.GenPart_pdgId()[idx];
