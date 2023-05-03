@@ -147,6 +147,8 @@ public:
     RooUtil::HistMap* triggereeSF;
     RooUtil::HistMap* triggeremuSF;
     RooUtil::HistMap* triggermumuSF;
+
+    vector<TString> variations;
 };
 
 extern AnalysisConfig ana;

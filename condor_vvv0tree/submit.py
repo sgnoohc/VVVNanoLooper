@@ -70,7 +70,7 @@ if __name__ == "__main__":
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     special_dir = "VVV0LepAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
-                    # max_jobs = 10,
+                    max_jobs = 1,
             )
             # Straightforward logic
             if not task.complete():
