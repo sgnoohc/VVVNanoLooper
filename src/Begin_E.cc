@@ -79,6 +79,9 @@ void Begin_E()
         ana.txskim.createBranch<int>(TString::Format("NbLoose%s", variation.Data()));
         ana.txskim.createBranch<int>(TString::Format("NbMedium%s", variation.Data()));
         ana.txskim.createBranch<int>(TString::Format("NbTight%s", variation.Data()));
+        ana.txskim.createBranch<int>(TString::Format("NoORNbLoose%s", variation.Data()));
+        ana.txskim.createBranch<int>(TString::Format("NoORNbMedium%s", variation.Data()));
+        ana.txskim.createBranch<int>(TString::Format("NoORNbTight%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("J0%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("J1%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("J2%s", variation.Data()));

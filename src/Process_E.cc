@@ -616,6 +616,9 @@ void Process_E_Jets()
     map<TString, int> NbLoose;
     map<TString, int> NbMedium;
     map<TString, int> NbTight;
+    map<TString, int> NoORNbLoose;
+    map<TString, int> NoORNbMedium;
+    map<TString, int> NoORNbTight;
 
     map<TString, int> NJ;
 
@@ -631,6 +634,18 @@ void Process_E_Jets()
             const LV& jet_p4 = ana.tx.getBranchLazy<vector<LV>>("Common_jet_p4")[jet_i];
 
             const vector<LV>& FJs = ana.tx.getBranch<vector<LV>>(TString::Format("FJs%s", var.Data()));
+
+            // No OR b-tagging
+            // b-tag counting
+            if (abs(jet_p4.eta()) < 2.4)
+            {
+                bool pass_loose = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBloose")[jet_i];
+                bool pass_medium = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBmedium")[jet_i];
+                bool pass_tight = ana.tx.getBranchLazy<vector<bool>>("Common_jet_passBtight")[jet_i];
+                if (pass_loose) NoORNbLoose[var]++;
+                if (pass_medium) NoORNbMedium[var]++;
+                if (pass_tight) NoORNbTight[var]++;
+            }
 
             // Checking against FatJets
             bool is_overlapping_with_fatjet = false; // OR against lepton already checked in Process_Common
@@ -651,6 +666,7 @@ void Process_E_Jets()
             if (is_overlapping_with_fatjet)
                 continue;
 
+            // With OR b-tagging
             // b-tag counting
             if (abs(jet_p4.eta()) < 2.4)
             {
@@ -677,6 +693,9 @@ void Process_E_Jets()
         ana.txskim.setBranch<int>(TString::Format("NbLoose%s", var.Data()), NbLoose[var]);
         ana.txskim.setBranch<int>(TString::Format("NbMedium%s", var.Data()), NbMedium[var]);
         ana.txskim.setBranch<int>(TString::Format("NbTight%s", var.Data()), NbTight[var]);
+        ana.txskim.setBranch<int>(TString::Format("NoORNbLoose%s", var.Data()), NoORNbLoose[var]);
+        ana.txskim.setBranch<int>(TString::Format("NoORNbMedium%s", var.Data()), NoORNbMedium[var]);
+        ana.txskim.setBranch<int>(TString::Format("NoORNbTight%s", var.Data()), NoORNbTight[var]);
         ana.txskim.setBranch<LorentzVector>(TString::Format("J0%s", var.Data()), jet_p4s[var].size() > 0 ? jet_p4s[var][0] : LV());
         ana.txskim.setBranch<LorentzVector>(TString::Format("J1%s", var.Data()), jet_p4s[var].size() > 1 ? jet_p4s[var][1] : LV());
         ana.txskim.setBranch<LorentzVector>(TString::Format("J2%s", var.Data()), jet_p4s[var].size() > 2 ? jet_p4s[var][2] : LV());
