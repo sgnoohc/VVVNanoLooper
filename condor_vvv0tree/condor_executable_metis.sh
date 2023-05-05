@@ -34,7 +34,7 @@ function chirp {
 if [[ ${INPUTFILENAMES} == *"Run201"* ]]; then
     INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd.fnal.gov\/\/store}
 elif [[ ${INPUTFILENAMES} == *"ULSignalSamples"* ]]; then
-    :
+    INPUTFILENAMES=${INPUTFILENAMES//\/ceph\/cms\/store/root:\/\/redirector.t2.ucsd.edu:1095\/\/store}
 else
     INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmseos.fnal.gov\/\/store\/group\/lpcvvv\/NanoAODv9\/store}
 fi
@@ -92,28 +92,32 @@ eval `scramv1 runtime -sh`
 mv ../package.tar.gz package.tar.gz
 tar xf package.tar.gz
 
-##########################################################
-#UNCOMMENT TO COPY FAILING FILES DIRECTLY TO CONDOR NODE
-echo "Before XRootD copy"
-echo INPUTFILENAMES=${INPUTFILENAMES}
-LOCALINPUTFILENAMES=""
-for INPUTFILE in $(echo ${INPUTFILENAMES} | tr ',' ' '); do
-    fulldest="${INPUTFILE/*\/store\//}"
-    dest=$(dirname $fulldest)
-    mkdir -p ${dest}
-    echo ${dest}
-    echo xrdcp ${INPUTFILE} ${dest}
-    xrdcp ${INPUTFILE} ${dest}
-    if [ -z ${LOCALINPUTFILENAMES} ]; then
-        LOCALINPUTFILENAMES=${fulldest}
-    else
-        LOCALINPUTFILENAMES=${LOCALINPUTFILENAMES}","${fulldest}
-    fi
-done
-INPUTFILENAMES=${LOCALINPUTFILENAMES}
-echo "After XRootD copy"
-echo INPUTFILENAMES=${INPUTFILENAMES}
-##########################################################
+if [[ ${INPUTFILENAMES} == *"ULSignalSamples"* ]]; then
+    :
+else
+    ##########################################################
+    #UNCOMMENT TO COPY FAILING FILES DIRECTLY TO CONDOR NODE
+    echo "Before XRootD copy"
+    echo INPUTFILENAMES=${INPUTFILENAMES}
+    LOCALINPUTFILENAMES=""
+    for INPUTFILE in $(echo ${INPUTFILENAMES} | tr ',' ' '); do
+        fulldest="${INPUTFILE/*\/store\//}"
+        dest=$(dirname $fulldest)
+        mkdir -p ${dest}
+        echo ${dest}
+        echo xrdcp ${INPUTFILE} ${dest}
+        xrdcp ${INPUTFILE} ${dest}
+        if [ -z ${LOCALINPUTFILENAMES} ]; then
+            LOCALINPUTFILENAMES=${fulldest}
+        else
+            LOCALINPUTFILENAMES=${LOCALINPUTFILENAMES}","${fulldest}
+        fi
+    done
+    INPUTFILENAMES=${LOCALINPUTFILENAMES}
+    echo "After XRootD copy"
+    echo INPUTFILENAMES=${INPUTFILENAMES}
+    ##########################################################
+fi
 
 cat gitversion.txt
 
@@ -132,7 +136,7 @@ EXTRAARGS="$(getjobad metis_extraargs)"
 # else
 #     INPUTFILENAMES=${INPUTFILENAMES/\/store/root:\/\/cmsxrootd.fnal.gov\/\/store}
 # fi
-echo Executing ./doVVVAnalysis -n 50000 -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
+echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
 ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
 RET=$?
 

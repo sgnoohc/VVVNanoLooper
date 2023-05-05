@@ -15,6 +15,7 @@ condorpath = os.path.dirname(os.path.realpath(__file__))
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
 def split_func(dsname):
+    # return 1
     if "Run201" in dsname:
         return 7
     else:
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.testsamples
 
     # submission tag
-    tag = "VVV0TreeV4"
+    tag = "VVV0TreeV5"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -58,7 +59,7 @@ if __name__ == "__main__":
                     output_name = "output.root",
                     tag = tag,
                     condor_submit_params = {
-                        "sites": "T2_US_UCSD,UAF",
+                        # "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
                             ["metis_extraargs", "-w --mode 10"]
@@ -70,7 +71,7 @@ if __name__ == "__main__":
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     special_dir = "VVV0LepAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
-                    max_jobs = 1,
+                    # max_jobs = 1,
             )
             # Straightforward logic
             if not task.complete():
