@@ -264,6 +264,9 @@ void Process_E_FatJets()
     map<TString, vector<LV>> fatjet_p4s;
     map<TString, vector<float>> fatjet_VMDs;
     map<TString, vector<float>> fatjet_WMDs;
+    map<TString, vector<LV>> noVMD_fatjet_p4s;
+    map<TString, vector<float>> noVMD_fatjet_VMDs;
+    map<TString, vector<float>> noVMD_fatjet_WMDs;
 
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
@@ -354,11 +357,19 @@ void Process_E_FatJets()
             if (not (fatjet_p4[var].pt() > 200.)) continue;
             if (not (abs(fatjet_p4[var].eta()) < 2.4)) continue;
             if (not (fatjet_msoftdrop[var] > 40.)) continue;
-            if (not (VMD > 0.2)) continue;
 
-            fatjet_p4s[var].push_back(fatjet_p4[var]);
-            fatjet_VMDs[var].push_back(VMD);
-            fatjet_WMDs[var].push_back(WMD);
+            if (VMD > 0.2)
+            {
+                fatjet_p4s[var].push_back(fatjet_p4[var]);
+                fatjet_VMDs[var].push_back(VMD);
+                fatjet_WMDs[var].push_back(WMD);
+            }
+            else
+            {
+                noVMD_fatjet_p4s[var].push_back(fatjet_p4[var]);
+                noVMD_fatjet_VMDs[var].push_back(VMD);
+                noVMD_fatjet_WMDs[var].push_back(WMD);
+            }
         }
 
     }
@@ -382,6 +393,23 @@ void Process_E_FatJets()
         ana.txskim.setBranch<float>(TString::Format("WMD2%s", var.Data()), fatjet_WMDs[var].size() > 2 ? fatjet_WMDs[var][2] : -999);
         ana.txskim.setBranch<float>(TString::Format("WMD3%s", var.Data()), fatjet_WMDs[var].size() > 3 ? fatjet_WMDs[var][3] : -999);
         ana.txskim.setBranch<float>(TString::Format("WMD4%s", var.Data()), fatjet_WMDs[var].size() > 4 ? fatjet_WMDs[var][4] : -999);
+        ana.tx.setBranch<vector<LV>>(TString::Format("iFJs%s", var.Data()), fatjet_p4s[var]);
+        ana.txskim.setBranch<int>(TString::Format("NiFJ%s", var.Data()), noVMD_fatjet_p4s[var].size());
+        ana.txskim.setBranch<LV>(TString::Format("iFJ0%s", var.Data()), noVMD_fatjet_p4s[var].size() > 0 ? noVMD_fatjet_p4s[var][0] : LV());
+        ana.txskim.setBranch<LV>(TString::Format("iFJ1%s", var.Data()), noVMD_fatjet_p4s[var].size() > 1 ? noVMD_fatjet_p4s[var][1] : LV());
+        ana.txskim.setBranch<LV>(TString::Format("iFJ2%s", var.Data()), noVMD_fatjet_p4s[var].size() > 2 ? noVMD_fatjet_p4s[var][2] : LV());
+        ana.txskim.setBranch<LV>(TString::Format("iFJ3%s", var.Data()), noVMD_fatjet_p4s[var].size() > 3 ? noVMD_fatjet_p4s[var][3] : LV());
+        ana.txskim.setBranch<LV>(TString::Format("iFJ4%s", var.Data()), noVMD_fatjet_p4s[var].size() > 4 ? noVMD_fatjet_p4s[var][4] : LV());
+        ana.txskim.setBranch<float>(TString::Format("iVMD0%s", var.Data()), noVMD_fatjet_VMDs[var].size() > 0 ? noVMD_fatjet_VMDs[var][0] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iVMD1%s", var.Data()), noVMD_fatjet_VMDs[var].size() > 1 ? noVMD_fatjet_VMDs[var][1] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iVMD2%s", var.Data()), noVMD_fatjet_VMDs[var].size() > 2 ? noVMD_fatjet_VMDs[var][2] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iVMD3%s", var.Data()), noVMD_fatjet_VMDs[var].size() > 3 ? noVMD_fatjet_VMDs[var][3] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iVMD4%s", var.Data()), noVMD_fatjet_VMDs[var].size() > 4 ? noVMD_fatjet_VMDs[var][4] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iWMD0%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 0 ? noVMD_fatjet_WMDs[var][0] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iWMD1%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 1 ? noVMD_fatjet_WMDs[var][1] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iWMD2%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 2 ? noVMD_fatjet_WMDs[var][2] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iWMD3%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 3 ? noVMD_fatjet_WMDs[var][3] : -999);
+        ana.txskim.setBranch<float>(TString::Format("iWMD4%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 4 ? noVMD_fatjet_WMDs[var][4] : -999);
     }
 
    vector<int> NQGen = {0, 0, 0, 0, 0};

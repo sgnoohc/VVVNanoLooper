@@ -37,6 +37,7 @@ void Begin_E()
         // ******
         // Not part of "txskim"
         ana.tx.createBranch<vector<LV>>(TString::Format("FJs%s", variation.Data()));
+        ana.tx.createBranch<vector<LV>>(TString::Format("iFJs%s", variation.Data()));
         ana.tx.createBranch<vector<LV>>(TString::Format("Js%s", variation.Data()));
         // ******
 
@@ -71,6 +72,22 @@ void Begin_E()
         ana.txskim.createBranch<int>(TString::Format("NLGen2%s", variation.Data()));
         ana.txskim.createBranch<int>(TString::Format("NLGen3%s", variation.Data()));
         ana.txskim.createBranch<int>(TString::Format("NLGen4%s", variation.Data()));
+        ana.txskim.createBranch<int>(TString::Format("NiFJ%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("iFJ0%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("iFJ1%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("iFJ2%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("iFJ3%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("iFJ4%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iVMD0%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iVMD1%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iVMD2%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iVMD3%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iVMD4%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iWMD0%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iWMD1%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iWMD2%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iWMD3%s", variation.Data()));
+        ana.txskim.createBranch<float>(TString::Format("iWMD4%s", variation.Data()));
 
         ana.txskim.createBranch<LorentzVector>(TString::Format("MET%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("Nu%s", variation.Data()));
@@ -121,11 +138,47 @@ void Begin_E()
 
             if (ana.txskim.getBranchLazy<int>("is0Lep"))
             {
-                return ana.txskim.getBranchLazy<int>("NFJ") >= 2;
+                bool pass = false;
+                for (auto& var : ana.variations)
+                {
+                    const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                    const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                    float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                    float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                    if (NFJ >= 2 and FJ0pt >= 400)
+                    {
+                        pass = true;
+                        break;
+                    }
+                    else if (NFJ == 1 and NiFJ >= 1 and FJ0pt >= 400)
+                    {
+                        pass = true;
+                        break;
+                    }
+                }
+                return pass;
             }
             else if (ana.txskim.getBranchLazy<int>("is1Lep"))
             {
-                return ana.txskim.getBranchLazy<int>("NFJ") >= 1;
+                bool pass = false;
+                for (auto& var : ana.variations)
+                {
+                    const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                    const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                    float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                    float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                    if (NFJ >= 1)
+                    {
+                        pass = true;
+                        break;
+                    }
+                    else if (NFJ == 0 and NiFJ >= 1)
+                    {
+                        pass = true;
+                        break;
+                    }
+                }
+                return pass;
             }
             else
             {
