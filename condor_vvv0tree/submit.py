@@ -15,11 +15,11 @@ condorpath = os.path.dirname(os.path.realpath(__file__))
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
 def split_func(dsname):
-    # return 1
-    if "Run201" in dsname:
-        return 7
-    else:
-        return 1
+    return 1
+    # if "Run201" in dsname:
+    #     return 7
+    # else:
+    #     return 1
     # TODO: To be implemented later
     # if any(x in dsname for x in [
     #     "/W","/Z","/TTJets","/DY","/ST",
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.testsamples
 
     # submission tag
-    tag = "VVV0TreeV5"
+    tag = "VVV0TreeV6"
 
     # Task summary for printing out msummary
     task_summary = {}
