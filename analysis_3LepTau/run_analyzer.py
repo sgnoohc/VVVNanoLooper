@@ -61,9 +61,9 @@ def main():
     print("")
     print("Hadding ZZ and WWZ output rootfiles ......")
     for year in years + ["Run2"]:
-        os.system("hadd -f output_050123/{0}/ZZ.root output_050123/{0}/ZZ_*.root > output_050123/{0}/ZZ.log 2>&1".format(year))
-        os.system("hadd -f output_050123/{0}/WWZ.root output_050123/{0}/ZHWWZ.root output_050123/{0}/NonResWWZ.root > output_050123/{0}/WWZ.log 2>&1".format(year))
-        os.system("hadd -f output_050123/{0}/NonWWZ.root output_050123/{0}/WWW.root output_050123/{0}/WZZ.root output_050123/{0}/ZZZ.root > output_050123/{0}/NonWWZ.log 2>&1".format(year))
+        os.system("hadd -f output_tightVSemu/{0}/ZZ.root output_tightVSemu/{0}/ZZ_*.root > output_tightVSemu/{0}/ZZ.log 2>&1".format(year))
+        os.system("hadd -f output_tightVSemu/{0}/WWZ.root output_tightVSemu/{0}/ZHWWZ.root output_tightVSemu/{0}/NonResWWZ.root > output_tightVSemu/{0}/WWZ.log 2>&1".format(year))
+        os.system("hadd -f output_tightVSemu/{0}/NonWWZ.root output_tightVSemu/{0}/WWW.root output_tightVSemu/{0}/WZZ.root output_tightVSemu/{0}/ZZZ.root > output_tightVSemu/{0}/NonWWZ.log 2>&1".format(year))
 
     print("Done!")
 
@@ -71,16 +71,16 @@ def main():
 # Get Command
 def get_command(proc, inputs, year, njobs=0, idx=0):
     if njobs > 0:
-        rtn_str = "rm -f output_050123/{}/{}_{}.root;".format(year, proc, idx)
+        rtn_str = "rm -f output_tightVSemu/{}/{}_{}.root;".format(year, proc, idx)
     else:
-        rtn_str = "rm -f output_050123/{}/{}.root;".format(year, proc)
-    rtn_str += "mkdir -p output_050123/{};".format(year)
+        rtn_str = "rm -f output_tightVSemu/{}/{}.root;".format(year, proc)
+    rtn_str += "mkdir -p output_tightVSemu/{};".format(year)
     rtn_str += "./doAnalysis -i {} ".format(inputs)
     if njobs > 0:
         rtn_str += "-j {} -I {} ".format(njobs, idx)
-        rtn_str += "-t t -o output_050123/{}/{}_{}.root > output_050123/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
+        rtn_str += "-t t -o output_tightVSemu/{}/{}_{}.root > output_tightVSemu/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
     else:
-        rtn_str += "-t t -o output_050123/{}/{}.root > output_050123/{}/{}.log 2>&1".format(year, proc, year, proc)
+        rtn_str += "-t t -o output_tightVSemu/{}/{}.root > output_tightVSemu/{}/{}.log 2>&1".format(year, proc, year, proc)
     return rtn_str
 
 #____________________________________________________________________________________________

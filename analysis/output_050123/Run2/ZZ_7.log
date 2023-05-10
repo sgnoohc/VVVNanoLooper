@@ -49,7 +49,7 @@ inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/050123/GluGluToContinToZZTo2e
                                                                                                     RooUtil:: System info:
 uaf-8.t2.ucsd.edu
 Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Tue May  2 11:53:03 PDT 2023
+Thu May  4 21:24:19 PDT 2023
 kdownham
 /home/users/kdownham/Triboson/VVVNanoLooper/analysis
                                                                                                     RooUtil::  _
@@ -218,6 +218,6 @@ kdownham
                                                                                                     RooUtil:: 
 
 ------------------------------
-CPU  Time:	117.1
-Real Time:	153.7
+CPU  Time:	116.2
+Real Time:	124.9
 

@@ -17,7 +17,7 @@ inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/050123/WZ_TuneCP5_13TeV-pythi
                                                                                                     RooUtil:: System info:
 uaf-8.t2.ucsd.edu
 Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Tue May  2 11:53:14 PDT 2023
+Thu May  4 21:24:34 PDT 2023
 kdownham
 /home/users/kdownham/Triboson/VVVNanoLooper/analysis
                                                                                                     RooUtil::  _
@@ -123,5 +123,5 @@ kdownham
 
 ------------------------------
 CPU  Time:	0.4
-Real Time:	0.8
+Real Time:	0.6
 

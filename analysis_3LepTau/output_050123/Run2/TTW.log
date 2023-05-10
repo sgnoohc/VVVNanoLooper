@@ -21,7 +21,7 @@ inputs : /ceph/cms/store/user/kdownham/VVVAnalysis/050123/TTWJetsToQQ_TuneCP5_13
                                                                                                     RooUtil:: System info:
 uaf-8.t2.ucsd.edu
 Linux uaf-8.t2.ucsd.edu 5.14.13-1.el7.elrepo.x86_64 #1 SMP Fri Oct 15 13:26:13 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-Tue May  2 14:30:48 PDT 2023
+Thu May  4 10:28:03 PDT 2023
 kdownham
 /home/users/kdownham/Triboson/VVVNanoLooper/analysis_3LepTau
                                                                                                     RooUtil::  _
@@ -83,6 +83,6 @@ kdownham
                                                                                                     RooUtil:: 
 
 ------------------------------
-CPU  Time:	0.4
+CPU  Time:	0.5
 Real Time:	0.5
 

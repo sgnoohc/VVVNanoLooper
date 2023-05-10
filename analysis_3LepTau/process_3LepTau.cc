@@ -674,7 +674,7 @@ int main(int argc, char** argv)
     ana.histograms_3LepTau.addHistogram("Zcand_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_0().pt(); } );
     ana.histograms_3LepTau.addHistogram("Zcand_lep1_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_1().pt(); } );
     ana.histograms_3LepTau.addHistogram("other_mll", 180, 60, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
-    ana.histograms_3LepTau.addHistogram("other_mll_full", 180, 0, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
+    ana.histograms_3LepTau.addHistogram("other_mll_full", 180, 0, 300, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
     ana.histograms_3LepTau.addHistogram("other_mll_varbin", {0., 40., 60., 100., 200.}, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
     ana.histograms_3LepTau.addHistogram("other_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_other_lep_p4_0().pt(); } );
     ana.histograms_3LepTau.addHistogram("tau0_pt", 180, 0, 150, [&]() { return leading_tau_p4.pt(); } );
@@ -685,7 +685,7 @@ int main(int argc, char** argv)
     ana.histograms_3LepTau.addHistogram("pfMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_MET().pt(); } );
     ana.histograms_3LepTau.addHistogram("PuppiMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_PuppiMET().pt(); } );
     ana.histograms_3LepTau.addHistogram("Pt4l", 180, 0., 300., [&]() { return (vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()+vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).pt(); } );
-    ana.histograms_3LepTau.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose(); } );
+    ana.histograms_3LepTau.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose_CSV(); } );
     ana.histograms_3LepTau.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
     ana.histograms_3LepTau.addHistogram("ntau", 5, 0, 5, [&]() { return ntaus; } );
 
@@ -720,7 +720,9 @@ int main(int argc, char** argv)
                         int idVSmu = vvv.Common_tau_idVSmu()[itau];
                         int idVSjet = vvv.Common_tau_idVSjet()[itau];
 
-                        if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
+                        //if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
+                        //if ( not ((idVSe >= 15 /*medium WP*/) && (idVSmu >= 3 /*medium WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
+                        if ( not ((idVSe >= 31 /*tight WP*/) && (idVSmu >= 7 /*tight WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
                         tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
                 }
                 ntaus = tau_p4_vec.size();
