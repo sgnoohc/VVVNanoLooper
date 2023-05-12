@@ -587,6 +587,8 @@ void vvvtree::Init(TTree *tree) {
   if (Var_3LepTauMET_other_mll_branch) Var_3LepTauMET_other_mll_branch->SetAddress(&Var_3LepTauMET_other_mll_);
   Var_4LepMET_mt2_branch = tree->GetBranch("Var_4LepMET_mt2");
   if (Var_4LepMET_mt2_branch) Var_4LepMET_mt2_branch->SetAddress(&Var_4LepMET_mt2_);
+  Var_3LepTauMET_mt2_branch = tree->GetBranch("Var_3LepTauMET_mt2");
+  if (Var_3LepTauMET_mt2_branch) Var_3LepTauMET_mt2_branch->SetAddress(&Var_3LepTauMET_mt2_);
   Var_4LepMET_scaleLumi_branch = tree->GetBranch("Var_4LepMET_scaleLumi");
   if (Var_4LepMET_scaleLumi_branch) Var_4LepMET_scaleLumi_branch->SetAddress(&Var_4LepMET_scaleLumi_);
   Var_3LepTauMET_scaleLumi_branch = tree->GetBranch("Var_3LepTauMET_scaleLumi");
@@ -880,6 +882,7 @@ void vvvtree::GetEntry(unsigned int idx) {
   Var_4LepMET_other_mll_isLoaded = false;
   Var_3LepTauMET_other_mll_isLoaded = false;
   Var_4LepMET_mt2_isLoaded = false;
+  Var_3LepTauMET_mt2_isLoaded = false;
   Var_4LepMET_scaleLumi_isLoaded = false;
   Var_3LepTauMET_scaleLumi_isLoaded = false;
   Var_4LepMET_intLumi_isLoaded = false;
@@ -1176,6 +1179,7 @@ void vvvtree::LoadAllBranches() {
   if (Var_4LepMET_other_lep_p4_1_branch != 0) Var_4LepMET_other_lep_p4_1();
   if (Var_4LepMET_other_mll_branch != 0) Var_4LepMET_other_mll();
   if (Var_4LepMET_mt2_branch != 0) Var_4LepMET_mt2();
+  if (Var_3LepTauMET_mt2_branch != 0) Var_3LepTauMET_mt2();
   if (Var_4LepMET_scaleLumi_branch != 0) Var_4LepMET_scaleLumi();
   if (Var_3LepTauMET_scaleLumi_branch != 0) Var_3LepTauMET_scaleLumi();
   if (Var_4LepMET_intLumi_branch != 0) Var_4LepMET_intLumi();
@@ -4808,6 +4812,19 @@ const float &vvvtree::Var_4LepMET_mt2() {
   return Var_4LepMET_mt2_;
 }
 
+const float &vvvtree::Var_3LepTauMET_mt2() {
+  if (not Var_3LepTauMET_mt2_isLoaded) {
+    if (Var_3LepTauMET_mt2_branch != 0) {
+      Var_3LepTauMET_mt2_branch->GetEntry(index);
+    } else {
+      printf("branch Var_3LepTauMET_mt2_branch does not exist!\n");
+      exit(1);
+    }
+    Var_3LepTauMET_mt2_isLoaded = true;
+  }
+  return Var_3LepTauMET_mt2_;
+}
+
 const float &vvvtree::Var_4LepMET_scaleLumi() {
   if (not Var_4LepMET_scaleLumi_isLoaded) {
     if (Var_4LepMET_scaleLumi_branch != 0) {
@@ -5322,6 +5339,7 @@ const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_3LepTauMET
 const float &Var_4LepMET_other_mll() { return vvv.Var_4LepMET_other_mll(); }
 const float &Var_3LepTauMET_other_mll() { return vvv.Var_3LepTauMET_other_mll(); }
 const float &Var_4LepMET_mt2() { return vvv.Var_4LepMET_mt2(); }
+const float &Var_3LepTauMET_mt2() { return vvv.Var_3LepTauMET_mt2(); }
 const float &Var_4LepMET_scaleLumi() { return vvv.Var_4LepMET_scaleLumi(); }
 const float &Var_3LepTauMET_scaleLumi() { return vvv.Var_3LepTauMET_scaleLumi(); }
 const float &Var_4LepMET_intLumi() { return vvv.Var_4LepMET_intLumi(); }

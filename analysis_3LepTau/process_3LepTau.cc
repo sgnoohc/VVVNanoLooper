@@ -546,6 +546,64 @@ int main(int argc, char** argv)
     LorentzVector leading_tau_p4;
     int ntaus;
     // TODO: Need to do this by accessing the Common_tau_ branch and selecting the highest pt one that passes the ID requirements
+    
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutHighMET_3LepTau", [&]() {
+
+					if ( vvv.Common_met_p4().pt() < 100. ) return false;
+
+					return true; 
+
+				     }, UNITY);
+
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutHighMETandMT2_3LepTau", [&]() {
+
+					bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+                                        if ( !mt2_cut || vvv.Common_met_p4().pt() < 100. ) return false;
+
+                                        return true;
+
+                                     }, UNITY);
+
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutMedMET_3LepTau", [&]() {
+
+                                        if ( vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
+
+                                        return true;
+
+                                     }, UNITY);
+
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutMedMETandMT2_3LepTau", [&]() {
+
+                                        bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+                                        if ( !mt2_cut || vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
+
+                                        return true;
+
+                                     }, UNITY);
+
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutLowMET_3LepTau", [&]() {
+
+                                        if ( vvv.Common_met_p4().pt() > 50. ) return false;
+
+                                        return true;
+
+                                     }, UNITY);
+
+    ana.cutflow.getCut("CutBVeto_3LepTau");
+    ana.cutflow.addCutToLastActiveCut("CutLowMETandMT2_3LepTau", [&]() {
+
+                                        bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+                                        if ( !mt2_cut || vvv.Common_met_p4().pt() > 50. ) return false;
+
+                                        return true;
+
+                                     }, UNITY);
+
     ana.cutflow.getCut("CutETau");
     ana.cutflow.addCutToLastActiveCut("CutETau_idVS", [&]() {
         			
@@ -565,42 +623,7 @@ int main(int argc, char** argv)
         
                                      }, UNITY);
 
-    //ana.cutflow.addCutToLastActiveCut("CutETau_1Tau", [&]() {
 
-    //                                 std::vector<float> tau_pts;        
-    //                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
-    //                                      int idVSe = vvv.Common_tau_idVSe()[itau];
-    //                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
-    //                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
-
-    //                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
-    //                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
-    //                                 }
-
-    //                                 if ( tau_pts.size() != 1 ) return false;
-
-    //                                 return true;
-
-    //                                 }, UNITY);
-
-    //ana.cutflow.getCut("CutETau_idVS");
-    //ana.cutflow.addCutToLastActiveCut("CutETau_2pTaus", [&]() {
-
-    //                                 std::vector<float> tau_pts;        
-    //                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
-    //                                      int idVSe = vvv.Common_tau_idVSe()[itau];
-    //                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
-    //                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
-
-    //                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
-    //                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
-    //                                 }
-
-    //                                 if ( tau_pts.size() < 2 ) return false;
-
-    //                                 return true;
-
-    //                                 }, UNITY);
 
     ana.cutflow.getCut("CutMuTau");
     ana.cutflow.addCutToLastActiveCut("CutMuTau_idVS", [&]() {
@@ -622,44 +645,6 @@ int main(int argc, char** argv)
 
                                      }, UNITY);
 
-    //ana.cutflow.addCutToLastActiveCut("CutMuTau_1Tau", [&]() {
-
-    //                                 std::vector<float> tau_pts;
-    //                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
-    //                                      int idVSe = vvv.Common_tau_idVSe()[itau];
-    //                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
-    //                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
-
-    //                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
-    //                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
-    //                                 }
-
-    //                                 if ( tau_pts.size() != 1 ) return false;
-
-    //                                 return true;
-
-
-    //                                 }, UNITY);
-
-    //ana.cutflow.getCut("CutMuTau_idVS");
-    //ana.cutflow.addCutToLastActiveCut("CutMuTau_2pTaus", [&]() {
-
-    //                                 std::vector<float> tau_pts;
-    //                                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
-    //                                      int idVSe = vvv.Common_tau_idVSe()[itau];
-    //                                      int idVSmu = vvv.Common_tau_idVSmu()[itau];
-    //                                      int idVSjet = vvv.Common_tau_idVSjet()[itau];
-
-    //                                      if (not ((idVSe >= 1)&&(idVSmu >= 0)&&(idVSjet >= 7)) ) continue;
-    //                                      tau_pts.push_back(vvv.Common_tau_p4()[itau].pt());
-    //                                 }
-
-    //                                 if ( tau_pts.size() < 2 ) return false;
-
-    //                                 return true;
-
-
-    //                                 }, UNITY);
     
 
 
@@ -688,6 +673,31 @@ int main(int argc, char** argv)
     ana.histograms_3LepTau.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose_CSV(); } );
     ana.histograms_3LepTau.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
     ana.histograms_3LepTau.addHistogram("ntau", 5, 0, 5, [&]() { return ntaus; } );
+    ana.histograms_3LepTau.addHistogram("MT2", 180, 0., 200., [&]() { return vvv.Var_3LepTauMET_mt2(); } );
+    ana.histograms_3LepTau.addVecHistogram("SRBin_MET", 3, 0, 3,
+					[&]()
+					{
+					    std::vector<float> rtn;
+					    if ( vvv.Common_met_p4().pt() < 50. ) rtn.push_back(0.);
+					    if ( vvv.Common_met_p4().pt() > 50. && vvv.Common_met_p4().pt() < 100. ) rtn.push_back(1.);
+					    if ( vvv.Common_met_p4().pt() > 100. ) rtn.push_back(2.);
+					
+					    return rtn;
+
+				 } );
+
+    ana.histograms_3LepTau.addVecHistogram("SRBin_METandMT2", 3, 0, 3,
+					[&]()
+					{
+					    std::vector<float> rtn;
+					    bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+					    if ( mt2_cut && vvv.Common_met_p4().pt() < 50. ) rtn.push_back(0.);
+					    if ( mt2_cut && vvv.Common_met_p4().pt() > 50. && vvv.Common_met_p4().pt() < 100. ) rtn.push_back(1.);
+					    if ( mt2_cut && vvv.Common_met_p4().pt() > 100. ) rtn.push_back(2.);
+
+					    return rtn;
+
+				 } );
 
     // Book cutflows
     ana.cutflow.bookCutflows();
@@ -721,8 +731,8 @@ int main(int argc, char** argv)
                         int idVSjet = vvv.Common_tau_idVSjet()[itau];
 
                         //if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
-                        //if ( not ((idVSe >= 15 /*medium WP*/) && (idVSmu >= 3 /*medium WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
-                        if ( not ((idVSe >= 31 /*tight WP*/) && (idVSmu >= 7 /*tight WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
+                        if ( not ((idVSe >= 15 /*medium WP*/) && (idVSmu >= 3 /*medium WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
+                        //if ( not ((idVSe >= 31 /*tight WP*/) && (idVSmu >= 7 /*tight WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
                         tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
                 }
                 ntaus = tau_p4_vec.size();

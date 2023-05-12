@@ -10,7 +10,7 @@ skimversion = "3LepTau_4Lep"
 #skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
 skimdir = os.environ["looperOutput"]
 #dataversion = "OldLepID"
-dataversion = "050123"
+dataversion = "051123"
 #outputdir = "output_newID"
 
 #____________________________________________________________________________________________
@@ -61,9 +61,9 @@ def main():
     print("")
     print("Hadding ZZ and WWZ output rootfiles ......")
     for year in years + ["Run2"]:
-        os.system("hadd -f output_tightVSemu/{0}/ZZ.root output_tightVSemu/{0}/ZZ_*.root > output_tightVSemu/{0}/ZZ.log 2>&1".format(year))
-        os.system("hadd -f output_tightVSemu/{0}/WWZ.root output_tightVSemu/{0}/ZHWWZ.root output_tightVSemu/{0}/NonResWWZ.root > output_tightVSemu/{0}/WWZ.log 2>&1".format(year))
-        os.system("hadd -f output_tightVSemu/{0}/NonWWZ.root output_tightVSemu/{0}/WWW.root output_tightVSemu/{0}/WZZ.root output_tightVSemu/{0}/ZZZ.root > output_tightVSemu/{0}/NonWWZ.log 2>&1".format(year))
+        os.system("hadd -f output_mediumVSemu/{0}/ZZ.root output_mediumVSemu/{0}/ZZ_*.root > output_mediumVSemu/{0}/ZZ.log 2>&1".format(year))
+        os.system("hadd -f output_mediumVSemu/{0}/WWZ.root output_mediumVSemu/{0}/ZHWWZ.root output_mediumVSemu/{0}/NonResWWZ.root > output_mediumVSemu/{0}/WWZ.log 2>&1".format(year))
+        os.system("hadd -f output_mediumVSemu/{0}/NonWWZ.root output_mediumVSemu/{0}/WWW.root output_mediumVSemu/{0}/WZZ.root output_mediumVSemu/{0}/ZZZ.root > output_mediumVSemu/{0}/NonWWZ.log 2>&1".format(year))
 
     print("Done!")
 
@@ -71,16 +71,16 @@ def main():
 # Get Command
 def get_command(proc, inputs, year, njobs=0, idx=0):
     if njobs > 0:
-        rtn_str = "rm -f output_tightVSemu/{}/{}_{}.root;".format(year, proc, idx)
+        rtn_str = "rm -f output_mediumVSemu/{}/{}_{}.root;".format(year, proc, idx)
     else:
-        rtn_str = "rm -f output_tightVSemu/{}/{}.root;".format(year, proc)
-    rtn_str += "mkdir -p output_tightVSemu/{};".format(year)
+        rtn_str = "rm -f output_mediumVSemu/{}/{}.root;".format(year, proc)
+    rtn_str += "mkdir -p output_mediumVSemu/{};".format(year)
     rtn_str += "./doAnalysis -i {} ".format(inputs)
     if njobs > 0:
         rtn_str += "-j {} -I {} ".format(njobs, idx)
-        rtn_str += "-t t -o output_tightVSemu/{}/{}_{}.root > output_tightVSemu/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
+        rtn_str += "-t t -o output_mediumVSemu/{}/{}_{}.root > output_mediumVSemu/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
     else:
-        rtn_str += "-t t -o output_tightVSemu/{}/{}.root > output_tightVSemu/{}/{}.log 2>&1".format(year, proc, year, proc)
+        rtn_str += "-t t -o output_mediumVSemu/{}/{}.root > output_mediumVSemu/{}/{}.log 2>&1".format(year, proc, year, proc)
     return rtn_str
 
 #____________________________________________________________________________________________
@@ -127,7 +127,7 @@ years=["2016APV", "2016", "2017", "2018"]
 # List of different process groups
 #proc_groups = [ "WWW", "NonResWWZ", "ZHWWZ", "WZZ", "ZZZ", "Higgs", "ZZ", "TTZ", "WZ", "Other", ]
 #proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "WZ", "Higgs", "Other"]
-proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "WZ", "Higgs", "TTBar", "DY", "WLNu", "WWLNu", "SSWW", "TTW", "SingleTop", "Other"]
+proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "WZ", "Higgs", "DY", "Other"]
 
 #____________________________________________________________________________________________
 # Process grouping definition
@@ -145,10 +145,10 @@ process={
 "GGZZ4e"	      : "ZZ",
 "GGZZ4m"	      : "ZZ",
 "GGZZ4t"	      : "ZZ",
-#"TT2l"		      : "Other",
-#"TT1l"		      : "Other",
-"TT2l"		      : "TTBar",
-"TT1l"		      : "TTBar",
+"TT2l"		      : "Other",
+"TT1l"		      : "Other",
+#"TT2l"		      : "TTBar",
+#"TT1l"		      : "TTBar",
 "TTZll_M1"	      : "TTZ",
 "TTZll_M10"	      : "TTZ",
 "TTZqq"               : "TTZ",
@@ -156,32 +156,32 @@ process={
 #"DYM50"		      : "Other",
 "DYM10"		      : "DY",
 "DYM50"		      : "DY",
-#"Wlv" 		      : "Other",
-#"WWlvlv"	      : "Other",
-"Wlv"		      : "WLNu",
-"WWlvlv"	      : "WWLNu",
+"Wlv" 		      : "Other",
+"WWlvlv"	      : "Other",
+#"Wlv"		      : "WLNu",
+#"WWlvlv"	      : "WWLNu",
 #"WZ2q2l"	      : "WZ",
 #"WZ3l1v"	      : "WZ",
 "WZ"		      : "WZ",
 "ttHNonbb"	      : "Higgs",
 "VHToNonbb"	      : "Higgs",
-#"SSWW"		      : "Other",
-"SSWW"		      : "SSWW",
-#"TTWlv"		      : "Other",
-#"TTWqq"		      : "Other",
-"TTWlv"		      : "TTW",
-"TTWqq"		      : "TTW",
+"SSWW"		      : "Other",
+#"SSWW"		      : "SSWW",
+"TTWlv"		      : "Other",
+"TTWqq"		      : "Other",
+#"TTWlv"		      : "TTW",
+#"TTWqq"		      : "TTW",
 "tZq"		      : "Other",
-#"ST_schan_lep"	      : "Other",
-#"ST_antitop_tchan"    : "Other",
-#"ST_top_tchan"        : "Other",
-#"ST_top_nohad_tW"     : "Other",
-#"ST_antitop_nohad_tW" : "Other",
-"ST_schan_lep"	      : "SingleTop",
-"ST_antitop_tchan"    : "SingleTop",
-"ST_top_tchan"	      : "SingleTop",
-"ST_top_nohad_tW"     : "SingleTop",
-"ST_antitop_nohad_tW" : "SingleTop",
+"ST_schan_lep"	      : "Other",
+"ST_antitop_tchan"    : "Other",
+"ST_top_tchan"        : "Other",
+"ST_top_nohad_tW"     : "Other",
+"ST_antitop_nohad_tW" : "Other",
+#"ST_schan_lep"	      : "SingleTop",
+#"ST_antitop_tchan"    : "SingleTop",
+#"ST_top_tchan"	      : "SingleTop",
+#"ST_top_nohad_tW"     : "SingleTop",
+#"ST_antitop_nohad_tW" : "SingleTop",
 }
 
 #____________________________________________________________________________________________

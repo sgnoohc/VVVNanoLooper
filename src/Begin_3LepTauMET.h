@@ -10,6 +10,6 @@ void Begin_3LepTauMET_Parse_Scale1fbs();
 
 void Begin_3LepTauMET_NanoAOD();
 
-//float Begin_3LepTauMET_MT2(int var=0);
+float Begin_3LepTauMET_MT2(int var=0);
 
 #endif
