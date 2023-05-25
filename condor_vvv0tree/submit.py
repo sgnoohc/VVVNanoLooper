@@ -42,7 +42,7 @@ if __name__ == "__main__":
     task_summary = {}
 
     # To skip tail events
-    skip_tail = False
+    skip_tail = True
 
     # Infinite loop until all tasks are complete
     # It will sleep every 10 minutes (600 seconds) and re-check automatically
@@ -59,7 +59,7 @@ if __name__ == "__main__":
                     output_name = "output.root",
                     tag = tag,
                     condor_submit_params = {
-                        # "sites": "T2_US_UCSD,UAF",
+                        "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
                             ["metis_extraargs", "-w --mode 10"]
