@@ -42,7 +42,7 @@ if __name__ == "__main__":
     task_summary = {}
 
     # To skip tail events
-    skip_tail = True
+    skip_tail = False
 
     # Infinite loop until all tasks are complete
     # It will sleep every 10 minutes (600 seconds) and re-check automatically
