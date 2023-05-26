@@ -2,6 +2,7 @@
 
 void Process_Common()
 {
+    if (nt.nFatJet() < 1) return;
     if (ana.run_VVVTree)
     {
         Process_Common_VVVTree();
