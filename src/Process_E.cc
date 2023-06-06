@@ -270,6 +270,10 @@ void Process_E_FatJets()
 
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
+
+        if (not nt.FatJet_jetId()[ifatjet] >= 6)
+            continue;
+
         // Because every muon and electron shows up in PF FatJet collections
         // Need to check against leptons
         bool is_overlapping_with_a_lepton = false;
@@ -412,155 +416,155 @@ void Process_E_FatJets()
         ana.txskim.setBranch<float>(TString::Format("iWMD4%s", var.Data()), noVMD_fatjet_WMDs[var].size() > 4 ? noVMD_fatjet_WMDs[var][4] : -999);
     }
 
-   vector<int> NQGen = {0, 0, 0, 0, 0};
-   vector<int> NBGen = {0, 0, 0, 0, 0};
-   vector<int> NLGen = {0, 0, 0, 0, 0};
+    vector<int> NQGen = {0, 0, 0, 0, 0};
+    vector<int> NBGen = {0, 0, 0, 0, 0};
+    vector<int> NLGen = {0, 0, 0, 0, 0};
 
-   map<TString, vector<int>> NQGens;
-   map<TString, vector<int>> NBGens;
-   map<TString, vector<int>> NLGens;
+    map<TString, vector<int>> NQGens;
+    map<TString, vector<int>> NBGens;
+    map<TString, vector<int>> NLGens;
 
-   for (auto& var : ana.variations)
-   {
-       NQGens[var] = NQGen;
-       NBGens[var] = NBGen;
-       NLGens[var] = NLGen;
-   }
+    for (auto& var : ana.variations)
+    {
+        NQGens[var] = NQGen;
+        NBGens[var] = NBGen;
+        NLGens[var] = NLGen;
+    }
 
-   // =========================================================
-   // TTToSemiLeptonic sample categorization of leading fat-jet
-   // =========================================================
-   // - Categorize the fat-jet's gen-level information for TTToSemileptonic samples
-   // - The matching for this is done on the leading fat-jet only (where we perform the scale factor calculations)
-   if (ana.looper.getCurrentFileName().Contains("TTToSemi"))
-   {
+    // =========================================================
+    // TTToSemiLeptonic sample categorization of leading fat-jet
+    // =========================================================
+    // - Categorize the fat-jet's gen-level information for TTToSemileptonic samples
+    // - The matching for this is done on the leading fat-jet only (where we perform the scale factor calculations)
+    if (ana.looper.getCurrentFileName().Contains("TTToSemi"))
+    {
 
-       // The parsing is done only on the TTToSemileptonic sample. (i.e. tt->WbWb->lvbjjb)
+        // The parsing is done only on the TTToSemileptonic sample. (i.e. tt->WbWb->lvbjjb)
 
-       // Get some gen level vectors
-       const vector<int>& gen_pdgid = ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid");
-       const vector<int>& gen_mother_id = ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id");
-       const vector<LV>& gen_p4s = ana.tx.getBranchLazy<vector<LV>>("Common_gen_p4s");
+        // Get some gen level vectors
+        const vector<int>& gen_pdgid = ana.tx.getBranchLazy<vector<int>>("Common_gen_pdgid");
+        const vector<int>& gen_mother_id = ana.tx.getBranchLazy<vector<int>>("Common_gen_mother_id");
+        const vector<LV>& gen_p4s = ana.tx.getBranchLazy<vector<LV>>("Common_gen_p4s");
 
-       // Parse the Wlep b Whad b from the ttbar decay looping over the gen particles
-       int hadwid = -1; // the pdgid of the hadronic W (to keep track of sign)
-       // int lepwid = -1; // the pdgid of the leptonic W (to keep track of sign)
-       LV b; // the b-quark
-       LV antib; // the anti-b-quark
-       LV hadb; // the b-quark from the top-quark where the top-quarks daughter  W's decaying hadronically
-       LV q; // the quark from the hadronically decaying W
-       LV antiq; // the quark from the hadronically decaying W
+        // Parse the Wlep b Whad b from the ttbar decay looping over the gen particles
+        int hadwid = -1; // the pdgid of the hadronic W (to keep track of sign)
+        // int lepwid = -1; // the pdgid of the leptonic W (to keep track of sign)
+        LV b; // the b-quark
+        LV antib; // the anti-b-quark
+        LV hadb; // the b-quark from the top-quark where the top-quarks daughter  W's decaying hadronically
+        LV q; // the quark from the hadronically decaying W
+        LV antiq; // the quark from the hadronically decaying W
 
-       for (unsigned int igen = 0; igen < gen_pdgid.size(); ++igen)
-       {
-           int id = gen_pdgid[igen];
-           int mid = gen_mother_id[igen];
-           LV p = gen_p4s[igen];
+        for (unsigned int igen = 0; igen < gen_pdgid.size(); ++igen)
+        {
+            int id = gen_pdgid[igen];
+            int mid = gen_mother_id[igen];
+            LV p = gen_p4s[igen];
 
-           // if (abs(id) >= 11 and abs(id) <= 16 and abs(mid) == 24)
-           //     lepwid = mid;
+            // if (abs(id) >= 11 and abs(id) <= 16 and abs(mid) == 24)
+            //     lepwid = mid;
 
-           if (abs(id) >= 1 and abs(id) <= 6 and abs(mid) == 24)
-           {
-               if (id > 0)
-                   q = p;
-               if (id < 0)
-                   antiq = p;
-               hadwid = mid;
-           }
+            if (abs(id) >= 1 and abs(id) <= 6 and abs(mid) == 24)
+            {
+                if (id > 0)
+                    q = p;
+                if (id < 0)
+                    antiq = p;
+                hadwid = mid;
+            }
 
-           if (id == 5)
-               b = p;
+            if (id == 5)
+                b = p;
 
-           if (id == -5)
-               antib = p;
-       }
+            if (id == -5)
+                antib = p;
+        }
 
-       hadb = hadwid == 24 ? b : antib;
-       // LV W = q + antiq;
-       // LV t = W + hadb;
+        hadb = hadwid == 24 ? b : antib;
+        // LV W = q + antiq;
+        // LV t = W + hadb;
 
-       for (auto& var : ana.variations)
-       {
-           if (fatjet_p4s[var].size() == 0)
-               continue;
+        for (auto& var : ana.variations)
+        {
+            if (fatjet_p4s[var].size() == 0)
+                continue;
 
-           // perform matching
-           if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], q) < 0.8)
-           {
-               NQGens[var][0]++;
-               NLGens[var][0]++;
-           }
-           if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], antiq) < 0.8)
-           {
-               NQGens[var][0]++;
-               NLGens[var][0]++;
-           }
-           if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], hadb) < 0.8)
-           {
-               NQGens[var][0]++;
-               NBGens[var][0]++;
-           }
-       }
-   }
-   // ==================================================================================
-   // WWW/WWZ/WZZ/ZZZ sample categorization of fat-jets (up to 5 leading VetoID Fat Jet)
-   // ==================================================================================
-   // - Uses Common_gen_vvvdecay_idx to find the 6 decay fermions from tri-boson and match
-   // - For each fat-jet, we count how many of the vvv's 6 decay fermions are included
-   // - same categorization of number of quarks, b quarks, and light quarks are done.
-   // - no check for whether two quarks from different mother is matched. (probably unlikely)
-   // NOTE: Background samples are also falling here!
-   // I do not know what happens for bkg samples, but for TTToHad for example it kind of interestingly is doing something!!!
-   else
-   {
-       for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx"))
-       {
-           const LV& gen_p4 = nt.GenPart_p4()[idx];
-           const int& gen_pdgid = nt.GenPart_pdgId()[idx];
+            // perform matching
+            if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], q) < 0.8)
+            {
+                NQGens[var][0]++;
+                NLGens[var][0]++;
+            }
+            if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], antiq) < 0.8)
+            {
+                NQGens[var][0]++;
+                NLGens[var][0]++;
+            }
+            if (RooUtil::Calc::DeltaR(fatjet_p4s[var][0], hadb) < 0.8)
+            {
+                NQGens[var][0]++;
+                NBGens[var][0]++;
+            }
+        }
+    }
+    // ==================================================================================
+    // WWW/WWZ/WZZ/ZZZ sample categorization of fat-jets (up to 5 leading VetoID Fat Jet)
+    // ==================================================================================
+    // - Uses Common_gen_vvvdecay_idx to find the 6 decay fermions from tri-boson and match
+    // - For each fat-jet, we count how many of the vvv's 6 decay fermions are included
+    // - same categorization of number of quarks, b quarks, and light quarks are done.
+    // - no check for whether two quarks from different mother is matched. (probably unlikely)
+    // NOTE: Background samples are also falling here!
+    // I do not know what happens for bkg samples, but for TTToHad for example it kind of interestingly is doing something!!!
+    else
+    {
+        for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx"))
+        {
+            const LV& gen_p4 = nt.GenPart_p4()[idx];
+            const int& gen_pdgid = nt.GenPart_pdgId()[idx];
 
-           for (auto& var : ana.variations)
-           {
-               for (unsigned int fatjet_i = 0; fatjet_i < fatjet_p4s[var].size() and fatjet_i < 5; ++fatjet_i)
-               {
-                   const LV& fatjet_p4 = fatjet_p4s[var][fatjet_i];
-                   float dr = RooUtil::Calc::DeltaR(fatjet_p4, gen_p4);
-                   if (dr < 0.8)
-                   {
-                       if (abs(gen_pdgid) == 5)
-                       {
-                           NBGens[var][fatjet_i]++;
-                           NQGens[var][fatjet_i]++;
-                       }
-                       else if (abs(gen_pdgid) < 5)
-                       {
-                           NLGens[var][fatjet_i]++;
-                           NQGens[var][fatjet_i]++;
-                       }
-                   }
-               }
-           }
-       }
-   }
+            for (auto& var : ana.variations)
+            {
+                for (unsigned int fatjet_i = 0; fatjet_i < fatjet_p4s[var].size() and fatjet_i < 5; ++fatjet_i)
+                {
+                    const LV& fatjet_p4 = fatjet_p4s[var][fatjet_i];
+                    float dr = RooUtil::Calc::DeltaR(fatjet_p4, gen_p4);
+                    if (dr < 0.8)
+                    {
+                        if (abs(gen_pdgid) == 5)
+                        {
+                            NBGens[var][fatjet_i]++;
+                            NQGens[var][fatjet_i]++;
+                        }
+                        else if (abs(gen_pdgid) < 5)
+                        {
+                            NLGens[var][fatjet_i]++;
+                            NQGens[var][fatjet_i]++;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-   for (auto& var : ana.variations)
-   {
-       ana.txskim.setBranch<int>(TString::Format("NQGen0%s", var.Data()), NQGens[var][0]);
-       ana.txskim.setBranch<int>(TString::Format("NQGen1%s", var.Data()), NQGens[var][1]);
-       ana.txskim.setBranch<int>(TString::Format("NQGen2%s", var.Data()), NQGens[var][2]);
-       ana.txskim.setBranch<int>(TString::Format("NQGen3%s", var.Data()), NQGens[var][3]);
-       ana.txskim.setBranch<int>(TString::Format("NQGen4%s", var.Data()), NQGens[var][4]);
-       ana.txskim.setBranch<int>(TString::Format("NBGen0%s", var.Data()), NBGens[var][0]);
-       ana.txskim.setBranch<int>(TString::Format("NBGen1%s", var.Data()), NBGens[var][1]);
-       ana.txskim.setBranch<int>(TString::Format("NBGen2%s", var.Data()), NBGens[var][2]);
-       ana.txskim.setBranch<int>(TString::Format("NBGen3%s", var.Data()), NBGens[var][3]);
-       ana.txskim.setBranch<int>(TString::Format("NBGen4%s", var.Data()), NBGens[var][4]);
-       ana.txskim.setBranch<int>(TString::Format("NLGen0%s", var.Data()), NLGens[var][0]);
-       ana.txskim.setBranch<int>(TString::Format("NLGen1%s", var.Data()), NLGens[var][1]);
-       ana.txskim.setBranch<int>(TString::Format("NLGen2%s", var.Data()), NLGens[var][2]);
-       ana.txskim.setBranch<int>(TString::Format("NLGen3%s", var.Data()), NLGens[var][3]);
-       ana.txskim.setBranch<int>(TString::Format("NLGen4%s", var.Data()), NLGens[var][4]);
-   }
+    for (auto& var : ana.variations)
+    {
+        ana.txskim.setBranch<int>(TString::Format("NQGen0%s", var.Data()), NQGens[var][0]);
+        ana.txskim.setBranch<int>(TString::Format("NQGen1%s", var.Data()), NQGens[var][1]);
+        ana.txskim.setBranch<int>(TString::Format("NQGen2%s", var.Data()), NQGens[var][2]);
+        ana.txskim.setBranch<int>(TString::Format("NQGen3%s", var.Data()), NQGens[var][3]);
+        ana.txskim.setBranch<int>(TString::Format("NQGen4%s", var.Data()), NQGens[var][4]);
+        ana.txskim.setBranch<int>(TString::Format("NBGen0%s", var.Data()), NBGens[var][0]);
+        ana.txskim.setBranch<int>(TString::Format("NBGen1%s", var.Data()), NBGens[var][1]);
+        ana.txskim.setBranch<int>(TString::Format("NBGen2%s", var.Data()), NBGens[var][2]);
+        ana.txskim.setBranch<int>(TString::Format("NBGen3%s", var.Data()), NBGens[var][3]);
+        ana.txskim.setBranch<int>(TString::Format("NBGen4%s", var.Data()), NBGens[var][4]);
+        ana.txskim.setBranch<int>(TString::Format("NLGen0%s", var.Data()), NLGens[var][0]);
+        ana.txskim.setBranch<int>(TString::Format("NLGen1%s", var.Data()), NLGens[var][1]);
+        ana.txskim.setBranch<int>(TString::Format("NLGen2%s", var.Data()), NLGens[var][2]);
+        ana.txskim.setBranch<int>(TString::Format("NLGen3%s", var.Data()), NLGens[var][3]);
+        ana.txskim.setBranch<int>(TString::Format("NLGen4%s", var.Data()), NLGens[var][4]);
+    }
 }
 
 // --------------------====================--------------------====================--------------------====================--------------------====================--------------------====================--------------------====================
@@ -658,6 +662,9 @@ void Process_E_Jets()
         for (unsigned jet_i = 0; jet_i < ana.tx.getBranchLazy<vector<LV>>("Common_jet_p4").size(); ++jet_i)
         {
 
+            if (not ana.tx.getBranchLazy<vector<int>>("Common_jet_id")[jet_i] >= 6)
+                continue;
+
             // AK4 4-vector
             const LV& jet_p4 = ana.tx.getBranchLazy<vector<LV>>("Common_jet_p4")[jet_i];
 
@@ -716,7 +723,7 @@ void Process_E_Jets()
 
         NJ[var] = jet_p4s[var].size();
 
-        ana.tx.setBranch<vector<LV>>(TString::Format("Js%s", var.Data()), jet_p4s[var]);
+        ana.txskim.setBranch<vector<LV>>(TString::Format("Js%s", var.Data()), jet_p4s[var]);
         ana.txskim.setBranch<int>(TString::Format("NJ%s", var.Data()), NJ[var]);
         ana.txskim.setBranch<int>(TString::Format("NbLoose%s", var.Data()), NbLoose[var]);
         ana.txskim.setBranch<int>(TString::Format("NbMedium%s", var.Data()), NbMedium[var]);
@@ -729,6 +736,65 @@ void Process_E_Jets()
         ana.txskim.setBranch<LorentzVector>(TString::Format("J2%s", var.Data()), jet_p4s[var].size() > 2 ? jet_p4s[var][2] : LV());
         ana.txskim.setBranch<LorentzVector>(TString::Format("J3%s", var.Data()), jet_p4s[var].size() > 3 ? jet_p4s[var][3] : LV());
         ana.txskim.setBranch<LorentzVector>(TString::Format("J4%s", var.Data()), jet_p4s[var].size() > 4 ? jet_p4s[var][4] : LV());
+        ana.txskim.setBranch<LorentzVector>(TString::Format("J5%s", var.Data()), jet_p4s[var].size() > 5 ? jet_p4s[var][5] : LV());
+        ana.txskim.setBranch<LorentzVector>(TString::Format("J6%s", var.Data()), jet_p4s[var].size() > 6 ? jet_p4s[var][6] : LV());
+        ana.txskim.setBranch<LorentzVector>(TString::Format("J7%s", var.Data()), jet_p4s[var].size() > 7 ? jet_p4s[var][7] : LV());
+    }
+
+    map<TString, vector<int>> NQGens;
+    map<TString, vector<int>> NBGens;
+    map<TString, vector<int>> NLGens;
+
+    for (auto& var : ana.variations)
+    {
+        vector<int> zeros(NJ[var]);
+        NQGens[var] = zeros;
+        NBGens[var] = zeros;
+        NLGens[var] = zeros;
+    }
+
+    // ==================================================================================
+    // WWW/WWZ/WZZ/ZZZ sample categorization of jets (up to 8 leading VetoID Jet)
+    // ==================================================================================
+    // - Uses Common_gen_vvvdecay_idx to find the 6 decay fermions from tri-boson and match
+    // - For each fat-jet, we count how many of the vvv's 6 decay fermions are included
+    // - same categorization of number of quarks, b quarks, and light quarks are done.
+    // - no check for whether two quarks from different mother is matched. (probably unlikely)
+    // NOTE: Background samples are also falling here!
+    // I do not know what happens for bkg samples, but for TTToHad for example it kind of interestingly is doing something!!!
+    for (auto& idx : ana.tx.getBranchLazy<vector<int>>("Common_gen_vvvdecay_idx"))
+    {
+        const LV& gen_p4 = nt.GenPart_p4()[idx];
+        const int& gen_pdgid = nt.GenPart_pdgId()[idx];
+
+        for (auto& var : ana.variations)
+        {
+            for (unsigned int jet_i = 0; jet_i < jet_p4s[var].size() and jet_i < 5; ++jet_i)
+            {
+                const LV& jet_p4 = jet_p4s[var][jet_i];
+                float dr = RooUtil::Calc::DeltaR(jet_p4, gen_p4);
+                if (dr < 0.4)
+                {
+                    if (abs(gen_pdgid) == 5)
+                    {
+                        NBGens[var][jet_i]++;
+                        NQGens[var][jet_i]++;
+                    }
+                    else if (abs(gen_pdgid) < 5)
+                    {
+                        NLGens[var][jet_i]++;
+                        NQGens[var][jet_i]++;
+                    }
+                }
+            }
+        }
+    }
+
+    for (auto& var : ana.variations)
+    {
+        ana.txskim.setBranch<vector<int>>(TString::Format("NQJGen%s", var.Data()), NQGens[var]);
+        ana.txskim.setBranch<vector<int>>(TString::Format("NBJGen%s", var.Data()), NQGens[var]);
+        ana.txskim.setBranch<vector<int>>(TString::Format("NLJGen%s", var.Data()), NQGens[var]);
     }
 }
 
@@ -776,8 +842,8 @@ void Process_E_Kinematics()
     for (auto& var : ana.variations)
     {
 
-        const vector<LV>& fatjet_p4s = ana.tx.getBranch<vector<LV>>(TString::Format("FJs%s", var.Data()));
-        const vector<LV>& jet_p4s = ana.tx.getBranch<vector<LV>>(TString::Format("Js%s", var.Data()));
+        const vector<LV>& fatjet_p4s = ana.tx.getBranchLazy<vector<LV>>(TString::Format("FJs%s", var.Data()));
+        const vector<LV>& jet_p4s = ana.tx.getBranchLazy<vector<LV>>(TString::Format("Js%s", var.Data()));
         unsigned int NFJ = ana.txskim.getBranch<int>(TString::Format("NFJ%s", var.Data()));
         const LV& MET = ana.txskim.getBranch<LV>(TString::Format("MET%s", var.Data()));
         const LV& Nu = ana.txskim.getBranch<LV>(TString::Format("Nu%s", var.Data()));
@@ -838,7 +904,6 @@ void Process_E_Kinematics()
 void Process_E()
 {
     if (nt.nFatJet() < 1) return;
-
     Process_E_Event();
     Process_E_Leptons();
     Process_E_Trigger();

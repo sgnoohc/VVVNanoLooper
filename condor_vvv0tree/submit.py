@@ -36,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.testsamples
 
     # submission tag
-    tag = "VVV0TreeV6"
+    tag = "VVV0TreeV8"
 
     # Task summary for printing out msummary
     task_summary = {}

@@ -38,8 +38,10 @@ void Begin_E()
         // Not part of "txskim"
         ana.tx.createBranch<vector<LV>>(TString::Format("FJs%s", variation.Data()));
         ana.tx.createBranch<vector<LV>>(TString::Format("iFJs%s", variation.Data()));
-        ana.tx.createBranch<vector<LV>>(TString::Format("Js%s", variation.Data()));
+
         // ******
+        // Part of "txskim"
+        ana.txskim.createBranch<vector<LV>>(TString::Format("Js%s", variation.Data()));
 
         ana.txskim.createBranch<int>(TString::Format("NFJ%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("FJ0%s", variation.Data()));
@@ -104,6 +106,12 @@ void Begin_E()
         ana.txskim.createBranch<LorentzVector>(TString::Format("J2%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("J3%s", variation.Data()));
         ana.txskim.createBranch<LorentzVector>(TString::Format("J4%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("J5%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("J6%s", variation.Data()));
+        ana.txskim.createBranch<LorentzVector>(TString::Format("J7%s", variation.Data()));
+        ana.txskim.createBranch<vector<int>>(TString::Format("NQJGen%s", variation.Data())); // Number of gen quarks matched to the jet
+        ana.txskim.createBranch<vector<int>>(TString::Format("NBJGen%s", variation.Data())); // Number of gen quarks matched to the jet
+        ana.txskim.createBranch<vector<int>>(TString::Format("NLJGen%s", variation.Data())); // Number of gen quarks matched to the jet
 
         ana.txskim.createBranch<float>(TString::Format("MVVX%s", variation.Data()));
         ana.txskim.createBranch<float>(TString::Format("PtVVX%s", variation.Data()));
@@ -138,11 +146,13 @@ void Begin_E()
 
             if (ana.txskim.getBranchLazy<int>("is0Lep"))
             {
+                return true;
                 bool pass = false;
                 for (auto& var : ana.variations)
                 {
                     const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
                     const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                    const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
                     float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
                     float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
                     if (NFJ >= 2 and FJ0pt >= 400)
