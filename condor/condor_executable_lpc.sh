@@ -31,22 +31,11 @@ function chirp {
     echo "[chirp] Chirped $1 => $2 with exit code $ret"
 }
 
-#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd.fnal.gov/\/\/store}
-#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
-INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmseos.fnal.gov\/\/store\/group\/lpcvvv\/NanoAODv9\/store}
+#INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cmsxrootd-site.fnal.gov\/\/store}
+INPUTFILENAMES=${INPUTFILENAMES//\/store/root:\/\/cms-xrd-global.cern.ch\/\/store}
 
 # Make sure OUTPUTNAME doesn't have .root since we add it manually
 OUTPUTNAME=$(echo $OUTPUTNAME | sed 's/\.root//')
-
-##UNCOMMENT TO COPY FAILING FILES DIRECTLY TO CONDOR NODE
-input=$(echo "${INPUTFILENAMES}" | sed 's/^.*\(\/store.*\).*$/\1/')
-dest="${input/\/store\//}"
-dest=$(dirname $dest)
-mkdir -p $dest
-xrdcp root://cms-xrd-global.cern.ch/$input $dest
-localpath=$(echo ${INPUTFILENAMES} | sed 's/^.*\(\/store.*\).*$/\1/')
-localpath="${localpath/\/store\//}"
-INPUTFILE=${localpath}
 
 setup_chirp
 
@@ -100,8 +89,8 @@ ls -lrth
 echo -e "\n--- begin running ---\n" #                           <----- section division
 
 EXTRAARGS="$(getjobad metis_extraargs)"
-echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w  ${EXTRAARGS}
-./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root -w  ${EXTRAARGS}
+echo Executing ./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
+./doVVVAnalysis -i $INPUTFILENAMES -t Events -o ${OUTPUTNAME}.root ${EXTRAARGS}
 RET=$?
 
 if [ ${RET} != 0 ]; then

@@ -49,41 +49,34 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.mode
     
-    
-    if args.year == 2018:    
-        sample_map = samples.JetHT_2018
-    #    sample_map.update(samples.QCD_2018)
-    #    sample_map.update(samples.Vplusjets_2018)
-    #    sample_map.update(samples.diboson_2018)
-    #    sample_map.update(samples.top_2018)
-    elif args.year == 2017:    
-        sample_map = samples.JetHT_2017
-        sample_map.update(samples.QCD_2017)
-        sample_map.update(samples.Vplusjets_2017)
-        sample_map.update(samples.diboson_2017)
-        sample_map.update(samples.top_2017)
-    elif args.year == 2016:    
-        sample_map = samples.JetHT_2016
-        sample_map.update(samples.QCD_2016)
-        sample_map.update(samples.Vplusjets_2016)
-        sample_map.update(samples.diboson_2016)
-        sample_map.update(samples.top_2016)
+    # Specify a dataset name and a short name for the output root file on nfs
+    sample_map = samples.mc_2018 # See condor/samples.py
+    if args.year==2017:
+        sample_map = samples.mc_2017 # See condor/samples.py
+    elif args.year==2016:
+        sample_map = samples.mc_2016 # See condor/samples.py
+    if args.datamc:
+        sample_map = samples.data_2018 # See condor/samples.py
+        if args.year==2017:
+            sample_map = samples.data_2017 # See condor/samples.py
+        elif args.year==2016:
+            sample_map = samples.data_2016 # See condor/samples.py
+    if args.mysample:
+        # sample_map = samples.samples_VVV4L_2018 # See condor/samples.py
+        sample_map = samples.samples_VVV4L_2018_Skimmed # See condor/samples.py
+        sample_map.update(samples.samples_VVV4L_2018_EFT) # See condor/samples.py
+        if args.year==2017:
+            # sample_map = samples.samples_VVV4L_2017 # See condor/samples.py
+            sample_map = samples.samples_VVV4L_2017_Skimmed # See condor/samples.py
+            sample_map.update(samples.samples_VVV4L_2017_EFT) # See condor/samples.py
+        elif args.year==2016:
+            # sample_map = samples.samples_VVV4L_2016 # See condor/samples.py
+            sample_map = samples.samples_VVV4L_2016_Skimmed # See condor/samples.py
+            sample_map.update(samples.samples_VVV4L_2016_EFT) # See condor/samples.py
+        
+
     # submission tag
     tag = args.thetag 
-    
-    ### 1l samples
-    #sample_map = samples.QCD_2018
-    #sample_map.update(samples.Vplusjets_2018_1L)
-    # submission tag
-    tag = args.thetag 
-    
-    ### 1l samples
-    #sample_map = samples.QCD_2018
-    #sample_map.update(samples.Vplusjets_2018_1L)
-    #sample_map.update(samples.Data_2018_1L)
-    #sample_map.update(samples.top_2018_1L)
-    #sample_map.update(samples.diboson_2018)
-    
 
     # Where the merged output will go
     # merged_dir = "/store/group/lpcvvv/{}/merged/VVV/{}/output/{}".format(os.getenv("USER"),tag,args.year)
@@ -91,8 +84,6 @@ if __name__ == "__main__":
 
     # Task summary for printing out msummary
     task_summary = {}
-        
-    print sample_map
 
     # Infinite loop until all tasks are complete
     # It will sleep every 10 minutes (600 seconds) and re-check automatically
@@ -114,7 +105,7 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "--mode {} {} -w".format(args.mode,args.addflags)]
+                            ["metis_extraargs", "--mode {} {}".format(args.mode,args.addflags)]
                             ]
                         },
                     cmssw_version = "CMSSW_10_2_13",
@@ -122,9 +113,8 @@ if __name__ == "__main__":
                     input_executable = "{}/condor_executable_lpc.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     #output_dir = "/store/user/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path
-		            output_dir = "/eos/uscms/store/group/lpcvvv/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path to group space
+		    output_dir = "/store/group/lpcvvv/{}/VVVAnalysis/{}/{}/{}_{}/".format(os.getenv("USER"),tag,args.year,ds.get_datasetname().replace("/", "_").lstrip("_"),tag), # output files path to group space
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
-                    recopy_inputs = True,
                     # max_jobs = 10,
             )
             # When babymaking task finishes, fire off a task that takes outputs and merges them locally (hadd)
@@ -148,11 +138,11 @@ if __name__ == "__main__":
             task_summary[task.get_sample().get_datasetname()] = task.get_task_summary()
 
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
-        #os.system("rm web_summary.json")
-        #webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
-        #StatsParser(data=task_summary, webdir=webdir).do()
-        #os.system("chmod -R 755 {}".format(webdir))
-        #os.system("msummary -r -i {}/web_summary.json".format(webdir))
+        os.system("rm web_summary.json")
+        webdir="~/public_html/VVVNanoLooperDashboard{}".format(args.year)
+        StatsParser(data=task_summary, webdir=webdir).do()
+        os.system("chmod -R 755 {}".format(webdir))
+        os.system("msummary -r -i {}/web_summary.json".format(webdir))
 
         # If all done exit the loop
         if all_tasks_complete:
