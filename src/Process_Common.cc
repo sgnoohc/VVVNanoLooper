@@ -32,6 +32,10 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
+
+    try { ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , nt.LHEPdfWeight());                                     } catch (std::runtime_error) { }
+    try { ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , nt.LHEScaleWeight());                                   } catch (std::runtime_error) { }
+
     try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
     try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
@@ -168,8 +172,6 @@ void Process_Common_NanoAOD()
 
     ana.tx.setBranch<bool>("Common_passGoodRun", goodRun);
     
-
-
     // Example of reading from Nano
     // std::vector<LorentzVector> electron_p4s = nt.Electron_p4(); // nt is a global variable that accesses NanoAOD
     // std::vector<float> electron_mvaTTH = nt.Electron_mvaTTH(); // electron ttH MVA scores from NanoAOD
@@ -361,13 +363,19 @@ void Process_Common_NanoAOD()
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ijet = 0; ijet < nt.Jet_p4().size(); ++ijet)
     {
-	LorentzVector jet_p4;
+	    LorentzVector jet_p4;
         if (ana.is_postprocessed)
         {
-            //if postprocessed NanoAOD, set pt to pt_nom, mass to mass_nom
-            jet_p4=LorentzVector(nt.Jet_pt_nom()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_nom()[ijet]);
+            //if postprocessed NanoAOD, do systematic studies
+            switch(ana.systematicVariation){
+                case AnalysisConfig::kjesup:  jet_p4=LorentzVector(nt.Jet_pt_jesTotalUp()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_jesTotalUp()[ijet]); break;
+                case AnalysisConfig::kjesdn:  jet_p4=LorentzVector(nt.Jet_pt_jesTotalDown()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_jesTotalDown()[ijet]); break;
+                case AnalysisConfig::kjerup:  jet_p4=LorentzVector(nt.Jet_pt_jerUp()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_jerUp()[ijet]); break;
+                case AnalysisConfig::kjerdn:  jet_p4=LorentzVector(nt.Jet_pt_jerDown()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_jerDown()[ijet]); break;
+                default: jet_p4=LorentzVector(nt.Jet_pt_nom()[ijet],nt.Jet_eta()[ijet],nt.Jet_phi()[ijet],nt.Jet_mass_nom()[ijet]);
+            }
         }
-	else 
+	    else 
         {
             jet_p4=nt.Jet_p4()[ijet];
         }
@@ -769,54 +777,88 @@ void Process_Common_NanoAOD()
     // Loop over jets and do a simple overlap removal against leptons
     float fjSFvlc(1.), fjSFvlu(1.), fjSFvld(1.), fjSFmc(1.), fjSFmu(1.), fjSFmd(1.), fjSFtc(1.), fjSFtu(1.), fjSFtd(1.);
     float fjMDSFlc(1.), fjMDSFlu(1.), fjMDSFld(1.), fjMDSFmc(1.), fjMDSFmu(1.), fjMDSFmd(1.), fjMDSFtc(1.), fjMDSFtu(1.), fjMDSFtd(1.);
+    //update with final WPs and for other years
+    //currently from https://indico.cern.ch/event/1103765/contributions/4647556/attachments/2364610/4037250/ParticleNet_2018_ULNanoV9_JMAR_14Dec2021_PK.pdf
+    //Lesya updated March 22 2022
+    //From https://indico.cern.ch/event/1152827/contributions/4840404/attachments/2428856/4162159/ParticleNet_SFs_ULNanoV9_JMAR_25April2022_PK.pdf
+    //Yulun updated August 5 2022
+    float fjWPVloose  = 0.68;
+    float fjWPmedium = 0.94;
+    float fjWPtight  = 0.97;        
+    float fjWPloose_MD  = 0.64;
+    float fjWPmedium_MD = 0.85;
+    float fjWPtight_MD  = 0.91;
+    if (nt.year() == 2016 && !gconf.isAPV)
+    {
+        fjWPVloose  = 0.67;
+        fjWPmedium = 0.93;
+        fjWPtight  = 0.97;
+        fjWPloose_MD  = 0.64;
+        fjWPmedium_MD = 0.84;
+        fjWPtight_MD  = 0.91;
+    }
+    if (nt.year() == 2017)
+    {
+        fjWPVloose  = 0.71;
+        fjWPmedium = 0.94;
+        fjWPtight  = 0.98;
+        fjWPloose_MD  = 0.58;
+        fjWPmedium_MD = 0.81;
+        fjWPtight_MD  = 0.89;
+    }
+    if (nt.year() == 2018)
+    {
+        fjWPVloose  = 0.70;
+        fjWPmedium = 0.94;
+        fjWPtight  = 0.98;
+        fjWPloose_MD  = 0.59;
+        fjWPmedium_MD = 0.82;
+        fjWPtight_MD  = 0.90;
+    }
     for (unsigned int ifatjet = 0; ifatjet < nt.FatJet_p4().size(); ++ifatjet)
     {
-        //update with final WPs and for other years
-        //currently from https://indico.cern.ch/event/1103765/contributions/4647556/attachments/2364610/4037250/ParticleNet_2018_ULNanoV9_JMAR_14Dec2021_PK.pdf
-        //Lesya updated March 22 2022
-        //From https://indico.cern.ch/event/1152827/contributions/4840404/attachments/2428856/4162159/ParticleNet_SFs_ULNanoV9_JMAR_25April2022_PK.pdf
-        //Yulun updated August 5 2022
-        float fjWPVloose  = 0.68;
-        float fjWPmedium = 0.94;
-        float fjWPtight  = 0.97;        
-        float fjWPloose_MD  = 0.64;
-        float fjWPmedium_MD = 0.85;
-        float fjWPtight_MD  = 0.91;
-        if (nt.year() == 2016 && !gconf.isAPV)
-        {
-            fjWPVloose  = 0.67;
-            fjWPmedium = 0.93;
-            fjWPtight  = 0.97;
-            fjWPloose_MD  = 0.64;
-            fjWPmedium_MD = 0.84;
-            fjWPtight_MD  = 0.91;
-        }
-        if (nt.year() == 2017)
-        {
-            fjWPVloose  = 0.71;
-            fjWPmedium = 0.94;
-            fjWPtight  = 0.98;
-            fjWPloose_MD  = 0.58;
-            fjWPmedium_MD = 0.81;
-            fjWPtight_MD  = 0.89;
-        }
-        if (nt.year() == 2018)
-        {
-            fjWPVloose  = 0.70;
-            fjWPmedium = 0.94;
-            fjWPtight  = 0.98;
-            fjWPloose_MD  = 0.59;
-            fjWPmedium_MD = 0.82;
-            fjWPtight_MD  = 0.90;
-        }
-
         LorentzVector fatjet_p4;
         float fatjet_msoftdrop;
         if (ana.is_postprocessed)
         {
-            //if postprocessed NanoAOD, set pt to pt_nom, mass to mass_nom msoftdrop to msoftdrop_nom
-            fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_nom()[ifatjet]);
-            fatjet_msoftdrop = nt.FatJet_msoftdrop_nom()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction
+            //if postprocessed NanoAOD, do systematic studies
+            switch(ana.systematicVariation){
+                case AnalysisConfig::kjesup:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_jesTotalUp()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jesTotalUp()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jesTotalUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjesdn:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_jesTotalDown()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jesTotalDown()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jesTotalDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjerup:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_jerUp()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jerUp()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jerUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjerdn:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_jerDown()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jerDown()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jerDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjmsup:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jmsUp()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jmsUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjmsdn:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jmsDown()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jmsDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjmrup:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jmrUp()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jmrUp()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;
+                case AnalysisConfig::kjmrdn:  
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_jmrDown()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_jmrDown()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+                    break;                          
+                default:
+                    fatjet_p4=LorentzVector(nt.FatJet_pt_nom()[ifatjet],nt.FatJet_eta()[ifatjet],nt.FatJet_phi()[ifatjet],nt.FatJet_mass_nom()[ifatjet]);
+                    fatjet_msoftdrop = nt.FatJet_msoftdrop_nom()[ifatjet] / nt.FatJet_msoftdrop_corr_PUPPI()[ifatjet]; //undo the W-JMS correction                  
+            }
         }
         else
         {
@@ -940,22 +982,10 @@ void Process_Common_NanoAOD()
         if (W_MD > fjWPloose_MD) WPid_MD = 1; 
         if (W_MD > fjWPmedium_MD) WPid_MD = 2; 
         if (W_MD > fjWPtight_MD) WPid_MD = 3; 
-        if (fatjet_msoftdrop >= 65. and fatjet_msoftdrop <= 105. and fatjet_p4.pt() > 200.)
-        {
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", -999);
-        }
-        else
-        {
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", -999);
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", WPid); // store W DNN cut even off mass peak
-            ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", WPid_MD); 
-            WPid = -999;                                                       // I reset WPid to not store the fatjet SF for offmass peak
-            WPid_MD = -999;
-        }
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP", WPid);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD", WPid_MD);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_antimasscut", -999);
+        ana.tx.pushbackToBranch<int>("Common_fatjet_WP_MD_antimasscut", -999);
         int year=(gconf.isAPV && nt.year()==2016)?10:nt.year();//use 0 for APV samples
         if (WPid >= 0)
         {
@@ -1107,16 +1137,27 @@ void Process_Common_NanoAOD()
     //---------------------------------------------------------------------------------------------
     if (ana.is_postprocessed)
     {
-        if (nt.isData())	
-            ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1_pt(), 0., nt.MET_T1_phi(), 0));
-        else
-        {
-            ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt(), 0., nt.MET_T1Smear_phi(), 0));
-            ana.tx.setBranch<LorentzVector>("Common_met_p4_jesup", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalUp(), 0., nt.MET_T1Smear_phi_jesTotalUp(), 0));
-            ana.tx.setBranch<LorentzVector>("Common_met_p4_jesdn", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalDown(), 0., nt.MET_T1Smear_phi_jesTotalDown(), 0));
-            ana.tx.setBranch<LorentzVector>("Common_met_p4_jerup", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerUp(), 0., nt.MET_T1Smear_phi_jerUp(), 0));
-            ana.tx.setBranch<LorentzVector>("Common_met_p4_jerdn", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerDown(), 0., nt.MET_T1Smear_phi_jerDown(), 0));
-        }
+        switch(ana.systematicVariation){
+                case AnalysisConfig::kjesup:  
+                    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalUp(), 0., nt.MET_T1Smear_phi_jesTotalUp(), 0));
+                    break;
+                case AnalysisConfig::kjesdn:  
+                    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalDown(), 0., nt.MET_T1Smear_phi_jesTotalDown(), 0));
+                    break;
+                case AnalysisConfig::kjerup:  
+                    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerUp(), 0., nt.MET_T1Smear_phi_jerUp(), 0));
+                    break;
+                case AnalysisConfig::kjerdn:  
+                    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerDown(), 0., nt.MET_T1Smear_phi_jerDown(), 0));
+                    break;
+                default:
+                    ana.tx.setBranch<LorentzVector>("Common_met_p4", RooUtil::Calc::getLV(nt.MET_T1Smear_pt(), 0., nt.MET_T1Smear_phi(), 0));
+        
+            }
+        ana.tx.setBranch<LorentzVector>("Common_met_p4_jesup", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalUp(), 0., nt.MET_T1Smear_phi_jesTotalUp(), 0));
+        ana.tx.setBranch<LorentzVector>("Common_met_p4_jesdn", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jesTotalDown(), 0., nt.MET_T1Smear_phi_jesTotalDown(), 0));
+        ana.tx.setBranch<LorentzVector>("Common_met_p4_jerup", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerUp(), 0., nt.MET_T1Smear_phi_jerUp(), 0));
+        ana.tx.setBranch<LorentzVector>("Common_met_p4_jerdn", RooUtil::Calc::getLV(nt.MET_T1Smear_pt_jerDown(), 0., nt.MET_T1Smear_phi_jerDown(), 0));
     }
     else
     {
@@ -1519,6 +1560,16 @@ void Process_Common_VVVTree()
     ana.tx.setBranch<float>                ("Common_genWeight", vvv.Common_genWeight());
     ana.tx.setBranch<float>                ("Common_btagWeight_DeepCSVB", vvv.Common_btagWeight_DeepCSVB());
 
+    ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , vvv.Common_event_PDF());                                     
+    ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , vvv.Common_event_QCDScale());
+
+    ana.tx.setBranch<float>("Common_event_puWeight"                                       , vvv.Common_event_puWeight());
+    ana.tx.setBranch<float>("Common_event_puWeightup"                                     , vvv.Common_event_puWeightup());
+    ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , vvv.Common_event_puWeightdn());
+
+    ana.tx.setBranch<float>("Common_event_prefireWeight"                                  , vvv.Common_event_prefireWeight());
+    ana.tx.setBranch<float>("Common_event_prefireWeightup"                                , vvv.Common_event_prefireWeightup());
+    ana.tx.setBranch<float>("Common_event_prefireWeightdn"                                , vvv.Common_event_prefireWeightdn());
     // EFT weightings
     ana.tx.setBranch<vector<float>>        ("Common_LHEWeight_mg_reweighting", vvv.Common_LHEWeight_mg_reweighting());
 

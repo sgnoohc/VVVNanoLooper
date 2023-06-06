@@ -33,6 +33,20 @@ public:
     // Integer for users to use to define regions (if needed)
     int region;
 
+    enum SystematicVariation {
+        kcenter=0,
+        kjesup,
+        kjesdn,
+        kjerup,
+        kjerdn,
+        kjmsup,
+        kjmsdn,
+        kjmrup,
+        kjmrdn,
+    };
+
+    SystematicVariation systematicVariation=kcenter;
+
     // VH->VVV channel to be selected (if running on VHToNonBB samples)
     int vhvvv_channel;
 
