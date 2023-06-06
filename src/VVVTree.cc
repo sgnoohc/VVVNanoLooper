@@ -82,6 +82,12 @@ void VVVTree::Init(TTree *tree) {
 /*         Common_LHEWeight_mg_reweighting*/  Common_LHEWeight_mg_reweighting_branch = tree->GetBranch("Common_LHEWeight_mg_reweighting");
 /*         Common_LHEWeight_mg_reweighting*/  if (Common_LHEWeight_mg_reweighting_branch) Common_LHEWeight_mg_reweighting_branch->SetAddress(&Common_LHEWeight_mg_reweighting_);
 //---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  Common_event_PDF_branch = tree->GetBranch("Common_event_PDF");
+/*                        Common_event_PDF*/  if (Common_event_PDF_branch) Common_event_PDF_branch->SetAddress(&Common_event_PDF_);
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  Common_event_QCDScale_branch = tree->GetBranch("Common_event_QCDScale");
+/*                   Common_event_QCDScale*/  if (Common_event_QCDScale_branch) Common_event_QCDScale_branch->SetAddress(&Common_event_QCDScale_);
+//---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  Common_event_puWeight_branch = tree->GetBranch("Common_event_puWeight");
 /*                   Common_event_puWeight*/  if (Common_event_puWeight_branch) Common_event_puWeight_branch->SetAddress(&Common_event_puWeight_);
 //---------------------------------------------------------------------------------
@@ -849,6 +855,10 @@ void VVVTree::GetEntry(unsigned int idx) {
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  Common_LHEWeight_mg_reweighting_isLoaded = false;
 //---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  Common_event_PDF_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  Common_event_QCDScale_isLoaded = false;
+//---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  Common_event_puWeight_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*                 Common_event_puWeightup*/  Common_event_puWeightup_isLoaded = false;
@@ -936,6 +946,8 @@ void VVVTree::GetEntry(unsigned int idx) {
 /*  Common_pass_duplicate_removal_ee_em_mm*/  Common_pass_duplicate_removal_ee_em_mm_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*  Common_pass_duplicate_removal_mm_em_ee*/  Common_pass_duplicate_removal_mm_em_ee_isLoaded = false;
+//---------------------------------------------------------------------------------
+/*                      Common_passGoodRun*/  Common_passGoodRun_isLoaded = false;
 //---------------------------------------------------------------------------------
 /*                        Common_noiseFlag*/  Common_noiseFlag_isLoaded = false;
 //---------------------------------------------------------------------------------
@@ -1397,6 +1409,10 @@ void VVVTree::LoadAllBranches() {
 /*                              Common_wgt*/  if (Common_wgt_branch != 0) Common_wgt();
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  if (Common_LHEWeight_mg_reweighting_branch != 0) Common_LHEWeight_mg_reweighting();
+//---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  if (Common_event_PDF_branch != 0) Common_event_PDF();
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  if (Common_event_QCDScale_branch != 0) Common_event_QCDScale();
 //---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  if (Common_event_puWeight_branch != 0) Common_event_puWeight();
 //---------------------------------------------------------------------------------
@@ -2051,6 +2067,34 @@ void VVVTree::LoadAllBranches() {
 /*         Common_LHEWeight_mg_reweighting*/  }
 /*         Common_LHEWeight_mg_reweighting*/  return *Common_LHEWeight_mg_reweighting_;
 /*         Common_LHEWeight_mg_reweighting*/}
+
+//---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/const vector<float> &VVVTree::Common_event_PDF() {
+/*                        Common_event_PDF*/  if (not Common_event_PDF_isLoaded) {
+/*                        Common_event_PDF*/    if (Common_event_PDF_branch != 0) {
+/*                        Common_event_PDF*/      Common_event_PDF_branch->GetEntry(index);
+/*                        Common_event_PDF*/    } else {
+/*                        Common_event_PDF*/      printf("branch Common_event_PDF_branch does not exist!\n");
+/*                        Common_event_PDF*/      exit(1);
+/*                        Common_event_PDF*/    }
+/*                        Common_event_PDF*/    Common_event_PDF_isLoaded = true;
+/*                        Common_event_PDF*/  }
+/*                        Common_event_PDF*/  return *Common_event_PDF_;
+/*                        Common_event_PDF*/}
+
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/const vector<float> &VVVTree::Common_event_QCDScale() {
+/*                   Common_event_QCDScale*/  if (not Common_event_QCDScale_isLoaded) {
+/*                   Common_event_QCDScale*/    if (Common_event_QCDScale_branch != 0) {
+/*                   Common_event_QCDScale*/      Common_event_QCDScale_branch->GetEntry(index);
+/*                   Common_event_QCDScale*/    } else {
+/*                   Common_event_QCDScale*/      printf("branch Common_event_QCDScale_branch does not exist!\n");
+/*                   Common_event_QCDScale*/      exit(1);
+/*                   Common_event_QCDScale*/    }
+/*                   Common_event_QCDScale*/    Common_event_QCDScale_isLoaded = true;
+/*                   Common_event_QCDScale*/  }
+/*                   Common_event_QCDScale*/  return *Common_event_QCDScale_;
+/*                   Common_event_QCDScale*/}
 
 //---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/const float &VVVTree::Common_event_puWeight() {
@@ -5777,6 +5821,10 @@ namespace tas {
 /*                              Common_wgt*/const float &Common_wgt() { return vvv.Common_wgt(); }
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/const vector<float> &Common_LHEWeight_mg_reweighting() { return vvv.Common_LHEWeight_mg_reweighting(); }
+//---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/const vector<float> &Common_event_PDF() { return vvv.Common_event_PDF(); }
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/const vector<float> &Common_event_QCDScale() { return vvv.Common_event_QCDScale(); }
 //---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/const float &Common_event_puWeight() { return vvv.Common_event_puWeight(); }
 //---------------------------------------------------------------------------------

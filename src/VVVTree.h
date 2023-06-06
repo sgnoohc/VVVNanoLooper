@@ -1,6 +1,10 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
+<<<<<<< HEAD
 // makeCMS3ClassFiles("/eos/uscms/store/user/lpcvvv/horyn/VVVAnalysis/Nov15_AllHad_allYears/2006/merged/WZ.root", "t", "VVVTree", "tas", "vvv")
+=======
+// makeCMS3ClassFiles("/uscms/home/ymiao/nobackup/VVV/EFTAnalysisLooper/uncertainty_type1/VVVNanoLooper/WWW_DIM6_1.root", "t", "VVVTree", "tas", "vvv")
+>>>>>>> e7aa48f9a58bade6a661fc8a4a00319be7a69c69
 
 #ifndef VVVTree_H
 #define VVVTree_H
@@ -59,6 +63,14 @@ class VVVTree {
 /*         Common_LHEWeight_mg_reweighting*/  vector<float> *Common_LHEWeight_mg_reweighting_;
 /*         Common_LHEWeight_mg_reweighting*/  TBranch *Common_LHEWeight_mg_reweighting_branch;
 /*         Common_LHEWeight_mg_reweighting*/  bool     Common_LHEWeight_mg_reweighting_isLoaded;
+//---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  vector<float> *Common_event_PDF_;
+/*                        Common_event_PDF*/  TBranch *Common_event_PDF_branch;
+/*                        Common_event_PDF*/  bool     Common_event_PDF_isLoaded;
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  vector<float> *Common_event_QCDScale_;
+/*                   Common_event_QCDScale*/  TBranch *Common_event_QCDScale_branch;
+/*                   Common_event_QCDScale*/  bool     Common_event_QCDScale_isLoaded;
 //---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  float    Common_event_puWeight_;
 /*                   Common_event_puWeight*/  TBranch *Common_event_puWeight_branch;
@@ -1135,6 +1147,10 @@ void LoadAllBranches();
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
 //---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  const vector<float> &Common_event_PDF();
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  const vector<float> &Common_event_QCDScale();
+//---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  const float &Common_event_puWeight();
 //---------------------------------------------------------------------------------
 /*                 Common_event_puWeightup*/  const float &Common_event_puWeightup();
@@ -1688,6 +1704,10 @@ namespace tas {
 /*                              Common_wgt*/  const float &Common_wgt();
 //---------------------------------------------------------------------------------
 /*         Common_LHEWeight_mg_reweighting*/  const vector<float> &Common_LHEWeight_mg_reweighting();
+//---------------------------------------------------------------------------------
+/*                        Common_event_PDF*/  const vector<float> &Common_event_PDF();
+//---------------------------------------------------------------------------------
+/*                   Common_event_QCDScale*/  const vector<float> &Common_event_QCDScale();
 //---------------------------------------------------------------------------------
 /*                   Common_event_puWeight*/  const float &Common_event_puWeight();
 //---------------------------------------------------------------------------------
