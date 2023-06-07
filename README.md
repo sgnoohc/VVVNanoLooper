@@ -67,10 +67,20 @@ Before making the tarball for the VVVNanoLooper jobs, you first must create the 
     python parse_scale1fbs.py > scale1fbs.txt
     cd ../
     
-Now that you have stored this information for the samples, you can now make the tarball and submit the condor jobs.
+Now that you have stored this information for the samples, you can now make the tarball.
 
     sh condor/maketar.sh # Tar up the code
     cd condor/
+    
+Prior to submitting the condor jobs, you may want to set the mode that you want to use for the VVVNanoLooper. The different modes correspond to different final states. This setting is found on line 83 of the condor submission script `submit4Lep.py`. The different modes are:
+
+    --mode 0=4LepMET
+    --mode 1=3LepTauMET
+    --mode 2=3Lep2jetMET  #This case has not been implemented yet
+    --mode 3=All          #By "All", I mean 4LepMET and 3LepTauMET
+    
+Once you have set the mode that you want to run (in `submit4Lep.py`), you can now submit the jobs:
+
     # Update the version to the skimmer
     python submit4Lep.py -t TAG
     
