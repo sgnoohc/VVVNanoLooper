@@ -37,7 +37,7 @@ Prior to sourcing setup.sh please follow the instructions given above in the sec
 
 ### Existing NanoSkimmed output (v9)
 
-    /ceph/cms/store/user/kdownham/skimOutput/WWZ_4L/
+    /ceph/cms/store/user/kdownham/skimOutput/3LepTau_4Lep/
 
 ## VVVNanoLooper
 
@@ -59,14 +59,31 @@ Prior to sourcing setup.sh please follow the instructions given above in the sec
 Prior to sourcing setup.sh please follow the instructions given above in the section "Setting the correct Input/Output Paths".
 
     source setup.sh
+
+Before making the tarball for the VVVNanoLooper jobs, you first must create the necessary text files containing the cross section information and scale1fb information for the samples you want to run on. You may need to modify these files slightly to point to the correct NanoSkims.
+
+    cd weights/
+    python parse_xsec.py > xsec.txt
+    python parse_scale1fbs.py > scale1fbs.txt
+    cd ../
+    
+Now that you have stored this information for the samples, you can now make the tarball and submit the condor jobs.
+
     sh condor/maketar.sh # Tar up the code
     cd condor/
     # Update the version to the skimmer
     python submit4Lep.py -t TAG
+    
+Once your jobs are finished, you need to hadd the outputs together (required to run the analysis looper). This is handled using the `merge_skim_output.sh` script in the `condor/` directory.
+
+    # hadd the VVVNanoLooper outputs together
+    ./merge_skim_output.sh
 
 ### Existing vvvtree ntuple (v9)
 
-    /ceph/cms/store/user/kdownham/VVVAnalysis/120222
+The most up-to-date version of the vvvtree is stored in Keegan's area on ceph:
+
+    /ceph/cms/store/user/kdownham/VVVAnalysis/051723
 
 
 ### Running the analysis looper on VVVTree ntuple
