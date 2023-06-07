@@ -14,6 +14,8 @@ void Process_E_Event()
     const float& genWeight = ana.tx.getBranch<float>("Common_genWeight");
     const float& wgt = ana.tx.getBranch<float>("Common_wgt");
     const vector<float>& LHEReweightingWeight = ana.tx.getBranchLazy<vector<float>>("Common_LHEReweightingWeight");
+    const vector<float>& PDF = ana.tx.getBranchLazy<vector<float>>("Common_event_PDF");
+    const vector<float>& QCDScale = ana.tx.getBranchLazy<vector<float>>("Common_event_QCDScale");
 
     //-----------------
     // Set the branches
@@ -26,6 +28,8 @@ void Process_E_Event()
     ana.txskim.setBranch<float>("genWeight", genWeight);
     ana.txskim.setBranch<float>("wgt", wgt);
     ana.txskim.setBranch<vector<float>>("LHEReweightingWeight", LHEReweightingWeight);
+    ana.txskim.setBranch<vector<float>>("PDF", PDF);
+    ana.txskim.setBranch<vector<float>>("QCDScale", QCDScale);
 
 }
 

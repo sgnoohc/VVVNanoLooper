@@ -26,8 +26,15 @@ void Process_Common_NanoAOD()
     // Please follow the convention of <category>_<varname> structure.
 
     //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
     // Event information
+    //
+    //
+    //
     //---------------------------------------------------------------------------------------------
+
     // Event level information
     ana.tx.setBranch<int>                  ("Common_isData", nt.isData());
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
@@ -35,27 +42,35 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_year", nt.year());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
 
-    try { ana.tx.setBranch<vector<float>>("Common_event_PDF"                                    , nt.LHEPdfWeight());                                     } catch (std::runtime_error) { }
-    try { ana.tx.setBranch<vector<float>>("Common_event_QCDScale"                               , nt.LHEScaleWeight());                                   } catch (std::runtime_error) { }
+    try { ana.tx.setBranch<vector<float>>("Common_event_PDF"       , nt.LHEPdfWeight());        } catch (std::runtime_error) { }
+    try { ana.tx.setBranch<vector<float>>("Common_event_QCDScale"  , nt.LHEScaleWeight());      } catch (std::runtime_error) { }
 
-    try { ana.tx.setBranch<float>("Common_event_puWeight"                                       , nt.puWeight());                                         } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"                                     , 1.); }
-    try { ana.tx.setBranch<float>("Common_event_puWeightup"                                     , nt.puWeightUp());                                       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"                                   , 1.); }
-    try { ana.tx.setBranch<float>("Common_event_puWeightdn"                                     , nt.puWeightDown());                                     } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"                                   , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_puWeight"          , nt.puWeight());            } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeight"       , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_puWeightup"        , nt.puWeightUp());          } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightup"     , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_puWeightdn"        , nt.puWeightDown());        } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_puWeightdn"     , 1.); }
 
-    try { ana.tx.setBranch<float>("Common_event_prefireWeight"                                  , nt.PrefireWeight());                                    } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeight"                                , 1.); }
-    try { ana.tx.setBranch<float>("Common_event_prefireWeightup"                                , nt.PrefireWeight_Up());                                 } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightup"                              , 1.); }
-    try { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                                , nt.PrefireWeight_Down());                               } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightdn"                         , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_prefireWeight"     , nt.PrefireWeight());       } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeight"  , 1.); }
+    try { ana.tx.setBranch<float>("Common_event_prefireWeightup"   , nt.PrefireWeight_Up());    } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightup", 1.); }
+    try { ana.tx.setBranch<float>("Common_event_prefireWeightdn"   , nt.PrefireWeight_Down());  } catch (std::runtime_error) { ana.tx.setBranch<float>("Common_event_prefireWeightdn", 1.); }
+
     if (not nt.isData())
     {
         ana.tx.setBranch<float>            ("Common_genWeight", nt.genWeight());
+
         if (nt.year() == 2016)
+        {
             ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", 1); // TODO
-        else
-            ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
-        if (ana.is_EFT_sample){
-            ana.tx.setBranch<vector<float>>("Common_LHEReweightingWeight", nt.LHEReweightingWeight());
-            //ana.tx.setBranch<vector<float>>("Common_LHEWeight_mg_reweighting", nt.LHEReweightingWeight());
         }
+        else
+        {
+            ana.tx.setBranch<float>        ("Common_btagWeight_DeepCSVB", nt.btagWeight_DeepCSVB());
+        }
+
+        if (ana.is_EFT_sample)
+        {
+            ana.tx.setBranch<vector<float>>("Common_LHEReweightingWeight", nt.LHEReweightingWeight());
+        }
+
         ana.tx.setBranch<float>            ("Common_wgt", ana.wgt * ((nt.genWeight() > 0) - (nt.genWeight() < 0)));
     }
     else
@@ -66,7 +81,13 @@ void Process_Common_NanoAOD()
     }
 
     //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
     // Trigger information
+    //
+    //
+    //
     //---------------------------------------------------------------------------------------------
 
     try { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                , nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ());                } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                , 0); } // Lowest unprescaled
@@ -79,26 +100,25 @@ void Process_Common_NanoAOD()
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ());  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"  , 0); } // Lowest unprescaled
     try { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL"     , 0); } 
     
-    try { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"                                       , nt.HLT_PFHT1050());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"                                     , nt.HLT_AK8PFJet500());                                   } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"     , nt.HLT_AK8PFJet380_TrimMass30());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30"     , nt.HLT_AK8PFJet360_TrimMass30());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30"     , nt.HLT_AK8PFJet400_TrimMass30());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30"     , nt.HLT_AK8PFJet420_TrimMass30());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50"     , nt.HLT_AK8PFHT750_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50"     , nt.HLT_AK8PFHT800_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , nt.HLT_AK8PFHT850_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , nt.HLT_AK8PFHT900_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"                  , nt.HLT_PFHT1050());                  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT1050"                , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"               , nt.HLT_AK8PFJet500());               } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet500"             , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"    , nt.HLT_AK8PFJet380_TrimMass30());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet380_TrimMass30"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30"    , nt.HLT_AK8PFJet360_TrimMass30());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet360_TrimMass30"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30"    , nt.HLT_AK8PFJet400_TrimMass30());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet400_TrimMass30"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30"    , nt.HLT_AK8PFJet420_TrimMass30());    } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFJet420_TrimMass30"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50"     , nt.HLT_AK8PFHT750_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT750_TrimMass50"   , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50"     , nt.HLT_AK8PFHT800_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT800_TrimMass50"   , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"     , nt.HLT_AK8PFHT850_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT850_TrimMass50"   , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"     , nt.HLT_AK8PFHT900_TrimMass50());     } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT900_TrimMass50"   , 0); } 
 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"            , nt.HLT_PFHT650_WideJetMJJ900DEtaJJ1p5());               } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"            , nt.HLT_PFHT650_WideJetMJJ950DEtaJJ1p5());                } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFHT800"                                   , nt.HLT_PFHT800());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT800"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFHT900"                                   , nt.HLT_PFHT900());                                       } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT900"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFJet450"                                  , nt.HLT_PFJet450());                                      } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet450"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_PFJet500"                                  , nt.HLT_PFJet500());                                      } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet500"     , 0); } 
-    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50"           , nt.HLT_AK8PFHT700_TrimR0p1PT0p03Mass50());               } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50"     , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"  , nt.HLT_PFHT650_WideJetMJJ900DEtaJJ1p5());  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ900DEtaJJ1p5"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"  , nt.HLT_PFHT650_WideJetMJJ950DEtaJJ1p5());  } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT650_WideJetMJJ950DEtaJJ1p5"  , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT800"                         , nt.HLT_PFHT800());                         } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT800"                         , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFHT900"                         , nt.HLT_PFHT900());                         } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFHT900"                         , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFJet450"                        , nt.HLT_PFJet450());                        } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet450"                        , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_PFJet500"                        , nt.HLT_PFJet500());                        } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_PFJet500"                        , 0); } 
+    try { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50" , nt.HLT_AK8PFHT700_TrimR0p1PT0p03Mass50()); } catch (std::runtime_error) { ana.tx.setBranch<bool>("Common_HLT_AK8PFHT700_TrimR0p1PT0p03Mass50" , 0); } 
     
-
     //2018 1L triggers
     try { ana.tx.setBranch<bool>("Common_HLT_IsoMu24"                 , nt.HLT_IsoMu24());                      } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoMu24"                  , 0); }
     try { ana.tx.setBranch<bool>("Common_HLT_IsoTkMu24"               , nt.HLT_IsoTkMu24());                    } catch (std::runtime_error) {  ana.tx.setBranch<bool>("Common_HLT_IsoTkMu24"                , 0); }
@@ -164,9 +184,18 @@ void Process_Common_NanoAOD()
             pass_duplicate_mm_em_ee = true;
     }
 
-
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_ee_em_mm", pass_duplicate_ee_em_mm); // Flag to identify whether the event passes duplicate removal
     ana.tx.setBranch<bool>("Common_pass_duplicate_removal_mm_em_ee", pass_duplicate_mm_em_ee); // Flag to identify whether the event passes duplicate removal
+
+    //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
+    // MET Filter cuts
+    //
+    //
+    //
+    //---------------------------------------------------------------------------------------------
     bool filterflag   = false;
     bool filterflagMC = false;
     switch (nt.year())
@@ -187,6 +216,15 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<bool>("Common_noiseFlag"  , filterflag  ); // Flag to identify whether the event passes noise filter
     ana.tx.setBranch<bool>("Common_noiseFlagMC", filterflagMC); // Flag to identify whether the event passes noise filter
 
+    //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
+    // Golden Json Good runs list
+    //
+    //
+    //
+    //---------------------------------------------------------------------------------------------
     //check good runs list
     bool goodRun = true; //set true for MC
     if(nt.isData()) goodRun = goodrun(nt.run(), nt.luminosityBlock());
@@ -202,8 +240,15 @@ void Process_Common_NanoAOD()
     // Also consult here: https://github.com/cmstas/NanoTools/blob/d641a6d6c1aa9ecc8094a1af73d5e1bd7d6502ab/NanoCORE/Nano.h#L4875 (if new variables are added they may show up in master)
     float lepSFc(1.), lepSFue(1.), lepSFde(1.), lepSFum(1.), lepSFdm(1.);
     float lepSFcTight(1.),lepSFueTight(1.),lepSFdeTight(1.),lepSFumTight(1.),lepSFdmTight(1.);
+
     //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
     // Electron selection
+    //
+    //
+    //
     //---------------------------------------------------------------------------------------------
     // Loop over electrons and select Fall17V2Iso_WP90 electrons
     for (unsigned int iel = 0; iel < nt.Electron_p4().size(); ++iel)
@@ -268,7 +313,13 @@ void Process_Common_NanoAOD()
     }
 
     //---------------------------------------------------------------------------------------------
+    //
+    //
+    //
     // Muon selection
+    //
+    //
+    //
     //---------------------------------------------------------------------------------------------
     // Loop over muons and select POG medium muons
     for (unsigned int imu = 0; imu < nt.Muon_p4().size(); ++imu)

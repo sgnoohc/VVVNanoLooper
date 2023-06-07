@@ -20,6 +20,8 @@ void Begin_E()
     ana.txskim.createBranch<float>("trigWgt");
     ana.txskim.createBranch<float>("trigWgtUp");
     ana.txskim.createBranch<float>("trigWgtDn");
+    ana.txskim.createBranch<vector<float>>("PDF");
+    ana.txskim.createBranch<vector<float>>("QCDScale");
 
     ana.txskim.createBranch<int>("trigger");
     ana.txskim.createBranch<int>("is0Lep");

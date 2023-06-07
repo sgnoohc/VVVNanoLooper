@@ -1,10 +1,6 @@
 // -*- C++ -*-
 // This is a header file generated with the command:
-<<<<<<< HEAD
-// makeCMS3ClassFiles("/eos/uscms/store/user/lpcvvv/horyn/VVVAnalysis/Nov15_AllHad_allYears/2006/merged/WZ.root", "t", "VVVTree", "tas", "vvv")
-=======
 // makeCMS3ClassFiles("/uscms/home/ymiao/nobackup/VVV/EFTAnalysisLooper/uncertainty_type1/VVVNanoLooper/WWW_DIM6_1.root", "t", "VVVTree", "tas", "vvv")
->>>>>>> e7aa48f9a58bade6a661fc8a4a00319be7a69c69
 
 #ifndef VVVTree_H
 #define VVVTree_H
