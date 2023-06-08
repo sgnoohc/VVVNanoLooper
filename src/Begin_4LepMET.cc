@@ -89,6 +89,7 @@ void Begin_4LepMET()
     ana.histograms.addHistogram("h_4LepMET_njet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_jet_p4").size(); } );
     ana.histograms.addHistogram("h_4LepMET_nfatjet", 8, 0, 8, [&]() { return ana.tx.getBranchLazy<vector<LorentzVector>>("Common_fatjet_p4").size(); } );
     ana.histograms.addHistogram("h_4LepMET_mt2", 180, 0, 100, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_mt2"); } );
+    ana.histograms.addHistogram("h_4LepMET_mt2_PuppiMET", 180, 0, 100, [&]() { return ana.tx.getBranch<float>("Var_4LepMET_mt2_PuppiMET"); } );
 
     // Now book cutflow histogram (could be commented out if user does not want.)
     // N.B. Cutflow histogramming can be CPU consuming.
@@ -320,6 +321,7 @@ void Begin_4LepMET_NanoAOD()
             [&]()
             {
                 ana.tx.setBranch<float>("Var_4LepMET_mt2", Begin_4LepMET_MT2());
+		ana.tx.setBranch<float>("Var_4LepMET_mt2_PuppiMET", Begin_4LepMET_MT2_PuppiMET());
                 return true;
             },
             UNITY);
@@ -385,7 +387,8 @@ void Begin_4LepMET_Create_Branches()
     ana.tx.createBranch<int>          ("Var_4LepMET_other_lep_ID_1");     // ID of subleading lepton
 
     // Additional variables
-    ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // Invariant mass of the Z candidate
+    ana.tx.createBranch<float>        ("Var_4LepMET_mt2");                // MT2 (PFMET)
+    ana.tx.createBranch<float>	      ("Var_4LepMET_mt2_PuppiMET");	  // MT2 (PuppiMET)
 
     // Cross section related info
     ana.tx.createBranch<float>        ("Var_4LepMET_scaleLumi");          // Scale 1fb
@@ -412,6 +415,25 @@ float Begin_4LepMET_MT2(int var)
     TLorentzVector lepton1 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"));
     TLorentzVector lepton2 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"));
     TLorentzVector misspart = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Common_met_p4"));
+    TLorentzVector rest_WW;
+    rest_WW = lepton1 + lepton2 + misspart;
+    TVector3 beta_from_miss_reverse(rest_WW.BoostVector());
+    TVector3 beta_from_miss(-beta_from_miss_reverse.X(),-beta_from_miss_reverse.Y(),-beta_from_miss_reverse.Z());
+
+    lepton1.Boost(beta_from_miss);
+    lepton2.Boost(beta_from_miss);
+    misspart.Boost(beta_from_miss);
+    asymm_mt2_lester_bisect::disableCopyrightMessage();
+    double MT2_0mass = asymm_mt2_lester_bisect::get_mT2(0,lepton1.Px(),lepton1.Py(),0,lepton2.Px(),lepton2.Py(),misspart.Px(), misspart.Py(),0,0,0);
+
+    return MT2_0mass;
+}
+
+float Begin_4LepMET_MT2_PuppiMET(int var)
+{
+    TLorentzVector lepton1 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_0"));
+    TLorentzVector lepton2 = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Var_4LepMET_other_lep_p4_1"));
+    TLorentzVector misspart = RooUtil::Calc::getTLV(ana.tx.getBranch<LorentzVector>("Common_met_p4_PuppiMET"));
     TLorentzVector rest_WW;
     rest_WW = lepton1 + lepton2 + misspart;
     TVector3 beta_from_miss_reverse(rest_WW.BoostVector());

@@ -19,7 +19,7 @@ histxaxislabeloptions = {
 "other_lep0_dz"    : {"xaxis_label" : "W-candidate lead lepton d_{z}"          , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "other_lep0_pt"    : {"xaxis_label" : "W-candidate lead lepton p_{T} [GeV]"    , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "other_lep0_sip3d" : {"xaxis_label" : "W-candidate lead lepton sip3d"          , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
-"tau_pt"           : {"xaxis_label" : "#tau_{h} p_{T} [GeV]"                   , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
+"tau0_pt"          : {"xaxis_label" : "#tau_{h} p_{T} [GeV]"                   , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "other_mll"        : {"xaxis_label" : "W-candidate m_{ll} [GeV]"               , "xaxis_ndivisions" : 505 , "nbins" : 40} , 
 "other_mll_full"   : {"xaxis_label" : "W-candidate m_{ll} [GeV]"               , "xaxis_ndivisions" : 505 , "nbins" : 40} , 
 "other_mll_varbin" : {"xaxis_label" : "W-candidate m_{ll} [GeV]"               , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -27,6 +27,19 @@ histxaxislabeloptions = {
 "Pt4l"             : {"xaxis_label" : "p_{T}^{4l} [GeV]"                       , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
 "SRBin_MET"        : {"xaxis_label" : "SRBins (binned in MET)"                 , "xaxis_ndivisions" : 505 , "nbins" : 3}  ,
 "SRBin_METandMT2"  : {"xaxis_label" : "SRBins (binned in MET with M_{T2} cut)" , "xaxis_ndivisions" : 505 , "nbins" : 3}  ,
+"DR_WW_Z"	   : {"xaxis_label" : "#Delta R(Wcand system, Zcand system)"   , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"DR_ltau"          : {"xaxis_label" : "#Delta R(l,#tau_{h})"                   , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"MT2_PuppiMET"     : {"xaxis_label" : "M_{T2} (w/ PuppiMET) [GeV]"             , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"other_lep0_eta"   : {"xaxis_label" : "W-candidate lead lepton #eta"           , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"other_lep0_phi"   : {"xaxis_label" : "W-candidate lead lepton #phi"           , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"tau0_eta"         : {"xaxis_label" : "#tau_{h} #eta"                          , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"tau0_phi"         : {"xaxis_label" : "#tau_{h} #phi"                          , "xaxis_ndivisions" : 505 , "nbins" : 40} ,  
+"DR_WWMET_Z"       : {"xaxis_label" : "#Delta R(Wcand leps + p_{T}^{miss},Z)"  , "xaxis_ndivisions" : 505 , "nbins" : 40} , 
+"DR_WWPuppiMET_Z"  : {"xaxis_label" : "#Delta R(Wcand leps + p_{T}^{miss},Z)"  , "xaxis_ndivisions" : 505 , "nbins" : 40} , 
+"DR_WW_MET"        : {"xaxis_label" : "#Delta R(Wcand leps, p_{T}^{miss}"      , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"DR_WW_PuppiMET"   : {"xaxis_label" : "#Delta R(Wcand leps, p_{T}^{miss}"      , "xaxis_ndivisions" : 505 , "nbins" : 40} , 
+"DR_Z_MET"         : {"xaxis_label" : "#Delta R(Zcand leps, p_{T}^{miss}"      , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
+"DR_Z_PuppiMET"    : {"xaxis_label" : "#Delta R(Zcand leps, p_{T}^{miss}"      , "xaxis_ndivisions" : 505 , "nbins" : 40} ,
 }
 
 def plot(year, filterpattern):
@@ -39,12 +52,12 @@ def plot(year, filterpattern):
     
     p.dump_plot(
             fnames=[
-                "output_mediumVSemu/{0}/ZZ.root".format(year),
-                "output_mediumVSemu/{0}/TTZ.root".format(year),
-                "output_mediumVSemu/{0}/Higgs.root".format(year),
-                "output_mediumVSemu/{0}/WZ.root".format(year),
-                "output_mediumVSemu/{0}/Other.root".format(year),
-		"output_mediumVSemu/{0}/DY.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/ZZ.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/TTZ.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/Higgs.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/WZ.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/Other.root".format(year),
+		"output_mVSj_mVSl_highMET/{0}/DY.root".format(year),
 		#"output_mediumVSemu/{0}/SSWW.root".format(year),
 		#"output_mediumVSemu/{0}/SingleTop.root".format(year),			
 		#"output_mediumVSemu/{0}/TTBar.root".format(year),
@@ -53,12 +66,12 @@ def plot(year, filterpattern):
 		#"output_mediumVSemu/{0}/WWLNu.root".format(year),
                 ],
             sig_fnames=[
-                "output_mediumVSemu/{0}/WWZ.root".format(year),
+                "output_mVSj_mVSl_highMET/{0}/WWZ.root".format(year),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
             #data_fname="outputs/{0}/data.root".format(year),
-            dirname="../../../public_html/WWZ/tau_mediumVSemu/{0}".format(year),
+            dirname="../../../public_html/WWZ/tau_mVSj_mVSl_highMET/{0}".format(year),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
@@ -105,7 +118,7 @@ def plot(year, filterpattern):
                 "ratio_range": [0., 2.],
 		#"xaxis_range": [0., 300.],
                 #"signal_scale":"auto",
-		"signal_scale":10.,
+		"signal_scale": 50.,
                 "legend_scalex": 2.0,
                 "legend_ncolumns": 3,
                 "yield_prec": 4,
@@ -127,8 +140,10 @@ if __name__ == "__main__":
 	#"CutHigh",
 	#"CutMed",
 	#"CutLow",
+	#"CutBVeto_3LepTau__Yield",
 	#"CutBVeto_3LepTau__SRBin",
-	"CutHighMETandMT2",
+	#"CutHighMETandMT2",
+	"CutBVeto_3LepTau",
         ]
 
     years = [

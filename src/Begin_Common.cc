@@ -161,8 +161,10 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<int>>	      ("Common_tau_idVSe");	   // Pt sorted selected tau idDeepTau2017v2p1VSe
     ana.tx.createBranch<vector<int>>          ("Common_tau_idVSmu");	   // Pt sorted selected tau idDeepTau2017v2p1VSmu
     ana.tx.createBranch<vector<int>>          ("Common_tau_idVSjet");	   // Pt sorted selected tau idDeepTau2017v2p1VSjet
-    //ana.tx.createBranch<vector<>>	("Common_tau_");
-    //ana.tx.createBranch<vector<>>	("Common_tau_");
+    // GenVisTau variables
+    ana.tx.createBranch<vector<LorentzVector>>("Common_GenVisTau_p4");     // Pt sorted GenVisTau p4s
+    ana.tx.createBranch<vector<int>>	      ("Common_GenVisTau_idxs");   // Pt sorted GenVisTau idxs
+    ana.tx.createBranch<vector<int>>	      ("Common_GenVisTau_status"); // Pt sorted GenVisTau status
  
     // Jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4");            // Pt sorted selected jet p4s

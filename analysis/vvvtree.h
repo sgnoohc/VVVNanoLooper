@@ -896,6 +896,9 @@ class vvvtree {
   float    Var_4LepMET_mt2_;
   TBranch *Var_4LepMET_mt2_branch;
   bool     Var_4LepMET_mt2_isLoaded;
+  float    Var_4LepMET_mt2_PuppiMET_;
+  TBranch *Var_4LepMET_mt2_PuppiMET_branch;
+  bool     Var_4LepMET_mt2_PuppiMET_isLoaded;
   float    Var_4LepMET_scaleLumi_;
   TBranch *Var_4LepMET_scaleLumi_branch;
   bool     Var_4LepMET_scaleLumi_isLoaded;
@@ -1200,6 +1203,7 @@ void LoadAllBranches();
   const float &Var_4LepMET_other_mll();
   const float &Var_3LepTauMET_other_mll();
   const float &Var_4LepMET_mt2();
+  const float &Var_4LepMET_mt2_PuppiMET();
   const float &Var_4LepMET_scaleLumi();
   const float &Var_3LepTauMET_scaleLumi();
   const float &Var_4LepMET_intLumi();
@@ -1503,6 +1507,7 @@ namespace tas {
   const float &Var_4LepMET_other_mll();
   const float &Var_3LepTauMET_other_mll();
   const float &Var_4LepMET_mt2();
+  const float &Var_4LepMET_mt2_PuppiMET();
   const float &Var_4LepMET_scaleLumi();
   const float &Var_3LepTauMET_scaleLumi();
   const float &Var_4LepMET_intLumi();

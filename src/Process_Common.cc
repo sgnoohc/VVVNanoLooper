@@ -481,6 +481,12 @@ void Process_Common_NanoAOD()
 
     }
 
+    for (unsigned int iGenTau = 0; iGenTau < nt.nGenVisTau(); iGenTau++){
+	 ana.tx.pushbackToBranch<LorentzVector>("Common_GenVisTau_p4" , nt.GenVisTau_p4()[iGenTau]);
+	 ana.tx.pushbackToBranch<int>(          "Common_GenVisTau_idxs",iGenTau);
+	 ana.tx.pushbackToBranch<int>(		"Common_GenVisTau_status", nt.GenVisTau_status()[iGenTau]);
+    }
+
     ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc );
     ana.tx.setBranch<float>("Common_event_lepSFelup"  , lepSFue);
     ana.tx.setBranch<float>("Common_event_lepSFeldn"  , lepSFde);
@@ -1660,6 +1666,13 @@ void Process_Common_NanoAOD()
 	    /* names of any associated vector<int>   branches to sort along */ {"Common_tau_idxs","Common_tau_decayMode","Common_tau_jetIdx","Common_tau_charge","Common_tau_idVSe","Common_tau_idVSmu","Common_tau_idVSjet",},
 	    /* names of any associated vector<bool>  branches to sort along */ {}
     	    );
+
+    ana.tx.sortVecBranchesByPt(
+	    								       "Common_GenVisTau_p4",
+										{},
+										{"Common_GenVisTau_idxs","Common_GenVisTau_status",},
+										{}
+	    );
 
     if (nt.event() == event_check) std::cout << "Debug 12" << endl;
 

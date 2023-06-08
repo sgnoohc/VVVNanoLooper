@@ -1,6 +1,9 @@
 #include "vvvtree.h"
 #include "rooutil.h"
 #include "cxxopts.h"
+#include "../NanoTools/NanoCORE/Nano.h"
+
+//#include "TMath.h"
 
 float BLIND() { return vvv.Common_isData() ? 1.: 1.; }
 
@@ -547,62 +550,62 @@ int main(int argc, char** argv)
     int ntaus;
     // TODO: Need to do this by accessing the Common_tau_ branch and selecting the highest pt one that passes the ID requirements
     
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutHighMET_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutHighMET_3LepTau", [&]() {
 
-					if ( vvv.Common_met_p4().pt() < 100. ) return false;
+    //    				if ( vvv.Common_met_p4().pt() < 100. ) return false;
 
-					return true; 
+    //    				return true; 
 
-				     }, UNITY);
+    //    			     }, UNITY);
 
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutHighMETandMT2_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutHighMETandMT2_3LepTau", [&]() {
 
-					bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
-                                        if ( !mt2_cut || vvv.Common_met_p4().pt() < 100. ) return false;
+    //    				bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+    //                                    if ( !mt2_cut || vvv.Common_met_p4().pt() < 100. ) return false;
 
-                                        return true;
+    //                                    return true;
 
-                                     }, UNITY);
+    //                                 }, UNITY);
 
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutMedMET_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutMedMET_3LepTau", [&]() {
 
-                                        if ( vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
+    //                                    if ( vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
 
-                                        return true;
+    //                                    return true;
 
-                                     }, UNITY);
+    //                                 }, UNITY);
 
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutMedMETandMT2_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutMedMETandMT2_3LepTau", [&]() {
 
-                                        bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
-                                        if ( !mt2_cut || vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
+    //                                    bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+    //                                    if ( !mt2_cut || vvv.Common_met_p4().pt() > 100. || vvv.Common_met_p4().pt() < 50. ) return false;
 
-                                        return true;
+    //                                    return true;
 
-                                     }, UNITY);
+    //                                 }, UNITY);
 
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutLowMET_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutLowMET_3LepTau", [&]() {
 
-                                        if ( vvv.Common_met_p4().pt() > 50. ) return false;
+    //                                    if ( vvv.Common_met_p4().pt() > 50. ) return false;
 
-                                        return true;
+    //                                    return true;
 
-                                     }, UNITY);
+    //                                 }, UNITY);
 
-    ana.cutflow.getCut("CutBVeto_3LepTau");
-    ana.cutflow.addCutToLastActiveCut("CutLowMETandMT2_3LepTau", [&]() {
+    //ana.cutflow.getCut("CutBVeto_3LepTau");
+    //ana.cutflow.addCutToLastActiveCut("CutLowMETandMT2_3LepTau", [&]() {
 
-                                        bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
-                                        if ( !mt2_cut || vvv.Common_met_p4().pt() > 50. ) return false;
+    //                                    bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
+    //                                    if ( !mt2_cut || vvv.Common_met_p4().pt() > 50. ) return false;
 
-                                        return true;
+    //                                    return true;
 
-                                     }, UNITY);
+    //                                 }, UNITY);
 
     ana.cutflow.getCut("CutETau");
     ana.cutflow.addCutToLastActiveCut("CutETau_idVS", [&]() {
@@ -674,30 +677,69 @@ int main(int argc, char** argv)
     ana.histograms_3LepTau.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
     ana.histograms_3LepTau.addHistogram("ntau", 5, 0, 5, [&]() { return ntaus; } );
     ana.histograms_3LepTau.addHistogram("MT2", 180, 0., 200., [&]() { return vvv.Var_3LepTauMET_mt2(); } );
+    ana.histograms_3LepTau.addHistogram("MT2_PuppiMET", 180, 0., 200., [&]() { return vvv.Var_3LepTauMET_mt2_PuppiMET();  } );
+    ana.histograms_3LepTau.addHistogram("DR_ltau", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR(vvv.Var_3LepTauMET_other_lep_p4_0(),leading_tau_p4); } );
+    ana.histograms_3LepTau.addHistogram("tau0_eta", 180, -2.3, 2.3, [&]() { return leading_tau_p4.eta(); } );
+    ana.histograms_3LepTau.addHistogram("tau0_phi", 180, -3.14, 3.14, [&]() { return leading_tau_p4.phi(); } );
+    ana.histograms_3LepTau.addHistogram("DR_WW_Z", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()),(vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4)); } );
+    ana.histograms_3LepTau.addHistogram("DR_WWMET_Z", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()),(vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4+vvv.Common_met_p4())); } );
+    ana.histograms_3LepTau.addHistogram("DR_WWPuppiMET_Z", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()),(vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4+vvv.Common_met_p4_PuppiMET())); } ); 
+    ana.histograms_3LepTau.addHistogram("other_lep0_eta", 180, -2.5, 2.5, [&]() { return vvv.Var_3LepTauMET_other_lep_p4_0().eta(); } );
+    ana.histograms_3LepTau.addHistogram("other_lep0_phi", 180, -3.14, 3.14, [&]() { return vvv.Var_3LepTauMET_other_lep_p4_0().phi(); } );
+    ana.histograms_3LepTau.addHistogram("DR_WW_MET", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4),vvv.Common_met_p4_MET()); } );
+    ana.histograms_3LepTau.addHistogram("DR_WW_PuppiMET", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4),vvv.Common_met_p4_PuppiMET()); } );
+    ana.histograms_3LepTau.addHistogram("DR_Z_MET", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()),vvv.Common_met_p4_MET()); } );
+    ana.histograms_3LepTau.addHistogram("DR_Z_PuppiMET", 180, 0., 5.0, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()),vvv.Common_met_p4_PuppiMET()) ; } );
     ana.histograms_3LepTau.addVecHistogram("SRBin_MET", 3, 0, 3,
 					[&]()
 					{
 					    std::vector<float> rtn;
-					    if ( vvv.Common_met_p4().pt() < 50. ) rtn.push_back(0.);
-					    if ( vvv.Common_met_p4().pt() > 50. && vvv.Common_met_p4().pt() < 100. ) rtn.push_back(1.);
-					    if ( vvv.Common_met_p4().pt() > 100. ) rtn.push_back(2.);
+					    if ( vvv.Common_met_p4().pt() > 100. && vvv.Common_met_p4().pt() < 140. ) rtn.push_back(0.);
+					    if ( vvv.Common_met_p4().pt() > 140. && vvv.Common_met_p4().pt() < 180. ) rtn.push_back(1.);
+					    if ( vvv.Common_met_p4().pt() < 180. ) rtn.push_back(2.);
 					
 					    return rtn;
 
 				 } );
 
-    ana.histograms_3LepTau.addVecHistogram("SRBin_METandMT2", 3, 0, 3,
+    ana.histograms_3LepTau.addVecHistogram("SRBin_METandMT2_25", 3, 0, 3,
 					[&]()
 					{
 					    std::vector<float> rtn;
 					    bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 25. );
-					    if ( mt2_cut && vvv.Common_met_p4().pt() < 50. ) rtn.push_back(0.);
-					    if ( mt2_cut && vvv.Common_met_p4().pt() > 50. && vvv.Common_met_p4().pt() < 100. ) rtn.push_back(1.);
-					    if ( mt2_cut && vvv.Common_met_p4().pt() > 100. ) rtn.push_back(2.);
+					    if ( mt2_cut && vvv.Common_met_p4().pt() > 100. && vvv.Common_met_p4().pt() < 140. ) rtn.push_back(0.);
+					    if ( mt2_cut && vvv.Common_met_p4().pt() > 140. && vvv.Common_met_p4().pt() < 180. ) rtn.push_back(1.);
+					    if ( mt2_cut && vvv.Common_met_p4().pt() > 180. ) rtn.push_back(2.);
 
 					    return rtn;
 
 				 } );
+
+    ana.histograms_3LepTau.addVecHistogram("SRBin_METandMT2_40", 3, 0, 3,
+                                        [&]()
+                                        {
+                                            std::vector<float> rtn;
+                                            bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 40. );
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 100. && vvv.Common_met_p4().pt() < 140. ) rtn.push_back(0.);
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 140. && vvv.Common_met_p4().pt() < 180. ) rtn.push_back(1.);
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 180. ) rtn.push_back(2.);
+
+                                            return rtn;
+
+                                 } );
+
+    ana.histograms_3LepTau.addVecHistogram("SRBin_METandMT2_50", 3, 0, 3,
+                                        [&]()
+                                        {
+                                            std::vector<float> rtn;
+                                            bool mt2_cut = ( vvv.Var_3LepTauMET_mt2() > 50. );
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 100. && vvv.Common_met_p4().pt() < 140. ) rtn.push_back(0.);
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 140. && vvv.Common_met_p4().pt() < 180. ) rtn.push_back(1.);
+                                            if ( mt2_cut && vvv.Common_met_p4().pt() > 180. ) rtn.push_back(2.);
+
+                                            return rtn;
+
+                                 } );
 
     // Book cutflows
     ana.cutflow.bookCutflows();
@@ -724,20 +766,36 @@ int main(int argc, char** argv)
 
 
         if (ana.cutflow.getCut("CutETau").pass || ana.cutflow.getCut("CutMuTau").pass){
-                std::vector<LorentzVector> tau_p4_vec;
+                std::vector<LorentzVector> gen_tau_p4_vec;
+		std::vector<LorentzVector> fake_tau_p4_vec;
                 for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
                         int idVSe = vvv.Common_tau_idVSe()[itau];
                         int idVSmu = vvv.Common_tau_idVSmu()[itau];
                         int idVSjet = vvv.Common_tau_idVSjet()[itau];
+			float pt = vvv.Common_tau_p4()[itau].pt();
 
                         //if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
-                        if ( not ((idVSe >= 15 /*medium WP*/) && (idVSmu >= 3 /*medium WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
-                        //if ( not ((idVSe >= 31 /*tight WP*/) && (idVSmu >= 7 /*tight WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
-                        tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
+                        //if ( not ((idVSe >= 7) && (idVSmu >= 1) && (idVSjet >= 7)) ) continue;
+                        if ( not ((idVSe >= 15 /*medium WP*/) && (idVSmu >= 3 /*medium WP*/) && (idVSjet >= 15 /*tight WP*/)) ) continue;
+                        //if ( not (idVSe >= 31 /*tight WP*/) && (idVSmu >= 7 /*tight WP*/) && (idVSjet >= 7 /*Loose WP*/)) ) continue;
+                        //if ( not ( pt > 30. ) ) continue;
+                        bool overlap = true; // Keep true to remove gen matching requirement
+			for (unsigned int gtau = 0; gtau < vvv.Common_GenVisTau_p4().size(); gtau++){
+			     float dR = RooUtil::Calc::DeltaR( vvv.Common_tau_p4()[itau], vvv.Common_GenVisTau_p4()[gtau] );
+			     if ( dR < 0.1 ) overlap = true;      
+			}
+
+ 			if ( overlap ){ 
+                             gen_tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
+			}
+			else{
+			     fake_tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
+			}
+
                 }
-                ntaus = tau_p4_vec.size();
+                ntaus = gen_tau_p4_vec.size();
                 if ( ntaus < 1 ) continue;
-                leading_tau_p4 = tau_p4_vec[0];
+                leading_tau_p4 = gen_tau_p4_vec[0];
         }
 
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());

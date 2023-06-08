@@ -1,6 +1,8 @@
 #include "vvvtree.h"
 #include "rooutil.h"
 #include "cxxopts.h"
+#include "ttreex.h"
+#include "process.h"
 
 float BLIND() { return vvv.Common_isData() ? 1.: 1.; }
 
@@ -50,6 +52,13 @@ public:
 
     RooUtil::Histograms histograms_3LepTau;
 
+    // Custom TTree object for writing out BDT variables
+    //TTree* tree_BDT;
+    RooUtil::TTreeX* tx;
+    
+    // Create output ttree to write to the output root files
+    //TTree* output_tree;
+    //RooUtil::TTreeX output_tx;
 
 };
 
@@ -259,6 +268,15 @@ int main(int argc, char** argv)
     // and no need for "SetBranchAddress" and declaring variable shenanigans necessary
     // This is a standard thing SNT does pretty much every looper we use
     ana.looper.init(ana.events_tchain, &vvv, ana.n_events);
+
+    // Create ttree for TTreeX to hold the variables
+    //ana.tree_BDT = new TTree("t_BDT","t_BDT");
+    //ana.tx.setTree(ana.tree_BDT);
+    ana.tx = new RooUtil::TTreeX("t_BDT","t_BDT");
+
+    // Create output ttree to write to the output root files
+    //ana.output_tree = new TTree("t_BDT","t_BDT");
+    //ana.output_tx.setTree(ana.output_tree);
 
 //********************************************************************************
 //
@@ -1133,14 +1151,23 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("pfMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_MET().pt(); } );
     ana.histograms.addHistogram("PuppiMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_PuppiMET().pt(); } );
     ana.histograms.addHistogram("DRll", 180, 0, 5, [&]() { return DRll; } );
+    ana.histograms.addHistogram("DR_Wcands", 180, 0, 5, [&]() { return RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()); } );
     ana.histograms.addHistogram("STLepFit", {0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0}, [&]() { return STLep; } );
     ana.histograms.addHistogram("STLepHadFit", {0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0}, [&]() { return STLepHad; } );
     ana.histograms.addHistogram("STLep", 180, 0., 3000., [&]() { return STLep; } );
     ana.histograms.addHistogram("STLepHad", 180, 0., 3000., [&]() { return STLepHad; } );
     ana.histograms.addHistogram("MT2", 180, 0., 180., [&]() { return vvv.Var_4LepMET_mt2(); } );
+    ana.histograms.addHistogram("MT2_PuppiMET", 180, 0., 180., [&]() { return vvv.Var_4LepMET_mt2_PuppiMET(); } );
     ana.histograms.addHistogram("Pt4l", 180, 0., 300., [&]() { return (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt(); } );
     ana.histograms.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose(); } );
     ana.histograms.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
+    ana.histograms.addHistogram("DR_WW_Z", 180, 0, 5, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()),(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1())); } );
+    ana.histograms.addHistogram("DPhi_WW_MET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),vvv.Common_met_p4_MET()); } );
+    ana.histograms.addHistogram("DPhi_Z_MET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()),vvv.Common_met_p4_MET()); } );
+    ana.histograms.addHistogram("DPhi_WW_PuppiMET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),vvv.Common_met_p4_PuppiMET()); } );
+    ana.histograms.addHistogram("DPhi_Z_PuppiMET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()),vvv.Common_met_p4_PuppiMET()); } );
+    ana.histograms.addHistogram("DPhi_WWZ_MET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),vvv.Common_met_p4_MET()); } );
+    ana.histograms.addHistogram("DPhi_WWZ_PuppiMET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),vvv.Common_met_p4_PuppiMET()); } );
 
     ana.histograms.addVecHistogram("SRBin", 7, 0, 7,
                                 [&]()
@@ -1256,26 +1283,6 @@ int main(int argc, char** argv)
                              } );
     */    
 
-    // Histograms for 3-Lepton + Tau Final State
-    //ana.histograms_3LepTau.addHistogram("Zcand_mll", 180, 60, 120, [&]() { return vvv.Var_3LepTauMET_Zcand_mll(); } );
-    //ana.histograms_3LepTau.addHistogram("Zcand_mll_full", 180, 0, 120, [&]() { return vvv.Var_3LepTauMET_Zcand_mll(); } );
-    //ana.histograms_3LepTau.addHistogram("Zcand_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_0().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("Zcand_lep1_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_Zcand_lep_p4_1().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("other_mll", 180, 60, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
-    //ana.histograms_3LepTau.addHistogram("other_mll_full", 180, 0, 120, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
-    //ana.histograms_3LepTau.addHistogram("other_mll_varbin", {0., 40., 60., 100., 200.}, [&]() { return (vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).mass(); } );
-    //ana.histograms_3LepTau.addHistogram("other_lep0_pt", 180, 0, 150, [&]() { return vvv.Var_3LepTauMET_other_lep_p4_0().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("tau0_pt", 180, 0, 150, [&]() { return leading_tau_p4.pt(); } );
-    //ana.histograms_3LepTau.addHistogram("other_lep0_sip3d", 180, 0, 10, [&]() { return abs(vvv.Common_lep_sip3d()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
-    //ana.histograms_3LepTau.addHistogram("other_lep0_dxy", 180, 0, 0.01, [&]() { return abs(vvv.Common_lep_dxy()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
-    //ana.histograms_3LepTau.addHistogram("other_lep0_dz", 180, 0, 0.1, [&]() { return abs(vvv.Common_lep_dz()[vvv.Var_3LepTauMET_other_lep_idx_0()]); } );
-    //ana.histograms_3LepTau.addHistogram("MET", 180, 0, 300., [&]() { return vvv.Common_met_p4().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("pfMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_MET().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("PuppiMET", 180, 0, 300., [&]() { return vvv.Common_met_p4_PuppiMET().pt(); } );
-    //ana.histograms_3LepTau.addHistogram("Pt4l", 180, 0., 300., [&]() { return (vvv.Var_3LepTauMET_Zcand_lep_p4_0()+vvv.Var_3LepTauMET_Zcand_lep_p4_1()+vvv.Var_3LepTauMET_other_lep_p4_0()+leading_tau_p4).pt(); } );
-    //ana.histograms_3LepTau.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose(); } );
-    //ana.histograms_3LepTau.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
-    //ana.histograms_3LepTau.addHistogram("ntau", 5, 0, 5, [&]() { return ntaus; } );
 
     // Book cutflows
     ana.cutflow.bookCutflows();
@@ -1290,6 +1297,9 @@ int main(int argc, char** argv)
 
     // Load event list
     RooUtil::EventList eventlist_to_check("eventlist_to_check.txt");
+
+    // Setup the BDT branches
+    setupBDTBranches();
 
     // Looping input file
     while (ana.looper.nextEvent())
@@ -1307,32 +1317,32 @@ int main(int argc, char** argv)
         STLepHad = vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.);
         Pt4l = (vvv.Var_4LepMET_Zcand_lep_p4_0() + vvv.Var_4LepMET_Zcand_lep_p4_1() + vvv.Var_4LepMET_other_lep_p4_0() + vvv.Var_4LepMET_other_lep_p4_1()).pt();
 
-        //if (ana.cutflow.getCut("CutETau").pass || ana.cutflow.getCut("CutMuTau").pass){
-        //        std::vector<LorentzVector> tau_p4_vec;
-        //        for (unsigned int itau = 0; itau < vvv.Common_tau_p4().size(); itau++){
-        //                int idVSe = vvv.Common_tau_idVSe()[itau];
-        //                int idVSmu = vvv.Common_tau_idVSmu()[itau];
-        //                int idVSjet = vvv.Common_tau_idVSjet()[itau];
+        ana.tx->clear();
 
-        //                if ( not ((idVSe >= 1) && (idVSmu >= 0) && (idVSjet >= 7)) ) continue;
-        //                tau_p4_vec.push_back(vvv.Common_tau_p4()[itau]);
-        //        }
-        //        ntaus = tau_p4_vec.size();
-        //        if ( ntaus < 1 ) continue;
-        //        leading_tau_p4 = tau_p4_vec[0];
-        //}
+        fillBDTBranches();
 
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
 
         //Do what you need to do in for each event here
         //To save use the following function
         ana.cutflow.fill();
+        if (ana.cutflow.getCut("CutBVeto").pass){
+	    ana.tx->fill();
+        }
 
         //if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt())){
 
 	//	ana.cutflow.printCuts();
        
 	//}
+	
+	// TODO: implement output tree writing method
+	// TODO: Write trees with BDT variables if the event passes the CutBVeto cut
+	// The relevant functions are in rooutil/src/ttreex.cc for creating and writing out the trees
+        if (ana.cutflow.getCut("CutBVeto").pass){
+
+        }
+
 	
 	if (ana.cutflow.getCut("CutEMuMT2").pass){
 	      // TODO
@@ -1457,7 +1467,55 @@ int main(int argc, char** argv)
     // Writing output file
     ana.cutflow.saveOutput();
 
+    if (ana.cutflow.getCut("CutBVeto").pass){
+	ana.tx->write();
+    }
+
     // The below can be sometimes crucial
     delete ana.output_tfile;
+}
+
+//==========================================================================================
+// Setup BDT branches (prior to event looping)
+//==========================================================================================
+void setupBDTBranches()
+{
+     ana.tx->createBranch<float>("m_ll");
+     ana.tx->createBranch<bool>("SFChannel");
+     ana.tx->createBranch<bool>("OFChannel");
+     ana.tx->createBranch<float>("dPhi_4Lep_MET");
+     ana.tx->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx->createBranch<float>("dR_Wcands");
+     ana.tx->createBranch<float>("dR_Zcands");
+     ana.tx->createBranch<float>("MET");
+     ana.tx->createBranch<float>("MT2");
+     ana.tx->createBranch<float>("Pt4l");
+     ana.tx->createBranch<float>("STLepHad");
+     ana.tx->createBranch<float>("leading_Zcand_pt");
+     ana.tx->createBranch<float>("subleading_Zcand_pt");
+     ana.tx->createBranch<float>("leading_Wcand_pt");
+     ana.tx->createBranch<float>("subleading_Wcand_pt");
+}
+
+//==========================================================================================
+// Write values to BDT branches (during event looping)
+//==========================================================================================
+void fillBDTBranches()
+{
+     ana.tx->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
+     ana.tx->setBranch<bool>("OFChannel", vvv.Cut_4LepMET_emuChannel());
+     ana.tx->setBranch<bool>("SFChannel", (vvv.Cut_4LepMET_offzChannel() || vvv.Cut_4LepMET_onzChannel()));
+     ana.tx->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
+     ana.tx->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
+     ana.tx->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
+     ana.tx->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
+     ana.tx->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
+     ana.tx->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
+     ana.tx->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
+     ana.tx->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
+     ana.tx->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
+     ana.tx->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
+     ana.tx->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());        
 }
 

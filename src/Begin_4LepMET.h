@@ -11,5 +11,6 @@ void Begin_4LepMET_Parse_Scale1fbs();
 void Begin_4LepMET_NanoAOD();
 
 float Begin_4LepMET_MT2(int var=0);
+float Begin_4LepMET_MT2_PuppiMET(int var=0);
 
 #endif

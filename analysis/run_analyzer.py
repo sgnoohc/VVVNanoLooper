@@ -10,8 +10,8 @@ skimversion = "3LepTau_4Lep"
 #skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
 skimdir = os.environ["looperOutput"]
 #dataversion = "OldLepID"
-dataversion = "050123"
-#outputdir = "output_newID"
+dataversion = "051723"
+outputdir = "output_BDT_tree"
 
 #____________________________________________________________________________________________
 def main():
@@ -61,9 +61,9 @@ def main():
     print("")
     print("Hadding ZZ and WWZ output rootfiles ......")
     for year in years + ["Run2"]:
-        os.system("hadd -f output_050123/{0}/ZZ.root output_050123/{0}/ZZ_*.root > output_050123/{0}/ZZ.log 2>&1".format(year))
-        os.system("hadd -f output_050123/{0}/WWZ.root output_050123/{0}/ZHWWZ.root output_050123/{0}/NonResWWZ.root > output_050123/{0}/WWZ.log 2>&1".format(year))
-        os.system("hadd -f output_050123/{0}/NonWWZ.root output_050123/{0}/WWW.root output_050123/{0}/WZZ.root output_050123/{0}/ZZZ.root > output_050123/{0}/NonWWZ.log 2>&1".format(year))
+        os.system("hadd -f {1}/{0}/ZZ.root {1}/{0}/ZZ_*.root > {1}/{0}/ZZ.log 2>&1".format(year, outputdir))
+        os.system("hadd -f {1}/{0}/WWZ.root {1}/{0}/ZHWWZ.root {1}/{0}/NonResWWZ.root > {1}/{0}/WWZ.log 2>&1".format(year, outputdir))
+        os.system("hadd -f {1}/{0}/NonWWZ.root {1}/{0}/WWW.root {1}/{0}/WZZ.root {1}/{0}/ZZZ.root > {1}/{0}/NonWWZ.log 2>&1".format(year, outputdir))
 
     print("Done!")
 
@@ -71,16 +71,16 @@ def main():
 # Get Command
 def get_command(proc, inputs, year, njobs=0, idx=0):
     if njobs > 0:
-        rtn_str = "rm -f output_050123/{}/{}_{}.root;".format(year, proc, idx)
+        rtn_str = "rm -f {}/{}/{}_{}.root;".format(outputdir, year, proc, idx)
     else:
-        rtn_str = "rm -f output_050123/{}/{}.root;".format(year, proc)
-    rtn_str += "mkdir -p output_050123/{};".format(year)
+        rtn_str = "rm -f {}/{}/{}.root;".format(outputdir, year, proc)
+    rtn_str += "mkdir -p {}/{};".format(outputdir, year)
     rtn_str += "./doAnalysis -i {} ".format(inputs)
     if njobs > 0:
         rtn_str += "-j {} -I {} ".format(njobs, idx)
-        rtn_str += "-t t -o output_050123/{}/{}_{}.root > output_050123/{}/{}_{}.log 2>&1".format(year, proc, idx, year, proc, idx)
+        rtn_str += "-t t -o {}/{}/{}_{}.root > {}/{}/{}_{}.log 2>&1".format(outputdir, year, proc, idx, outputdir, year, proc, idx)
     else:
-        rtn_str += "-t t -o output_050123/{}/{}.root > output_050123/{}/{}.log 2>&1".format(year, proc, year, proc)
+        rtn_str += "-t t -o {}/{}/{}.root > {}/{}/{}.log 2>&1".format(outputdir, year, proc, outputdir, year, proc)
     return rtn_str
 
 #____________________________________________________________________________________________

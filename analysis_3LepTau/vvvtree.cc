@@ -20,6 +20,8 @@ void vvvtree::Init(TTree *tree) {
   if (Common_lep_p4_branch) Common_lep_p4_branch->SetAddress(&Common_lep_p4_);
   Common_tau_p4_branch = tree->GetBranch("Common_tau_p4");
   if (Common_tau_p4_branch) Common_tau_p4_branch->SetAddress(&Common_tau_p4_);
+  Common_GenVisTau_p4_branch = tree->GetBranch("Common_GenVisTau_p4");
+  if (Common_GenVisTau_p4_branch) Common_GenVisTau_p4_branch->SetAddress(&Common_GenVisTau_p4_);
   Common_jet_p4_branch = tree->GetBranch("Common_jet_p4");
   if (Common_jet_p4_branch) Common_jet_p4_branch->SetAddress(&Common_jet_p4_);
   Common_fatjet_p4_branch = tree->GetBranch("Common_fatjet_p4");
@@ -589,6 +591,8 @@ void vvvtree::Init(TTree *tree) {
   if (Var_4LepMET_mt2_branch) Var_4LepMET_mt2_branch->SetAddress(&Var_4LepMET_mt2_);
   Var_3LepTauMET_mt2_branch = tree->GetBranch("Var_3LepTauMET_mt2");
   if (Var_3LepTauMET_mt2_branch) Var_3LepTauMET_mt2_branch->SetAddress(&Var_3LepTauMET_mt2_);
+  Var_3LepTauMET_mt2_PuppiMET_branch = tree->GetBranch("Var_3LepTauMET_mt2_PuppiMET");
+  if (Var_3LepTauMET_mt2_PuppiMET_branch) Var_3LepTauMET_mt2_PuppiMET_branch->SetAddress(&Var_3LepTauMET_mt2_PuppiMET_);
   Var_4LepMET_scaleLumi_branch = tree->GetBranch("Var_4LepMET_scaleLumi");
   if (Var_4LepMET_scaleLumi_branch) Var_4LepMET_scaleLumi_branch->SetAddress(&Var_4LepMET_scaleLumi_);
   Var_3LepTauMET_scaleLumi_branch = tree->GetBranch("Var_3LepTauMET_scaleLumi");
@@ -686,6 +690,7 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_event_looseBtagSFLFdn_isLoaded = false;
   Common_lep_p4_isLoaded = false;
   Common_tau_p4_isLoaded = false;
+  Common_GenVisTau_p4_isLoaded = false;
   Common_lep_idxs_isLoaded = false;
   Common_lep_pdgid_isLoaded = false;
   Common_lep_tight_isLoaded = false;
@@ -883,6 +888,7 @@ void vvvtree::GetEntry(unsigned int idx) {
   Var_3LepTauMET_other_mll_isLoaded = false;
   Var_4LepMET_mt2_isLoaded = false;
   Var_3LepTauMET_mt2_isLoaded = false;
+  Var_3LepTauMET_mt2_PuppiMET_isLoaded = false;
   Var_4LepMET_scaleLumi_isLoaded = false;
   Var_3LepTauMET_scaleLumi_isLoaded = false;
   Var_4LepMET_intLumi_isLoaded = false;
@@ -985,6 +991,7 @@ void vvvtree::LoadAllBranches() {
   if (Common_event_looseBtagSFLFdn_branch != 0) Common_event_looseBtagSFLFdn();
   if (Common_lep_p4_branch != 0) Common_lep_p4();
   if (Common_tau_p4_branch != 0) Common_tau_p4();
+  if (Common_GenVisTau_p4_branch != 0) Common_GenVisTau_p4();
   if (Common_lep_idxs_branch != 0) Common_lep_idxs();
   if (Common_lep_pdgid_branch != 0) Common_lep_pdgid();
   if (Common_lep_tight_branch != 0) Common_lep_tight();
@@ -1180,6 +1187,7 @@ void vvvtree::LoadAllBranches() {
   if (Var_4LepMET_other_mll_branch != 0) Var_4LepMET_other_mll();
   if (Var_4LepMET_mt2_branch != 0) Var_4LepMET_mt2();
   if (Var_3LepTauMET_mt2_branch != 0) Var_3LepTauMET_mt2();
+  if (Var_3LepTauMET_mt2_PuppiMET_branch != 0) Var_3LepTauMET_mt2_PuppiMET();
   if (Var_4LepMET_scaleLumi_branch != 0) Var_4LepMET_scaleLumi();
   if (Var_3LepTauMET_scaleLumi_branch != 0) Var_3LepTauMET_scaleLumi();
   if (Var_4LepMET_intLumi_branch != 0) Var_4LepMET_intLumi();
@@ -2288,6 +2296,19 @@ const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtr
     Common_tau_p4_isLoaded = true;
   }
   return *Common_tau_p4_;
+}
+
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtree::Common_GenVisTau_p4() {
+  if (not Common_GenVisTau_p4_isLoaded) {
+    if (Common_GenVisTau_p4_branch != 0) {
+      Common_GenVisTau_p4_branch->GetEntry(index);
+    } else {
+      printf("branch Common_GenVisTau_p4_branch does not exist!\n");
+      exit(1);
+    }
+    Common_GenVisTau_p4_isLoaded = true;
+  }
+  return *Common_GenVisTau_p4_;
 }
 
 const vector<int> &vvvtree::Common_lep_idxs() {
@@ -4825,6 +4846,19 @@ const float &vvvtree::Var_3LepTauMET_mt2() {
   return Var_3LepTauMET_mt2_;
 }
 
+const float &vvvtree::Var_3LepTauMET_mt2_PuppiMET() {
+  if (not Var_3LepTauMET_mt2_PuppiMET_isLoaded) {
+    if (Var_3LepTauMET_mt2_PuppiMET_branch != 0) {
+      Var_3LepTauMET_mt2_PuppiMET_branch->GetEntry(index);
+    } else {
+      printf("branch Var_3LepTauMET_mt2_PuppiMET_branch does not exist!\n");
+      exit(1);
+    }
+    Var_3LepTauMET_mt2_PuppiMET_isLoaded = true;
+  }
+  return Var_3LepTauMET_mt2_PuppiMET_;
+}
+
 const float &vvvtree::Var_4LepMET_scaleLumi() {
   if (not Var_4LepMET_scaleLumi_isLoaded) {
     if (Var_4LepMET_scaleLumi_branch != 0) {
@@ -5139,6 +5173,7 @@ const float &Common_event_looseBtagSFLFup() { return vvv.Common_event_looseBtagS
 const float &Common_event_looseBtagSFLFdn() { return vvv.Common_event_looseBtagSFLFdn(); }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_lep_p4() { return vvv.Common_lep_p4(); }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_tau_p4() { return vvv.Common_tau_p4(); }
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_GenVisTau_p4() { return vvv.Common_GenVisTau_p4(); }
 const vector<int> &Common_lep_idxs() { return vvv.Common_lep_idxs(); }
 const vector<int> &Common_lep_pdgid() { return vvv.Common_lep_pdgid(); }
 const vector<int> &Common_lep_tight() { return vvv.Common_lep_tight(); }
@@ -5340,6 +5375,7 @@ const float &Var_4LepMET_other_mll() { return vvv.Var_4LepMET_other_mll(); }
 const float &Var_3LepTauMET_other_mll() { return vvv.Var_3LepTauMET_other_mll(); }
 const float &Var_4LepMET_mt2() { return vvv.Var_4LepMET_mt2(); }
 const float &Var_3LepTauMET_mt2() { return vvv.Var_3LepTauMET_mt2(); }
+const float &Var_3LepTauMET_mt2_PuppiMET() { return vvv.Var_3LepTauMET_mt2_PuppiMET(); }
 const float &Var_4LepMET_scaleLumi() { return vvv.Var_4LepMET_scaleLumi(); }
 const float &Var_3LepTauMET_scaleLumi() { return vvv.Var_3LepTauMET_scaleLumi(); }
 const float &Var_4LepMET_intLumi() { return vvv.Var_4LepMET_intLumi(); }
