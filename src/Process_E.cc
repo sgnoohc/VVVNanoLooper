@@ -908,7 +908,14 @@ void Process_E_Kinematics()
 //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 void Process_E()
 {
-    if (nt.nFatJet() < 3) return;
+    if (ana.region == 3)
+    {
+        if (nt.nFatJet() < 3) return;
+    }
+    else
+    {
+        if (nt.nFatJet() < 1) return;
+    }
     Process_E_Event();
     Process_E_Leptons();
     Process_E_Trigger();

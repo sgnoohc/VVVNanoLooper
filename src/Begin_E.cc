@@ -146,76 +146,81 @@ void Begin_E()
             if (not (ana.txskim.getBranchLazy<int>("trigger")))
                 return false;
 
-            if (ana.txskim.getBranchLazy<int>("is0Lep"))
+            if (ana.region == 3)
             {
-                return true;
-                bool pass = false;
-                for (auto& var : ana.variations)
+                // This is specific to generating only 3 FJ related ntuple
+                if (ana.txskim.getBranchLazy<int>("is0Lep"))
                 {
-                    const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
-                    const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
-                    const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
-                    float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
-                    float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
-                    if (NFJ >= 3 and FJ0pt >= 400)
+                    return true;
+                    bool pass = false;
+                    for (auto& var : ana.variations)
                     {
-                        pass = true;
-                        break;
+                        const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                        const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                        const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
+                        float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                        float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                        if (NFJ >= 3 and FJ0pt >= 400)
+                        {
+                            pass = true;
+                            break;
+                        }
                     }
+                    return pass;
                 }
-                return pass;
             }
-
-            // Nominal
-            // if (ana.txskim.getBranchLazy<int>("is0Lep"))
-            // {
-            //     return true;
-            //     bool pass = false;
-            //     for (auto& var : ana.variations)
-            //     {
-            //         const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
-            //         const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
-            //         const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
-            //         float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
-            //         float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
-            //         if (NFJ >= 2 and FJ0pt >= 400)
-            //         {
-            //             pass = true;
-            //             break;
-            //         }
-            //         else if (NFJ == 1 and NiFJ >= 1 and FJ0pt >= 400)
-            //         {
-            //             pass = true;
-            //             break;
-            //         }
-            //     }
-            //     return pass;
-            // }
-            // else if (ana.txskim.getBranchLazy<int>("is1Lep"))
-            // {
-            //     bool pass = false;
-            //     for (auto& var : ana.variations)
-            //     {
-            //         const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
-            //         const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
-            //         float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
-            //         float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
-            //         if (NFJ >= 1)
-            //         {
-            //             pass = true;
-            //             break;
-            //         }
-            //         else if (NFJ == 0 and NiFJ >= 1)
-            //         {
-            //             pass = true;
-            //             break;
-            //         }
-            //     }
-            //     return pass;
-            // }
-            // else
-            // {
-            //     return false;
-            // }
+            else
+            {
+                if (ana.txskim.getBranchLazy<int>("is0Lep"))
+                {
+                    return true;
+                    bool pass = false;
+                    for (auto& var : ana.variations)
+                    {
+                        const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                        const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                        const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
+                        float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                        float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                        if (NFJ >= 2 and FJ0pt >= 400)
+                        {
+                            pass = true;
+                            break;
+                        }
+                        else if (NFJ == 1 and NiFJ >= 1 and FJ0pt >= 400)
+                        {
+                            pass = true;
+                            break;
+                        }
+                    }
+                    return pass;
+                }
+                else if (ana.txskim.getBranchLazy<int>("is1Lep"))
+                {
+                    bool pass = false;
+                    for (auto& var : ana.variations)
+                    {
+                        const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                        const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                        float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                        float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                        if (NFJ >= 1)
+                        {
+                            pass = true;
+                            break;
+                        }
+                        else if (NFJ == 0 and NiFJ >= 1)
+                        {
+                            pass = true;
+                            break;
+                        }
+                    }
+                    return pass;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }, UNITY);
 }

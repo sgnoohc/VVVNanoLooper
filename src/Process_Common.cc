@@ -2,7 +2,14 @@
 
 void Process_Common()
 {
-    if (nt.nFatJet() < 3) return;
+    if (ana.region == 3)
+    {
+        if (nt.nFatJet() < 3) return;
+    }
+    else
+    {
+        if (nt.nFatJet() < 1) return;
+    }
     if (ana.run_VVVTree)
     {
         Process_Common_VVVTree();
