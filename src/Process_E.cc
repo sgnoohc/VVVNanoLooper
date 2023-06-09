@@ -366,7 +366,8 @@ void Process_E_FatJets()
             if (not (abs(fatjet_p4[var].eta()) < 2.4)) continue;
             if (not (fatjet_msoftdrop[var] > 40.)) continue;
 
-            if (VMD > 0.2)
+            // if (VMD > 0.2)
+            if (true)
             {
                 fatjet_p4s[var].push_back(fatjet_p4[var]);
                 fatjet_VMDs[var].push_back(VMD);
@@ -907,7 +908,7 @@ void Process_E_Kinematics()
 //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 void Process_E()
 {
-    if (nt.nFatJet() < 1) return;
+    if (nt.nFatJet() < 3) return;
     Process_E_Event();
     Process_E_Leptons();
     Process_E_Trigger();

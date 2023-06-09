@@ -54,7 +54,15 @@ void Terminate()
         if(h_mg_reweight) h_mg_reweight->Write();
         h_nevents->Write();
     }
+    else
+    {
+        // Copying "Runs" TTree from the input ttrees
+        TChain* Runs = RooUtil::FileUtil::createTChain("Runs", ana.input_file_list_tstring);
+        ana.output_tfile->cd();
+        Runs->Merge(ana.output_tfile, 0);
+    }
+
 
     // The below can be sometimes crucial
-    delete ana.output_tfile;
+    // delete ana.output_tfile;
 }
