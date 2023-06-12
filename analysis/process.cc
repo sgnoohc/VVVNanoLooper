@@ -1320,15 +1320,16 @@ int main(int argc, char** argv)
         ana.tx->clear();
 
         fillBDTBranches();
+        ana.tx->setBranch<bool>("CutBVeto", ana.cutflow.getCut("CutBVeto").pass);
 
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
 
         //Do what you need to do in for each event here
         //To save use the following function
         ana.cutflow.fill();
-        if (ana.cutflow.getCut("CutBVeto").pass){
-	    ana.tx->fill();
-        }
+        //if (ana.cutflow.getCut("CutBVeto").pass){
+	ana.tx->fill();
+        //}
 
         //if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt())){
 
@@ -1336,13 +1337,6 @@ int main(int argc, char** argv)
        
 	//}
 	
-	// TODO: implement output tree writing method
-	// TODO: Write trees with BDT variables if the event passes the CutBVeto cut
-	// The relevant functions are in rooutil/src/ttreex.cc for creating and writing out the trees
-        if (ana.cutflow.getCut("CutBVeto").pass){
-
-        }
-
 	
 	if (ana.cutflow.getCut("CutEMuMT2").pass){
 	      // TODO
@@ -1467,9 +1461,10 @@ int main(int argc, char** argv)
     // Writing output file
     ana.cutflow.saveOutput();
 
-    if (ana.cutflow.getCut("CutBVeto").pass){
-	ana.tx->write();
-    }
+    //if (ana.cutflow.getCut("CutBVeto").pass){
+    //	ana.tx->write();
+    //}
+    ana.tx->write();
 
     // The below can be sometimes crucial
     delete ana.output_tfile;
@@ -1495,6 +1490,9 @@ void setupBDTBranches()
      ana.tx->createBranch<float>("subleading_Zcand_pt");
      ana.tx->createBranch<float>("leading_Wcand_pt");
      ana.tx->createBranch<float>("subleading_Wcand_pt");
+     ana.tx->createBranch<float>("scaleLumi");
+     ana.tx->createBranch<float>("intLumi");
+     ana.tx->createBranch<bool>("CutBVeto");
 }
 
 //==========================================================================================
@@ -1517,5 +1515,7 @@ void fillBDTBranches()
      ana.tx->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
      ana.tx->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
      ana.tx->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());        
+     ana.tx->setBranch<float>("scaleLumi", vvv.Var_4LepMET_scaleLumi());
+     ana.tx->setBranch<float>("intLumi", vvv.Var_4LepMET_intLumi());
 }
 
