@@ -3,6 +3,9 @@
 import plottery_wrapper as p
 import os
 
+analysis_output="/home/users/kdownham/Triboson/analysis/"
+plot_output_dir="/WWZ/4lep_BDTVars/"
+
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
 "MET"              : {"xaxis_label" : "MET [GeV]"                              , "xaxis_ndivisions" : 505 , "nbins" : 30} ,
@@ -53,11 +56,11 @@ def plot(year, filterpattern):
     
     p.dump_plot(
             fnames=[
-                "output_BDTVars/{0}/ZZ.root".format(year),
-                "output_BDTVars/{0}/TTZ.root".format(year),
-                "output_BDTVars/{0}/Higgs.root".format(year),
-                "output_BDTVars/{0}/WZ.root".format(year),
-                "output_BDTVars/{0}/Other.root".format(year),
+                "{1}/{0}/ZZ.root".format(year, analysis_output),
+                "{1}/{0}/TTZ.root".format(year, analysis_output),
+                "{1}/{0}/Higgs.root".format(year, analysis_output),
+                "{1}/{0}/WZ.root".format(year, analysis_output),
+                "{1}/{0}/Other.root".format(year, analysis_output),
 		#"output_BDTVars/{0}/WWZ.root".format(year),
 		#"output_BDTVars/{0}/DY.root".format(year),
 		#"output_BDTVars/{0}/SSWW.root".format(year),
@@ -68,12 +71,12 @@ def plot(year, filterpattern):
 		#"output_BDTVars/{0}/WWLNu.root".format(year),
                 ],
             sig_fnames=[
-                "output_BDTVars/{0}/WWZ.root".format(year),
+                "{1}/{0}/WWZ.root".format(year, analysis_output),
                 #"outputs/{0}/NonResWWZ.root".format(year),
                 #"outputs/{0}/ZHWWZ.root".format(year),
                 ],
             #data_fname="outputs/{0}/data.root".format(year),
-            dirname="../../../public_html/WWZ/4lep_BDTVars/{0}".format(year),
+            dirname="../../../public_html/{1}/{0}".format(year, plot_output_dir),
             legend_labels=[
                 "ZZ",
                 "t#bar{t}Z",
