@@ -20,6 +20,7 @@ void Process()
         case AnalysisConfig::k4LepMET: Process_4LepMET(); break;
 	case AnalysisConfig::k3LepTauMET: Process_3LepTauMET(); break;
 	case AnalysisConfig::kAll: Process_4LepMET(); Process_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Process_2LepRun3(); break;
     }
 
     //std::cout << "Debug Process 2" << std::endl;
@@ -49,6 +50,7 @@ void Process()
             case AnalysisConfig::k4LepMET: PostProcess_4LepMET(); break;
 	    case AnalysisConfig::k3LepTauMET: PostProcess_3LepTauMET(); break;
 	    case AnalysisConfig::kAll: PostProcess_4LepMET(); PostProcess_3LepTauMET(); break;
+	    case AnalysisConfig::k2LepRun3: PostProcess_2LepRun3(); break;
         }
     }
     //std::cout << "Debug Process 5" << std::endl;

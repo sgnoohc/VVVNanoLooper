@@ -18,6 +18,7 @@ void Begin()
         case AnalysisConfig::k4LepMET: Begin_4LepMET(); break;
 	case AnalysisConfig::k3LepTauMET: Begin_3LepTauMET(); break;
 	case AnalysisConfig::kAll: Begin_4LepMET(); Begin_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Begin_2LepRun3(); break;
     }
 
     // At this point, the variables, histograms, selections are all defined and booked.
