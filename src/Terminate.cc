@@ -18,6 +18,7 @@ void Terminate()
         case AnalysisConfig::k4LepMET: Terminate_4LepMET(); break;
 	case AnalysisConfig::k3LepTauMET: Terminate_3LepTauMET(); break;
 	case AnalysisConfig::kAll: Terminate_4LepMET(); Terminate_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Terminate_2LepRun3(); break;
     }
 
 

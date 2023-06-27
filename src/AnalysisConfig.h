@@ -19,6 +19,7 @@ public:
 	k3LepTauMET = 1,
 	k3LepMET = 2,
 	kAll = 3,
+        k2LepRun3 = 4,
     };
 
     LooperMode looperMode;

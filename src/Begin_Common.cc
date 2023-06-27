@@ -381,6 +381,10 @@ void Begin_Common_Set_Run_List()
     {
         list = "config/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON_formatted.txt"; // 59.83 ifb
     }
+    if (nt.year() == 2022)
+    {
+        list = "config/Cert_Collisions2022_355100_362760_Golden_JSON_formatted.txt"; // 34.30 ifb
+    }
     set_goodrun_file(list.c_str());
 }
 
@@ -402,7 +406,12 @@ void Begin_Common_Set_Config()
         or ana.input_file_list_tstring.Contains("UL2016");
 
     if (not isUL)
-        RooUtil::error("non-UL sample btagging not implemented. This branch is for Ultra-Legacy!!");
+    {
+        if (nt.year() < 2022)    //ByPass Run3 not being UL
+        {            
+            RooUtil::error("non-UL sample btagging not implemented. This branch is for Ultra-Legacy!!");
+        }
+    }
 
     // Set up the NanoCORE's common configuration service tool
     gconf.nanoAOD_ver = isUL ? 8 : 0;
@@ -418,7 +427,12 @@ void Begin_Common_Set_Config()
     else if (nt.year() == 2018)
         assert(gconf.WP_DeepFlav_tight - 0.7100 < 0.0001);
     else
-        RooUtil::error("Year and isAPV parsing is messed up!", __FILE__);
+    {
+        if (nt.year() < 2022)    //ByPass Run3 for now
+        {    
+            RooUtil::error("Year and isAPV parsing is messed up!", __FILE__);
+        }
+    }
 
     // Setting up btagging scale factors
     if (nt.year() == 2016 and isAPV)
@@ -439,106 +453,112 @@ void Begin_Common_Set_Config()
     }
     else
     {
-        RooUtil::error(TString::Format("While setting b-tag scale factors, found year = %d that is not recognized.", nt.year()));
+        if (nt.year() < 2022)    //ByPass Run3 for now
+        {
+            RooUtil::error(TString::Format("While setting b-tag scale factors, found year = %d that is not recognized.", nt.year()));
+        }
     }
 
-    ana.btagReaderTight = new BTagCalibrationReader(BTagEntry::OP_TIGHT, "central", {"up", "down"});
-    ana.btagReaderMedium = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up", "down"});
-    ana.btagReaderLoose = new BTagCalibrationReader(BTagEntry::OP_LOOSE, "central", {"up", "down"});
+    if (nt.year() < 2022)
+    {
+        ana.btagReaderTight = new BTagCalibrationReader(BTagEntry::OP_TIGHT, "central", {"up", "down"});
+        ana.btagReaderMedium = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up", "down"});
+        ana.btagReaderLoose = new BTagCalibrationReader(BTagEntry::OP_LOOSE, "central", {"up", "down"});
 
-    ana.btagReaderTight_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_TIGHT, "central", {"up", "down"});
-    ana.btagReaderMedium_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_MEDIUM, "central", {"up", "down"});
-    ana.btagReaderLoose_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_LOOSE, "central", {"up", "down"});
+        ana.btagReaderTight_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_TIGHT, "central", {"up", "down"});
+        ana.btagReaderMedium_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_MEDIUM, "central", {"up", "down"});
+        ana.btagReaderLoose_v2 = new BTagCalibrationReader_v2(BTagEntry_v2::OP_LOOSE, "central", {"up", "down"});
 
-    if (nt.year() == 2016 and isAPV)
-    {
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-    }
-    else if (nt.year() == 2016 and not isAPV)
-    {
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
-        ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
-    }
-    else
-    {
-        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
-        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
-        ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
-        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
-        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
-        ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
-        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
-        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
-        ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
-    }
+        if (nt.year() == 2016 and isAPV)
+        {
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        }
+        else if (nt.year() == 2016 and not isAPV)
+        {
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderTight_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderMedium_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_B, "comb");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_C, "comb");
+            ana.btagReaderLoose_v2->load(*ana.btagCalib_v2, BTagEntry_v2::FLAV_UDSG, "incl");
+        }
+        else
+        {
+            ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+            ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+            ana.btagReaderTight->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+            ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+            ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+            ana.btagReaderMedium->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+            ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_B, "comb");
+            ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_C, "comb");
+            ana.btagReaderLoose->load(*ana.btagCalib, BTagEntry::FLAV_UDSG, "incl");
+        }
 
-    if (nt.year() == 2016 and isAPV)
-    {
-        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
-        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
-        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
-        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
-        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
-        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
-        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
-        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
-        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
-    }
-    else if (nt.year() == 2016 and not isAPV)
-    {
-        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
-        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
-        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
-        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
-        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
-        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
-        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
-        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
-        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
-    }
-    else if (nt.year() == 2017)
-    {
-        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
-        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
-        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
-        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
-        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
-        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
-        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
-        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
-        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
-    }
-    else if (nt.year() == 2018)
-    {
-        ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
-        ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
-        ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
-        ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
-        ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
-        ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
-        ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
-        ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
-        ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
-    }
-    else
-    {
-        RooUtil::error(TString::Format("While setting b-tag efficiencies, found year = %d that is not recognized.", nt.year()));
-    }
+        if (nt.year() == 2016 and isAPV)
+        {
+            ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+            ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+            ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+            ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+            ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+            ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+            ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+            ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+            ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016APV_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+        }
+        else if (nt.year() == 2016 and not isAPV)
+        {
+            ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+            ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+            ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+            ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+            ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+            ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+            ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+            ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+            ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2016_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+        }
+        else if (nt.year() == 2017)
+        {
+            ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+            ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+            ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+            ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+            ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+            ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+            ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+            ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+            ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2017_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+        }
+        else if (nt.year() == 2018)
+        {
+            ana.btagEffTight_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_b");
+            ana.btagEffTight_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_c");
+            ana.btagEffTight_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_tight_Eff_udsg");
+            ana.btagEffMedium_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_b");
+            ana.btagEffMedium_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_c");
+            ana.btagEffMedium_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_med_Eff_udsg");
+            ana.btagEffLoose_b = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_b");
+            ana.btagEffLoose_c = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_c");
+            ana.btagEffLoose_l = new RooUtil::HistMap("config/eff_DeepFlav_106X_2018_ttbar_1lep.root:h2_BTaggingEff_loose_Eff_udsg");
+        }
+        else
+        {
+            RooUtil::error(TString::Format("While setting b-tag efficiencies, found year = %d that is not recognized.", nt.year()));
+        }    
+    }   
 
     // Muon SF
     if (nt.year() == 2016 and isAPV)
@@ -571,7 +591,10 @@ void Begin_Common_Set_Config()
     }
     else
     {
-        RooUtil::error(TString::Format("While setting muon scale factors, found year = %d that is not recognized.", nt.year()));
+        if (nt.year() < 2022)
+        {    
+            RooUtil::error(TString::Format("While setting muon scale factors, found year = %d that is not recognized.", nt.year()));
+        }    
     }
 
     // Electron SF
@@ -605,7 +628,10 @@ void Begin_Common_Set_Config()
     }
     else
     {
-        RooUtil::error(TString::Format("While setting electron scale factors, found year = %d that is not recognized.", nt.year()));
+        if (nt.year() < 2022) //Bypass Run3 for now
+        {    
+            RooUtil::error(TString::Format("While setting electron scale factors, found year = %d that is not recognized.", nt.year()));
+        }    
     }
     
     // Trigger SF
@@ -637,7 +663,10 @@ void Begin_Common_Set_Config()
     }
     else
     {
-        RooUtil::error(TString::Format("While setting trigger scale factors, found year = %d that is not recognized.", nt.year()));
+        if (nt.year() < 2022) //Bypass run3 for now
+        {    
+            RooUtil::error(TString::Format("While setting trigger scale factors, found year = %d that is not recognized.", nt.year()));
+        }    
     }
 
 
