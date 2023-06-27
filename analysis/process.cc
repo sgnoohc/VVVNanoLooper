@@ -443,7 +443,7 @@ int main(int argc, char** argv)
 	
 			   //float weight_0 = 0.000000;
 			
-			   //if (vvv.Var_4LepMET_scaleLumi() < -100.) return weight_0;
+			   //if (vvv.Var_4LepMET_scaleLumi() < 0.) return weight_0;
 
                            return vvv.Var_4LepMET_scaleLumi() * vvv.Common_genWeight() * weight;
                        } );

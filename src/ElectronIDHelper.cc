@@ -35,7 +35,7 @@ bool ElectronIDHelper::electronIDscore(int year, unsigned int idx, std::string l
      // Function to apply preselection cuts for electron
      bool pass_preselection = electronPassPreselection(idx,level);
      // Function to load MVA
-     ElectronIDHelper::electronLoadMVA(year,isAPV); 
+     //ElectronIDHelper::electronLoadMVA(year,isAPV); 
      // Function to compute MVA using XGBoost
      float score = computeMVAScore(idx,year);    
      //std::cout << "MVA score = " << score << endl;

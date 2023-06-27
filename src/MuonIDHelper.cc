@@ -32,7 +32,7 @@ bool MuonIDHelper::muonIDscore(int year, unsigned int idx, std::string level, bo
      // Function to apply preselection cuts for muon
      bool pass_preselection = muonPassPreselection(idx,level);
      // Function to load MVA
-     MuonIDHelper::muonLoadMVA(year,isAPV); 
+     //MuonIDHelper::muonLoadMVA(year,isAPV); 
      // Function to compute MVA using XGBoost
      float score = computeMVAScore(idx);    
      //std::cout << "MVA score = " << score << endl;

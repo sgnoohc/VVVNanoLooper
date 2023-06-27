@@ -1,4 +1,6 @@
 #include "main.h"
+#include "MuonIDHelper.h"
+#include "ElectronIDHelper.h"
 
 // ./process INPUTFILEPATH OUTPUTFILE [NEVENTS]
 int main(int argc, char** argv)
@@ -115,6 +117,22 @@ int main(int argc, char** argv)
     if (result.count("input"))
     {
         ana.input_file_list_tstring = result["input"].as<std::string>();
+        if ( ana.input_file_list_tstring.Contains("RunIISummer20UL18NanoAODv9") || ana.input_file_list_tstring.Contains("Run2018") ){
+	     MuonIDHelper::muonLoadMVA(2018,false);
+	     ElectronIDHelper::electronLoadMVA(2018,false);
+	}
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL17NanoAODv9") || ana.input_file_list_tstring.Contains("Run2017") ){
+             MuonIDHelper::muonLoadMVA(2017,false);
+             ElectronIDHelper::electronLoadMVA(2017,false);
+        }
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL16NanoAODv9") || (ana.input_file_list_tstring.Contains("UL2016") && !ana.input_file_list_tstring.Contains("HIPM"))){
+             MuonIDHelper::muonLoadMVA(2016,false);
+             ElectronIDHelper::electronLoadMVA(2016,false);
+        }
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL16NanoAODAPVv9") || (ana.input_file_list_tstring.Contains("UL2016") && ana.input_file_list_tstring.Contains("HIPM")) ){
+             MuonIDHelper::muonLoadMVA(2016,true);
+             ElectronIDHelper::electronLoadMVA(2016,true);
+        }
     }
     else
     {
@@ -294,6 +312,8 @@ int main(int argc, char** argv)
 
     Begin();
     //std::cout << "Debug main.cc 1" << std::endl;
+    
+    
 
     // Looping input file
     int nTot = 0;
