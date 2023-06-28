@@ -13,23 +13,33 @@ void Process()
 
     // Then depending on the analysis mode, different "Process" runs
 
+    //std::cout << "Debug Process 1" << std::endl;
+
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Process_4LepMET(); break;
-        case AnalysisConfig::k4Lep2jet: Process_4Lep2jet(); break;
-        case AnalysisConfig::k3LepMET: Process_3LepMET(); break;
-        case AnalysisConfig::k3Lep2jet: Process_3Lep2jet(); break;
-        case AnalysisConfig::kOS4jet: Process_OS4jet(); break;
-        case AnalysisConfig::kOS2jet: Process_OS2jet(); break;
-        case AnalysisConfig::kSS2jet: Process_SS2jet(); break;
-        case AnalysisConfig::k1Lep4jet: Process_1Lep4jet(); break;
-        case AnalysisConfig::kallHad: Process_allHad(); break;
+	case AnalysisConfig::k3LepTauMET: Process_3LepTauMET(); break;
+	case AnalysisConfig::kAll: Process_4LepMET(); Process_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Process_2LepRun3(); break;
     }
 
+    //std::cout << "Debug Process 2" << std::endl;
+
     // At this point, variables are all computed and set
+    // Adding a check for a given event
+    //if (nt.run() == 1 and nt.luminosityBlock() == 80636 and nt.event() == 8063507){
+    //    ana.cutflow.printCuts();
+
+    //}
+
+    //std::cout << "Run = " << nt.run() << " , Lumi Block = " << nt.luminosityBlock() << " , event = " << nt.event() << std::endl;
+
+    //std::cout << "Debug Process 3" << std::endl;
 
     // Now fill all the histograms that are booked!
     ana.cutflow.fill();
+
+    //std::cout << "Debug Process 4" << std::endl;
 
     // If there are certain things people wish to do "Post" processing of the cutflows and histogramming
     // For example this is where one would write out TTree
@@ -38,15 +48,12 @@ void Process()
         switch (ana.looperMode)
         {
             case AnalysisConfig::k4LepMET: PostProcess_4LepMET(); break;
-            case AnalysisConfig::k4Lep2jet: break;
-            case AnalysisConfig::k3LepMET: break;
-            case AnalysisConfig::k3Lep2jet: break;
-            case AnalysisConfig::kOS4jet: break;
-            case AnalysisConfig::kOS2jet: break;
-            case AnalysisConfig::kSS2jet: PostProcess_SS2jet(); break;
-            case AnalysisConfig::k1Lep4jet: break;
+	    case AnalysisConfig::k3LepTauMET: PostProcess_3LepTauMET(); break;
+	    case AnalysisConfig::kAll: PostProcess_4LepMET(); PostProcess_3LepTauMET(); break;
+	    case AnalysisConfig::k2LepRun3: PostProcess_2LepRun3(); break;
         }
     }
+    //std::cout << "Debug Process 5" << std::endl;
 
     // Reset all the variables!
     ana.tx.clear();

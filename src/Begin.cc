@@ -16,14 +16,9 @@ void Begin()
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Begin_4LepMET(); break;
-        case AnalysisConfig::k4Lep2jet: Begin_4Lep2jet(); break;
-        case AnalysisConfig::k3LepMET: Begin_3LepMET(); break;
-        case AnalysisConfig::k3Lep2jet: Begin_3Lep2jet(); break;
-        case AnalysisConfig::kOS4jet: Begin_OS4jet(); break;
-        case AnalysisConfig::kOS2jet: Begin_OS2jet(); break;
-        case AnalysisConfig::kSS2jet: Begin_SS2jet(); break;
-        case AnalysisConfig::k1Lep4jet: Begin_1Lep4jet(); break;
-        case AnalysisConfig::kallHad: Begin_allHad(); break;
+	case AnalysisConfig::k3LepTauMET: Begin_3LepTauMET(); break;
+	case AnalysisConfig::kAll: Begin_4LepMET(); Begin_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Begin_2LepRun3(); break;
     }
 
     // At this point, the variables, histograms, selections are all defined and booked.

@@ -4,7 +4,6 @@
 #include "AnalysisConfig.h"
 
 void Process_4LepMET();
-void Process_4LepMET_VVVTree();
 void Process_4LepMET_NanoAOD();
 void PostProcess_4LepMET();
 

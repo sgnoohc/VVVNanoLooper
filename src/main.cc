@@ -1,4 +1,6 @@
 #include "main.h"
+#include "MuonIDHelper.h"
+#include "ElectronIDHelper.h"
 
 // ./process INPUTFILEPATH OUTPUTFILE [NEVENTS]
 int main(int argc, char** argv)
@@ -17,7 +19,7 @@ int main(int argc, char** argv)
 
     // Read the options
     options.add_options()
-        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k4Lep2jet, 2=k3LepMET, 3=k3Lep2jet, 4=kOS4jet, 5=kOS2jet, 6=kSS2jet, 7=k1Lep4jet, 8=allHad)", cxxopts::value<int>())
+        ("m,mode"        , "Looper mode (--mode 0=k4LepMET, 1=k3LepTauMET, 2=k3Lep2jetMET, 3=kAll, 4=k2LepRun3)", cxxopts::value<int>())
         ("i,input"       , "Comma separated input file list OR if just a directory is provided it will glob all in the directory BUT must end with '/' for the path", cxxopts::value<std::string>())
         ("t,tree"        , "Name of the tree in the root file to open and loop over"                                             , cxxopts::value<std::string>())
         ("o,output"      , "Output file name"                                                                                    , cxxopts::value<std::string>())
@@ -30,6 +32,7 @@ int main(int argc, char** argv)
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
         ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
         ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
+        ("x,wgt"         , "wgt"                                                                                                 , cxxopts::value<float>())
         ("h,help"        , "Print help")
         ;
 
@@ -54,14 +57,9 @@ int main(int argc, char** argv)
         switch (result["mode"].as<int>())
         {
             case AnalysisConfig::k4LepMET: ana.looperMode = AnalysisConfig::k4LepMET; break;
-            case AnalysisConfig::k4Lep2jet: ana.looperMode = AnalysisConfig::k4Lep2jet; break;
-            case AnalysisConfig::k3LepMET: ana.looperMode = AnalysisConfig::k3LepMET; break;
-            case AnalysisConfig::k3Lep2jet: ana.looperMode = AnalysisConfig::k3Lep2jet; break;
-            case AnalysisConfig::kOS4jet: ana.looperMode = AnalysisConfig::kOS4jet; break;
-            case AnalysisConfig::kOS2jet: ana.looperMode = AnalysisConfig::kOS2jet; break;
-            case AnalysisConfig::kSS2jet: ana.looperMode = AnalysisConfig::kSS2jet; break;
-            case AnalysisConfig::k1Lep4jet: ana.looperMode = AnalysisConfig::k1Lep4jet; break;
-            case AnalysisConfig::kallHad: ana.looperMode = AnalysisConfig::kallHad; break;
+	    case AnalysisConfig::k3LepTauMET: ana.looperMode = AnalysisConfig::k3LepTauMET; break;
+	    case AnalysisConfig::kAll: ana.looperMode = AnalysisConfig::kAll; break;
+	    case AnalysisConfig::k2LepRun3: ana.looperMode = AnalysisConfig::k2LepRun3; break;
         }
     }
     else
@@ -105,10 +103,37 @@ int main(int argc, char** argv)
     }
 
     //_______________________________________________________________________________
+    // --wgt
+    if (result.count("wgt"))
+    {
+        ana.wgt = result["wgt"].as<float>();
+    }
+    else
+    {
+        ana.wgt = 1;
+    }
+
+    //_______________________________________________________________________________
     // --input
     if (result.count("input"))
     {
         ana.input_file_list_tstring = result["input"].as<std::string>();
+        if ( ana.input_file_list_tstring.Contains("RunIISummer20UL18NanoAODv9") || ana.input_file_list_tstring.Contains("Run2018") ){
+	     MuonIDHelper::muonLoadMVA(2018,false);
+	     ElectronIDHelper::electronLoadMVA(2018,false);
+	}
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL17NanoAODv9") || ana.input_file_list_tstring.Contains("Run2017") ){
+             MuonIDHelper::muonLoadMVA(2017,false);
+             ElectronIDHelper::electronLoadMVA(2017,false);
+        }
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL16NanoAODv9") || (ana.input_file_list_tstring.Contains("UL2016") && !ana.input_file_list_tstring.Contains("HIPM"))){
+             MuonIDHelper::muonLoadMVA(2016,false);
+             ElectronIDHelper::electronLoadMVA(2016,false);
+        }
+	else if ( ana.input_file_list_tstring.Contains("RunIISummer20UL16NanoAODAPVv9") || (ana.input_file_list_tstring.Contains("UL2016") && ana.input_file_list_tstring.Contains("HIPM")) ){
+             MuonIDHelper::muonLoadMVA(2016,true);
+             ElectronIDHelper::electronLoadMVA(2016,true);
+        }
     }
     else
     {
@@ -167,17 +192,6 @@ int main(int argc, char** argv)
     else
     {
         ana.write_tree = false;
-    }
-
-    //_______________________________________________________________________________
-    // --VVVTree
-    if (result.count("VVVTree"))
-    {
-        ana.run_VVVTree = true;
-    }
-    else
-    {
-        ana.run_VVVTree = false;
     }
 
     //_______________________________________________________________________________
@@ -257,7 +271,6 @@ int main(int argc, char** argv)
     std::cout <<  " ana.write_tree: " << ana.write_tree <<  std::endl;
     std::cout <<  " ana.region: " << ana.region <<  std::endl;
     std::cout <<  " ana.vhvvv_channel: " << ana.vhvvv_channel <<  std::endl;
-    std::cout <<  " ana.run_VVVTree: " << ana.run_VVVTree <<  std::endl;
     std::cout <<  "=========================================================" << std::endl;
 
 //********************************************************************************
@@ -279,14 +292,7 @@ int main(int argc, char** argv)
     //
     // and no need for "SetBranchAddress" and declaring variable shenanigans necessary
     // This is a standard thing SNT does pretty much every looper we use
-    if (ana.run_VVVTree)
-    {
-        ana.looper_vvvtree.init(ana.events_tchain, &vvv, ana.n_events);
-    }
-    else
-    {
-        ana.looper.init(ana.events_tchain, &nt, ana.n_events);
-    }
+    ana.looper.init(ana.events_tchain, &nt, ana.n_events);
 
     // Set the cutflow object output file
     ana.cutflow.setTFile(ana.output_tfile);
@@ -306,42 +312,45 @@ int main(int argc, char** argv)
 //********************************************************************************
 
     Begin();
+    //std::cout << "Debug main.cc 1" << std::endl;
+    
+    
 
-    if (ana.run_VVVTree)
+    // Looping input file
+    int nTot = 0;
+    int n1 = 0;
+    int n2 = 0;
+    int n3 = 0;
+    int n4 = 0;
+    int n5 = 0;
+    while (ana.looper.nextEvent())
     {
-        // Looping input file
-        while (ana.looper_vvvtree.nextEvent())
+        //std::cout << "Debug main.cc 2" << std::endl;
+        // If splitting jobs are requested then determine whether to process the event or not based on remainder
+        if (result.count("job_index") and result.count("nsplit_jobs"))
         {
-
-            // If splitting jobs are requested then determine whether to process the event or not based on remainder
-            if (result.count("job_index") and result.count("nsplit_jobs"))
-            {
-                if (ana.looper_vvvtree.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
-                    continue;
-            }
-
-            Process();
-
+            if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
+                continue;
         }
-    }
-    else
-    {
-        // Looping input file
-        while (ana.looper.nextEvent())
-        {
 
-            // If splitting jobs are requested then determine whether to process the event or not based on remainder
-            if (result.count("job_index") and result.count("nsplit_jobs"))
-            {
-                if (ana.looper.getNEventsProcessed() % ana.nsplit_jobs != (unsigned int) ana.job_index)
-                    continue;
-            }
+        Process();
+	//std::cout << "Debug main.cc 3" << std::endl;
+	nTot++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_Has3LeptonPlusTau").pass) n1++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_HasZCandidate").pass) n2++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_OtherLeptons").pass) n3++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_VetoLowMassResonance").pass) n4++;
+	//if (ana.cutflow.getCut("Cut_3LepTauMET_Preselection").pass) n5++;
 
-            Process();
-
-        }
     }
 
     Terminate();
+    //std::cout << "Debug main.cc 4" << std::endl;
+    //std::cout << "Total number of events = " << nTot << std::endl;
+    //std::cout << "Number of events passing 3LepTau preselection = " << n1 << std::endl;
+    //std::cout << "Number of events with a Z candidate = " << n2 << std::endl;
+    //std::cout << "Number of events passing other lepton requirements = " << n3 << std::endl;
+    //std::cout << "Number of events passing low mass resonance veto = " << n4 << std::endl;
+    //std::cout << "Number of events passing full preselection = " << n5 << std::endl;
 
 }

@@ -16,14 +16,11 @@ void Terminate()
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Terminate_4LepMET(); break;
-        case AnalysisConfig::k4Lep2jet: Terminate_4Lep2jet(); break;
-        case AnalysisConfig::k3LepMET: Terminate_3LepMET(); break;
-        case AnalysisConfig::k3Lep2jet: Terminate_3Lep2jet(); break;
-        case AnalysisConfig::kOS4jet: Terminate_OS4jet(); break;
-        case AnalysisConfig::kOS2jet: Terminate_OS2jet(); break;
-        case AnalysisConfig::kSS2jet: Terminate_SS2jet(); break;
-        case AnalysisConfig::k1Lep4jet: Terminate_1Lep4jet(); break;
+	case AnalysisConfig::k3LepTauMET: Terminate_3LepTauMET(); break;
+	case AnalysisConfig::kAll: Terminate_4LepMET(); Terminate_3LepTauMET(); break;
+	case AnalysisConfig::k2LepRun3: Terminate_2LepRun3(); break;
     }
+
 
     // Writing output file
     ana.cutflow.saveOutput();

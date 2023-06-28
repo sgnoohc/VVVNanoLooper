@@ -3,10 +3,12 @@
 
 #include "rooutil.h"
 #include "Nano.h"
-#include "VVVTree.h"
+#include "Config.h"
 #include "math.h"
 #include "ScaleFactors.h"
 #include <algorithm>
+#include "Tools/btagsf/BTagCalibrationStandalone.h"
+#include "Tools/btagsf/BTagCalibrationStandalone_v2.h"
 
 class AnalysisConfig {
 
@@ -14,14 +16,10 @@ public:
 
     enum LooperMode {
         k4LepMET = 0,
-        k4Lep2jet,
-        k3LepMET,
-        k3Lep2jet,
-        kOS4jet,
-        kOS2jet,
-        kSS2jet,
-        k1Lep4jet,
-        kallHad,
+	k3LepTauMET = 1,
+	k3LepMET = 2,
+	kAll = 3,
+        k2LepRun3 = 4,
     };
 
     LooperMode looperMode;
@@ -63,9 +61,6 @@ public:
     // Custom Looper object to facilitate looping over many files
     RooUtil::Looper<Nano> looper;
 
-    // Custom Looper object to facilitate looping over many files
-    RooUtil::Looper<VVVTree> looper_vvvtree;
-
     // Custom Cutflow framework
     RooUtil::Cutflow cutflow;
 
@@ -81,11 +76,15 @@ public:
     // Boolean to trigger output tree writing
     bool write_tree;
 
-    // Boolean to trigger output tree writing
-    bool run_VVVTree;
-
     // If LHEWeight_mg_reweighting branch exists, it is the EFT sample
     bool is_EFT_sample;
+
+    // if branches added in by NanoAODTools exists, it is the postprocessed NanoAOD sample
+
+    bool is_postprocessed;
+
+    // event weight
+    float wgt;
 
     // Output TTree
     TTree* output_tree;
@@ -96,7 +95,39 @@ public:
     LeptonScaleFactor leptonscalefactors = LeptonScaleFactor();
     FatJetScaleFactor fatjetscalefactors = FatJetScaleFactor();
 
+    BTagCalibration* btagCalib;
+    BTagCalibration* btagCalib_inlieu;
+    BTagCalibrationReader* btagReaderTight;
+    BTagCalibrationReader* btagReaderMedium;
+    BTagCalibrationReader* btagReaderLoose;
+    BTagCalibration_v2* btagCalib_v2;
+    BTagCalibration_v2* btagCalib_v2_inlieu;
+    BTagCalibrationReader_v2* btagReaderTight_v2;
+    BTagCalibrationReader_v2* btagReaderMedium_v2;
+    BTagCalibrationReader_v2* btagReaderLoose_v2;
+    RooUtil::HistMap* btagEffTight_b;
+    RooUtil::HistMap* btagEffTight_c;
+    RooUtil::HistMap* btagEffTight_l;
+    RooUtil::HistMap* btagEffMedium_b;
+    RooUtil::HistMap* btagEffMedium_c;
+    RooUtil::HistMap* btagEffMedium_l;
+    RooUtil::HistMap* btagEffLoose_b;
+    RooUtil::HistMap* btagEffLoose_c;
+    RooUtil::HistMap* btagEffLoose_l;
 
+    RooUtil::HistMap* muonRECOSF;
+    RooUtil::HistMap* muonIDSFMedium;
+    RooUtil::HistMap* muonISOSFLoose;
+    RooUtil::HistMap* muonISOSFTight;
+
+    RooUtil::HistMap* electronRECOSFlt20;
+    RooUtil::HistMap* electronRECOSFgt20;
+    RooUtil::HistMap* electronMVAID90SF;
+    RooUtil::HistMap* electronMVAID80SF;
+
+    RooUtil::HistMap* triggereeSF;
+    RooUtil::HistMap* triggeremuSF;
+    RooUtil::HistMap* triggermumuSF;
 };
 
 extern AnalysisConfig ana;

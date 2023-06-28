@@ -10,6 +10,7 @@ condor/package.tar.gz
 .*.txt
 .*.cc
 .*.h
+*.pyc
 condor/*.json
 histograms
 test.cc
@@ -17,3 +18,10 @@ test.sh
 testdir/
 plotdir/
 condor/count_nevents.py
+condor/NanoAOD_4LeptonSkimmer.tar.gz
+condor/*.pdf
+gitversion.txt
+analysis/*.o
+analysis/outputs
+analysis/plots
+analysis/doAnalysis
