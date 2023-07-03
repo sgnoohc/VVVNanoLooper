@@ -164,9 +164,6 @@ void Begin_4LepMET_NanoAOD()
 
                 ana.tx.setBranch<float>("Var_4LepMET_Zcand_mll", mll);
 
-                // The leading one has to pass 25 GeV
-                if (not (ana.tx.getBranchLazy<vector<LorentzVector>>("Common_lep_p4")[idx1].pt() > 25.)) return false;
-
                 return true;
             }, UNITY);
     
