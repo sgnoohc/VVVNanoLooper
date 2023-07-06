@@ -591,12 +591,15 @@ void Process_Common_NanoAOD()
  	    ana.tx.pushbackToBranch<int>(		"Common_tau_idVSjet"  ,  nt.Tau_idDeepTau2017v2p1VSjet()[itau]);
 
         }
-    
-        for (unsigned int iGenTau = 0; iGenTau < nt.nGenVisTau(); iGenTau++){
-	    ana.tx.pushbackToBranch<LorentzVector>("Common_GenVisTau_p4" , nt.GenVisTau_p4()[iGenTau]);
-	    ana.tx.pushbackToBranch<int>(          "Common_GenVisTau_idxs",iGenTau);
-            ana.tx.pushbackToBranch<int>(		"Common_GenVisTau_status", nt.GenVisTau_status()[iGenTau]);
-        }
+   
+        // Only fill these branches if we are not running on data
+        if (!nt.isData()){
+        	for (unsigned int iGenTau = 0; iGenTau < nt.nGenVisTau(); iGenTau++){
+	    		ana.tx.pushbackToBranch<LorentzVector>("Common_GenVisTau_p4" , nt.GenVisTau_p4()[iGenTau]);
+	    		ana.tx.pushbackToBranch<int>(          "Common_GenVisTau_idxs",iGenTau);
+            		ana.tx.pushbackToBranch<int>(		"Common_GenVisTau_status", nt.GenVisTau_status()[iGenTau]);
+        	}
+	}
 
         ana.tx.setBranch<float>("Common_event_lepSF"      , lepSFc );
         ana.tx.setBranch<float>("Common_event_lepSFelup"  , lepSFue);
@@ -719,9 +722,9 @@ void Process_Common_NanoAOD()
                 ana.tx.pushbackToBranch<bool>("Common_jet_passBloose" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose );
                 ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium);
                 ana.tx.pushbackToBranch<bool>("Common_jet_passBtight" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight );
-                ana.tx.pushbackToBranch<bool>("Common_jet_passBloose_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPloose_CSV );
-                ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium_CSV", nt.Jet_btagDeepFlavB()[ijet] > bWPmedium_CSV);
-                ana.tx.pushbackToBranch<bool>("Common_jet_passBtight_CSV" , nt.Jet_btagDeepFlavB()[ijet] > bWPtight_CSV );
+                ana.tx.pushbackToBranch<bool>("Common_jet_passBloose_CSV" , nt.Jet_btagDeepB()[ijet] > bWPloose_CSV );
+                ana.tx.pushbackToBranch<bool>("Common_jet_passBmedium_CSV", nt.Jet_btagDeepB()[ijet] > bWPmedium_CSV);
+                ana.tx.pushbackToBranch<bool>("Common_jet_passBtight_CSV" , nt.Jet_btagDeepB()[ijet] > bWPtight_CSV );
 	        if (!nt.isData()){
 	    	    ana.tx.pushbackToBranch<int>("Common_jet_genJetIdx", nt.Jet_genJetIdx()[ijet]);
 	    	    ana.tx.pushbackToBranch<int>("Common_jet_hadronFlavour", nt.Jet_hadronFlavour()[ijet]);
