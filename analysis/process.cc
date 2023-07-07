@@ -1159,7 +1159,7 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("MT2", 180, 0., 180., [&]() { return vvv.Var_4LepMET_mt2(); } );
     ana.histograms.addHistogram("MT2_PuppiMET", 180, 0., 180., [&]() { return vvv.Var_4LepMET_mt2_PuppiMET(); } );
     ana.histograms.addHistogram("Pt4l", 180, 0., 300., [&]() { return (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt(); } );
-    ana.histograms.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose(); } );
+    ana.histograms.addHistogram("nb", 5, 0, 5, [&]() { return vvv.Common_nb_loose_CSV(); } );
     ana.histograms.addHistogram("Yield", 1, 0, 1, [&]() { return 0; } );
     ana.histograms.addHistogram("DR_WW_Z", 180, 0, 5, [&]() { return RooUtil::Calc::DeltaR((vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()),(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1())); } );
     ana.histograms.addHistogram("DPhi_WW_MET", 180, -3.14, 3.14, [&]() { return RooUtil::Calc::DeltaPhi((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),vvv.Common_met_p4_MET()); } );

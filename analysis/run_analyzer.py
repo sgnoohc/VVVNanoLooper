@@ -10,8 +10,9 @@ skimversion = "3LepTau_4Lep"
 #skimdir = "/ceph/cms/store/user/kdownham/VVVAnalysis/120222"
 skimdir = os.environ["looperOutput"]
 #dataversion = "OldLepID"
-dataversion = "051723"
-outputdir = "output_BDT_tree"
+#dataversion = "051723"
+dataversion = "070623_masterSync"
+outputdir = "output_070623_masterSync"
 
 #____________________________________________________________________________________________
 def main():

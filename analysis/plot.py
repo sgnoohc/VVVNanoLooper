@@ -3,8 +3,8 @@
 import plottery_wrapper as p
 import os
 
-analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_baseline"
-plot_output_dir="/WWZ/Baseline_4lep"
+analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_070623_masterSync"
+plot_output_dir="/WWZ/070623_masterSync"
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -71,9 +71,9 @@ def plot(year, filterpattern):
 		#"output_BDTVars/{0}/WWLNu.root".format(year),
                 ],
             sig_fnames=[
-                #"{1}/{0}/WWZ.root".format(year, analysis_output),
-                "{1}/{0}/NonResWWZ.root".format(year, analysis_output),
-                "{1}/{0}/ZHWWZ.root".format(year, analysis_output),
+                "{1}/{0}/WWZ.root".format(year, analysis_output),
+                #"{1}/{0}/NonResWWZ.root".format(year, analysis_output),
+                #"{1}/{0}/ZHWWZ.root".format(year, analysis_output),
                 ],
             #data_fname="outputs/{0}/data.root".format(year),
             dirname="../../../public_html/{1}/{0}".format(year, plot_output_dir),
@@ -93,9 +93,9 @@ def plot(year, filterpattern):
 		#"WW#rightarrow l#nu l#nu",
                 ],
             signal_labels=[
-                #"WWZ",
-                "NonResWWZ",
-                "ZHWWZ",
+                "WWZ",
+                #"NonResWWZ",
+                #"ZHWWZ",
                 ],
             usercolors=[
                 4020,
@@ -109,7 +109,7 @@ def plot(year, filterpattern):
 		#860,
 		#820,
 		#800,
-		1,
+		#1,
 		#632,
                 ],
             filter_pattern=filterpattern,
@@ -137,9 +137,10 @@ if __name__ == "__main__":
 
     filterpatterns = [
         #"Yield",
-	"CutOffZ_trgMatch__SRBin", # this is the SF signal region
-	"CutEMuMT2_trgMatch__SRBin", # this is the OF signal region
-	#"CutOffZ",
+	#"CutOffZ_trgMatch__SRBin", # this is the SF signal region
+	#"CutEMuMT2_trgMatch__SRBin", # this is the OF signal region
+	"CutOffZ",
+	"CutEMuMT2",
 	#"CutOnZ",
 	#"CutEMuBT",
 	#"CutPresel",
