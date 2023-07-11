@@ -139,8 +139,8 @@ if __name__ == "__main__":
         #"Yield",
 	#"CutOffZ_trgMatch__SRBin", # this is the SF signal region
 	#"CutEMuMT2_trgMatch__SRBin", # this is the OF signal region
-	"CutOffZ",
-	"CutEMuMT2",
+	#"CutOffZ",
+	"CutEMu_",
 	#"CutOnZ",
 	#"CutEMuBT",
 	#"CutPresel",

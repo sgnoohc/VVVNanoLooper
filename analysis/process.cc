@@ -272,7 +272,7 @@ int main(int argc, char** argv)
     // Create ttree for TTreeX to hold the variables
     //ana.tree_BDT = new TTree("t_BDT","t_BDT");
     //ana.tx.setTree(ana.tree_BDT);
-    ana.tx = new RooUtil::TTreeX("t_BDT","t_BDT");
+    ana.tx = new RooUtil::TTreeX("t_BDT_OF","t_BDT_OF");
 
     // Create output ttree to write to the output root files
     //ana.output_tree = new TTree("t_BDT","t_BDT");
@@ -1355,7 +1355,7 @@ int main(int argc, char** argv)
         //if (ana.looper.getCurrentFileName().Contains("WWZJets")){                                                                                                                                                      scaling *= (0.002067 / 0.0005972);
 	//}
 
-        if (ana.cutflow.getCut("CutBVeto").pass){
+        if (ana.cutflow.getCut("CutEMu").pass){
 	    ana.tx->clear();
             fillBDTBranches();
 	    ana.tx->setBranch<float>("weight", evt_weight);
@@ -1513,10 +1513,9 @@ int main(int argc, char** argv)
 void setupBDTBranches()
 {
      ana.tx->createBranch<float>("m_ll");
-     ana.tx->createBranch<float>("SFChannel");
-     ana.tx->createBranch<float>("OFChannel");
      ana.tx->createBranch<float>("dPhi_4Lep_MET");
      ana.tx->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx->createBranch<float>("dPhi_WW_MET");
      ana.tx->createBranch<float>("dR_Wcands");
      ana.tx->createBranch<float>("dR_Zcands");
      ana.tx->createBranch<float>("MET");
@@ -1536,10 +1535,9 @@ void setupBDTBranches()
 void fillBDTBranches()
 {
      ana.tx->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
-     ana.tx->setBranch<float>("OFChannel", vvv.Cut_4LepMET_emuChannel());
-     ana.tx->setBranch<float>("SFChannel", (vvv.Cut_4LepMET_offzChannel() || vvv.Cut_4LepMET_onzChannel()));
      ana.tx->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
      ana.tx->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
      ana.tx->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
      ana.tx->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
      ana.tx->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
