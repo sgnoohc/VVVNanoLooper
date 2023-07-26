@@ -155,12 +155,9 @@ float MuonIDHelper::computeMVAScore(unsigned int idx){
 	else if (vname=="jetPtRelv2") input_vars[vname] = static_cast<float>(tas::Muon_jetPtRelv2().at(idx));
 	else if (vname=="jetNDauCharged") input_vars[vname] = static_cast<int>(tas::Muon_jetNDauCharged().at(idx));
 	else if (vname=="pfRelIso03_all") input_vars[vname] = static_cast<float>(tas::Muon_pfRelIso03_all().at(idx));
-	//else if (vname="ak4jet:btagDeepFlavB") input_vars[vname] = (mother ? static_cast<float>(mother->xtras.btagDeepFlavB) : float(0));
 	else if (vname=="ak4jet:btagDeepFlavB"){
 		 if (tas::Muon_jetIdx().at(idx) == -1) input_vars[vname] = static_cast<float>(0.);
-		 //std::cout << "Number of jets = " << tas::nJet() << std::endl;
-		 //std::cout << "Muon jet index = " << tas::Muon_jetIdx().at(idx) << std::endl;
-		 //if (tas::Muon_jetIdx().at(idx) != -1) input_vars[vname] = static_cast<float>(tas::Jet_btagDeepFlavB().at(tas::Muon_jetIdx().at(idx)));
+		 if (tas::Muon_jetIdx().at(idx) != -1) input_vars[vname] = static_cast<float>(tas::Jet_btagDeepFlavB().at(tas::Muon_jetIdx().at(idx)));
 	}
 #define MUON_VARIABLE(TYPE, NAME, DEFVAL) else if (vname==#NAME) input_vars[vname] = static_cast<float>(tas::Muon_NAME().at(idx));
 	//MUON_EXTRA_VARIABLES
