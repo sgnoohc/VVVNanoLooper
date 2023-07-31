@@ -655,6 +655,7 @@ void Process_Common_NanoAOD()
     float btagLoose_LFup_prob_DATA = 1;
     float btagLoose_LFdn_prob_DATA = 1;
 
+
     // Loop over jets and do a simple overlap removal against leptons
     for (unsigned int ijet = 0; ijet < nt.Jet_p4().size(); ++ijet)
     {
@@ -711,9 +712,13 @@ void Process_Common_NanoAOD()
             if (is_overlapping_with_a_lepton)
                 continue;
 
+            bool pass_jetID = ( nt.Jet_jetId()[ijet] > 0 );
+
             // For the analysis level jets, consider jets only 30 and above
-            if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 4.7)//don't trust jets in HF
+            if (jet_p4.pt() > 25. and abs(jet_p4.eta()) < 2.4 and pass_jetID)//don't trust jets in HF
             {
+
+		std::cout << "Jet passes selection requirements" << std::endl;
                 // For now, accept anything that reaches this point
                 ana.tx.pushbackToBranch<int>("Common_jet_idxs", ijet);
                 ana.tx.pushbackToBranch<int>("Common_jet_id", nt.Jet_jetId()[ijet]);
@@ -746,7 +751,8 @@ void Process_Common_NanoAOD()
             // b-tagged jet counter
             // For b-tagged jets, consider jets only 20 and above and is central within tracker acceptance
 
-            if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 2.4)
+
+            if (jet_p4.pt() > 25. and abs(jet_p4.eta()) < 2.4 and pass_jetID)
             {
 
                 if (nt.Jet_btagDeepFlavB()[ijet] > bWPloose)
