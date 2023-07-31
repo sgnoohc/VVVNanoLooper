@@ -715,7 +715,7 @@ void Process_Common_NanoAOD()
             bool pass_jetID = ( nt.Jet_jetId()[ijet] > 0 );
 
             // For the analysis level jets, consider jets only 30 and above
-            if (jet_p4.pt() > 25. and abs(jet_p4.eta()) < 2.4 and pass_jetID)//don't trust jets in HF
+            if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 2.4 and pass_jetID)//don't trust jets in HF
             {
 
 		std::cout << "Jet passes selection requirements" << std::endl;
@@ -752,7 +752,7 @@ void Process_Common_NanoAOD()
             // For b-tagged jets, consider jets only 20 and above and is central within tracker acceptance
 
 
-            if (jet_p4.pt() > 25. and abs(jet_p4.eta()) < 2.4 and pass_jetID)
+            if (jet_p4.pt() > 20. and abs(jet_p4.eta()) < 2.4 and pass_jetID)
             {
 
                 if (nt.Jet_btagDeepFlavB()[ijet] > bWPloose)
