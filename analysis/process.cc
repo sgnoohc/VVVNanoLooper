@@ -417,7 +417,20 @@ int main(int argc, char** argv)
     float DRll = 0;
     float Pt4l = 0;
 
-    ana.cutflow.addCut("CutWeight", UNITY, [&]()
+    ana.cutflow.addCut("CutTrigger",
+		       [&]()
+		       {
+
+			   bool passTrig = false;
+			  
+			   passTrig |= vvv.Common_HLT_DoubleEl();
+		           passTrig |= vvv.Common_HLT_DoubleMu();
+			   passTrig |= vvv.Common_HLT_MuEG(); 
+
+			   return passTrig;
+		       }, UNITY);
+
+    ana.cutflow.addCutToLastActiveCut("CutWeight", UNITY, [&]()
                        {
                            bool isWWZEFT = ana.looper.getCurrentFileName().Contains("WWZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
                            bool isWZZEFT = ana.looper.getCurrentFileName().Contains("WZZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
