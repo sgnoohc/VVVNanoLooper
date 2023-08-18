@@ -3,8 +3,8 @@
 import plottery_wrapper as p
 import os
 
-analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_070623_masterSync"
-plot_output_dir="/WWZ/070623_masterSync"
+analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_080323_trgUpdate"
+plot_output_dir="/WWZ/081723_ZH_vs_ZZ"
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -57,10 +57,10 @@ def plot(year, filterpattern):
     p.dump_plot(
             fnames=[
                 "{1}/{0}/ZZ.root".format(year, analysis_output),
-                "{1}/{0}/TTZ.root".format(year, analysis_output),
-                "{1}/{0}/Higgs.root".format(year, analysis_output),
-                "{1}/{0}/WZ.root".format(year, analysis_output),
-                "{1}/{0}/Other.root".format(year, analysis_output),
+                #"{1}/{0}/TTZ.root".format(year, analysis_output),
+                #"{1}/{0}/Higgs.root".format(year, analysis_output),
+                #"{1}/{0}/WZ.root".format(year, analysis_output),
+                #"{1}/{0}/Other.root".format(year, analysis_output),
 		#"output_BDTVars/{0}/WWZ.root".format(year),
 		#"output_BDTVars/{0}/DY.root".format(year),
 		#"output_BDTVars/{0}/SSWW.root".format(year),
@@ -72,17 +72,17 @@ def plot(year, filterpattern):
                 ],
             sig_fnames=[
                 #"{1}/{0}/WWZ.root".format(year, analysis_output),
-                "{1}/{0}/NonResWWZ.root".format(year, analysis_output),
+                #"{1}/{0}/NonResWWZ.root".format(year, analysis_output),
                 "{1}/{0}/ZHWWZ.root".format(year, analysis_output),
                 ],
             #data_fname="outputs/{0}/data.root".format(year),
             dirname="../../../public_html/{1}/{0}".format(year, plot_output_dir),
             legend_labels=[
                 "ZZ",
-                "tbar{t}Z",
-                "Higgs",
-                "WZ",
-                "Other",
+                #"t#bar{t}Z",
+                #"Higgs",
+                #"WZ",
+                #"Other",
 		#"WWZ",
 		#"Drell-Yan",
 		#"Same-sign WW",
@@ -94,22 +94,22 @@ def plot(year, filterpattern):
                 ],
             signal_labels=[
                 #"WWZ",
-                "NonResWWZ",
+                #"NonResWWZ",
                 "ZHWWZ",
                 ],
             usercolors=[
                 4020,
                 4305,
-                4024,
-                7013,
-                920,
-                2005,
-                2,
-		880,
+                #4024,
+                #7013,
+                #920,
+                #2005,
+                #2,
+		#880,
 		#860,
 		#820,
 		#800,
-		1,
+		#1,
 		#632,
                 ],
             filter_pattern=filterpattern,
@@ -124,7 +124,7 @@ def plot(year, filterpattern):
                 "ratio_range": [0., 2.],
 		#"xaxis_range": [0., 300.],
 		#"signal_scale":"auto",
-                #"signal_scale":50.,
+                "signal_scale":50.,
                 "legend_scalex": 2.0,
                 "legend_ncolumns": 3,
                 "yield_prec": 4,
@@ -139,8 +139,8 @@ if __name__ == "__main__":
         #"Yield",
 	#"CutOffZ_trgMatch__SRBin", # this is the SF signal region
 	#"CutEMuMT2_trgMatch__SRBin", # this is the OF signal region
-	#"CutOffZ",
-	"CutEMu",
+	"CutOffZ",
+	#"CutEMu",
 	#"CutOnZ",
 	#"CutEMuBT",
 	#"CutPresel",

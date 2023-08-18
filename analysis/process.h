@@ -6,6 +6,8 @@
 
 // helper functions
 void setupBDTBranches();
-void fillBDTBranches(); 
+void fillBDTBranches();
+void setupBDTBranches_SF();
+void fillBDTBranches_SF(); 
 
 #endif 

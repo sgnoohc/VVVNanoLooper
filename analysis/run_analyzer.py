@@ -11,8 +11,8 @@ skimversion = "3LepTau_4Lep"
 skimdir = os.environ["looperOutput"]
 #dataversion = "OldLepID"
 #dataversion = "051723"
-dataversion = "070623_masterSync"
-outputdir = "output_070623_masterSync"
+dataversion = "080323_trgUpdate"
+outputdir = "output_081723_metUpdate"
 
 #____________________________________________________________________________________________
 def main():
