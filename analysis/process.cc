@@ -68,7 +68,8 @@ AnalysisConfig ana;
 // ./process INPUTFILEPATH OUTPUTFILE [NEVENTS]
 int main(int argc, char** argv)
 {
-
+    bool writeTree = false;
+    bool write_counts = true;
     bool new_lepton_ID = true;
 //********************************************************************************
 //
@@ -608,7 +609,7 @@ int main(int argc, char** argv)
 
     ana.cutflow.getCut("CutBVeto");
     ana.cutflow.addCutToLastActiveCut("CutEMu", [&]() { return vvv.Cut_4LepMET_emuChannel(); }, BLIND);
-    ana.cutflow.addCutToLastActiveCut("CutEMuMT2", [&]() { return (vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2() > 25.) or (vvv.Var_4LepMET_other_mll() > 100.); }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("CutEMuMT2", [&]() { return (vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.) or (vvv.Var_4LepMET_other_mll() > 100.); }, UNITY);
     ana.cutflow.getCut("CutBVeto");
     ana.cutflow.addCutToLastActiveCut("CutOffZ", [&]() { return vvv.Cut_4LepMET_offzChannel(); }, UNITY);
     ana.cutflow.getCut("CutPresel");
@@ -1190,11 +1191,11 @@ int main(int argc, char** argv)
                                     std::vector<float> rtn;
                                     if (vvv.Cut_4LepMET_emuChannel())
                                     {
-                                        if (vvv.Var_4LepMET_other_mll() >   0. and vvv.Var_4LepMET_other_mll() <  40. and vvv.Var_4LepMET_mt2() > 25.)
+                                        if (vvv.Var_4LepMET_other_mll() >   0. and vvv.Var_4LepMET_other_mll() <  40. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.)
                                             rtn.push_back(0.);
-                                        if (vvv.Var_4LepMET_other_mll() >  40. and vvv.Var_4LepMET_other_mll() <  60. and vvv.Var_4LepMET_mt2() > 25.)
+                                        if (vvv.Var_4LepMET_other_mll() >  40. and vvv.Var_4LepMET_other_mll() <  60. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.)
                                             rtn.push_back(1.);
-                                        if (vvv.Var_4LepMET_other_mll() >  60. and vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2() > 25.)
+                                        if (vvv.Var_4LepMET_other_mll() >  60. and vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.)
                                             rtn.push_back(2.);
                                         if (vvv.Var_4LepMET_other_mll() > 100.)
                                             rtn.push_back(3.);
@@ -1319,6 +1320,14 @@ int main(int argc, char** argv)
 
     int eventID = 0;
 
+    int nevts_OF_1 = 0;
+    int nevts_OF_2 = 0;
+    int nevts_OF_3 = 0;
+    int nevts_OF_4 = 0;
+    int nevts_SF_5 = 0;
+    int nevts_SF_6 = 0;
+    int nevts_SF_7 = 0;
+
     // Looping input file
     while (ana.looper.nextEvent())
     {
@@ -1369,27 +1378,38 @@ int main(int argc, char** argv)
         
 	float evt_weight = vvv.Var_4LepMET_scaleLumi() * vvv.Common_genWeight() * weight;
 
-        //float scaling = vvv.Var_4LepMET_scaleLumi()*vvv.Common_genWeight();
 
-        //if (ana.looper.getCurrentFileName().Contains("WWZJets")){                                                                                                                                                      scaling *= (0.002067 / 0.0005972);
-	//}
-	
-
-        if (ana.cutflow.getCut("CutEMu").pass){
+        if (ana.cutflow.getCut("CutEMu").pass && writeTree){
 	    ana.tx->clear();
             fillBDTBranches();
 	    ana.tx->setBranch<float>("weight", evt_weight);
             ana.tx->setBranch<int>("eventID", eventID);
             eventID++;     
 	    ana.tx->fill();
+
         }
 
-        if (ana.cutflow.getCut("CutOffZ").pass){
+        if (ana.cutflow.getCut("CutOffZ").pass && writeTree){
 	    ana.tx2->clear();
 	    fillBDTBranches_SF();
 	    ana.tx2->setBranch<float>("weight", evt_weight);
 	    ana.tx2->fill();
-	}    
+	}
+
+        if (ana.cutflow.getCut("CutEMuMT2").pass && write_counts){
+            if (vvv.Var_4LepMET_other_mll() >   0. and vvv.Var_4LepMET_other_mll() <  40. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.) nevts_OF_1++;
+	    if (vvv.Var_4LepMET_other_mll() >  40. and vvv.Var_4LepMET_other_mll() <  60. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.) nevts_OF_2++;
+	    if (vvv.Var_4LepMET_other_mll() >  60. and vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2_PuppiMET() > 25.) nevts_OF_3++;
+            if (vvv.Var_4LepMET_other_mll() > 100.) nevts_OF_4++;	    
+        }
+
+        float pt4l = (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt();
+
+        if (ana.cutflow.getCut("CutOffZ").pass && write_counts){
+	    if (vvv.Common_met_p4_PuppiMET().pt() > 120.) nevts_SF_5++;
+	    if (vvv.Common_met_p4_PuppiMET().pt() > 65. and vvv.Common_met_p4_PuppiMET().pt() < 120. and pt4l > 40. and pt4l < 70.) nevts_SF_7++;
+	    if (vvv.Common_met_p4_PuppiMET().pt() > 65. and vvv.Common_met_p4_PuppiMET().pt() < 120. and pt4l > 70.) nevts_SF_6++;
+        }
         
         //if (ana.cutflow.getCut("CutBVeto").pass){
 	//ana.tx->fill();
@@ -1430,52 +1450,32 @@ int main(int argc, char** argv)
                    
 	      }
 	      // Find minimum mlj
-	      float min_mlj;
-              if (nj_in+nj_out > 0) min_mlj = *min_element(mlj.begin(),mlj.end());
-	      if (nj_in+nj_out == 0) min_mlj = -1.0;
-	      // Find SR bin corresponding to the event
-	      int SRBin;
-	      if (vvv.Var_4LepMET_other_mll() >   0. and vvv.Var_4LepMET_other_mll() <  40. and vvv.Var_4LepMET_mt2() > 25.)
-                  SRBin = 0;
-              if (vvv.Var_4LepMET_other_mll() >  40. and vvv.Var_4LepMET_other_mll() <  60. and vvv.Var_4LepMET_mt2() > 25.)
-                  SRBin = 1;
-              if (vvv.Var_4LepMET_other_mll() >  60. and vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2() > 25.)
-                  SRBin = 2;
-              if (vvv.Var_4LepMET_other_mll() > 100.)
-                  SRBin = 3;
+	      //float min_mlj;
+              //if (nj_in+nj_out > 0) min_mlj = *min_element(mlj.begin(),mlj.end());
+	      //if (nj_in+nj_out == 0) min_mlj = -1.0;
+	      //// Find SR bin corresponding to the event
+	      //int SRBin;
+	      //if (vvv.Var_4LepMET_other_mll() >   0. and vvv.Var_4LepMET_other_mll() <  40. and vvv.Var_4LepMET_mt2() > 25.)
+              //    SRBin = 0;
+              //if (vvv.Var_4LepMET_other_mll() >  40. and vvv.Var_4LepMET_other_mll() <  60. and vvv.Var_4LepMET_mt2() > 25.)
+              //    SRBin = 1;
+              //if (vvv.Var_4LepMET_other_mll() >  60. and vvv.Var_4LepMET_other_mll() < 100. and vvv.Var_4LepMET_mt2() > 25.)
+              //    SRBin = 2;
+              //if (vvv.Var_4LepMET_other_mll() > 100.)
+              //    SRBin = 3;
 
-	      // Calculate the event weight
-	      //bool isWWZEFT = ana.looper.getCurrentFileName().Contains("WWZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
-              //bool isWZZEFT = ana.looper.getCurrentFileName().Contains("WZZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
-              //bool isZZZEFT = ana.looper.getCurrentFileName().Contains("ZZZ_RunIISummer20UL18NanoAODv9_FourleptonFilter_FilterFix_merged");
-
-              //float sm_weight = 1;
-              //sm_weight = (isWWZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] * 0.1651 * 0.3272 * 0.3272 * 0.1009 /0.0005972 : 1.)
-              //          * (isWZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] : 1.)
-              //          * (isZZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[0] : 1.)
-	      //          ;
-              //float eftweight = 1;
-              //eftweight = (isWWZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] * 0.1651 * 0.3272 * 0.3272 * 0.1009 /0.0005972 : 1.)                                                                                  * (isWZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] : 1.)                                                                                                                                 * (isZZZEFT ? vvv.Common_LHEWeight_mg_reweighting()[ana.eft_reweighting_idx] : 1.)
-              //          ;
-              //                                                                                                                                                                                                                   float weight = ana.eft_reweighting_idx != 0 ? (eftweight - sm_weight) : sm_weight;
-              //
-              //                                                                                                                                                                                                                   if (ana.looper.getCurrentFileName().Contains("WWZJets"))
-              //{                                                                                                                                                                                                                                                                                                                                                                                                                                         weight = 0.002067 / 0.0005972; 
-              //                                                                                                                                                                                                                   }
-              //                                                                                                                                                                                                                                                                                                                                                                                                                                      float evt_weight = vvv.Var_4LepMET_scaleLumi() * vvv.Common_genWeight() * weight;
-	      //// Run over ttZ and WWZ to get text files with printouts
-	      //int isSignal;
-	      //if (ana.looper.getCurrentFileName().Contains("WWZJets") || ana.looper.getCurrentFileName().Contains("HZJ") || ana.looper.getCurrentFileName().Contains("GluGluZH") ){
-	      //    isSignal = 1;
-	      //}
-	      //else{
-	      //    isSignal = 0;
-	      //}
-
-	      //std::cout << isSignal << "  "  << nj_in << "  " << nj_in << "  " << nj_out << "  " << lead_jet_pt << "  " << lead_jet_eta << "  " << min_mlj << "  " << SRBin << "  " << evt_weight  << std::endl;
-
-	      // Convert the text files to a single root file with all WWZ and TTZ events (add a flag for TTZ vs WWZ)	    	           
 	}
+
+        if ( write_counts ){
+	     std::cout << "==============================================================" << std::endl;
+	     std::cout << "Number of entries in OF bin 1: " << nevts_OF_1 << std::endl;
+	     std::cout << "Number of entries in OF bin 2: " << nevts_OF_2 << std::endl;
+	     std::cout << "Number of entries in OF bin 3: " << nevts_OF_3 << std::endl;
+	     std::cout << "Number of entries in OF bin 4: " << nevts_OF_4 << std::endl;
+	     std::cout << "Number of entries in SF bin 5: " << nevts_SF_5 << std::endl;
+             std::cout << "Number of entries in SF bin 6: " << nevts_SF_6 << std::endl;
+             std::cout << "Number of entries in SF bin 7: " << nevts_SF_7 << std::endl;
+        }
 
         //if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt()))
         //{
