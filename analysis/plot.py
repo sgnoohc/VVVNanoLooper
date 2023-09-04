@@ -3,8 +3,8 @@
 import plottery_wrapper as p
 import os
 
-analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_080323_trgUpdate"
-plot_output_dir="/WWZ/081823_metUpdate"
+analysis_output="/home/users/kdownham/Triboson/VVVNanoLooper/analysis/output_090123_metFix"
+plot_output_dir="/WWZ/090123_metFix"
 
 histxaxislabeloptions = {
 "DRll"             : {"xaxis_label" : "#DeltaR_{ll}"                           , "xaxis_ndivisions" : 505 , "nbins" : 20} , 
@@ -139,9 +139,10 @@ if __name__ == "__main__":
         #"Yield",
 	#"CutOffZ_trgMatch__SRBin", # this is the SF signal region
 	#"CutEMuMT2_trgMatch__SRBin", # this is the OF signal region
-	"CutOffZ_trgMatch__SRBin",
-	"CutOffZ__SRBin",
-	#"CutEMu",
+	#"CutOffZ_trgMatch__SRBin",
+	#"CutOffZ__SRBin",
+	"CutEMu",
+        "CutOffZ",
 	#"CutOnZ",
 	#"CutEMuBT",
 	#"CutPresel",

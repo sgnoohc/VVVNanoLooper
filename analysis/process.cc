@@ -54,8 +54,10 @@ public:
 
     // Custom TTree object for writing out BDT variables
     //TTree* tree_BDT;
-    RooUtil::TTreeX* tx;
-    RooUtil::TTreeX* tx2;
+    RooUtil::TTreeX* tx_train;
+    RooUtil::TTreeX* tx_test;
+    RooUtil::TTreeX* tx2_train;
+    RooUtil::TTreeX* tx2_test;
     
     // Create output ttree to write to the output root files
     //TTree* output_tree;
@@ -68,8 +70,8 @@ AnalysisConfig ana;
 // ./process INPUTFILEPATH OUTPUTFILE [NEVENTS]
 int main(int argc, char** argv)
 {
-    bool writeTree = false;
-    bool write_counts = true;
+    bool writeTree = true;
+    bool write_counts = false;
     bool new_lepton_ID = true;
 //********************************************************************************
 //
@@ -272,10 +274,10 @@ int main(int argc, char** argv)
     ana.looper.init(ana.events_tchain, &vvv, ana.n_events);
 
     // Create ttree for TTreeX to hold the variables
-    //ana.tree_BDT = new TTree("t_BDT","t_BDT");
-    //ana.tx.setTree(ana.tree_BDT);
-    ana.tx = new RooUtil::TTreeX("t_BDT_OF","t_BDT_OF");
-    ana.tx2 = new RooUtil::TTreeX("t_BDT_SF","t_BDT_SF");
+    ana.tx_train = new RooUtil::TTreeX("t_BDT_OF_train","t_BDT_OF_train");
+    ana.tx_test = new RooUtil::TTreeX("t_BDT_OF_test","t_BDT_OF_test");
+    ana.tx2_train = new RooUtil::TTreeX("t_BDT_SF_train","t_BDT_SF_train");
+    ana.tx2_test = new RooUtil::TTreeX("t_BDT_SF_test","t_BDT_SF_test");
 
     // Create output ttree to write to the output root files
     //ana.output_tree = new TTree("t_BDT","t_BDT");
@@ -1217,87 +1219,6 @@ int main(int argc, char** argv)
                                     return rtn;
                                 } );
 
-    /*ana.histograms_bj_in.addHistogram("Min_mlj_in", 180, 0., 300.,
-			     [&]()
-			     {  
-                                 std::vector<float> mlj_in;
-				 int nj_in = 0;
-                                 for (long unsigned int i = 0; i < vvv.Common_jet_p4().size(); i++ ){
-                                      if ( std::abs(vvv.Common_jet_p4()[i].eta()) < 2.4 ){
-
-					   nj_in++;
-                                           float mlj_Wl1 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_0() ).M();
-                                           float mlj_Wl2 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_1() ).M();
-
-                                           std::vector<float> v = {mlj_Wl1,mlj_Wl2};
-                                           float v_min = *min_element(v.begin(),v.end());
-                                           mlj_in.push_back(v_min);
-
-                                      }
-                                 }
-
-                                 float min_mlj_in; 
-				 if (nj_in > 0) min_mlj_in = *min_element(mlj_in.begin(),mlj_in.end());	
-				 if (nj_in == 0) min_mlj_in = -1.0;
-
-				 //std::cout << "Event = " << vvv.Common_evt() << ", min_mlj_in =  " << min_mlj_in << std::endl;
-
-				 return min_mlj_in; 
-			     } );
-
-    ana.histograms_bj_out.addHistogram("Min_mlj_out", 180, 0., 300.,
-                             [&]()
-                             {
-                                 std::vector<float> mlj_out;
-				 int nj_out = 0;
-                                 for (long unsigned int i = 0; i < vvv.Common_jet_p4().size(); i++ ){
-                                      if ( std::abs(vvv.Common_jet_p4()[i].eta()) > 2.4 && std::abs(vvv.Common_jet_p4()[i].eta()) < 4.7 ){
-					   nj_out++;
-                                           float mlj_Wl1 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_0() ).M();
-                                           float mlj_Wl2 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_1() ).M();
-
-                                           std::vector<float> v = {mlj_Wl1,mlj_Wl2};
-                                           float v_min = *min_element(v.begin(),v.end());
-                                           mlj_out.push_back(v_min);
-
-                                      }
-                                 }
-
-                                 float min_mlj_out; 
-				 if ( nj_out > 0 ) min_mlj_out = *min_element(mlj_out.begin(),mlj_out.end());
-				 if ( nj_out == 0 ) min_mlj_out = -1.0;
-
-				 //std::cout << "Event = " << vvv.Common_evt() << ", min_mlj_out =  " << min_mlj_out << std::endl;
-
-                                 return min_mlj_out;
-                             } );
-
-    ana.histograms_bj_all.addHistogram("Min_mlj_all", 180, 0., 300.,
-                             [&]()
-                             {
-                                 std::vector<float> mlj_all;
-				 int nj_all = 0;
-                                 for (long unsigned int i = 0; i < vvv.Common_jet_p4().size(); i++ ){
-    
-                                      nj_all++;
-                                      float mlj_Wl1 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_0() ).M();
-                                      float mlj_Wl2 = ( vvv.Common_jet_p4()[i] + vvv.Var_4LepMET_other_lep_p4_1() ).M();
-    
-                                      std::vector<float> v = {mlj_Wl1,mlj_Wl2};
-                                      float v_min = *min_element(v.begin(),v.end());
-                                      mlj_all.push_back(v_min);
-
-                                 }
-
-                                 float min_mlj_all;
-				 if (nj_all > 0) min_mlj_all = *min_element(mlj_all.begin(),mlj_all.end());
-				 if (nj_all == 0) min_mlj_all = -1.0;
-
-				 //std::cout << "Event = " << vvv.Common_evt() << ", min_mlj_all =  " << min_mlj_all << std::endl;
-			
-                                 return min_mlj_all;
-                             } );
-    */    
 
 
     // Book cutflows
@@ -1315,10 +1236,10 @@ int main(int argc, char** argv)
     RooUtil::EventList eventlist_to_check("eventlist_to_check.txt");
 
     // Setup the BDT branches
-    setupBDTBranches();
-    setupBDTBranches_SF();
-
-    int eventID = 0;
+    setupBDTBranches_test();
+    setupBDTBranches_train();
+    setupBDTBranches_SF_test();
+    setupBDTBranches_SF_train();
 
     int nevts_OF_1 = 0;
     int nevts_OF_2 = 0;
@@ -1327,6 +1248,9 @@ int main(int argc, char** argv)
     int nevts_SF_5 = 0;
     int nevts_SF_6 = 0;
     int nevts_SF_7 = 0;
+
+    int counter_SF = 1;
+    int counter_OF = 1;
 
     // Looping input file
     while (ana.looper.nextEvent())
@@ -1344,10 +1268,6 @@ int main(int argc, char** argv)
         STLepHad = vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.);
         Pt4l = (vvv.Var_4LepMET_Zcand_lep_p4_0() + vvv.Var_4LepMET_Zcand_lep_p4_1() + vvv.Var_4LepMET_other_lep_p4_0() + vvv.Var_4LepMET_other_lep_p4_1()).pt();
 
-        //ana.tx->clear();
-
-        //fillBDTBranches();
-        //ana.tx->setBranch<float>("CutBVeto", ana.cutflow.getCut("CutBVeto").pass);
 
         ana.cutflow.setEventID(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt());
 
@@ -1380,20 +1300,36 @@ int main(int argc, char** argv)
 
 
         if (ana.cutflow.getCut("CutEMu").pass && writeTree){
-	    ana.tx->clear();
-            fillBDTBranches();
-	    ana.tx->setBranch<float>("weight", evt_weight);
-            ana.tx->setBranch<int>("eventID", eventID);
-            eventID++;     
-	    ana.tx->fill();
+	    if ( (counter_OF%2) == 0 ){
+               ana.tx_test->clear();
+               fillBDTBranches_test();
+	       ana.tx_test->setBranch<float>("weight", evt_weight);
+	       ana.tx_test->fill();
+            }
+	    if ( (counter_OF%2) == 1 ){
+	       ana.tx_train->clear();
+               fillBDTBranches_train();
+               ana.tx_train->setBranch<float>("weight", evt_weight);
+               ana.tx_train->fill();
+            }
+	    counter_OF++;
 
         }
 
         if (ana.cutflow.getCut("CutOffZ").pass && writeTree){
-	    ana.tx2->clear();
-	    fillBDTBranches_SF();
-	    ana.tx2->setBranch<float>("weight", evt_weight);
-	    ana.tx2->fill();
+	    if ( (counter_SF%2) == 0){
+	       ana.tx2_test->clear();
+	       fillBDTBranches_SF_test();
+	       ana.tx2_test->setBranch<float>("weight", evt_weight);
+	       ana.tx2_test->fill();
+	    }
+	    if ( (counter_SF%2) == 1){
+               ana.tx2_train->clear();
+               fillBDTBranches_SF_train();
+               ana.tx2_train->setBranch<float>("weight", evt_weight);
+               ana.tx2_train->fill();
+            }
+	    counter_SF++;
 	}
 
         if (ana.cutflow.getCut("CutEMuMT2").pass && write_counts){
@@ -1411,9 +1347,6 @@ int main(int argc, char** argv)
 	    if (vvv.Common_met_p4_PuppiMET().pt() > 65. and vvv.Common_met_p4_PuppiMET().pt() < 120. and pt4l > 70.) nevts_SF_6++;
         }
         
-        //if (ana.cutflow.getCut("CutBVeto").pass){
-	//ana.tx->fill();
-        //}
 
         //if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt())){
 
@@ -1525,14 +1458,15 @@ int main(int argc, char** argv)
     // Writing output file
     ana.cutflow.saveOutput();
 
-    //if (ana.cutflow.getCut("CutBVeto").pass){
-    //	ana.tx->write();
-    //}
-    ana.tx->write();
-    ana.tx2->write();
+    ana.tx_train->write();
+    ana.tx_test->write();
+    ana.tx2_train->write();
+    ana.tx2_test->write();
 
-    delete ana.tx;
-    delete ana.tx2;
+    delete ana.tx_train;
+    delete ana.tx_test;
+    delete ana.tx2_train;
+    delete ana.tx2_test;
 
     // The below can be sometimes crucial
     delete ana.output_tfile;
@@ -1541,85 +1475,169 @@ int main(int argc, char** argv)
 //==========================================================================================
 // Setup BDT branches (prior to event looping)
 //==========================================================================================
-void setupBDTBranches()
+void setupBDTBranches_test()
 {
-     ana.tx->createBranch<float>("m_ll");
-     ana.tx->createBranch<float>("dPhi_4Lep_MET");
-     ana.tx->createBranch<float>("dPhi_Zcand_MET");
-     ana.tx->createBranch<float>("dPhi_WW_MET");
-     ana.tx->createBranch<float>("dR_Wcands");
-     ana.tx->createBranch<float>("dR_Zcands");
-     ana.tx->createBranch<float>("MET");
-     ana.tx->createBranch<float>("MT2");
-     ana.tx->createBranch<float>("Pt4l");
-     ana.tx->createBranch<float>("STLepHad");
-     ana.tx->createBranch<float>("leading_Zcand_pt");
-     ana.tx->createBranch<float>("subleading_Zcand_pt");
-     ana.tx->createBranch<float>("leading_Wcand_pt");
-     ana.tx->createBranch<float>("subleading_Wcand_pt");
-     ana.tx->createBranch<float>("weight");
-     ana.tx->createBranch<int>("eventID");
+     ana.tx_test->createBranch<float>("m_ll");
+     ana.tx_test->createBranch<float>("dPhi_4Lep_MET");
+     ana.tx_test->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx_test->createBranch<float>("dPhi_WW_MET");
+     ana.tx_test->createBranch<float>("dR_Wcands");
+     ana.tx_test->createBranch<float>("dR_Zcands");
+     ana.tx_test->createBranch<float>("dR_WW_Z");
+     ana.tx_test->createBranch<float>("MET");
+     ana.tx_test->createBranch<float>("MT2");
+     ana.tx_test->createBranch<float>("Pt4l");
+     ana.tx_test->createBranch<float>("STLepHad");
+     ana.tx_test->createBranch<float>("STLep");
+     ana.tx_test->createBranch<float>("leading_Zcand_pt");
+     ana.tx_test->createBranch<float>("subleading_Zcand_pt");
+     ana.tx_test->createBranch<float>("leading_Wcand_pt");
+     ana.tx_test->createBranch<float>("subleading_Wcand_pt");
+     ana.tx_test->createBranch<float>("weight");
+}
+
+void setupBDTBranches_train()
+{
+     ana.tx_train->createBranch<float>("m_ll");
+     ana.tx_train->createBranch<float>("dPhi_4Lep_MET");
+     ana.tx_train->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx_train->createBranch<float>("dPhi_WW_MET");
+     ana.tx_train->createBranch<float>("dR_Wcands");
+     ana.tx_train->createBranch<float>("dR_Zcands");
+     ana.tx_train->createBranch<float>("dR_WW_Z");
+     ana.tx_train->createBranch<float>("MET");
+     ana.tx_train->createBranch<float>("MT2");
+     ana.tx_train->createBranch<float>("Pt4l");
+     ana.tx_train->createBranch<float>("STLepHad");
+     ana.tx_train->createBranch<float>("STLep");
+     ana.tx_train->createBranch<float>("leading_Zcand_pt");
+     ana.tx_train->createBranch<float>("subleading_Zcand_pt");
+     ana.tx_train->createBranch<float>("leading_Wcand_pt");
+     ana.tx_train->createBranch<float>("subleading_Wcand_pt");
+     ana.tx_train->createBranch<float>("weight");
 }
 
 //==========================================================================================
 // Write values to BDT branches (during event looping)
 //==========================================================================================
-void fillBDTBranches()
+void fillBDTBranches_test()
 {
-     ana.tx->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
-     ana.tx->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
-     ana.tx->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
-     ana.tx->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
-     ana.tx->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
-     ana.tx->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
-     ana.tx->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
-     ana.tx->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
-     ana.tx->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
-     ana.tx->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
-     ana.tx->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
-     ana.tx->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
-     ana.tx->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
-     ana.tx->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());        
+     ana.tx_test->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
+     ana.tx_test->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
+     ana.tx_test->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx_test->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx_test->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
+     ana.tx_test->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
+     ana.tx_test->setBranch<float>("dR_WW_Z", RooUtil::Calc::DeltaR((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1())));
+     ana.tx_test->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
+     ana.tx_test->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
+     ana.tx_test->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
+     ana.tx_test->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
+     ana.tx_test->setBranch<float>("STLep", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() );
+     ana.tx_test->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
+     ana.tx_test->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
+     ana.tx_test->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
+     ana.tx_test->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());        
 }
 
-void setupBDTBranches_SF()
+void fillBDTBranches_train()
 {
-     ana.tx2->createBranch<float>("m_ll");
-     ana.tx2->createBranch<float>("dPhi_4Lep_MET");
-     ana.tx2->createBranch<float>("dPhi_Zcand_MET");
-     ana.tx2->createBranch<float>("dPhi_WW_MET");
-     ana.tx2->createBranch<float>("dR_Wcands");
-     ana.tx2->createBranch<float>("dR_Zcands");
-     ana.tx2->createBranch<float>("dR_WW_Z");
-     ana.tx2->createBranch<float>("MET");
-     ana.tx2->createBranch<float>("MT2");
-     ana.tx2->createBranch<float>("Pt4l");
-     ana.tx2->createBranch<float>("STLepHad");
-     ana.tx2->createBranch<float>("STLep");
-     ana.tx2->createBranch<float>("leading_Zcand_pt");
-     ana.tx2->createBranch<float>("subleading_Zcand_pt");
-     ana.tx2->createBranch<float>("leading_Wcand_pt");
-     ana.tx2->createBranch<float>("subleading_Wcand_pt");
-     ana.tx2->createBranch<float>("weight");
+     ana.tx_train->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
+     ana.tx_train->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
+     ana.tx_train->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx_train->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx_train->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
+     ana.tx_train->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
+     ana.tx_train->setBranch<float>("dR_WW_Z", RooUtil::Calc::DeltaR((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1())));
+     ana.tx_train->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
+     ana.tx_train->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
+     ana.tx_train->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
+     ana.tx_train->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
+     ana.tx_train->setBranch<float>("STLep", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() );
+     ana.tx_train->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
+     ana.tx_train->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
+     ana.tx_train->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
+     ana.tx_train->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());
 }
 
-void fillBDTBranches_SF()
+void setupBDTBranches_SF_test()
 {
-     ana.tx2->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
-     ana.tx2->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
-     ana.tx2->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
-     ana.tx2->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
-     ana.tx2->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
-     ana.tx2->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
-     ana.tx2->setBranch<float>("dR_WW_Z", RooUtil::Calc::DeltaR((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1())));
-     ana.tx2->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
-     ana.tx2->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
-     ana.tx2->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
-     ana.tx2->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
-     ana.tx2->setBranch<float>("STLep", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() );
-     ana.tx2->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
-     ana.tx2->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
-     ana.tx2->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
-     ana.tx2->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());
+     ana.tx2_test->createBranch<float>("m_ll");
+     ana.tx2_test->createBranch<float>("dPhi_4Lep_MET");
+     ana.tx2_test->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx2_test->createBranch<float>("dPhi_WW_MET");
+     ana.tx2_test->createBranch<float>("dR_Wcands");
+     ana.tx2_test->createBranch<float>("dR_Zcands");
+     ana.tx2_test->createBranch<float>("dR_WW_Z");
+     ana.tx2_test->createBranch<float>("MET");
+     ana.tx2_test->createBranch<float>("MT2");
+     ana.tx2_test->createBranch<float>("Pt4l");
+     ana.tx2_test->createBranch<float>("STLepHad");
+     ana.tx2_test->createBranch<float>("STLep");
+     ana.tx2_test->createBranch<float>("leading_Zcand_pt");
+     ana.tx2_test->createBranch<float>("subleading_Zcand_pt");
+     ana.tx2_test->createBranch<float>("leading_Wcand_pt");
+     ana.tx2_test->createBranch<float>("subleading_Wcand_pt");
+     ana.tx2_test->createBranch<float>("weight");
 }
 
+void setupBDTBranches_SF_train()
+{
+     ana.tx2_train->createBranch<float>("m_ll");
+     ana.tx2_train->createBranch<float>("dPhi_4Lep_MET");
+     ana.tx2_train->createBranch<float>("dPhi_Zcand_MET");
+     ana.tx2_train->createBranch<float>("dPhi_WW_MET");
+     ana.tx2_train->createBranch<float>("dR_Wcands");
+     ana.tx2_train->createBranch<float>("dR_Zcands");
+     ana.tx2_train->createBranch<float>("dR_WW_Z");
+     ana.tx2_train->createBranch<float>("MET");
+     ana.tx2_train->createBranch<float>("MT2");
+     ana.tx2_train->createBranch<float>("Pt4l");
+     ana.tx2_train->createBranch<float>("STLepHad");
+     ana.tx2_train->createBranch<float>("STLep");
+     ana.tx2_train->createBranch<float>("leading_Zcand_pt");
+     ana.tx2_train->createBranch<float>("subleading_Zcand_pt");
+     ana.tx2_train->createBranch<float>("leading_Wcand_pt");
+     ana.tx2_train->createBranch<float>("subleading_Wcand_pt");
+     ana.tx2_train->createBranch<float>("weight");
+}
+
+void fillBDTBranches_SF_test()
+{
+     ana.tx2_test->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
+     ana.tx2_test->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_test->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_test->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_test->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
+     ana.tx2_test->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
+     ana.tx2_test->setBranch<float>("dR_WW_Z", RooUtil::Calc::DeltaR((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1())));
+     ana.tx2_test->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
+     ana.tx2_test->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
+     ana.tx2_test->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
+     ana.tx2_test->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
+     ana.tx2_test->setBranch<float>("STLep", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() );
+     ana.tx2_test->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
+     ana.tx2_test->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
+     ana.tx2_test->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
+     ana.tx2_test->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());
+}
+
+void fillBDTBranches_SF_train()
+{
+     ana.tx2_train->setBranch<float>("m_ll", vvv.Var_4LepMET_other_mll());
+     ana.tx2_train->setBranch<float>("dPhi_4Lep_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(), vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_train->setBranch<float>("dPhi_Zcand_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_train->setBranch<float>("dPhi_WW_MET", RooUtil::Calc::DeltaPhi(vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1(),vvv.Common_met_p4_PuppiMET()));
+     ana.tx2_train->setBranch<float>("dR_Wcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_other_lep_p4_0(),vvv.Var_4LepMET_other_lep_p4_1()));
+     ana.tx2_train->setBranch<float>("dR_Zcands", RooUtil::Calc::DeltaR(vvv.Var_4LepMET_Zcand_lep_p4_0(),vvv.Var_4LepMET_Zcand_lep_p4_1()));
+     ana.tx2_train->setBranch<float>("dR_WW_Z", RooUtil::Calc::DeltaR((vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()),(vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1())));
+     ana.tx2_train->setBranch<float>("MET", vvv.Common_met_p4_PuppiMET().pt());
+     ana.tx2_train->setBranch<float>("MT2", vvv.Var_4LepMET_mt2_PuppiMET());
+     ana.tx2_train->setBranch<float>("Pt4l", (vvv.Var_4LepMET_Zcand_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()+vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_other_lep_p4_1()).pt());
+     ana.tx2_train->setBranch<float>("STLepHad", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() + (vvv.Common_fatjet_p4().size() > 0 ? vvv.Common_fatjet_p4()[0].pt() : 0.));
+     ana.tx2_train->setBranch<float>("STLep", vvv.Var_4LepMET_Zcand_lep_p4_0().pt() + vvv.Var_4LepMET_Zcand_lep_p4_1().pt() + vvv.Var_4LepMET_other_lep_p4_0().pt() + vvv.Var_4LepMET_other_lep_p4_1().pt() + vvv.Common_met_p4_PuppiMET().pt() );
+     ana.tx2_train->setBranch<float>("leading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_0().pt());
+     ana.tx2_train->setBranch<float>("subleading_Zcand_pt", vvv.Var_4LepMET_Zcand_lep_p4_1().pt());
+     ana.tx2_train->setBranch<float>("leading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_0().pt());
+     ana.tx2_train->setBranch<float>("subleading_Wcand_pt", vvv.Var_4LepMET_other_lep_p4_1().pt());
+}

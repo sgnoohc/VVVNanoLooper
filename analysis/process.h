@@ -5,9 +5,13 @@
 #include "cxxopts.h"
 
 // helper functions
-void setupBDTBranches();
-void fillBDTBranches();
-void setupBDTBranches_SF();
-void fillBDTBranches_SF(); 
+void setupBDTBranches_test();
+void setupBDTBranches_train();
+void fillBDTBranches_test();
+void fillBDTBranches_train();
+void setupBDTBranches_SF_test();
+void setupBDTBranches_SF_train();
+void fillBDTBranches_SF_test();
+void fillBDTBranches_SF_train(); 
 
 #endif 
