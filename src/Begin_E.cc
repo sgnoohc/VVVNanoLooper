@@ -17,6 +17,8 @@ void Begin_E()
     ana.txskim.createBranch<float>("puWgt");
     ana.txskim.createBranch<float>("puWgtUp");
     ana.txskim.createBranch<float>("puWgtDn");
+    ana.txskim.createBranch<int>("pu_nPU");
+    ana.txskim.createBranch<float>("pu_nTrueInt");
     ana.txskim.createBranch<float>("trigWgt");
     ana.txskim.createBranch<float>("trigWgtUp");
     ana.txskim.createBranch<float>("trigWgtDn");
@@ -151,7 +153,6 @@ void Begin_E()
                 // This is specific to generating only 3 FJ related ntuple
                 if (ana.txskim.getBranchLazy<int>("is0Lep"))
                 {
-                    return true;
                     bool pass = false;
                     for (auto& var : ana.variations)
                     {
@@ -168,12 +169,41 @@ void Begin_E()
                     }
                     return pass;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (ana.region == 2)
+            {
+                // This is specific to generating only 3 FJ related ntuple
+                if (ana.txskim.getBranchLazy<int>("is0Lep"))
+                {
+                    bool pass = false;
+                    for (auto& var : ana.variations)
+                    {
+                        const int& NFJ = ana.txskim.getBranchLazy<int>(TString::Format("NFJ%s", var.Data()));
+                        const int& NiFJ = ana.txskim.getBranchLazy<int>(TString::Format("NiFJ%s", var.Data()));
+                        const int& NJ = ana.txskim.getBranchLazy<int>(TString::Format("NJ%s", var.Data()));
+                        float FJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("FJ0%s", var.Data())).pt();
+                        float iFJ0pt = ana.txskim.getBranchLazy<LV>(TString::Format("iFJ0%s", var.Data())).pt();
+                        if (NFJ >= 2 and FJ0pt >= 400)
+                        {
+                            pass = true;
+                            break;
+                        }
+                    }
+                    return pass;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
                 if (ana.txskim.getBranchLazy<int>("is0Lep"))
                 {
-                    return true;
                     bool pass = false;
                     for (auto& var : ana.variations)
                     {

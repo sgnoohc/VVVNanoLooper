@@ -27,7 +27,7 @@ int main(int argc, char** argv)
         ("d,debug"       , "Run debug job. i.e. overrides output option to 'debug.root' and 'recreate's the file.")
         ("w,write"       , "Write skim tree.")
         ("V,VVVTree"     , "Input is VVVTree type.")
-        ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
+        ("r,region"      , "Region"                                                                                              , cxxopts::value<int>()->default_value("2"))
         ("z,systematic"  , "type 2 systematic uncertainty variation, 0==center, 1/2==jesup/dn,3/4==jerup/dn,5/6==jmsup/dn,7/8==jmrup/dn", cxxopts::value<int>())
         ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
         ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
@@ -370,6 +370,15 @@ int main(int argc, char** argv)
         // Looping input file
         while (ana.looper.nextEvent())
         {
+
+            // This sample had a problem with SMHLOOP and therefore is needed to remove this
+            if (ana.looper.getCurrentFileName().Contains("RunIISummer20UL18NanoAODv9/Dim6Merged/WWZ_NoFilter_Dim6_merged/output.root"))
+            {
+                if (abs(nt.LHEPart_pdgId()[0]) == 21)
+                {
+                    continue;
+                }
+            }
 
             // If splitting jobs are requested then determine whether to process the event or not based on remainder
             if (result.count("job_index") and result.count("nsplit_jobs"))

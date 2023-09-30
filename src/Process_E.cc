@@ -30,6 +30,11 @@ void Process_E_Event()
     ana.txskim.setBranch<vector<float>>("LHEReweightingWeight", LHEReweightingWeight);
     ana.txskim.setBranch<vector<float>>("PDF", PDF);
     ana.txskim.setBranch<vector<float>>("QCDScale", QCDScale);
+    try { ana.txskim.setBranch<float>("prefireWgt", nt.PrefireWeight());       } catch (std::runtime_error) { ana.txskim.setBranch<float>("prefireWgt", 1.); }
+    try { ana.txskim.setBranch<float>("prefireWgtUp", nt.PrefireWeight_Up());  } catch (std::runtime_error) { ana.txskim.setBranch<float>("prefireWgtUp", 1.); }
+    try { ana.txskim.setBranch<float>("prefireWgtDn", nt.PrefireWeight_Down());} catch (std::runtime_error) { ana.txskim.setBranch<float>("prefireWgtDn", 1.); }
+    try { ana.txskim.setBranch<int>("pu_nPU", nt.Pileup_nPU()); } catch (std::runtime_error) { ana.txskim.setBranch<int>("pu_nPU", 1); }
+    try { ana.txskim.setBranch<float>("pu_nTrueInt", nt.Pileup_nTrueInt()); } catch (std::runtime_error) { ana.txskim.setBranch<float>("pu_nTrueInt", 1); }
 
 }
 

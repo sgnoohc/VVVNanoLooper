@@ -36,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.testsamples
 
     # submission tag
-    tag = "VVV0TreeV8"
+    tag = "VVV0TreeV7"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -62,13 +62,14 @@ if __name__ == "__main__":
                         "sites": "T2_US_UCSD,UAF",
                         "use_xrootd":True,
                         "classads": [
-                            ["metis_extraargs", "-w --mode 10"]
+                            ["metis_extraargs", "-w --mode 10 --region 2"]
                             ]
                         },
                     cmssw_version = "CMSSW_10_2_13",
                     scram_arch = "slc7_amd64_gcc700",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
-                    tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
+                    # tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
+                    tarfile = "/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVV0TreeV7/package.tar.xz", # your tarfile with assorted goodies here
                     special_dir = "VVV0LepAnalysis/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 1,

@@ -4,14 +4,24 @@ from metis.Sample import DirectorySample, DBSSample
 # Specify a dataset name and a short name for the output root file on nfs
 
 testsamples = [
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWW_NoFilter_Dim6_merged/", dataset="/WWW_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWZ_NoFilter_Dim6_merged/", dataset="/WWZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WZZ_NoFilter_Dim6_merged/", dataset="/WZZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/ZZZ_NoFilter_Dim6_merged/", dataset="/ZZZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WWW_RunIISummer20UL18/", dataset="/WWW_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WWZ_RunIISummer20UL18/", dataset="/WWZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WZZ_RunIISummer20UL18/", dataset="/WZZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
-    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/ZZZ_RunIISummer20UL18/", dataset="/ZZZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWW_NoFilter_Dim6_merged/", dataset="/WWW_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWZ_NoFilter_Dim6_merged/", dataset="/WWZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WZZ_NoFilter_Dim6_merged/", dataset="/WZZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/ZZZ_NoFilter_Dim6_merged/", dataset="/ZZZ_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WWW_RunIISummer20UL18/", dataset="/WWW_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WWZ_RunIISummer20UL18/", dataset="/WWZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/WZZ_RunIISummer20UL18/", dataset="/WZZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/NoFilter/ZZZ_RunIISummer20UL18/", dataset="/ZZZ_NoFilter_Dim8/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWW_1Jet_NoFilter_Dim6_merged/", dataset="/WWW_1Jet_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WWZ_1Jet_NoFilter_Dim6_merged/", dataset="/WWZ_1Jet_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/WZZ_1Jet_NoFilter_Dim6_merged/", dataset="/WZZ_1Jet_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    # DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/RunIISummer20UL18NanoAODv9/Dim6Merged/ZZZ_1Jet_NoFilter_Dim6_merged", dataset="/ZZZ_1Jet_NoFilter_Dim6/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+
+    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/postprocessed/WWW_1Jet_Dim6/", dataset="/WWW_1Jet_NoFilter_Dim6_PostProcessed/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/postprocessed/WWZ_1Jet_Dim6/", dataset="/WWZ_1Jet_NoFilter_Dim6_PostProcessed/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/postprocessed/WZZ_1Jet_Dim6/", dataset="/WZZ_1Jet_NoFilter_Dim6_PostProcessed/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
+    DirectorySample(location="/ceph/cms/store/user/phchang/VVV0LepAnalysis/VVVULSignalSamples/ULSignalSamples/postprocessed/ZZZ_1Jet_Dim6/", dataset="/ZZZ_1Jet_NoFilter_Dim6_PostProcessed/RunIISummer20UL18NanoAODv9/NANOAODSIM"),
 
     DBSSample(dataset="/JetHT/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
     DBSSample(dataset="/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
