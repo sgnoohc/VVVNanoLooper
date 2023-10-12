@@ -30,12 +30,7 @@ void Begin()
     h_systematic_uncertainties_type1.addVecHistogram("systematic_variation",200, 0, 200, [&]() { 
         std::vector<float> rtn; 
         unsigned int i=0;
-        for (i = 0; i < 27; ++i) rtn.push_back(i); 
-        vector<float> qcd=ana.tx.getBranchLazy<vector<float>>("Common_event_QCDScale");
-        for (unsigned int j = 0; j < qcd.size(); ++j){
-            rtn.push_back(i);
-            i++;
-        } 
+        for (i = 0; i < 33; ++i) rtn.push_back(i); 
         vector<float> pdf=ana.tx.getBranchLazy<vector<float>>("Common_event_PDF");
         for (unsigned int j = 0; j < pdf.size(); ++j){
             rtn.push_back(i);
@@ -117,12 +112,26 @@ void Begin()
         dn=ana.tx.getBranch<float>("Common_eventweight_fatjet_MD_SFdnLoose");
         rtn.push_back(up/c);
         rtn.push_back(dn/c);
-        //bin 28-35 for QCD scale weights
+        //bin 28-33 for QCD scale weights
         vector<float> qcd=ana.tx.getBranchLazy<vector<float>>("Common_event_QCDScale");
-        for (unsigned int i = 0; i < qcd.size(); ++i){
-            rtn.push_back(qcd.at(i));
-        } 
-        //bin 36-136 for pdf weights, 137,138 for alpha_s weights
+	if(qcd.size()==9){
+		rtn.push_back(qcd.at(0));
+		rtn.push_back(qcd.at(1));
+		rtn.push_back(qcd.at(3));
+		rtn.push_back(qcd.at(5));	
+		rtn.push_back(qcd.at(7));
+		rtn.push_back(qcd.at(8));
+	}
+	else{
+		rtn.push_back(qcd.at(0));
+		rtn.push_back(qcd.at(1));
+		rtn.push_back(qcd.at(3));
+		rtn.push_back(qcd.at(4));	
+		rtn.push_back(qcd.at(6));
+		rtn.push_back(qcd.at(7));
+	}
+
+        //bin 34-134 for pdf weights, 135,136 for alpha_s weights
         vector<float> pdf=ana.tx.getBranchLazy<vector<float>>("Common_event_PDF");
         for (unsigned int i = 0; i < pdf.size(); ++i){
             rtn.push_back(pdf.at(i));
