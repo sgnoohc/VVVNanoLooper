@@ -5,6 +5,7 @@
 #include "cxxopts.h"
 
 // helper functions
+void setup_SRBranch();
 void setupBDTBranches_test();
 void setupBDTBranches_train();
 void fillBDTBranches_test();
