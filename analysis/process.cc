@@ -1461,16 +1461,6 @@ int main(int argc, char** argv)
 
 	}
 
-        if ( write_counts ){
-	     std::cout << "==============================================================" << std::endl;
-	     std::cout << "Number of entries in OF bin 1: " << nevts_OF_1 << std::endl;
-	     std::cout << "Number of entries in OF bin 2: " << nevts_OF_2 << std::endl;
-	     std::cout << "Number of entries in OF bin 3: " << nevts_OF_3 << std::endl;
-	     std::cout << "Number of entries in OF bin 4: " << nevts_OF_4 << std::endl;
-	     std::cout << "Number of entries in SF bin 5: " << nevts_SF_5 << std::endl;
-             std::cout << "Number of entries in SF bin 6: " << nevts_SF_6 << std::endl;
-             std::cout << "Number of entries in SF bin 7: " << nevts_SF_7 << std::endl;
-        }
 
         //if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt()))
         //{
@@ -1617,6 +1607,16 @@ int main(int argc, char** argv)
 
     ana.cutflow.getCut("CutEMuMT2").writeEventList("eventlist.txt");
 
+    if ( write_counts ){
+             std::cout << "==============================================================" << std::endl;
+             std::cout << "Number of entries in OF bin 1: " << nevts_OF_1 << std::endl;
+             std::cout << "Number of entries in OF bin 2: " << nevts_OF_2 << std::endl;
+             std::cout << "Number of entries in OF bin 3: " << nevts_OF_3 << std::endl;
+             std::cout << "Number of entries in OF bin 4: " << nevts_OF_4 << std::endl;
+             std::cout << "Number of entries in SF bin 5: " << nevts_SF_5 << std::endl;
+             std::cout << "Number of entries in SF bin 6: " << nevts_SF_6 << std::endl;
+             std::cout << "Number of entries in SF bin 7: " << nevts_SF_7 << std::endl;
+    }
 
     // Writing output file
     ana.cutflow.saveOutput();
