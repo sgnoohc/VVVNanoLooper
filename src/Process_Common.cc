@@ -32,6 +32,7 @@ void Process_Common_NanoAOD()
     ana.tx.setBranch<int>                  ("Common_isData", nt.isData());
     ana.tx.setBranch<int>                  ("Common_run", nt.run());
     ana.tx.setBranch<int>                  ("Common_lumi", nt.luminosityBlock());
+    ana.tx.setBranch<int>                  ("Common_year", nt.year());
     ana.tx.setBranch<unsigned long long>   ("Common_evt", nt.event());
 
     //std::cout << "Run = " << nt.run() << endl;
