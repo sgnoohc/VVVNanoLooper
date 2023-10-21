@@ -436,6 +436,10 @@ int main(int argc, char** argv)
 
 			   return passTrig;
 		       }, UNITY);
+    ana.cutflow.addCutToLastActiveCut("CutNoiseFilter", [&]()
+                                      {
+                                          return vvv.Common_noiseFlag();
+                                      }, UNITY);
 
     ana.cutflow.addCutToLastActiveCut("CutWeight", UNITY, [&]()
                        {
@@ -857,14 +861,59 @@ int main(int argc, char** argv)
                                          for (auto& i : lep_idxs){
                                              for (auto& j : lep_idxs){
                                                  if ( i == j ) continue;
-                                                 if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 ) 
-                                                      passTrigger |= (vvv.Common_HLT_DoubleEl() and vvv.Common_lep_p4()[i].pt() > 25. and vvv.Common_lep_p4()[j].pt() > 15.);
-                                                 else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 )
-                                                      passTrigger |= (vvv.Common_HLT_MuEG() and vvv.Common_lep_p4()[i].pt() > 25. and vvv.Common_lep_p4()[j].pt() > 15.);
-                                                 else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
-                                                      passTrigger |= (vvv.Common_HLT_MuEG() and vvv.Common_lep_p4()[i].pt() > 25. and vvv.Common_lep_p4()[j].pt() > 10.);
-                                                 else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
-                                                      passTrigger |= (vvv.Common_HLT_DoubleMu() and vvv.Common_lep_p4()[i].pt() > 20. and vvv.Common_lep_p4()[j].pt() > 10.);
+
+                                                 bool trig_ee, trig_em, trig_me, trig_mm;
+                                                 float pti = vvv.Common_lep_p4()[i].pt();
+                                                 float ptj = vvv.Common_lep_p4()[j].pt();
+                                                 float pt0 = pti > ptj ? pti : ptj;
+                                                 float pt1 = pti > ptj ? ptj : pti;
+
+                                                 if (vvv.Common_year() == 2016)
+                                                 {
+                                                     trig_ee = vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_em = vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() or vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_me = vvv.Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() or vvv.Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_mm = vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() or vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() or vvv.Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() or vvv.Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
+                                                     if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 ) 
+                                                         passTrigger |= (trig_ee and pt0 > 25. and pt1 > 15.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 )
+                                                         passTrigger |= (trig_me and pti > 25. and ptj > 10.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_em and pti > 25. and ptj > 10.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_mm and pt0 > 20. and pt1 > 10.);
+                                                 }
+                                                 else if (vvv.Common_year() == 2017)
+                                                 {
+                                                     trig_ee = vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL();
+                                                     trig_em = vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_me = vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_mm = vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
+                                                     if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 ) 
+                                                         passTrigger |= (trig_ee and pt0 > 25. and pt1 > 15.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 )
+                                                         passTrigger |= (trig_me and pti > 25. and ptj > 15.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_em and pti > 25. and ptj > 10.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_mm and pt0 > 20. and pt1 > 10.);
+                                                 }
+                                                 else if (vvv.Common_year() == 2018)
+                                                 {
+                                                     trig_ee = vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL();
+                                                     trig_me = vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_em = vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
+                                                     trig_mm = vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8();
+                                                     if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 ) 
+                                                         passTrigger |= (trig_ee and pt0 > 25. and pt1 > 15.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 11 )
+                                                         passTrigger |= (trig_me and pti > 25. and ptj > 15.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 11 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_em and pti > 25. and ptj > 10.);
+                                                     else if ( std::abs(vvv.Common_lep_pdgid()[i]) == 13 and std::abs(vvv.Common_lep_pdgid()[j]) == 13 )
+                                                         passTrigger |= (trig_mm and pt0 > 20. and pt1 > 10.);
+                                                 }
+
                                              }
                                          }
 
@@ -1603,9 +1652,28 @@ int main(int argc, char** argv)
              ana.tx_srs->fill();
         }
 
+        if (eventlist_to_check.has(vvv.Common_run(), vvv.Common_lumi(), vvv.Common_evt()))
+        {
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_0().pt(): " << vvv.Var_4LepMET_other_lep_p4_0().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_lep_p4_1().pt(): " << vvv.Var_4LepMET_other_lep_p4_1().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_0().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_0().pt() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_Zcand_lep_p4_1().pt(): " << vvv.Var_4LepMET_Zcand_lep_p4_1().pt() <<  std::endl;
+            std::cout <<  " (vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()).mass(): " << (vvv.Var_4LepMET_other_lep_p4_0()+vvv.Var_4LepMET_Zcand_lep_p4_1()).mass() <<  std::endl;
+            std::cout <<  " (vvv.Var_4LepMET_other_lep_p4_1()+vvv.Var_4LepMET_Zcand_lep_p4_0()).mass(): " << (vvv.Var_4LepMET_other_lep_p4_1()+vvv.Var_4LepMET_Zcand_lep_p4_0()).mass() <<  std::endl;
+            // vvv.Var_4LepMET_other_lep_p4_0().pt() 
+            //     vvv.Var_4LepMET_other_lep_p4_1().pt() 
+            //     vvv.Var_4LepMET_Zcand_lep_p4_0().pt() 
+            //     vvv.Var_4LepMET_Zcand_lep_p4_1().pt() 
+            std::cout <<  " vvv.Var_4LepMET_Zcand_mll(): " << vvv.Var_4LepMET_Zcand_mll() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_other_mll(): " << vvv.Var_4LepMET_other_mll() <<  std::endl;
+            std::cout <<  " vvv.Var_4LepMET_mt2_PuppiMET(): " << vvv.Var_4LepMET_mt2_PuppiMET() <<  std::endl;
+
+            ana.cutflow.printCuts();
+        }
+
     }
 
-    ana.cutflow.getCut("CutEMuMT2").writeEventList("eventlist.txt");
+    ana.cutflow.getCut("CutEMuMT2_trgMatch").writeEventList("eventlist.txt");
 
     if ( write_counts ){
              std::cout << "==============================================================" << std::endl;

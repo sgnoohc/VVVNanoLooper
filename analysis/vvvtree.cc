@@ -4,10 +4,6 @@ vvvtree vvv;
 void vvvtree::Init(TTree *tree) {
   Common_met_p4_branch = tree->GetBranch("Common_met_p4");
   if (Common_met_p4_branch) Common_met_p4_branch->SetAddress(&Common_met_p4_);
-  Common_met_p4_MET_branch = tree->GetBranch("Common_met_p4_MET");
-  if (Common_met_p4_MET_branch) Common_met_p4_MET_branch->SetAddress(&Common_met_p4_MET_);
-  Common_met_p4_PuppiMET_branch = tree->GetBranch("Common_met_p4_PuppiMET");
-  if (Common_met_p4_PuppiMET_branch) Common_met_p4_PuppiMET_branch->SetAddress(&Common_met_p4_PuppiMET_);
   Common_met_p4_jesup_branch = tree->GetBranch("Common_met_p4_jesup");
   if (Common_met_p4_jesup_branch) Common_met_p4_jesup_branch->SetAddress(&Common_met_p4_jesup_);
   Common_met_p4_jesdn_branch = tree->GetBranch("Common_met_p4_jesdn");
@@ -16,10 +12,16 @@ void vvvtree::Init(TTree *tree) {
   if (Common_met_p4_jerup_branch) Common_met_p4_jerup_branch->SetAddress(&Common_met_p4_jerup_);
   Common_met_p4_jerdn_branch = tree->GetBranch("Common_met_p4_jerdn");
   if (Common_met_p4_jerdn_branch) Common_met_p4_jerdn_branch->SetAddress(&Common_met_p4_jerdn_);
+  Common_met_p4_MET_branch = tree->GetBranch("Common_met_p4_MET");
+  if (Common_met_p4_MET_branch) Common_met_p4_MET_branch->SetAddress(&Common_met_p4_MET_);
+  Common_met_p4_PuppiMET_branch = tree->GetBranch("Common_met_p4_PuppiMET");
+  if (Common_met_p4_PuppiMET_branch) Common_met_p4_PuppiMET_branch->SetAddress(&Common_met_p4_PuppiMET_);
   Common_lep_p4_branch = tree->GetBranch("Common_lep_p4");
   if (Common_lep_p4_branch) Common_lep_p4_branch->SetAddress(&Common_lep_p4_);
   Common_tau_p4_branch = tree->GetBranch("Common_tau_p4");
   if (Common_tau_p4_branch) Common_tau_p4_branch->SetAddress(&Common_tau_p4_);
+  Common_GenVisTau_p4_branch = tree->GetBranch("Common_GenVisTau_p4");
+  if (Common_GenVisTau_p4_branch) Common_GenVisTau_p4_branch->SetAddress(&Common_GenVisTau_p4_);
   Common_jet_p4_branch = tree->GetBranch("Common_jet_p4");
   if (Common_jet_p4_branch) Common_jet_p4_branch->SetAddress(&Common_jet_p4_);
   Common_fatjet_p4_branch = tree->GetBranch("Common_fatjet_p4");
@@ -40,14 +42,6 @@ void vvvtree::Init(TTree *tree) {
   if (Var_4LepMET_other_lep_p4_0_branch) Var_4LepMET_other_lep_p4_0_branch->SetAddress(&Var_4LepMET_other_lep_p4_0_);
   Var_4LepMET_other_lep_p4_1_branch = tree->GetBranch("Var_4LepMET_other_lep_p4_1");
   if (Var_4LepMET_other_lep_p4_1_branch) Var_4LepMET_other_lep_p4_1_branch->SetAddress(&Var_4LepMET_other_lep_p4_1_);
-  Var_3LepTauMET_Zcand_lep_p4_0_branch = tree->GetBranch("Var_3LepTauMET_Zcand_lep_p4_0");
-  if (Var_3LepTauMET_Zcand_lep_p4_0_branch) Var_3LepTauMET_Zcand_lep_p4_0_branch->SetAddress(&Var_3LepTauMET_Zcand_lep_p4_0_);
-  Var_3LepTauMET_Zcand_lep_p4_1_branch = tree->GetBranch("Var_3LepTauMET_Zcand_lep_p4_1");
-  if (Var_3LepTauMET_Zcand_lep_p4_1_branch) Var_3LepTauMET_Zcand_lep_p4_1_branch->SetAddress(&Var_3LepTauMET_Zcand_lep_p4_1_);
-  Var_3LepTauMET_other_lep_p4_0_branch = tree->GetBranch("Var_3LepTauMET_other_lep_p4_0");
-  if (Var_3LepTauMET_other_lep_p4_0_branch) Var_3LepTauMET_other_lep_p4_0_branch->SetAddress(&Var_3LepTauMET_other_lep_p4_0_);
-  Var_3LepTauMET_tau_p4_0_branch = tree->GetBranch("Var_3LepTauMET_tau_p4_0");
-  if (Var_3LepTauMET_tau_p4_0_branch) Var_3LepTauMET_tau_p4_0_branch->SetAddress(&Var_3LepTauMET_tau_p4_0_);
 
   tree->SetMakeClass(1);
 
@@ -57,6 +51,8 @@ void vvvtree::Init(TTree *tree) {
   if (Common_run_branch) Common_run_branch->SetAddress(&Common_run_);
   Common_lumi_branch = tree->GetBranch("Common_lumi");
   if (Common_lumi_branch) Common_lumi_branch->SetAddress(&Common_lumi_);
+  Common_year_branch = tree->GetBranch("Common_year");
+  if (Common_year_branch) Common_year_branch->SetAddress(&Common_year_);
   Common_evt_branch = tree->GetBranch("Common_evt");
   if (Common_evt_branch) Common_evt_branch->SetAddress(&Common_evt_);
   Common_genWeight_branch = tree->GetBranch("Common_genWeight");
@@ -89,20 +85,28 @@ void vvvtree::Init(TTree *tree) {
   if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_);
   Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL");
   if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_branch) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_);
-  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8");
-  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_);
+  Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL");
+  if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch) Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_);
+  Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ");
+  if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch) Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_);
   Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
   if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_);
-  Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL");
-  if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_);
-  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
-  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_);
-  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL");
-  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_);
+  Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ");
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch) Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_);
+  Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL");
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch) Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_);
   Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ");
   if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch) Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_);
   Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL");
   if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch) Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_);
+  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8");
+  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_);
+  Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch = tree->GetBranch("Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL");
+  if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch->SetAddress(&Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_);
+  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch = tree->GetBranch("Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch->SetAddress(&Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_);
+  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch = tree->GetBranch("Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8");
+  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch->SetAddress(&Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_);
   Common_HLT_PFHT1050_branch = tree->GetBranch("Common_HLT_PFHT1050");
   if (Common_HLT_PFHT1050_branch) Common_HLT_PFHT1050_branch->SetAddress(&Common_HLT_PFHT1050_);
   Common_HLT_AK8PFJet500_branch = tree->GetBranch("Common_HLT_AK8PFJet500");
@@ -221,12 +225,6 @@ void vvvtree::Init(TTree *tree) {
   if (Common_lep_relIso03_all_branch) Common_lep_relIso03_all_branch->SetAddress(&Common_lep_relIso03_all_);
   Common_lep_ID_branch = tree->GetBranch("Common_lep_ID");
   if (Common_lep_ID_branch) Common_lep_ID_branch->SetAddress(&Common_lep_ID_);
-  Common_tau_idVSe_branch = tree->GetBranch("Common_tau_idVSe");
-  if (Common_tau_idVSe_branch) Common_tau_idVSe_branch->SetAddress(&Common_tau_idVSe_);
-  Common_tau_idVSmu_branch = tree->GetBranch("Common_tau_idVSmu");
-  if (Common_tau_idVSmu_branch) Common_tau_idVSmu_branch->SetAddress(&Common_tau_idVSmu_);
-  Common_tau_idVSjet_branch = tree->GetBranch("Common_tau_idVSjet");
-  if (Common_tau_idVSjet_branch) Common_tau_idVSjet_branch->SetAddress(&Common_tau_idVSjet_);
   Common_lep_SF_branch = tree->GetBranch("Common_lep_SF");
   if (Common_lep_SF_branch) Common_lep_SF_branch->SetAddress(&Common_lep_SF_);
   Common_lep_SFTight_branch = tree->GetBranch("Common_lep_SFTight");
@@ -239,14 +237,36 @@ void vvvtree::Init(TTree *tree) {
   if (Common_lep_SFup_branch) Common_lep_SFup_branch->SetAddress(&Common_lep_SFup_);
   Common_lep_SFupTight_branch = tree->GetBranch("Common_lep_SFupTight");
   if (Common_lep_SFupTight_branch) Common_lep_SFupTight_branch->SetAddress(&Common_lep_SFupTight_);
+  Common_tau_idxs_branch = tree->GetBranch("Common_tau_idxs");
+  if (Common_tau_idxs_branch) Common_tau_idxs_branch->SetAddress(&Common_tau_idxs_);
+  Common_tau_decayMode_branch = tree->GetBranch("Common_tau_decayMode");
+  if (Common_tau_decayMode_branch) Common_tau_decayMode_branch->SetAddress(&Common_tau_decayMode_);
+  Common_tau_dxy_branch = tree->GetBranch("Common_tau_dxy");
+  if (Common_tau_dxy_branch) Common_tau_dxy_branch->SetAddress(&Common_tau_dxy_);
+  Common_tau_dz_branch = tree->GetBranch("Common_tau_dz");
+  if (Common_tau_dz_branch) Common_tau_dz_branch->SetAddress(&Common_tau_dz_);
+  Common_tau_eta_branch = tree->GetBranch("Common_tau_eta");
+  if (Common_tau_eta_branch) Common_tau_eta_branch->SetAddress(&Common_tau_eta_);
+  Common_tau_chargedIso_branch = tree->GetBranch("Common_tau_chargedIso");
+  if (Common_tau_chargedIso_branch) Common_tau_chargedIso_branch->SetAddress(&Common_tau_chargedIso_);
+  Common_tau_jetIdx_branch = tree->GetBranch("Common_tau_jetIdx");
+  if (Common_tau_jetIdx_branch) Common_tau_jetIdx_branch->SetAddress(&Common_tau_jetIdx_);
+  Common_tau_neutralIso_branch = tree->GetBranch("Common_tau_neutralIso");
+  if (Common_tau_neutralIso_branch) Common_tau_neutralIso_branch->SetAddress(&Common_tau_neutralIso_);
+  Common_tau_charge_branch = tree->GetBranch("Common_tau_charge");
+  if (Common_tau_charge_branch) Common_tau_charge_branch->SetAddress(&Common_tau_charge_);
+  Common_tau_idVSe_branch = tree->GetBranch("Common_tau_idVSe");
+  if (Common_tau_idVSe_branch) Common_tau_idVSe_branch->SetAddress(&Common_tau_idVSe_);
+  Common_tau_idVSmu_branch = tree->GetBranch("Common_tau_idVSmu");
+  if (Common_tau_idVSmu_branch) Common_tau_idVSmu_branch->SetAddress(&Common_tau_idVSmu_);
+  Common_tau_idVSjet_branch = tree->GetBranch("Common_tau_idVSjet");
+  if (Common_tau_idVSjet_branch) Common_tau_idVSjet_branch->SetAddress(&Common_tau_idVSjet_);
+  Common_GenVisTau_idxs_branch = tree->GetBranch("Common_GenVisTau_idxs");
+  if (Common_GenVisTau_idxs_branch) Common_GenVisTau_idxs_branch->SetAddress(&Common_GenVisTau_idxs_);
+  Common_GenVisTau_status_branch = tree->GetBranch("Common_GenVisTau_status");
+  if (Common_GenVisTau_status_branch) Common_GenVisTau_status_branch->SetAddress(&Common_GenVisTau_status_);
   Common_jet_idxs_branch = tree->GetBranch("Common_jet_idxs");
   if (Common_jet_idxs_branch) Common_jet_idxs_branch->SetAddress(&Common_jet_idxs_);
-  Common_jet_genJetIdx_branch = tree->GetBranch("Common_jet_genJetIdx");
-  if (Common_jet_genJetIdx_branch) Common_jet_genJetIdx_branch->SetAddress(&Common_jet_genJetIdx_);
-  Common_jet_hadronFlavour_branch = tree->GetBranch("Common_jet_hadronFlavour");
-  if (Common_jet_hadronFlavour_branch) Common_jet_hadronFlavour_branch->SetAddress(&Common_jet_hadronFlavour_);
-  Common_jet_partonFlavour_branch = tree->GetBranch("Common_jet_partonFlavour");
-  if (Common_jet_partonFlavour_branch) Common_jet_partonFlavour_branch->SetAddress(&Common_jet_partonFlavour_);
   Common_jet_passBloose_branch = tree->GetBranch("Common_jet_passBloose");
   if (Common_jet_passBloose_branch) Common_jet_passBloose_branch->SetAddress(&Common_jet_passBloose_);
   Common_jet_passBmedium_branch = tree->GetBranch("Common_jet_passBmedium");
@@ -263,6 +283,12 @@ void vvvtree::Init(TTree *tree) {
   if (Common_jet_id_branch) Common_jet_id_branch->SetAddress(&Common_jet_id_);
   Common_jet_puid_branch = tree->GetBranch("Common_jet_puid");
   if (Common_jet_puid_branch) Common_jet_puid_branch->SetAddress(&Common_jet_puid_);
+  Common_jet_genJetIdx_branch = tree->GetBranch("Common_jet_genJetIdx");
+  if (Common_jet_genJetIdx_branch) Common_jet_genJetIdx_branch->SetAddress(&Common_jet_genJetIdx_);
+  Common_jet_hadronFlavour_branch = tree->GetBranch("Common_jet_hadronFlavour");
+  if (Common_jet_hadronFlavour_branch) Common_jet_hadronFlavour_branch->SetAddress(&Common_jet_hadronFlavour_);
+  Common_jet_partonFlavour_branch = tree->GetBranch("Common_jet_partonFlavour");
+  if (Common_jet_partonFlavour_branch) Common_jet_partonFlavour_branch->SetAddress(&Common_jet_partonFlavour_);
   Common_jet_overlapfatjet_branch = tree->GetBranch("Common_jet_overlapfatjet");
   if (Common_jet_overlapfatjet_branch) Common_jet_overlapfatjet_branch->SetAddress(&Common_jet_overlapfatjet_);
   Common_jet_pt_jesup_branch = tree->GetBranch("Common_jet_pt_jesup");
@@ -529,10 +555,6 @@ void vvvtree::Init(TTree *tree) {
   if (Cut_4LepMET_Preselection_branch) Cut_4LepMET_Preselection_branch->SetAddress(&Cut_4LepMET_Preselection_);
   Cut_4LepMET_emuChannel_branch = tree->GetBranch("Cut_4LepMET_emuChannel");
   if (Cut_4LepMET_emuChannel_branch) Cut_4LepMET_emuChannel_branch->SetAddress(&Cut_4LepMET_emuChannel_);
-  Cut_3LepTauMET_etauChannel_branch = tree->GetBranch("Cut_3LepTauMET_etauChannel");
-  if (Cut_3LepTauMET_etauChannel_branch) Cut_3LepTauMET_etauChannel_branch->SetAddress(&Cut_3LepTauMET_etauChannel_);
-  Cut_3LepTauMET_mutauChannel_branch = tree->GetBranch("Cut_3LepTauMET_mutauChannel");
-  if (Cut_3LepTauMET_mutauChannel_branch) Cut_3LepTauMET_mutauChannel_branch->SetAddress(&Cut_3LepTauMET_mutauChannel_);
   Cut_4LepMET_offzChannel_branch = tree->GetBranch("Cut_4LepMET_offzChannel");
   if (Cut_4LepMET_offzChannel_branch) Cut_4LepMET_offzChannel_branch->SetAddress(&Cut_4LepMET_offzChannel_);
   Cut_4LepMET_onzChannel_branch = tree->GetBranch("Cut_4LepMET_onzChannel");
@@ -541,58 +563,38 @@ void vvvtree::Init(TTree *tree) {
   if (Cut_4LepMET_onzChannel_HighMET_branch) Cut_4LepMET_onzChannel_HighMET_branch->SetAddress(&Cut_4LepMET_onzChannel_HighMET_);
   Var_4LepMET_Zcand_lep_idx_0_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_idx_0");
   if (Var_4LepMET_Zcand_lep_idx_0_branch) Var_4LepMET_Zcand_lep_idx_0_branch->SetAddress(&Var_4LepMET_Zcand_lep_idx_0_);
-  Var_3LepTauMET_tau_idVSe_0_branch = tree->GetBranch("Var_3LepTauMET_tau_idVSe_0");
-  if (Var_3LepTauMET_tau_idVSe_0_branch) Var_3LepTauMET_tau_idVSe_0_branch->SetAddress(&Var_3LepTauMET_tau_idVSe_0_);
-  Var_3LepTauMET_tau_idVSmu_0_branch = tree->GetBranch("Var_3LepTauMET_tau_idVSmu_0");
-  if (Var_3LepTauMET_tau_idVSmu_0_branch) Var_3LepTauMET_tau_idVSmu_0_branch->SetAddress(&Var_3LepTauMET_tau_idVSmu_0_);
-  Var_3LepTauMET_tau_idVSjet_0_branch = tree->GetBranch("Var_3LepTauMET_tau_idVSjet_0");
-  if (Var_3LepTauMET_tau_idVSjet_0_branch) Var_3LepTauMET_tau_idVSjet_0_branch->SetAddress(&Var_3LepTauMET_tau_idVSjet_0_);
-  Var_3LepTauMET_Zcand_lep_idx_0_branch = tree->GetBranch("Var_3LepTauMET_Zcand_lep_idx_0");
-  if (Var_3LepTauMET_Zcand_lep_idx_0_branch) Var_3LepTauMET_Zcand_lep_idx_0_branch->SetAddress(&Var_3LepTauMET_Zcand_lep_idx_0_);
   Var_4LepMET_Zcand_lep_pdgid_0_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_pdgid_0");
   if (Var_4LepMET_Zcand_lep_pdgid_0_branch) Var_4LepMET_Zcand_lep_pdgid_0_branch->SetAddress(&Var_4LepMET_Zcand_lep_pdgid_0_);
   Var_4LepMET_Zcand_lep_idx_1_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_idx_1");
   if (Var_4LepMET_Zcand_lep_idx_1_branch) Var_4LepMET_Zcand_lep_idx_1_branch->SetAddress(&Var_4LepMET_Zcand_lep_idx_1_);
-  Var_3LepTauMET_Zcand_lep_idx_1_branch = tree->GetBranch("Var_3LepTauMET_Zcand_lep_idx_1");
-  if (Var_3LepTauMET_Zcand_lep_idx_1_branch) Var_3LepTauMET_Zcand_lep_idx_1_branch->SetAddress(&Var_3LepTauMET_Zcand_lep_idx_1_);
-  Var_4LepMET_Zcand_lep_ID_1_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_ID_1");
-  if (Var_4LepMET_Zcand_lep_ID_1_branch) Var_4LepMET_Zcand_lep_ID_1_branch->SetAddress(&Var_4LepMET_Zcand_lep_ID_1_);
-  Var_4LepMET_Zcand_lep_ID_0_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_ID_0");
-  if (Var_4LepMET_Zcand_lep_ID_0_branch) Var_4LepMET_Zcand_lep_ID_0_branch->SetAddress(&Var_4LepMET_Zcand_lep_ID_0_);
   Var_4LepMET_Zcand_lep_pdgid_1_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_pdgid_1");
   if (Var_4LepMET_Zcand_lep_pdgid_1_branch) Var_4LepMET_Zcand_lep_pdgid_1_branch->SetAddress(&Var_4LepMET_Zcand_lep_pdgid_1_);
   Var_4LepMET_Zcand_mll_branch = tree->GetBranch("Var_4LepMET_Zcand_mll");
   if (Var_4LepMET_Zcand_mll_branch) Var_4LepMET_Zcand_mll_branch->SetAddress(&Var_4LepMET_Zcand_mll_);
-  Var_3LepTauMET_Zcand_mll_branch = tree->GetBranch("Var_3LepTauMET_Zcand_mll");
-  if (Var_3LepTauMET_Zcand_mll_branch) Var_3LepTauMET_Zcand_mll_branch->SetAddress(&Var_3LepTauMET_Zcand_mll_);
+  Var_4LepMET_Zcand_lep_ID_0_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_ID_0");
+  if (Var_4LepMET_Zcand_lep_ID_0_branch) Var_4LepMET_Zcand_lep_ID_0_branch->SetAddress(&Var_4LepMET_Zcand_lep_ID_0_);
+  Var_4LepMET_Zcand_lep_ID_1_branch = tree->GetBranch("Var_4LepMET_Zcand_lep_ID_1");
+  if (Var_4LepMET_Zcand_lep_ID_1_branch) Var_4LepMET_Zcand_lep_ID_1_branch->SetAddress(&Var_4LepMET_Zcand_lep_ID_1_);
   Var_4LepMET_other_lep_idx_0_branch = tree->GetBranch("Var_4LepMET_other_lep_idx_0");
   if (Var_4LepMET_other_lep_idx_0_branch) Var_4LepMET_other_lep_idx_0_branch->SetAddress(&Var_4LepMET_other_lep_idx_0_);
-  Var_3LepTauMET_other_lep_idx_0_branch = tree->GetBranch("Var_3LepTauMET_other_lep_idx_0");
-  if (Var_3LepTauMET_other_lep_idx_0_branch) Var_3LepTauMET_other_lep_idx_0_branch->SetAddress(&Var_3LepTauMET_other_lep_idx_0_);
-  Var_4LepMET_other_lep_ID_0_branch = tree->GetBranch("Var_4LepMET_other_lep_ID_0");
-  if (Var_4LepMET_other_lep_ID_0_branch) Var_4LepMET_other_lep_ID_0_branch->SetAddress(&Var_4LepMET_other_lep_ID_0_);
   Var_4LepMET_other_lep_pdgid_0_branch = tree->GetBranch("Var_4LepMET_other_lep_pdgid_0");
   if (Var_4LepMET_other_lep_pdgid_0_branch) Var_4LepMET_other_lep_pdgid_0_branch->SetAddress(&Var_4LepMET_other_lep_pdgid_0_);
-  Var_3LepTauMET_tau_pdgid_0_branch = tree->GetBranch("Var_3LepTauMET_tau_pdgid_0");
-  if (Var_3LepTauMET_tau_pdgid_0_branch) Var_3LepTauMET_tau_pdgid_0_branch->SetAddress(&Var_3LepTauMET_tau_pdgid_0_);
   Var_4LepMET_other_lep_idx_1_branch = tree->GetBranch("Var_4LepMET_other_lep_idx_1");
   if (Var_4LepMET_other_lep_idx_1_branch) Var_4LepMET_other_lep_idx_1_branch->SetAddress(&Var_4LepMET_other_lep_idx_1_);
-  Var_4LepMET_other_lep_ID_1_branch = tree->GetBranch("Var_4LepMET_other_lep_ID_1");
-  if (Var_4LepMET_other_lep_ID_1_branch) Var_4LepMET_other_lep_ID_1_branch->SetAddress(&Var_4LepMET_other_lep_ID_1_);
   Var_4LepMET_other_lep_pdgid_1_branch = tree->GetBranch("Var_4LepMET_other_lep_pdgid_1");
   if (Var_4LepMET_other_lep_pdgid_1_branch) Var_4LepMET_other_lep_pdgid_1_branch->SetAddress(&Var_4LepMET_other_lep_pdgid_1_);
   Var_4LepMET_other_mll_branch = tree->GetBranch("Var_4LepMET_other_mll");
   if (Var_4LepMET_other_mll_branch) Var_4LepMET_other_mll_branch->SetAddress(&Var_4LepMET_other_mll_);
-  Var_3LepTauMET_other_mll_branch = tree->GetBranch("Var_3LepTauMET_other_mll");
-  if (Var_3LepTauMET_other_mll_branch) Var_3LepTauMET_other_mll_branch->SetAddress(&Var_3LepTauMET_other_mll_);
+  Var_4LepMET_other_lep_ID_0_branch = tree->GetBranch("Var_4LepMET_other_lep_ID_0");
+  if (Var_4LepMET_other_lep_ID_0_branch) Var_4LepMET_other_lep_ID_0_branch->SetAddress(&Var_4LepMET_other_lep_ID_0_);
+  Var_4LepMET_other_lep_ID_1_branch = tree->GetBranch("Var_4LepMET_other_lep_ID_1");
+  if (Var_4LepMET_other_lep_ID_1_branch) Var_4LepMET_other_lep_ID_1_branch->SetAddress(&Var_4LepMET_other_lep_ID_1_);
   Var_4LepMET_mt2_branch = tree->GetBranch("Var_4LepMET_mt2");
   if (Var_4LepMET_mt2_branch) Var_4LepMET_mt2_branch->SetAddress(&Var_4LepMET_mt2_);
   Var_4LepMET_mt2_PuppiMET_branch = tree->GetBranch("Var_4LepMET_mt2_PuppiMET");
   if (Var_4LepMET_mt2_PuppiMET_branch) Var_4LepMET_mt2_PuppiMET_branch->SetAddress(&Var_4LepMET_mt2_PuppiMET_);
   Var_4LepMET_scaleLumi_branch = tree->GetBranch("Var_4LepMET_scaleLumi");
   if (Var_4LepMET_scaleLumi_branch) Var_4LepMET_scaleLumi_branch->SetAddress(&Var_4LepMET_scaleLumi_);
-  Var_3LepTauMET_scaleLumi_branch = tree->GetBranch("Var_3LepTauMET_scaleLumi");
-  if (Var_3LepTauMET_scaleLumi_branch) Var_3LepTauMET_scaleLumi_branch->SetAddress(&Var_3LepTauMET_scaleLumi_);
   Var_4LepMET_intLumi_branch = tree->GetBranch("Var_4LepMET_intLumi");
   if (Var_4LepMET_intLumi_branch) Var_4LepMET_intLumi_branch->SetAddress(&Var_4LepMET_intLumi_);
 
@@ -605,6 +607,7 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_isData_isLoaded = false;
   Common_run_isLoaded = false;
   Common_lumi_isLoaded = false;
+  Common_year_isLoaded = false;
   Common_evt_isLoaded = false;
   Common_genWeight_isLoaded = false;
   Common_btagWeight_DeepCSVB_isLoaded = false;
@@ -621,13 +624,17 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_LHEWeight_mg_reweighting_isLoaded = false;
   Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_isLoaded = false;
   Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_isLoaded = false;
-  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded = false;
+  Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_isLoaded = false;
+  Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = false;
   Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
-  Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
-  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
-  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
+  Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
+  Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
   Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
   Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
+  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_isLoaded = false;
+  Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = false;
+  Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = false;
+  Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded = false;
   Common_HLT_PFHT1050_isLoaded = false;
   Common_HLT_AK8PFJet500_isLoaded = false;
   Common_HLT_AK8PFJet380_TrimMass30_isLoaded = false;
@@ -647,12 +654,12 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_noiseFlagMC_isLoaded = false;
   Common_passGoodRun_isLoaded = false;
   Common_met_p4_isLoaded = false;
-  Common_met_p4_MET_isLoaded = false;
-  Common_met_p4_PuppiMET_isLoaded = false;
   Common_met_p4_jesup_isLoaded = false;
   Common_met_p4_jesdn_isLoaded = false;
   Common_met_p4_jerup_isLoaded = false;
   Common_met_p4_jerdn_isLoaded = false;
+  Common_met_p4_MET_isLoaded = false;
+  Common_met_p4_PuppiMET_isLoaded = false;
   Common_event_lepSF_isLoaded = false;
   Common_event_lepSFelup_isLoaded = false;
   Common_event_lepSFeldn_isLoaded = false;
@@ -685,7 +692,6 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_event_looseBtagSFLFup_isLoaded = false;
   Common_event_looseBtagSFLFdn_isLoaded = false;
   Common_lep_p4_isLoaded = false;
-  Common_tau_p4_isLoaded = false;
   Common_lep_idxs_isLoaded = false;
   Common_lep_pdgid_isLoaded = false;
   Common_lep_tight_isLoaded = false;
@@ -696,20 +702,30 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_lep_IsoID_isLoaded = false;
   Common_lep_relIso03_all_isLoaded = false;
   Common_lep_ID_isLoaded = false;
-  Common_tau_idVSe_isLoaded = false;
-  Common_tau_idVSmu_isLoaded = false;
-  Common_tau_idVSjet_isLoaded = false;
   Common_lep_SF_isLoaded = false;
   Common_lep_SFTight_isLoaded = false;
   Common_lep_SFdn_isLoaded = false;
   Common_lep_SFdnTight_isLoaded = false;
   Common_lep_SFup_isLoaded = false;
   Common_lep_SFupTight_isLoaded = false;
+  Common_tau_p4_isLoaded = false;
+  Common_tau_idxs_isLoaded = false;
+  Common_tau_decayMode_isLoaded = false;
+  Common_tau_dxy_isLoaded = false;
+  Common_tau_dz_isLoaded = false;
+  Common_tau_eta_isLoaded = false;
+  Common_tau_chargedIso_isLoaded = false;
+  Common_tau_jetIdx_isLoaded = false;
+  Common_tau_neutralIso_isLoaded = false;
+  Common_tau_charge_isLoaded = false;
+  Common_tau_idVSe_isLoaded = false;
+  Common_tau_idVSmu_isLoaded = false;
+  Common_tau_idVSjet_isLoaded = false;
+  Common_GenVisTau_p4_isLoaded = false;
+  Common_GenVisTau_idxs_isLoaded = false;
+  Common_GenVisTau_status_isLoaded = false;
   Common_jet_p4_isLoaded = false;
   Common_jet_idxs_isLoaded = false;
-  Common_jet_genJetIdx_isLoaded = false;
-  Common_jet_hadronFlavour_isLoaded = false;
-  Common_jet_partonFlavour_isLoaded = false;
   Common_jet_passBloose_isLoaded = false;
   Common_jet_passBmedium_isLoaded = false;
   Common_jet_passBtight_isLoaded = false;
@@ -718,6 +734,9 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_jet_passBtight_CSV_isLoaded = false;
   Common_jet_id_isLoaded = false;
   Common_jet_puid_isLoaded = false;
+  Common_jet_genJetIdx_isLoaded = false;
+  Common_jet_hadronFlavour_isLoaded = false;
+  Common_jet_partonFlavour_isLoaded = false;
   Common_jet_overlapfatjet_isLoaded = false;
   Common_jet_pt_jesup_isLoaded = false;
   Common_jet_pt_jesdn_isLoaded = false;
@@ -856,8 +875,6 @@ void vvvtree::GetEntry(unsigned int idx) {
   Common_gen_VH_channel_isLoaded = false;
   Cut_4LepMET_Preselection_isLoaded = false;
   Cut_4LepMET_emuChannel_isLoaded = false;
-  Cut_3LepTauMET_etauChannel_isLoaded = false;
-  Cut_3LepTauMET_mutauChannel_isLoaded = false;
   Cut_4LepMET_offzChannel_isLoaded = false;
   Cut_4LepMET_onzChannel_isLoaded = false;
   Cut_4LepMET_onzChannel_HighMET_isLoaded = false;
@@ -865,38 +882,24 @@ void vvvtree::GetEntry(unsigned int idx) {
   Var_4LepMET_Zcand_lep_pdgid_0_isLoaded = false;
   Var_4LepMET_Zcand_lep_p4_0_isLoaded = false;
   Var_4LepMET_Zcand_lep_idx_1_isLoaded = false;
-  Var_4LepMET_Zcand_lep_ID_1_isLoaded = false;
-  Var_4LepMET_Zcand_lep_ID_0_isLoaded = false;
   Var_4LepMET_Zcand_lep_pdgid_1_isLoaded = false;
   Var_4LepMET_Zcand_lep_p4_1_isLoaded = false;
   Var_4LepMET_Zcand_mll_isLoaded = false;
-  Var_3LepTauMET_Zcand_mll_isLoaded = false;
+  Var_4LepMET_Zcand_lep_ID_0_isLoaded = false;
+  Var_4LepMET_Zcand_lep_ID_1_isLoaded = false;
   Var_4LepMET_other_lep_idx_0_isLoaded = false;
-  Var_4LepMET_other_lep_ID_0_isLoaded = false;
   Var_4LepMET_other_lep_pdgid_0_isLoaded = false;
   Var_4LepMET_other_lep_p4_0_isLoaded = false;
   Var_4LepMET_other_lep_idx_1_isLoaded = false;
-  Var_4LepMET_other_lep_ID_1_isLoaded = false;
   Var_4LepMET_other_lep_pdgid_1_isLoaded = false;
   Var_4LepMET_other_lep_p4_1_isLoaded = false;
   Var_4LepMET_other_mll_isLoaded = false;
-  Var_3LepTauMET_other_mll_isLoaded = false;
+  Var_4LepMET_other_lep_ID_0_isLoaded = false;
+  Var_4LepMET_other_lep_ID_1_isLoaded = false;
   Var_4LepMET_mt2_isLoaded = false;
   Var_4LepMET_mt2_PuppiMET_isLoaded = false;
   Var_4LepMET_scaleLumi_isLoaded = false;
-  Var_3LepTauMET_scaleLumi_isLoaded = false;
   Var_4LepMET_intLumi_isLoaded = false;
-  Var_3LepTauMET_Zcand_lep_p4_0_isLoaded = false;
-  Var_3LepTauMET_Zcand_lep_p4_1_isLoaded = false;
-  Var_3LepTauMET_other_lep_p4_0_isLoaded = false;
-  Var_3LepTauMET_tau_p4_0_isLoaded = false;
-  Var_3LepTauMET_Zcand_lep_idx_0_isLoaded = false;
-  Var_3LepTauMET_Zcand_lep_idx_1_isLoaded = false;
-  Var_3LepTauMET_other_lep_idx_0_isLoaded = false;
-  Var_3LepTauMET_tau_pdgid_0_isLoaded = false;
-  Var_3LepTauMET_tau_idVSe_0_isLoaded = false;
-  Var_3LepTauMET_tau_idVSmu_0_isLoaded = false;
-  Var_3LepTauMET_tau_idVSjet_0_isLoaded = false;
 }
 
 void vvvtree::LoadAllBranches() {
@@ -904,6 +907,7 @@ void vvvtree::LoadAllBranches() {
   if (Common_isData_branch != 0) Common_isData();
   if (Common_run_branch != 0) Common_run();
   if (Common_lumi_branch != 0) Common_lumi();
+  if (Common_year_branch != 0) Common_year();
   if (Common_evt_branch != 0) Common_evt();
   if (Common_genWeight_branch != 0) Common_genWeight();
   if (Common_btagWeight_DeepCSVB_branch != 0) Common_btagWeight_DeepCSVB();
@@ -920,13 +924,17 @@ void vvvtree::LoadAllBranches() {
   if (Common_LHEWeight_mg_reweighting_branch != 0) Common_LHEWeight_mg_reweighting();
   if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_branch != 0) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ();
   if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_branch != 0) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL();
-  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch != 0) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8();
+  if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch != 0) Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL();
+  if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ();
   if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
-  if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL();
-  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
-  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL();
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ();
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch != 0) Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL();
   if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ();
   if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch != 0) Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL();
+  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch != 0) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8();
+  if (Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL();
+  if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ();
+  if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch != 0) Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8();
   if (Common_HLT_PFHT1050_branch != 0) Common_HLT_PFHT1050();
   if (Common_HLT_AK8PFJet500_branch != 0) Common_HLT_AK8PFJet500();
   if (Common_HLT_AK8PFJet380_TrimMass30_branch != 0) Common_HLT_AK8PFJet380_TrimMass30();
@@ -946,12 +954,12 @@ void vvvtree::LoadAllBranches() {
   if (Common_noiseFlagMC_branch != 0) Common_noiseFlagMC();
   if (Common_passGoodRun_branch != 0) Common_passGoodRun();
   if (Common_met_p4_branch != 0) Common_met_p4();
-  if (Common_met_p4_MET_branch != 0) Common_met_p4_MET();
-  if (Common_met_p4_PuppiMET_branch != 0) Common_met_p4_PuppiMET();
   if (Common_met_p4_jesup_branch != 0) Common_met_p4_jesup();
   if (Common_met_p4_jesdn_branch != 0) Common_met_p4_jesdn();
   if (Common_met_p4_jerup_branch != 0) Common_met_p4_jerup();
   if (Common_met_p4_jerdn_branch != 0) Common_met_p4_jerdn();
+  if (Common_met_p4_MET_branch != 0) Common_met_p4_MET();
+  if (Common_met_p4_PuppiMET_branch != 0) Common_met_p4_PuppiMET();
   if (Common_event_lepSF_branch != 0) Common_event_lepSF();
   if (Common_event_lepSFelup_branch != 0) Common_event_lepSFelup();
   if (Common_event_lepSFeldn_branch != 0) Common_event_lepSFeldn();
@@ -984,7 +992,6 @@ void vvvtree::LoadAllBranches() {
   if (Common_event_looseBtagSFLFup_branch != 0) Common_event_looseBtagSFLFup();
   if (Common_event_looseBtagSFLFdn_branch != 0) Common_event_looseBtagSFLFdn();
   if (Common_lep_p4_branch != 0) Common_lep_p4();
-  if (Common_tau_p4_branch != 0) Common_tau_p4();
   if (Common_lep_idxs_branch != 0) Common_lep_idxs();
   if (Common_lep_pdgid_branch != 0) Common_lep_pdgid();
   if (Common_lep_tight_branch != 0) Common_lep_tight();
@@ -995,20 +1002,30 @@ void vvvtree::LoadAllBranches() {
   if (Common_lep_IsoID_branch != 0) Common_lep_IsoID();
   if (Common_lep_relIso03_all_branch != 0) Common_lep_relIso03_all();
   if (Common_lep_ID_branch != 0) Common_lep_ID();
-  if (Common_tau_idVSe_branch != 0) Common_tau_idVSe();
-  if (Common_tau_idVSmu_branch != 0) Common_tau_idVSmu();
-  if (Common_tau_idVSjet_branch != 0) Common_tau_idVSjet();
   if (Common_lep_SF_branch != 0) Common_lep_SF();
   if (Common_lep_SFTight_branch != 0) Common_lep_SFTight();
   if (Common_lep_SFdn_branch != 0) Common_lep_SFdn();
   if (Common_lep_SFdnTight_branch != 0) Common_lep_SFdnTight();
   if (Common_lep_SFup_branch != 0) Common_lep_SFup();
   if (Common_lep_SFupTight_branch != 0) Common_lep_SFupTight();
+  if (Common_tau_p4_branch != 0) Common_tau_p4();
+  if (Common_tau_idxs_branch != 0) Common_tau_idxs();
+  if (Common_tau_decayMode_branch != 0) Common_tau_decayMode();
+  if (Common_tau_dxy_branch != 0) Common_tau_dxy();
+  if (Common_tau_dz_branch != 0) Common_tau_dz();
+  if (Common_tau_eta_branch != 0) Common_tau_eta();
+  if (Common_tau_chargedIso_branch != 0) Common_tau_chargedIso();
+  if (Common_tau_jetIdx_branch != 0) Common_tau_jetIdx();
+  if (Common_tau_neutralIso_branch != 0) Common_tau_neutralIso();
+  if (Common_tau_charge_branch != 0) Common_tau_charge();
+  if (Common_tau_idVSe_branch != 0) Common_tau_idVSe();
+  if (Common_tau_idVSmu_branch != 0) Common_tau_idVSmu();
+  if (Common_tau_idVSjet_branch != 0) Common_tau_idVSjet();
+  if (Common_GenVisTau_p4_branch != 0) Common_GenVisTau_p4();
+  if (Common_GenVisTau_idxs_branch != 0) Common_GenVisTau_idxs();
+  if (Common_GenVisTau_status_branch != 0) Common_GenVisTau_status();
   if (Common_jet_p4_branch != 0) Common_jet_p4();
   if (Common_jet_idxs_branch != 0) Common_jet_idxs();
-  if (Common_jet_genJetIdx_branch != 0) Common_jet_genJetIdx();
-  if (Common_jet_hadronFlavour_branch != 0) Common_jet_hadronFlavour();
-  if (Common_jet_partonFlavour_branch != 0) Common_jet_partonFlavour();
   if (Common_jet_passBloose_branch != 0) Common_jet_passBloose();
   if (Common_jet_passBmedium_branch != 0) Common_jet_passBmedium();
   if (Common_jet_passBtight_branch != 0) Common_jet_passBtight();
@@ -1017,6 +1034,9 @@ void vvvtree::LoadAllBranches() {
   if (Common_jet_passBtight_CSV_branch != 0) Common_jet_passBtight_CSV();
   if (Common_jet_id_branch != 0) Common_jet_id();
   if (Common_jet_puid_branch != 0) Common_jet_puid();
+  if (Common_jet_genJetIdx_branch != 0) Common_jet_genJetIdx();
+  if (Common_jet_hadronFlavour_branch != 0) Common_jet_hadronFlavour();
+  if (Common_jet_partonFlavour_branch != 0) Common_jet_partonFlavour();
   if (Common_jet_overlapfatjet_branch != 0) Common_jet_overlapfatjet();
   if (Common_jet_pt_jesup_branch != 0) Common_jet_pt_jesup();
   if (Common_jet_pt_jesdn_branch != 0) Common_jet_pt_jesdn();
@@ -1155,8 +1175,6 @@ void vvvtree::LoadAllBranches() {
   if (Common_gen_VH_channel_branch != 0) Common_gen_VH_channel();
   if (Cut_4LepMET_Preselection_branch != 0) Cut_4LepMET_Preselection();
   if (Cut_4LepMET_emuChannel_branch != 0) Cut_4LepMET_emuChannel();
-  if (Cut_3LepTauMET_etauChannel_branch != 0) Cut_3LepTauMET_etauChannel();
-  if (Cut_3LepTauMET_mutauChannel_branch != 0) Cut_3LepTauMET_mutauChannel();
   if (Cut_4LepMET_offzChannel_branch != 0) Cut_4LepMET_offzChannel();
   if (Cut_4LepMET_onzChannel_branch != 0) Cut_4LepMET_onzChannel();
   if (Cut_4LepMET_onzChannel_HighMET_branch != 0) Cut_4LepMET_onzChannel_HighMET();
@@ -1164,38 +1182,24 @@ void vvvtree::LoadAllBranches() {
   if (Var_4LepMET_Zcand_lep_pdgid_0_branch != 0) Var_4LepMET_Zcand_lep_pdgid_0();
   if (Var_4LepMET_Zcand_lep_p4_0_branch != 0) Var_4LepMET_Zcand_lep_p4_0();
   if (Var_4LepMET_Zcand_lep_idx_1_branch != 0) Var_4LepMET_Zcand_lep_idx_1();
-  if (Var_4LepMET_Zcand_lep_ID_1_branch != 0) Var_4LepMET_Zcand_lep_ID_1();
-  if (Var_4LepMET_Zcand_lep_ID_0_branch != 0) Var_4LepMET_Zcand_lep_ID_0();
   if (Var_4LepMET_Zcand_lep_pdgid_1_branch != 0) Var_4LepMET_Zcand_lep_pdgid_1();
   if (Var_4LepMET_Zcand_lep_p4_1_branch != 0) Var_4LepMET_Zcand_lep_p4_1();
   if (Var_4LepMET_Zcand_mll_branch != 0) Var_4LepMET_Zcand_mll();
+  if (Var_4LepMET_Zcand_lep_ID_0_branch != 0) Var_4LepMET_Zcand_lep_ID_0();
+  if (Var_4LepMET_Zcand_lep_ID_1_branch != 0) Var_4LepMET_Zcand_lep_ID_1();
   if (Var_4LepMET_other_lep_idx_0_branch != 0) Var_4LepMET_other_lep_idx_0();
-  if (Var_4LepMET_other_lep_ID_0_branch != 0) Var_4LepMET_other_lep_ID_0();
   if (Var_4LepMET_other_lep_pdgid_0_branch != 0) Var_4LepMET_other_lep_pdgid_0();
   if (Var_4LepMET_other_lep_p4_0_branch != 0) Var_4LepMET_other_lep_p4_0();
   if (Var_4LepMET_other_lep_idx_1_branch != 0) Var_4LepMET_other_lep_idx_1();
-  if (Var_4LepMET_other_lep_ID_1_branch != 0) Var_4LepMET_other_lep_ID_1();
   if (Var_4LepMET_other_lep_pdgid_1_branch != 0) Var_4LepMET_other_lep_pdgid_1();
   if (Var_4LepMET_other_lep_p4_1_branch != 0) Var_4LepMET_other_lep_p4_1();
   if (Var_4LepMET_other_mll_branch != 0) Var_4LepMET_other_mll();
+  if (Var_4LepMET_other_lep_ID_0_branch != 0) Var_4LepMET_other_lep_ID_0();
+  if (Var_4LepMET_other_lep_ID_1_branch != 0) Var_4LepMET_other_lep_ID_1();
   if (Var_4LepMET_mt2_branch != 0) Var_4LepMET_mt2();
   if (Var_4LepMET_mt2_PuppiMET_branch != 0) Var_4LepMET_mt2_PuppiMET();
   if (Var_4LepMET_scaleLumi_branch != 0) Var_4LepMET_scaleLumi();
-  if (Var_3LepTauMET_scaleLumi_branch != 0) Var_3LepTauMET_scaleLumi();
   if (Var_4LepMET_intLumi_branch != 0) Var_4LepMET_intLumi();
-  if (Var_3LepTauMET_Zcand_lep_p4_0_branch != 0) Var_3LepTauMET_Zcand_lep_p4_0();
-  if (Var_3LepTauMET_Zcand_lep_p4_1_branch != 0) Var_3LepTauMET_Zcand_lep_p4_1();
-  if (Var_3LepTauMET_other_lep_p4_0_branch != 0) Var_3LepTauMET_other_lep_p4_0();
-  if (Var_3LepTauMET_tau_p4_0_branch != 0) Var_3LepTauMET_tau_p4_0();
-  if (Var_3LepTauMET_Zcand_lep_idx_0_branch != 0) Var_3LepTauMET_Zcand_lep_idx_0();
-  if (Var_3LepTauMET_Zcand_lep_idx_1_branch != 0) Var_3LepTauMET_Zcand_lep_idx_1();
-  if (Var_3LepTauMET_other_lep_idx_0_branch != 0) Var_3LepTauMET_other_lep_idx_0();
-  if (Var_3LepTauMET_tau_pdgid_0_branch != 0) Var_3LepTauMET_tau_pdgid_0();
-  if (Var_3LepTauMET_Zcand_mll_branch != 0) Var_3LepTauMET_Zcand_mll();
-  if (Var_3LepTauMET_other_mll_branch != 0) Var_3LepTauMET_other_mll();
-  if (Var_3LepTauMET_tau_idVSe_0_branch != 0) Var_3LepTauMET_tau_idVSe_0();
-  if (Var_3LepTauMET_tau_idVSmu_0_branch != 0) Var_3LepTauMET_tau_idVSmu_0();
-  if (Var_3LepTauMET_tau_idVSjet_0_branch != 0) Var_3LepTauMET_tau_idVSjet_0();
 }
 
 const int &vvvtree::Common_isData() {
@@ -1235,6 +1239,19 @@ const int &vvvtree::Common_lumi() {
     Common_lumi_isLoaded = true;
   }
   return Common_lumi_;
+}
+
+const int &vvvtree::Common_year() {
+  if (not Common_year_isLoaded) {
+    if (Common_year_branch != 0) {
+      Common_year_branch->GetEntry(index);
+    } else {
+      printf("branch Common_year_branch does not exist!\n");
+      exit(1);
+    }
+    Common_year_isLoaded = true;
+  }
+  return Common_year_;
 }
 
 const unsigned long long &vvvtree::Common_evt() {
@@ -1445,17 +1462,30 @@ const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() {
   return Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_;
 }
 
-const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() {
-  if (not Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded) {
-    if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch != 0) {
-      Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch->GetEntry(index);
+const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() {
+  if (not Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_isLoaded) {
+    if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch != 0) {
+      Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch->GetEntry(index);
     } else {
-      printf("branch Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch does not exist!\n");
+      printf("branch Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_branch does not exist!\n");
       exit(1);
     }
-    Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded = true;
+    Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_isLoaded = true;
   }
-  return Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_;
+  return Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_;
+}
+
+const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() {
+  if (not Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded) {
+    if (Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch != 0) {
+      Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_isLoaded = true;
+  }
+  return Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_;
 }
 
 const bool &vvvtree::Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() {
@@ -1469,6 +1499,71 @@ const bool &vvvtree::Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() {
     Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = true;
   }
   return Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_;
+}
+
+const bool &vvvtree::Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ() {
+  if (not Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded) {
+    if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) {
+      Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = true;
+  }
+  return Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_;
+}
+
+const bool &vvvtree::Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() {
+  if (not Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_isLoaded) {
+    if (Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch != 0) {
+      Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
+  }
+  return Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_;
+}
+
+const bool &vvvtree::Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() {
+  if (not Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded) {
+    if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) {
+      Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = true;
+  }
+  return Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_;
+}
+
+const bool &vvvtree::Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() {
+  if (not Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded) {
+    if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch != 0) {
+      Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
+  }
+  return Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_;
+}
+
+const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8() {
+  if (not Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_isLoaded) {
+    if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch != 0) {
+      Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch->GetEntry(index);
+    } else {
+      printf("branch Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_branch does not exist!\n");
+      exit(1);
+    }
+    Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_isLoaded = true;
+  }
+  return Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_;
 }
 
 const bool &vvvtree::Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() {
@@ -1497,43 +1592,17 @@ const bool &vvvtree::Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()
   return Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_;
 }
 
-const bool &vvvtree::Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() {
-  if (not Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded) {
-    if (Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch != 0) {
-      Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
+const bool &vvvtree::Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() {
+  if (not Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded) {
+    if (Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch != 0) {
+      Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch->GetEntry(index);
     } else {
-      printf("branch Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
+      printf("branch Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_branch does not exist!\n");
       exit(1);
     }
-    Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
+    Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_isLoaded = true;
   }
-  return Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_;
-}
-
-const bool &vvvtree::Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() {
-  if (not Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded) {
-    if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch != 0) {
-      Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch->GetEntry(index);
-    } else {
-      printf("branch Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_branch does not exist!\n");
-      exit(1);
-    }
-    Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_isLoaded = true;
-  }
-  return Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_;
-}
-
-const bool &vvvtree::Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() {
-  if (not Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded) {
-    if (Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch != 0) {
-      Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch->GetEntry(index);
-    } else {
-      printf("branch Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_branch does not exist!\n");
-      exit(1);
-    }
-    Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_isLoaded = true;
-  }
-  return Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_;
+  return Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_;
 }
 
 const bool &vvvtree::Common_HLT_PFHT1050() {
@@ -1783,32 +1852,6 @@ const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Commo
   return *Common_met_p4_;
 }
 
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_MET() {
-  if (not Common_met_p4_MET_isLoaded) {
-    if (Common_met_p4_MET_branch != 0) {
-      Common_met_p4_MET_branch->GetEntry(index);
-    } else {
-      printf("branch Common_met_p4_MET_branch does not exist!\n");
-      exit(1);
-    }
-    Common_met_p4_MET_isLoaded = true;
-  }
-  return *Common_met_p4_MET_;
-}
-
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_PuppiMET() {
-  if (not Common_met_p4_PuppiMET_isLoaded) {
-    if (Common_met_p4_PuppiMET_branch != 0) {
-      Common_met_p4_PuppiMET_branch->GetEntry(index);
-    } else {
-      printf("branch Common_met_p4_PuppiMET_branch does not exist!\n");
-      exit(1);
-    }
-    Common_met_p4_PuppiMET_isLoaded = true;
-  }
-  return *Common_met_p4_PuppiMET_;
-}
-
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_jesup() {
   if (not Common_met_p4_jesup_isLoaded) {
     if (Common_met_p4_jesup_branch != 0) {
@@ -1859,6 +1902,32 @@ const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Commo
     Common_met_p4_jerdn_isLoaded = true;
   }
   return *Common_met_p4_jerdn_;
+}
+
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_MET() {
+  if (not Common_met_p4_MET_isLoaded) {
+    if (Common_met_p4_MET_branch != 0) {
+      Common_met_p4_MET_branch->GetEntry(index);
+    } else {
+      printf("branch Common_met_p4_MET_branch does not exist!\n");
+      exit(1);
+    }
+    Common_met_p4_MET_isLoaded = true;
+  }
+  return *Common_met_p4_MET_;
+}
+
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Common_met_p4_PuppiMET() {
+  if (not Common_met_p4_PuppiMET_isLoaded) {
+    if (Common_met_p4_PuppiMET_branch != 0) {
+      Common_met_p4_PuppiMET_branch->GetEntry(index);
+    } else {
+      printf("branch Common_met_p4_PuppiMET_branch does not exist!\n");
+      exit(1);
+    }
+    Common_met_p4_PuppiMET_isLoaded = true;
+  }
+  return *Common_met_p4_PuppiMET_;
 }
 
 const float &vvvtree::Common_event_lepSF() {
@@ -2277,19 +2346,6 @@ const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtr
   return *Common_lep_p4_;
 }
 
-const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtree::Common_tau_p4() {
-  if (not Common_tau_p4_isLoaded) {
-    if (Common_tau_p4_branch != 0) {
-      Common_tau_p4_branch->GetEntry(index);
-    } else {
-      printf("branch Common_tau_p4_branch does not exist!\n");
-      exit(1);
-    }
-    Common_tau_p4_isLoaded = true;
-  }
-  return *Common_tau_p4_;
-}
-
 const vector<int> &vvvtree::Common_lep_idxs() {
   if (not Common_lep_idxs_isLoaded) {
     if (Common_lep_idxs_branch != 0) {
@@ -2420,45 +2476,6 @@ const vector<int> &vvvtree::Common_lep_ID() {
   return *Common_lep_ID_;
 }
 
-const vector<int> &vvvtree::Common_tau_idVSe() {
-  if (not Common_tau_idVSe_isLoaded) {
-    if (Common_tau_idVSe_branch != 0) {
-      Common_tau_idVSe_branch->GetEntry(index);
-    } else {
-      printf("branch Common_tau_idVSe_branch does not exist!\n");
-      exit(1);
-    }
-    Common_tau_idVSe_isLoaded = true;
-  }
-  return *Common_tau_idVSe_;
-}
-
-const vector<int> &vvvtree::Common_tau_idVSmu() {
-  if (not Common_tau_idVSmu_isLoaded) {
-    if (Common_tau_idVSmu_branch != 0) {
-      Common_tau_idVSmu_branch->GetEntry(index);
-    } else {
-      printf("branch Common_tau_idVSmu_branch does not exist!\n");
-      exit(1);
-    }
-    Common_tau_idVSmu_isLoaded = true;
-  }
-  return *Common_tau_idVSmu_;
-}
-
-const vector<int> &vvvtree::Common_tau_idVSjet() {
-  if (not Common_tau_idVSjet_isLoaded) {
-    if (Common_tau_idVSjet_branch != 0) {
-      Common_tau_idVSjet_branch->GetEntry(index);
-    } else {
-      printf("branch Common_tau_idVSjet_branch does not exist!\n");
-      exit(1);
-    }
-    Common_tau_idVSjet_isLoaded = true;
-  }
-  return *Common_tau_idVSjet_;
-}
-
 const vector<float> &vvvtree::Common_lep_SF() {
   if (not Common_lep_SF_isLoaded) {
     if (Common_lep_SF_branch != 0) {
@@ -2537,6 +2554,214 @@ const vector<float> &vvvtree::Common_lep_SFupTight() {
   return *Common_lep_SFupTight_;
 }
 
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtree::Common_tau_p4() {
+  if (not Common_tau_p4_isLoaded) {
+    if (Common_tau_p4_branch != 0) {
+      Common_tau_p4_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_p4_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_p4_isLoaded = true;
+  }
+  return *Common_tau_p4_;
+}
+
+const vector<int> &vvvtree::Common_tau_idxs() {
+  if (not Common_tau_idxs_isLoaded) {
+    if (Common_tau_idxs_branch != 0) {
+      Common_tau_idxs_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_idxs_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_idxs_isLoaded = true;
+  }
+  return *Common_tau_idxs_;
+}
+
+const vector<int> &vvvtree::Common_tau_decayMode() {
+  if (not Common_tau_decayMode_isLoaded) {
+    if (Common_tau_decayMode_branch != 0) {
+      Common_tau_decayMode_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_decayMode_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_decayMode_isLoaded = true;
+  }
+  return *Common_tau_decayMode_;
+}
+
+const vector<float> &vvvtree::Common_tau_dxy() {
+  if (not Common_tau_dxy_isLoaded) {
+    if (Common_tau_dxy_branch != 0) {
+      Common_tau_dxy_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_dxy_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_dxy_isLoaded = true;
+  }
+  return *Common_tau_dxy_;
+}
+
+const vector<float> &vvvtree::Common_tau_dz() {
+  if (not Common_tau_dz_isLoaded) {
+    if (Common_tau_dz_branch != 0) {
+      Common_tau_dz_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_dz_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_dz_isLoaded = true;
+  }
+  return *Common_tau_dz_;
+}
+
+const vector<float> &vvvtree::Common_tau_eta() {
+  if (not Common_tau_eta_isLoaded) {
+    if (Common_tau_eta_branch != 0) {
+      Common_tau_eta_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_eta_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_eta_isLoaded = true;
+  }
+  return *Common_tau_eta_;
+}
+
+const vector<float> &vvvtree::Common_tau_chargedIso() {
+  if (not Common_tau_chargedIso_isLoaded) {
+    if (Common_tau_chargedIso_branch != 0) {
+      Common_tau_chargedIso_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_chargedIso_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_chargedIso_isLoaded = true;
+  }
+  return *Common_tau_chargedIso_;
+}
+
+const vector<int> &vvvtree::Common_tau_jetIdx() {
+  if (not Common_tau_jetIdx_isLoaded) {
+    if (Common_tau_jetIdx_branch != 0) {
+      Common_tau_jetIdx_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_jetIdx_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_jetIdx_isLoaded = true;
+  }
+  return *Common_tau_jetIdx_;
+}
+
+const vector<float> &vvvtree::Common_tau_neutralIso() {
+  if (not Common_tau_neutralIso_isLoaded) {
+    if (Common_tau_neutralIso_branch != 0) {
+      Common_tau_neutralIso_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_neutralIso_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_neutralIso_isLoaded = true;
+  }
+  return *Common_tau_neutralIso_;
+}
+
+const vector<int> &vvvtree::Common_tau_charge() {
+  if (not Common_tau_charge_isLoaded) {
+    if (Common_tau_charge_branch != 0) {
+      Common_tau_charge_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_charge_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_charge_isLoaded = true;
+  }
+  return *Common_tau_charge_;
+}
+
+const vector<int> &vvvtree::Common_tau_idVSe() {
+  if (not Common_tau_idVSe_isLoaded) {
+    if (Common_tau_idVSe_branch != 0) {
+      Common_tau_idVSe_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_idVSe_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_idVSe_isLoaded = true;
+  }
+  return *Common_tau_idVSe_;
+}
+
+const vector<int> &vvvtree::Common_tau_idVSmu() {
+  if (not Common_tau_idVSmu_isLoaded) {
+    if (Common_tau_idVSmu_branch != 0) {
+      Common_tau_idVSmu_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_idVSmu_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_idVSmu_isLoaded = true;
+  }
+  return *Common_tau_idVSmu_;
+}
+
+const vector<int> &vvvtree::Common_tau_idVSjet() {
+  if (not Common_tau_idVSjet_isLoaded) {
+    if (Common_tau_idVSjet_branch != 0) {
+      Common_tau_idVSjet_branch->GetEntry(index);
+    } else {
+      printf("branch Common_tau_idVSjet_branch does not exist!\n");
+      exit(1);
+    }
+    Common_tau_idVSjet_isLoaded = true;
+  }
+  return *Common_tau_idVSjet_;
+}
+
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtree::Common_GenVisTau_p4() {
+  if (not Common_GenVisTau_p4_isLoaded) {
+    if (Common_GenVisTau_p4_branch != 0) {
+      Common_GenVisTau_p4_branch->GetEntry(index);
+    } else {
+      printf("branch Common_GenVisTau_p4_branch does not exist!\n");
+      exit(1);
+    }
+    Common_GenVisTau_p4_isLoaded = true;
+  }
+  return *Common_GenVisTau_p4_;
+}
+
+const vector<int> &vvvtree::Common_GenVisTau_idxs() {
+  if (not Common_GenVisTau_idxs_isLoaded) {
+    if (Common_GenVisTau_idxs_branch != 0) {
+      Common_GenVisTau_idxs_branch->GetEntry(index);
+    } else {
+      printf("branch Common_GenVisTau_idxs_branch does not exist!\n");
+      exit(1);
+    }
+    Common_GenVisTau_idxs_isLoaded = true;
+  }
+  return *Common_GenVisTau_idxs_;
+}
+
+const vector<int> &vvvtree::Common_GenVisTau_status() {
+  if (not Common_GenVisTau_status_isLoaded) {
+    if (Common_GenVisTau_status_branch != 0) {
+      Common_GenVisTau_status_branch->GetEntry(index);
+    } else {
+      printf("branch Common_GenVisTau_status_branch does not exist!\n");
+      exit(1);
+    }
+    Common_GenVisTau_status_isLoaded = true;
+  }
+  return *Common_GenVisTau_status_;
+}
+
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &vvvtree::Common_jet_p4() {
   if (not Common_jet_p4_isLoaded) {
     if (Common_jet_p4_branch != 0) {
@@ -2561,45 +2786,6 @@ const vector<int> &vvvtree::Common_jet_idxs() {
     Common_jet_idxs_isLoaded = true;
   }
   return *Common_jet_idxs_;
-}
-
-const vector<int> &vvvtree::Common_jet_genJetIdx() {
-  if (not Common_jet_genJetIdx_isLoaded) {
-    if (Common_jet_genJetIdx_branch != 0) {
-      Common_jet_genJetIdx_branch->GetEntry(index);
-    } else {
-      printf("branch Common_jet_genJetIdx_branch does not exist!\n");
-      exit(1);
-    }
-    Common_jet_genJetIdx_isLoaded = true;
-  }
-  return *Common_jet_genJetIdx_;
-}
-
-const vector<int> &vvvtree::Common_jet_hadronFlavour() {
-  if (not Common_jet_hadronFlavour_isLoaded) {
-    if (Common_jet_hadronFlavour_branch != 0) {
-      Common_jet_hadronFlavour_branch->GetEntry(index);
-    } else {
-      printf("branch Common_jet_hadronFlavour_branch does not exist!\n");
-      exit(1);
-    }
-    Common_jet_hadronFlavour_isLoaded = true;
-  }
-  return *Common_jet_hadronFlavour_;
-}
-
-const vector<int> &vvvtree::Common_jet_partonFlavour() {
-  if (not Common_jet_partonFlavour_isLoaded) {
-    if (Common_jet_partonFlavour_branch != 0) {
-      Common_jet_partonFlavour_branch->GetEntry(index);
-    } else {
-      printf("branch Common_jet_partonFlavour_branch does not exist!\n");
-      exit(1);
-    }
-    Common_jet_partonFlavour_isLoaded = true;
-  }
-  return *Common_jet_partonFlavour_;
 }
 
 const vector<bool> &vvvtree::Common_jet_passBloose() {
@@ -2704,6 +2890,45 @@ const vector<int> &vvvtree::Common_jet_puid() {
     Common_jet_puid_isLoaded = true;
   }
   return *Common_jet_puid_;
+}
+
+const vector<int> &vvvtree::Common_jet_genJetIdx() {
+  if (not Common_jet_genJetIdx_isLoaded) {
+    if (Common_jet_genJetIdx_branch != 0) {
+      Common_jet_genJetIdx_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_genJetIdx_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_genJetIdx_isLoaded = true;
+  }
+  return *Common_jet_genJetIdx_;
+}
+
+const vector<int> &vvvtree::Common_jet_hadronFlavour() {
+  if (not Common_jet_hadronFlavour_isLoaded) {
+    if (Common_jet_hadronFlavour_branch != 0) {
+      Common_jet_hadronFlavour_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_hadronFlavour_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_hadronFlavour_isLoaded = true;
+  }
+  return *Common_jet_hadronFlavour_;
+}
+
+const vector<int> &vvvtree::Common_jet_partonFlavour() {
+  if (not Common_jet_partonFlavour_isLoaded) {
+    if (Common_jet_partonFlavour_branch != 0) {
+      Common_jet_partonFlavour_branch->GetEntry(index);
+    } else {
+      printf("branch Common_jet_partonFlavour_branch does not exist!\n");
+      exit(1);
+    }
+    Common_jet_partonFlavour_isLoaded = true;
+  }
+  return *Common_jet_partonFlavour_;
 }
 
 const vector<int> &vvvtree::Common_jet_overlapfatjet() {
@@ -4500,32 +4725,6 @@ const bool &vvvtree::Cut_4LepMET_emuChannel() {
   return Cut_4LepMET_emuChannel_;
 }
 
-const bool &vvvtree::Cut_3LepTauMET_etauChannel() {
-  if (not Cut_3LepTauMET_etauChannel_isLoaded) {
-    if (Cut_3LepTauMET_etauChannel_branch != 0) {
-      Cut_3LepTauMET_etauChannel_branch->GetEntry(index);
-    } else {
-      printf("branch Cut_3LepTauMET_etauChannel_branch does not exist!\n");
-      exit(1);
-    }
-    Cut_3LepTauMET_etauChannel_isLoaded = true;
-  }
-  return Cut_3LepTauMET_etauChannel_;
-}
-
-const bool &vvvtree::Cut_3LepTauMET_mutauChannel() {
-  if (not Cut_3LepTauMET_mutauChannel_isLoaded) {
-    if (Cut_3LepTauMET_mutauChannel_branch != 0) {
-      Cut_3LepTauMET_mutauChannel_branch->GetEntry(index);
-    } else {
-      printf("branch Cut_3LepTauMET_mutauChannel_branch does not exist!\n");
-      exit(1);
-    }
-    Cut_3LepTauMET_mutauChannel_isLoaded = true;
-  }
-  return Cut_3LepTauMET_mutauChannel_;
-}
-
 const bool &vvvtree::Cut_4LepMET_offzChannel() {
   if (not Cut_4LepMET_offzChannel_isLoaded) {
     if (Cut_4LepMET_offzChannel_branch != 0) {
@@ -4617,32 +4816,6 @@ const int &vvvtree::Var_4LepMET_Zcand_lep_idx_1() {
   return Var_4LepMET_Zcand_lep_idx_1_;
 }
 
-const int &vvvtree::Var_4LepMET_Zcand_lep_ID_1() {
-  if (not Var_4LepMET_Zcand_lep_ID_1_isLoaded) {
-    if (Var_4LepMET_Zcand_lep_ID_1_branch != 0) {
-      Var_4LepMET_Zcand_lep_ID_1_branch->GetEntry(index);
-    } else {
-      printf("branch Var_4LepMET_Zcand_lep_ID_1_branch does not exist!\n");
-      exit(1);
-    }
-    Var_4LepMET_Zcand_lep_ID_1_isLoaded = true;
-  }
-  return Var_4LepMET_Zcand_lep_ID_1_;
-}
-
-const int &vvvtree::Var_4LepMET_Zcand_lep_ID_0() {
-  if (not Var_4LepMET_Zcand_lep_ID_0_isLoaded) {
-    if (Var_4LepMET_Zcand_lep_ID_0_branch != 0) {
-      Var_4LepMET_Zcand_lep_ID_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_4LepMET_Zcand_lep_ID_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_4LepMET_Zcand_lep_ID_0_isLoaded = true;
-  }
-  return Var_4LepMET_Zcand_lep_ID_0_;
-}
-
 const int &vvvtree::Var_4LepMET_Zcand_lep_pdgid_1() {
   if (not Var_4LepMET_Zcand_lep_pdgid_1_isLoaded) {
     if (Var_4LepMET_Zcand_lep_pdgid_1_branch != 0) {
@@ -4682,6 +4855,32 @@ const float &vvvtree::Var_4LepMET_Zcand_mll() {
   return Var_4LepMET_Zcand_mll_;
 }
 
+const int &vvvtree::Var_4LepMET_Zcand_lep_ID_0() {
+  if (not Var_4LepMET_Zcand_lep_ID_0_isLoaded) {
+    if (Var_4LepMET_Zcand_lep_ID_0_branch != 0) {
+      Var_4LepMET_Zcand_lep_ID_0_branch->GetEntry(index);
+    } else {
+      printf("branch Var_4LepMET_Zcand_lep_ID_0_branch does not exist!\n");
+      exit(1);
+    }
+    Var_4LepMET_Zcand_lep_ID_0_isLoaded = true;
+  }
+  return Var_4LepMET_Zcand_lep_ID_0_;
+}
+
+const int &vvvtree::Var_4LepMET_Zcand_lep_ID_1() {
+  if (not Var_4LepMET_Zcand_lep_ID_1_isLoaded) {
+    if (Var_4LepMET_Zcand_lep_ID_1_branch != 0) {
+      Var_4LepMET_Zcand_lep_ID_1_branch->GetEntry(index);
+    } else {
+      printf("branch Var_4LepMET_Zcand_lep_ID_1_branch does not exist!\n");
+      exit(1);
+    }
+    Var_4LepMET_Zcand_lep_ID_1_isLoaded = true;
+  }
+  return Var_4LepMET_Zcand_lep_ID_1_;
+}
+
 const int &vvvtree::Var_4LepMET_other_lep_idx_0() {
   if (not Var_4LepMET_other_lep_idx_0_isLoaded) {
     if (Var_4LepMET_other_lep_idx_0_branch != 0) {
@@ -4693,19 +4892,6 @@ const int &vvvtree::Var_4LepMET_other_lep_idx_0() {
     Var_4LepMET_other_lep_idx_0_isLoaded = true;
   }
   return Var_4LepMET_other_lep_idx_0_;
-}
-
-const int &vvvtree::Var_4LepMET_other_lep_ID_0() {
-  if (not Var_4LepMET_other_lep_ID_0_isLoaded) {
-    if (Var_4LepMET_other_lep_ID_0_branch != 0) {
-      Var_4LepMET_other_lep_ID_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_4LepMET_other_lep_ID_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_4LepMET_other_lep_ID_0_isLoaded = true;
-  }
-  return Var_4LepMET_other_lep_ID_0_;
 }
 
 const int &vvvtree::Var_4LepMET_other_lep_pdgid_0() {
@@ -4747,19 +4933,6 @@ const int &vvvtree::Var_4LepMET_other_lep_idx_1() {
   return Var_4LepMET_other_lep_idx_1_;
 }
 
-const int &vvvtree::Var_4LepMET_other_lep_ID_1() {
-  if (not Var_4LepMET_other_lep_ID_1_isLoaded) {
-    if (Var_4LepMET_other_lep_ID_1_branch != 0) {
-      Var_4LepMET_other_lep_ID_1_branch->GetEntry(index);
-    } else {
-      printf("branch Var_4LepMET_other_lep_ID_1_branch does not exist!\n");
-      exit(1);
-    }
-    Var_4LepMET_other_lep_ID_1_isLoaded = true;
-  }
-  return Var_4LepMET_other_lep_ID_1_;
-}
-
 const int &vvvtree::Var_4LepMET_other_lep_pdgid_1() {
   if (not Var_4LepMET_other_lep_pdgid_1_isLoaded) {
     if (Var_4LepMET_other_lep_pdgid_1_branch != 0) {
@@ -4797,6 +4970,32 @@ const float &vvvtree::Var_4LepMET_other_mll() {
     Var_4LepMET_other_mll_isLoaded = true;
   }
   return Var_4LepMET_other_mll_;
+}
+
+const int &vvvtree::Var_4LepMET_other_lep_ID_0() {
+  if (not Var_4LepMET_other_lep_ID_0_isLoaded) {
+    if (Var_4LepMET_other_lep_ID_0_branch != 0) {
+      Var_4LepMET_other_lep_ID_0_branch->GetEntry(index);
+    } else {
+      printf("branch Var_4LepMET_other_lep_ID_0_branch does not exist!\n");
+      exit(1);
+    }
+    Var_4LepMET_other_lep_ID_0_isLoaded = true;
+  }
+  return Var_4LepMET_other_lep_ID_0_;
+}
+
+const int &vvvtree::Var_4LepMET_other_lep_ID_1() {
+  if (not Var_4LepMET_other_lep_ID_1_isLoaded) {
+    if (Var_4LepMET_other_lep_ID_1_branch != 0) {
+      Var_4LepMET_other_lep_ID_1_branch->GetEntry(index);
+    } else {
+      printf("branch Var_4LepMET_other_lep_ID_1_branch does not exist!\n");
+      exit(1);
+    }
+    Var_4LepMET_other_lep_ID_1_isLoaded = true;
+  }
+  return Var_4LepMET_other_lep_ID_1_;
 }
 
 const float &vvvtree::Var_4LepMET_mt2() {
@@ -4838,19 +5037,6 @@ const float &vvvtree::Var_4LepMET_scaleLumi() {
   return Var_4LepMET_scaleLumi_;
 }
 
-const float &vvvtree::Var_3LepTauMET_scaleLumi() {
-  if (not Var_3LepTauMET_scaleLumi_isLoaded) {
-    if (Var_3LepTauMET_scaleLumi_branch != 0) {
-      Var_3LepTauMET_scaleLumi_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_scaleLumi_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_scaleLumi_isLoaded = true;
-  }
-  return Var_3LepTauMET_scaleLumi_;
-}
-
 const float &vvvtree::Var_4LepMET_intLumi() {
   if (not Var_4LepMET_intLumi_isLoaded) {
     if (Var_4LepMET_intLumi_branch != 0) {
@@ -4864,174 +5050,6 @@ const float &vvvtree::Var_4LepMET_intLumi() {
   return Var_4LepMET_intLumi_;
 }
 
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Var_3LepTauMET_Zcand_lep_p4_0() {
-  if (not Var_3LepTauMET_Zcand_lep_p4_0_isLoaded) {
-    if (Var_3LepTauMET_Zcand_lep_p4_0_branch != 0) {
-      Var_3LepTauMET_Zcand_lep_p4_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_Zcand_lep_p4_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_Zcand_lep_p4_0_isLoaded = true;
-  }
-  return *Var_3LepTauMET_Zcand_lep_p4_0_;
-}
-
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Var_3LepTauMET_Zcand_lep_p4_1() {
-  if (not Var_3LepTauMET_Zcand_lep_p4_1_isLoaded) {
-    if (Var_3LepTauMET_Zcand_lep_p4_1_branch != 0) {
-      Var_3LepTauMET_Zcand_lep_p4_1_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_Zcand_lep_p4_1_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_Zcand_lep_p4_1_isLoaded = true;
-  }
-  return *Var_3LepTauMET_Zcand_lep_p4_1_;
-}
-
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Var_3LepTauMET_other_lep_p4_0() {
-  if (not Var_3LepTauMET_other_lep_p4_0_isLoaded) {
-    if (Var_3LepTauMET_other_lep_p4_0_branch != 0) {
-      Var_3LepTauMET_other_lep_p4_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_other_lep_p4_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_other_lep_p4_0_isLoaded = true;
-  }
-  return *Var_3LepTauMET_other_lep_p4_0_;
-}
-
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &vvvtree::Var_3LepTauMET_tau_p4_0() {
-  if (not Var_3LepTauMET_tau_p4_0_isLoaded) {
-    if (Var_3LepTauMET_tau_p4_0_branch != 0) {
-      Var_3LepTauMET_tau_p4_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_tau_p4_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_tau_p4_0_isLoaded = true;
-  }
-  return *Var_3LepTauMET_tau_p4_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_tau_pdgid_0() {
-  if (not Var_3LepTauMET_tau_pdgid_0_isLoaded) {
-    if (Var_3LepTauMET_tau_pdgid_0_branch != 0) {
-      Var_3LepTauMET_tau_pdgid_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_tau_pdgid_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_tau_pdgid_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_tau_pdgid_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_Zcand_lep_idx_0() {
-  if (not Var_3LepTauMET_Zcand_lep_idx_0_isLoaded) {
-    if (Var_3LepTauMET_Zcand_lep_idx_0_branch != 0) {
-      Var_3LepTauMET_Zcand_lep_idx_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_Zcand_lep_idx_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_Zcand_lep_idx_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_Zcand_lep_idx_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_tau_idVSe_0() {
-  if (not Var_3LepTauMET_tau_idVSe_0_isLoaded) {
-    if (Var_3LepTauMET_tau_idVSe_0_branch != 0) {
-      Var_3LepTauMET_tau_idVSe_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_tau_idVSe_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_tau_idVSe_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_tau_idVSe_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_tau_idVSmu_0() {
-  if (not Var_3LepTauMET_tau_idVSmu_0_isLoaded) {
-    if (Var_3LepTauMET_tau_idVSmu_0_branch != 0) {
-      Var_3LepTauMET_tau_idVSmu_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_tau_idVSmu_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_tau_idVSmu_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_tau_idVSmu_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_tau_idVSjet_0() {
-  if (not Var_3LepTauMET_tau_idVSjet_0_isLoaded) {
-    if (Var_3LepTauMET_tau_idVSjet_0_branch != 0) {
-      Var_3LepTauMET_tau_idVSjet_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_tau_idVSjet_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_tau_idVSjet_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_tau_idVSjet_0_;
-}
-
-const int &vvvtree::Var_3LepTauMET_Zcand_lep_idx_1() {
-  if (not Var_3LepTauMET_Zcand_lep_idx_1_isLoaded) {
-    if (Var_3LepTauMET_Zcand_lep_idx_1_branch != 0) {
-      Var_3LepTauMET_Zcand_lep_idx_1_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_Zcand_lep_idx_1_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_Zcand_lep_idx_1_isLoaded = true;
-  }
-  return Var_3LepTauMET_Zcand_lep_idx_1_;
-}
-
-const int &vvvtree::Var_3LepTauMET_other_lep_idx_0() {
-  if (not Var_3LepTauMET_other_lep_idx_0_isLoaded) {
-    if (Var_3LepTauMET_other_lep_idx_0_branch != 0) {
-      Var_3LepTauMET_other_lep_idx_0_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_other_lep_idx_0_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_other_lep_idx_0_isLoaded = true;
-  }
-  return Var_3LepTauMET_other_lep_idx_0_;
-}
-
-const float &vvvtree::Var_3LepTauMET_Zcand_mll() {
-  if (not Var_3LepTauMET_Zcand_mll_isLoaded) {
-    if (Var_3LepTauMET_Zcand_mll_branch != 0) {
-      Var_3LepTauMET_Zcand_mll_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_Zcand_mll_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_Zcand_mll_isLoaded = true;
-  }
-  return Var_3LepTauMET_Zcand_mll_;
-}
-
-const float &vvvtree::Var_3LepTauMET_other_mll() {
-  if (not Var_3LepTauMET_other_mll_isLoaded) {
-    if (Var_3LepTauMET_other_mll_branch != 0) {
-      Var_3LepTauMET_other_mll_branch->GetEntry(index);
-    } else {
-      printf("branch Var_3LepTauMET_other_mll_branch does not exist!\n");
-      exit(1);
-    }
-    Var_3LepTauMET_other_mll_isLoaded = true;
-  }
-  return Var_3LepTauMET_other_mll_;
-}
 
 void vvvtree::progress( int nEventsTotal, int nEventsChain ){
   int period = 1000;
@@ -5058,6 +5076,7 @@ namespace tas {
 const int &Common_isData() { return vvv.Common_isData(); }
 const int &Common_run() { return vvv.Common_run(); }
 const int &Common_lumi() { return vvv.Common_lumi(); }
+const int &Common_year() { return vvv.Common_year(); }
 const unsigned long long &Common_evt() { return vvv.Common_evt(); }
 const float &Common_genWeight() { return vvv.Common_genWeight(); }
 const float &Common_btagWeight_DeepCSVB() { return vvv.Common_btagWeight_DeepCSVB(); }
@@ -5074,13 +5093,17 @@ const float &Common_event_triggerWeightdn() { return vvv.Common_event_triggerWei
 const vector<float> &Common_LHEWeight_mg_reweighting() { return vvv.Common_LHEWeight_mg_reweighting(); }
 const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ() { return vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ(); }
 const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL() { return vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL(); }
-const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() { return vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8(); }
+const bool &Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL() { return vvv.Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL(); }
+const bool &Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ() { return vvv.Common_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ(); }
 const bool &Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() { return vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ(); }
-const bool &Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() { return vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL(); }
-const bool &Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() { return vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ(); }
-const bool &Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL() { return vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL(); }
+const bool &Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ() { return vvv.Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ(); }
+const bool &Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL() { return vvv.Common_HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL(); }
 const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ() { return vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ(); }
 const bool &Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL() { return vvv.Common_HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL(); }
+const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8() { return vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8(); }
+const bool &Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL() { return vvv.Common_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL(); }
+const bool &Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ() { return vvv.Common_HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ(); }
+const bool &Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8() { return vvv.Common_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8(); }
 const bool &Common_HLT_PFHT1050() { return vvv.Common_HLT_PFHT1050(); }
 const bool &Common_HLT_AK8PFJet500() { return vvv.Common_HLT_AK8PFJet500(); }
 const bool &Common_HLT_AK8PFJet380_TrimMass30() { return vvv.Common_HLT_AK8PFJet380_TrimMass30(); }
@@ -5100,12 +5123,12 @@ const bool &Common_noiseFlag() { return vvv.Common_noiseFlag(); }
 const bool &Common_noiseFlagMC() { return vvv.Common_noiseFlagMC(); }
 const bool &Common_passGoodRun() { return vvv.Common_passGoodRun(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4() { return vvv.Common_met_p4(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_MET() { return vvv.Common_met_p4_MET(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_PuppiMET() { return vvv.Common_met_p4_PuppiMET(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesup() { return vvv.Common_met_p4_jesup(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jesdn() { return vvv.Common_met_p4_jesdn(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerup() { return vvv.Common_met_p4_jerup(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_jerdn() { return vvv.Common_met_p4_jerdn(); }
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_MET() { return vvv.Common_met_p4_MET(); }
+const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Common_met_p4_PuppiMET() { return vvv.Common_met_p4_PuppiMET(); }
 const float &Common_event_lepSF() { return vvv.Common_event_lepSF(); }
 const float &Common_event_lepSFelup() { return vvv.Common_event_lepSFelup(); }
 const float &Common_event_lepSFeldn() { return vvv.Common_event_lepSFeldn(); }
@@ -5138,7 +5161,6 @@ const float &Common_event_looseBtagSFHFdn() { return vvv.Common_event_looseBtagS
 const float &Common_event_looseBtagSFLFup() { return vvv.Common_event_looseBtagSFLFup(); }
 const float &Common_event_looseBtagSFLFdn() { return vvv.Common_event_looseBtagSFLFdn(); }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_lep_p4() { return vvv.Common_lep_p4(); }
-const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_tau_p4() { return vvv.Common_tau_p4(); }
 const vector<int> &Common_lep_idxs() { return vvv.Common_lep_idxs(); }
 const vector<int> &Common_lep_pdgid() { return vvv.Common_lep_pdgid(); }
 const vector<int> &Common_lep_tight() { return vvv.Common_lep_tight(); }
@@ -5149,20 +5171,30 @@ const vector<float> &Common_lep_sip3d() { return vvv.Common_lep_sip3d(); }
 const vector<int> &Common_lep_IsoID() { return vvv.Common_lep_IsoID(); }
 const vector<float> &Common_lep_relIso03_all() { return vvv.Common_lep_relIso03_all(); }
 const vector<int> &Common_lep_ID() { return vvv.Common_lep_ID(); }
-const vector<int> &Common_tau_idVSe() { return vvv.Common_tau_idVSe(); }
-const vector<int> &Common_tau_idVSmu() { return vvv.Common_tau_idVSmu(); }
-const vector<int> &Common_tau_idVSjet() { return vvv.Common_tau_idVSjet(); }
 const vector<float> &Common_lep_SF() { return vvv.Common_lep_SF(); }
 const vector<float> &Common_lep_SFTight() { return vvv.Common_lep_SFTight(); }
 const vector<float> &Common_lep_SFdn() { return vvv.Common_lep_SFdn(); }
 const vector<float> &Common_lep_SFdnTight() { return vvv.Common_lep_SFdnTight(); }
 const vector<float> &Common_lep_SFup() { return vvv.Common_lep_SFup(); }
 const vector<float> &Common_lep_SFupTight() { return vvv.Common_lep_SFupTight(); }
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_tau_p4() { return vvv.Common_tau_p4(); }
+const vector<int> &Common_tau_idxs() { return vvv.Common_tau_idxs(); }
+const vector<int> &Common_tau_decayMode() { return vvv.Common_tau_decayMode(); }
+const vector<float> &Common_tau_dxy() { return vvv.Common_tau_dxy(); }
+const vector<float> &Common_tau_dz() { return vvv.Common_tau_dz(); }
+const vector<float> &Common_tau_eta() { return vvv.Common_tau_eta(); }
+const vector<float> &Common_tau_chargedIso() { return vvv.Common_tau_chargedIso(); }
+const vector<int> &Common_tau_jetIdx() { return vvv.Common_tau_jetIdx(); }
+const vector<float> &Common_tau_neutralIso() { return vvv.Common_tau_neutralIso(); }
+const vector<int> &Common_tau_charge() { return vvv.Common_tau_charge(); }
+const vector<int> &Common_tau_idVSe() { return vvv.Common_tau_idVSe(); }
+const vector<int> &Common_tau_idVSmu() { return vvv.Common_tau_idVSmu(); }
+const vector<int> &Common_tau_idVSjet() { return vvv.Common_tau_idVSjet(); }
+const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_GenVisTau_p4() { return vvv.Common_GenVisTau_p4(); }
+const vector<int> &Common_GenVisTau_idxs() { return vvv.Common_GenVisTau_idxs(); }
+const vector<int> &Common_GenVisTau_status() { return vvv.Common_GenVisTau_status(); }
 const vector<ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > > &Common_jet_p4() { return vvv.Common_jet_p4(); }
 const vector<int> &Common_jet_idxs() { return vvv.Common_jet_idxs(); }
-const vector<int> &Common_jet_genJetIdx() { return vvv.Common_jet_genJetIdx(); }
-const vector<int> &Common_jet_hadronFlavour() { return vvv.Common_jet_hadronFlavour(); }
-const vector<int> &Common_jet_partonFlavour() { return vvv.Common_jet_partonFlavour(); }
 const vector<bool> &Common_jet_passBloose() { return vvv.Common_jet_passBloose(); }
 const vector<bool> &Common_jet_passBmedium() { return vvv.Common_jet_passBmedium(); }
 const vector<bool> &Common_jet_passBtight() { return vvv.Common_jet_passBtight(); }
@@ -5171,6 +5203,9 @@ const vector<bool> &Common_jet_passBmedium_CSV() { return vvv.Common_jet_passBme
 const vector<bool> &Common_jet_passBtight_CSV() { return vvv.Common_jet_passBtight_CSV(); }
 const vector<int> &Common_jet_id() { return vvv.Common_jet_id(); }
 const vector<int> &Common_jet_puid() { return vvv.Common_jet_puid(); }
+const vector<int> &Common_jet_genJetIdx() { return vvv.Common_jet_genJetIdx(); }
+const vector<int> &Common_jet_hadronFlavour() { return vvv.Common_jet_hadronFlavour(); }
+const vector<int> &Common_jet_partonFlavour() { return vvv.Common_jet_partonFlavour(); }
 const vector<int> &Common_jet_overlapfatjet() { return vvv.Common_jet_overlapfatjet(); }
 const vector<float> &Common_jet_pt_jesup() { return vvv.Common_jet_pt_jesup(); }
 const vector<float> &Common_jet_pt_jesdn() { return vvv.Common_jet_pt_jesdn(); }
@@ -5309,46 +5344,30 @@ const int &Common_gen_n_light_lep() { return vvv.Common_gen_n_light_lep(); }
 const int &Common_gen_VH_channel() { return vvv.Common_gen_VH_channel(); }
 const bool &Cut_4LepMET_Preselection() { return vvv.Cut_4LepMET_Preselection(); }
 const bool &Cut_4LepMET_emuChannel() { return vvv.Cut_4LepMET_emuChannel(); }
-const bool &Cut_3LepTauMET_etauChannel() { return vvv.Cut_3LepTauMET_etauChannel(); }
-const bool &Cut_3LepTauMET_mutauChannel() { return vvv.Cut_3LepTauMET_mutauChannel(); }
 const bool &Cut_4LepMET_offzChannel() { return vvv.Cut_4LepMET_offzChannel(); }
 const bool &Cut_4LepMET_onzChannel() { return vvv.Cut_4LepMET_onzChannel(); }
 const bool &Cut_4LepMET_onzChannel_HighMET() { return vvv.Cut_4LepMET_onzChannel_HighMET(); }
 const int &Var_4LepMET_Zcand_lep_idx_0() { return vvv.Var_4LepMET_Zcand_lep_idx_0(); }
 const int &Var_4LepMET_Zcand_lep_pdgid_0() { return vvv.Var_4LepMET_Zcand_lep_pdgid_0(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_4LepMET_Zcand_lep_p4_0() { return vvv.Var_4LepMET_Zcand_lep_p4_0(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_3LepTauMET_Zcand_lep_p4_0() { return vvv.Var_3LepTauMET_Zcand_lep_p4_0(); }
 const int &Var_4LepMET_Zcand_lep_idx_1() { return vvv.Var_4LepMET_Zcand_lep_idx_1(); }
-const int &Var_4LepMET_Zcand_lep_ID_1() { return vvv.Var_4LepMET_Zcand_lep_ID_1(); }
-const int &Var_4LepMET_Zcand_lep_ID_0() { return vvv.Var_4LepMET_Zcand_lep_ID_0(); }
 const int &Var_4LepMET_Zcand_lep_pdgid_1() { return vvv.Var_4LepMET_Zcand_lep_pdgid_1(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_4LepMET_Zcand_lep_p4_1() { return vvv.Var_4LepMET_Zcand_lep_p4_1(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_3LepTauMET_Zcand_lep_p4_1() { return vvv.Var_3LepTauMET_Zcand_lep_p4_1(); }
 const float &Var_4LepMET_Zcand_mll() { return vvv.Var_4LepMET_Zcand_mll(); }
-const float &Var_3LepTauMET_Zcand_mll() { return vvv.Var_3LepTauMET_Zcand_mll(); }
+const int &Var_4LepMET_Zcand_lep_ID_0() { return vvv.Var_4LepMET_Zcand_lep_ID_0(); }
+const int &Var_4LepMET_Zcand_lep_ID_1() { return vvv.Var_4LepMET_Zcand_lep_ID_1(); }
 const int &Var_4LepMET_other_lep_idx_0() { return vvv.Var_4LepMET_other_lep_idx_0(); }
-const int &Var_4LepMET_other_lep_ID_0() { return vvv.Var_4LepMET_other_lep_ID_0(); }
 const int &Var_4LepMET_other_lep_pdgid_0() { return vvv.Var_4LepMET_other_lep_pdgid_0(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_4LepMET_other_lep_p4_0() { return vvv.Var_4LepMET_other_lep_p4_0(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_3LepTauMET_other_lep_p4_0() { return vvv.Var_3LepTauMET_other_lep_p4_0(); }
 const int &Var_4LepMET_other_lep_idx_1() { return vvv.Var_4LepMET_other_lep_idx_1(); }
-const int &Var_4LepMET_other_lep_ID_1() { return vvv.Var_4LepMET_other_lep_ID_1(); }
 const int &Var_4LepMET_other_lep_pdgid_1() { return vvv.Var_4LepMET_other_lep_pdgid_1(); }
 const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_4LepMET_other_lep_p4_1() { return vvv.Var_4LepMET_other_lep_p4_1(); }
-const ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > &Var_3LepTauMET_tau_p4_0() { return vvv.Var_3LepTauMET_tau_p4_0(); }
 const float &Var_4LepMET_other_mll() { return vvv.Var_4LepMET_other_mll(); }
-const float &Var_3LepTauMET_other_mll() { return vvv.Var_3LepTauMET_other_mll(); }
+const int &Var_4LepMET_other_lep_ID_0() { return vvv.Var_4LepMET_other_lep_ID_0(); }
+const int &Var_4LepMET_other_lep_ID_1() { return vvv.Var_4LepMET_other_lep_ID_1(); }
 const float &Var_4LepMET_mt2() { return vvv.Var_4LepMET_mt2(); }
 const float &Var_4LepMET_mt2_PuppiMET() { return vvv.Var_4LepMET_mt2_PuppiMET(); }
 const float &Var_4LepMET_scaleLumi() { return vvv.Var_4LepMET_scaleLumi(); }
-const float &Var_3LepTauMET_scaleLumi() { return vvv.Var_3LepTauMET_scaleLumi(); }
 const float &Var_4LepMET_intLumi() { return vvv.Var_4LepMET_intLumi(); }
-const int &Var_3LepTauMET_Zcand_lep_idx_0() { return vvv.Var_3LepTauMET_Zcand_lep_idx_0(); }
-const int &Var_3LepTauMET_Zcand_lep_idx_1() { return vvv.Var_3LepTauMET_Zcand_lep_idx_1(); }
-const int &Var_3LepTauMET_other_lep_idx_0() { return vvv.Var_3LepTauMET_other_lep_idx_0(); }
-const int &Var_3LepTauMET_tau_pdgid_0() { return vvv.Var_3LepTauMET_tau_pdgid_0(); }
-const int &Var_3LepTauMET_tau_idVSe_0() { return vvv.Var_3LepTauMET_tau_idVSe_0(); }
-const int &Var_3LepTauMET_tau_idVSmu_0() { return vvv.Var_3LepTauMET_tau_idVSmu_0(); }
-const int &Var_3LepTauMET_tau_idVSjet_0() { return vvv.Var_3LepTauMET_tau_idVSjet_0(); }
 
 }

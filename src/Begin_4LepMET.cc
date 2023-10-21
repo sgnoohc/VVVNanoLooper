@@ -440,7 +440,7 @@ float Begin_4LepMET_MT2_PuppiMET(int var)
     lepton2.Boost(beta_from_miss);
     misspart.Boost(beta_from_miss);
     asymm_mt2_lester_bisect::disableCopyrightMessage();
-    double MT2_0mass = asymm_mt2_lester_bisect::get_mT2(0,lepton1.Px(),lepton1.Py(),0,lepton2.Px(),lepton2.Py(),misspart.Px(), misspart.Py(),0,0,0);
+    double MT2_0mass = asymm_mt2_lester_bisect::get_mT2(lepton1.M(),lepton1.Px(),lepton1.Py(),lepton2.M(),lepton2.Px(),lepton2.Py(),misspart.Px(), misspart.Py(),0,0,0);
 
     return MT2_0mass;
 }
