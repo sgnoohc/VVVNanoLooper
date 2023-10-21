@@ -11,8 +11,8 @@ skimversion = "3LepTau_4Lep"
 skimdir = os.environ["looperOutput"]
 #dataversion = "OldLepID"
 #dataversion = "051723"
-dataversion = "080323_trgUpdate"
-outputdir = "output_090123_metFix"
+dataversion = "100523_SampleAddition"
+outputdir = "output_101423_Synchronization"
 
 #____________________________________________________________________________________________
 def main():
@@ -127,62 +127,90 @@ years=["2016APV", "2016", "2017", "2018"]
 #____________________________________________________________________________________________
 # List of different process groups
 #proc_groups = [ "WWW", "NonResWWZ", "ZHWWZ", "WZZ", "ZZZ", "Higgs", "ZZ", "TTZ", "WZ", "Other", ]
-proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "WZ", "Higgs", "Other"]
+proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "tWZ", "WZ", "VVV", "Other"]
 #proc_groups = [ "NonResWWZ", "ZHWWZ", "ZZ", "TTZ", "WZ", "Higgs", "TTBar", "DY", "WLNu", "WWLNu", "SSWW", "TTW", "SingleTop", "Other"]
+#proc_groups = [ "GGZHWW_WW2l", "ZHWW_4l", "WWZ_4l", "WWZ", "ZZ4l", "ZZ2l2q", "ZZ2l2v", "GGZZ2e2m", "GGZZ2e2t", "GGZZ2m2t", "GGZZ4e", "GGZZ4m", "GGZZ4t", "TT2l", "TT1l", "TTZll_M1", "TTZll_M10", "TTZqq", "DYM10", "DYM50", "Wlv", "WWlvlv", "WZ", "ttHNonbb", "VHToNonbb", "SSWW", "TTWlv", "TTWqq", "tZq", "ST_schan_lep", "ST_antitop_tchan", "ST_top_tchan", "ST_top_nohad_tW", "ST_antitop_nohad_tW", "WWW", "WZZ", "ZZZ", "tWZ" ]
 
 #____________________________________________________________________________________________
 # Process grouping definition
+#process={
+#"GGZHWW_WW2l"         : "GGZHWW_WW2l",          #: "ZHWWZ",
+#"ZHWW_4l"             : "ZHWW_4l",          #: "ZHWWZ",
+#"WWZ_4l"              : "WWZ_4l",          #: "NonResWWZ",
+#"WWZ"                 : "WWZ",          #: "NonResWWZ",
+#"ZZ4l"		      : "ZZ4l",          #: "ZZ",
+#"ZZ2l2q"	      : "ZZ2l2q",          #: "ZZ",
+#"ZZ2l2v"	      : "ZZ2l2v",          #: "ZZ",
+#"GGZZ2e2m"	      : "GGZZ2e2m",          #: "ZZ",
+#"GGZZ2e2t"	      : "GGZZ2e2t",          #: "ZZ",
+#"GGZZ2m2t"	      : "GGZZ2m2t",          #: "ZZ",
+#"GGZZ4e"	      : "GGZZ4e",          #: "ZZ",
+#"GGZZ4m"	      : "GGZZ4m",          #: "ZZ",
+#"GGZZ4t"	      : "GGZZ4t",          #: "ZZ",
+#"TT2l"		      : "TT2l",          #: "Other",
+#"TT1l"		      : "TT1l",          #: "Other",
+#"TTZll_M1"	      : "TTZll_M1",          #: "TTZ",
+#"TTZll_M10"	      : "TTZll_M10",          #: "TTZ",
+#"TTZqq"               : "TTZqq",          #: "TTZ",
+#"DYM10"		      : "DYM10",          #: "Other",
+#"DYM50"		      : "DYM50",          #: "Other",
+#"Wlv" 		      : "Wlv",          #: "Other",
+#"WWlvlv"	      : "WWlvlv",          #: "Other",
+#"WZ"		      : "WZ",          #: "WZ",
+#"ttHNonbb"	      : "ttHNonbb",          #: "Higgs",
+#"VHToNonbb"	      : "VHToNonbb",          #: "Higgs",
+#"SSWW"		      : "SSWW",          #: "Other",
+#"TTWlv"		      : "TTWlv",          #: "Other",
+#"TTWqq"		      : "TTWqq",          #: "Other",
+#"tZq"		      : "tZq",          #: "Other",
+#"ST_schan_lep"	      : "ST_schan_lep",          #: "Other",
+#"ST_antitop_tchan"    : "ST_antitop_tchan",          #: "Other",
+#"ST_top_tchan"        : "ST_top_tchan",          #: "Other",
+#"ST_top_nohad_tW"     : "ST_top_nohad_tW",          #: "Other",
+#"ST_antitop_nohad_tW" : "ST_antitop_nohad_tW",          #: "Other",
+#"WWW"                 : "WWW",          #: "VVV",
+#"WZZ"                 : "WZZ",          #: "VVV",
+#"ZZZ"                 : "ZZZ",	        #: "VVV",
+#"tWZ"                 : "tWZ",          #: "tWZ",
 process={
 "GGZHWW_WW2l"         : "ZHWWZ",
 "ZHWW_4l"             : "ZHWWZ",
 "WWZ_4l"              : "NonResWWZ",
-"WWZ"                 : "NonResWWZ",
-"ZZ4l"		      : "ZZ",
-"ZZ2l2q"	      : "ZZ",
-"ZZ2l2v"	      : "ZZ",
-"GGZZ2e2m"	      : "ZZ",
-"GGZZ2e2t"	      : "ZZ",
-"GGZZ2m2t"	      : "ZZ",
-"GGZZ4e"	      : "ZZ",
-"GGZZ4m"	      : "ZZ",
-"GGZZ4t"	      : "ZZ",
-"TT2l"		      : "Other",
-"TT1l"		      : "Other",
-#"TT2l"		      : "TTBar",
-#"TT1l"		      : "TTBar",
-"TTZll_M1"	      : "TTZ",
-"TTZll_M10"	      : "TTZ",
+"ZZ4l"                : "ZZ",
+"ZZ2l2q"              : "ZZ",
+"ZZ2l2v"              : "ZZ",
+"GGZZ2e2m"            : "ZZ",
+"GGZZ2e2t"            : "ZZ",
+"GGZZ2m2t"            : "ZZ",
+"GGZZ4e"              : "ZZ",
+"GGZZ4m"              : "ZZ",
+"GGZZ4t"              : "ZZ",
+"TT2l"                : "Other",
+"TT1l"                : "Other",
+"TTZll_M1"            : "TTZ",
+"TTZll_M10"           : "TTZ",
 "TTZqq"               : "TTZ",
-"DYM10"		      : "Other",
-"DYM50"		      : "Other",
-#"DYM10"		      : "DY",
-#"DYM50"		      : "DY",
-"Wlv" 		      : "Other",
-"WWlvlv"	      : "Other",
-#"Wlv"		      : "WLNu",
-#"WWlvlv"	      : "WWLNu",
-#"WZ2q2l"	      : "WZ",
-#"WZ3l1v"	      : "WZ",
-"WZ"		      : "WZ",
-"ttHNonbb"	      : "Higgs",
-"VHToNonbb"	      : "Higgs",
-"SSWW"		      : "Other",
-#"SSWW"		      : "SSWW",
-"TTWlv"		      : "Other",
-"TTWqq"		      : "Other",
-#"TTWlv"		      : "TTW",
-#"TTWqq"		      : "TTW",
-"tZq"		      : "Other",
-"ST_schan_lep"	      : "Other",
+"DYM10"               : "Other",
+"DYM50"               : "Other",
+"Wlv"                 : "Other",
+"WWlvlv"              : "Other",
+"WZ"                  : "WZ",
+"ttHNonbb"            : "Other",            # : "Higgs",
+"VHToNonbb"           : "Other",            # : "Higgs",
+"SSWW"                : "Other",
+"TTWlv"               : "Other",
+"TTWqq"               : "Other",
+"tZq"                 : "Other",
+"ST_schan_lep"        : "Other",
 "ST_antitop_tchan"    : "Other",
 "ST_top_tchan"        : "Other",
 "ST_top_nohad_tW"     : "Other",
 "ST_antitop_nohad_tW" : "Other",
-#"ST_schan_lep"	      : "SingleTop",
-#"ST_antitop_tchan"    : "SingleTop",
-#"ST_top_tchan"	      : "SingleTop",
-#"ST_top_nohad_tW"     : "SingleTop",
-#"ST_antitop_nohad_tW" : "SingleTop",
+"WWW"                 : "VVV",
+"WZZ"                 : "VVV",
+"ZZZ"                 : "VVV",
+"tWZ"                 : "tWZ",
+
 }
 
 #____________________________________________________________________________________________
@@ -475,6 +503,30 @@ mc={
 "TTWqq_2016" : "{skimdir}/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 "TTWqq_2017" : "{skimdir}/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 "TTWqq_2018" : "{skimdir}/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#
+# WWW
+"WWW_2016APV" : "{skimdir}/WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WWW_2016" : "{skimdir}/WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root", 
+"WWW_2017" : "{skimdir}/WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WWW_2018" : "{skimdir}/WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#
+# WZZ
+"WZZ_2016APV" : "{skimdir}/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WZZ_2016" : "{skimdir}/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WZZ_2017" : "{skimdir}/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"WZZ_2018" : "{skimdir}/WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#
+# ZZZ
+"ZZZ_2016APV" : "{skimdir}/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"ZZZ_2016" : "{skimdir}/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"ZZZ_2017" : "{skimdir}/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"ZZZ_2018" : "{skimdir}/ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+#
+# tWZ
+"tWZ_2016APV" : "{skimdir}/ST_tWll_5f_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL16NanoAODAPVv9-106X_mcRun2_asymptotic_preVFP_v11-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"tWZ_2016" : "{skimdir}/ST_tWll_5f_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL16NanoAODv9-106X_mcRun2_asymptotic_v17-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"tWZ_2017" : "{skimdir}/ST_tWll_5f_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL17NanoAODv9-106X_mc2017_realistic_v9-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
+"tWZ_2018" : "{skimdir}/ST_tWll_5f_TuneCP5_13TeV-madgraph-pythia8_RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1_NANOAODSIM_{skimversion}_{dataversion}/merged/output.root",
 }
 
 if __name__ == "__main__":
