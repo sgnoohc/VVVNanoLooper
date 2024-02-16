@@ -97,12 +97,71 @@ void Begin_Common_Create_Branches()
 
     // Summary 4 vectors of the objects selected
     ana.tx.createBranch<LorentzVector>        ("Common_met_p4");
-    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesup");
-    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesdn");
-    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
-    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
+    //ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesup");
+    //ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesdn");
+    //ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
+    //ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
+    if(ana.systematicVariation){
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteStatup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteStatdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteScaledn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesFragmentationup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesFragmentationdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesSinglePionECALup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesSinglePionECALdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesSinglePionHCALup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesSinglePionHCALdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesFlavorQCDup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesFlavorQCDdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesTimePtEtaup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesTimePtEtadn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJEREC1up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJEREC2up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJERHFup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeJERHFdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtBBup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtBBdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtEC1up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtEC1dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtEC2up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtEC2dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtHFup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativePtHFdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeBalup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeBaldn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeSampleup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeSampledn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeFSRup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeFSRdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatFSRup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatECup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatECdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatHFup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesRelativeStatHFdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpDataMCup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpDataMCdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtRefup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtRefdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtBBup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtBBdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtEC1up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtEC2up");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtHFup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesPileUpPtHFdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jesdn");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerup");
+	    ana.tx.createBranch<LorentzVector>        ("Common_met_p4_jerdn");
+    }
 
-    
     ana.tx.createBranch<float>                ("Common_event_lepSF");      // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFelup");  // lepSF
     ana.tx.createBranch<float>                ("Common_event_lepSFeldn");  // lepSF
@@ -169,15 +228,74 @@ void Begin_Common_Create_Branches()
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFupMedium");   // single jet bSF
     //ana.tx.createBranch<vector<float>>        ("Common_jet_bSFupTight");    // single jet bSF
     ana.tx.createBranch<vector<int>>          ("Common_jet_overlapfatjet");   // Pt sorted selected jet idxs (To access rest of the jet variables in NanoAOD)
-    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesup");        // jet pt JEC uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesdn");        // jet pt JEC uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerup");        // jet pt JER uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerdn");        // jet pt JER uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesup");        // jet pt JEC uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesdn");        // jet pt JEC uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerup");        // jet pt JER uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerdn");        // jet pt JER uncertainty down shift
-
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesup");        // jet pt JEC uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jesdn");        // jet pt JEC uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerup");        // jet pt JER uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_pt_jerdn");        // jet pt JER uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesup");        // jet pt JEC uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jesdn");        // jet pt JEC uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerup");        // jet pt JER uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_jet_mass_jerdn");        // jet pt JER uncertainty down shift
+    if(ana.systematicVariation){
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteStatup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteStatdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteScaledn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesFragmentationup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesFragmentationdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesSinglePionECALup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesSinglePionECALdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesSinglePionHCALup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesSinglePionHCALdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesFlavorQCDup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesFlavorQCDdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesTimePtEtaup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesTimePtEtadn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJEREC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJEREC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJERHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeJERHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtBBup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtBBdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtEC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtEC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtEC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtEC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativePtHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeBalup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeBaldn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeSampleup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeSampledn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeFSRup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeFSRdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatFSRup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatECup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatECdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesRelativeStatHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpDataMCup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpDataMCdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtRefup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtRefdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtBBup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtBBdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtEC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtEC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesPileUpPtHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jesdn");    
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jerup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_jet_p4_jerdn");
+    }
     // Fat jet variables
     ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4");            // Pt sorted selected fatjet p4s
     ana.tx.createBranch<vector<int>>          ("Common_fatjet_idxs");          // Pt sorted selected fatjet idxs (To access rest of the fatjet variables in NanoAOD)
@@ -235,27 +353,145 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFdnTight");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupLoose");     // single fatjet SF
     ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupMedium");    // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupTight");     // single fatjet SF
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesup");      // fatjet pt JEC uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesdn");      // fatjet pt JEC uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerup");      // fatjet pt JER uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerdn");      // fatjet pt JER uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesup");      // fatjet softdrop mass JEC uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesdn");      // fatjet softdrop mass JEC uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerup");      // fatjet softdrop mass JER uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerdn");      // fatjet softdrop mass JER uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsup");      // fatjet softdrop mass JMS uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsdn");      // fatjet softdrop mass JMS uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrup");      // fatjet softdrop mass JMR uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrdn");      // fatjet softdrop mass JMR uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesup");     // fatjet mass JEC uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesdn");     // fatjet mass JEC uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerup");     // fatjet mass JER uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerdn");     // fatjet mass JER uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsup");     // fatjet mass JMS uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsdn");     // fatjet mass JMS uncertainty down shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrup");     // fatjet mass JMR uncertainty up shift
-    ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrdn");     // fatjet mass JMR uncertainty down shift
+    ana.tx.createBranch<vector<float>>        ("Common_fatjet_MD_SFupTight");     // single fatjet SF 
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesup");      // fatjet pt JEC uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jesdn");      // fatjet pt JEC uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerup");      // fatjet pt JER uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_pt_jerdn");      // fatjet pt JER uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesup");      // fatjet softdrop mass JEC uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jesdn");      // fatjet softdrop mass JEC uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerup");      // fatjet softdrop mass JER uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jerdn");      // fatjet softdrop mass JER uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsup");      // fatjet softdrop mass JMS uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmsdn");      // fatjet softdrop mass JMS uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrup");      // fatjet softdrop mass JMR uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_msoftdrop_jmrdn");      // fatjet softdrop mass JMR uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesup");     // fatjet mass JEC uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jesdn");     // fatjet mass JEC uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerup");     // fatjet mass JER uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jerdn");     // fatjet mass JER uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsup");     // fatjet mass JMS uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmsdn");     // fatjet mass JMS uncertainty down shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrup");     // fatjet mass JMR uncertainty up shift
+    //ana.tx.createBranch<vector<float>>        ("Common_fatjet_mass_jmrdn");     // fatjet mass JMR uncertainty down shift
+    if(ana.systematicVariation){
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteStatup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteStatdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteScaledn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesFragmentationup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesFragmentationdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesSinglePionECALup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesSinglePionECALdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesSinglePionHCALup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesSinglePionHCALdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesFlavorQCDup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesFlavorQCDdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesTimePtEtaup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesTimePtEtadn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJEREC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJEREC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJERHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeJERHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtBBup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtBBdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtEC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtEC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtEC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtEC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativePtHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeBalup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeBaldn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeSampleup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeSampledn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeFSRup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeFSRdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatFSRup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatECup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatECdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesRelativeStatHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpDataMCup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpDataMCdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtRefup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtRefdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtBBup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtBBdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtEC1up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtEC2up");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtHFup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesPileUpPtHFdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jesdn");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jerup");
+	    ana.tx.createBranch<vector<LorentzVector>>("Common_fatjet_p4_jerdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteStatup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteStatdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteScaledn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesFragmentationup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesFragmentationdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesSinglePionECALup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesSinglePionECALdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesSinglePionHCALup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesSinglePionHCALdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesFlavorQCDup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesFlavorQCDdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesTimePtEtaup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesTimePtEtadn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJEREC1up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJEREC2up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJERHFup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeJERHFdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtBBup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtBBdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtEC1up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtEC1dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtEC2up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtEC2dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtHFup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativePtHFdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeBalup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeBaldn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeSampleup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeSampledn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeFSRup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeFSRdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatFSRup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatECup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatECdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatHFup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesRelativeStatHFdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpDataMCup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpDataMCdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtRefup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtRefdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtBBup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtBBdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtEC1up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtEC2up");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtHFup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesPileUpPtHFdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jesdn");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jerup");
+	    ana.tx.createBranch<vector<float>>("Common_fatjet_msoftdrop_jerdn");
+    }
 
 
     ana.tx.createBranch<float>        ("Common_eventweight_fatjet_SFVLoose");      // event fatjet SF
@@ -282,6 +518,182 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<int>                  ("Common_nb_loose");    // DeepFlav-B loose nb
     ana.tx.createBranch<int>                  ("Common_nb_medium");   // DeepFlav-B medium nb
     ana.tx.createBranch<int>                  ("Common_nb_tight");    // DeepFlav-B tight nb
+    if(ana.systematicVariation){
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteStatup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteStatdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteScaledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesFragmentationup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesFragmentationdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesSinglePionECALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesSinglePionECALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesSinglePionHCALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesSinglePionHCALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesFlavorQCDup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesFlavorQCDdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesTimePtEtaup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesTimePtEtadn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJEREC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJEREC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJERHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeJERHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativePtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeBalup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeBaldn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeSampleup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeSampledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatECup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatECdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesRelativeStatHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpDataMCup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpDataMCdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtRefup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtRefdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesPileUpPtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jesdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jerup");
+	    ana.tx.createBranch<int>                  ("Common_nb_loose_jerdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteStatup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteStatdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteScaledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesFragmentationup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesFragmentationdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesSinglePionECALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesSinglePionECALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesSinglePionHCALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesSinglePionHCALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesFlavorQCDup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesFlavorQCDdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesTimePtEtaup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesTimePtEtadn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJEREC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJEREC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJERHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeJERHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativePtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeBalup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeBaldn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeSampleup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeSampledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatECup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatECdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesRelativeStatHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpDataMCup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpDataMCdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtRefup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtRefdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesPileUpPtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jesdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jerup");
+	    ana.tx.createBranch<int>                  ("Common_nb_medium_jerdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteStatup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteStatdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteScaleup");            
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteScaledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteMPFBiasup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesAbsoluteMPFBiasdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesFragmentationup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesFragmentationdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesSinglePionECALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesSinglePionECALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesSinglePionHCALup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesSinglePionHCALdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesFlavorQCDup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesFlavorQCDdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesTimePtEtaup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesTimePtEtadn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJEREC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJEREC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJEREC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJEREC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJERHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeJERHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativePtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeBalup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeBaldn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeSampleup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeSampledn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatFSRup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatFSRdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatECup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatECdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesRelativeStatHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpDataMCup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpDataMCdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtRefup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtRefdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtBBup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtBBdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtEC1up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtEC1dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtEC2up");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtEC2dn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtHFup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesPileUpPtHFdn");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jesdn");    
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jerup");
+	    ana.tx.createBranch<int>                  ("Common_nb_tight_jerdn");
+    }
 
     // The gen level information
     ana.tx.createBranch<vector<int>>          ("Common_gen_idx");        // Selected gen-particle idx in NanoAOD
@@ -313,7 +725,6 @@ void Begin_Common_Create_Branches()
     ana.tx.createBranch<float>                ("Common_genHT");       // Gen HT value for stitching HT-sliced samples
     ana.tx.createBranch<int>                  ("Common_gen_n_light_lep"); // Gen value of how many light lepton exists
     ana.tx.createBranch<int>                  ("Common_gen_VH_channel"); // VH Channel (0 = WH->WWW, 1 = ZH->ZWW, 2 = WH->WZZ, 3 = ZH->ZZZ, -PDGID = if another channel, and is H->tautau then it would be -15.)
-
 }
 
 void Begin_Common_Determine_Is_EFT()

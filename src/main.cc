@@ -28,7 +28,7 @@ int main(int argc, char** argv)
         ("w,write"       , "Write skim tree.")
         ("V,VVVTree"     , "Input is VVVTree type.")
         ("r,region"      , "Region"                                                                                              , cxxopts::value<int>())
-        ("z,systematic"  , "type 2 systematic uncertainty variation, 0==center, 1/2==jesup/dn,3/4==jerup/dn,5/6==jmsup/dn,7/8==jmrup/dn", cxxopts::value<int>())
+        ("z,systematic"  , "do jes and jer variations")
         ("s,vhvvv"       , "Selecting VH->VVV channel"                                                                           , cxxopts::value<int>())
         ("e,eftidx"      , "EFT reweighting index"                                                                               , cxxopts::value<int>())
         ("x,wgt"         , "wgt"                                                                                                 , cxxopts::value<float>())
@@ -238,23 +238,11 @@ int main(int argc, char** argv)
     // --systematic
     if (result.count("systematic"))
     {
-        ana.systematicVariation = AnalysisConfig::kcenter;
-        switch (result["systematic"].as<int>())
-        {
-            case AnalysisConfig::kcenter: ana.systematicVariation = AnalysisConfig::kcenter; break;
-            case AnalysisConfig::kjesup:  ana.systematicVariation = AnalysisConfig::kjesup; break;
-            case AnalysisConfig::kjesdn:  ana.systematicVariation = AnalysisConfig::kjesdn; break;
-            case AnalysisConfig::kjerup:  ana.systematicVariation = AnalysisConfig::kjerup; break;
-            case AnalysisConfig::kjerdn:  ana.systematicVariation = AnalysisConfig::kjerdn; break;
-            case AnalysisConfig::kjmsup:  ana.systematicVariation = AnalysisConfig::kjmsup; break;
-            case AnalysisConfig::kjmsdn:  ana.systematicVariation = AnalysisConfig::kjmsdn; break;
-            case AnalysisConfig::kjmrup:  ana.systematicVariation = AnalysisConfig::kjmrup; break;
-            case AnalysisConfig::kjmrdn:  ana.systematicVariation = AnalysisConfig::kjmrdn; break;
-        }
+        ana.systematicVariation = true;        
     }
     else
     {
-        ana.systematicVariation = AnalysisConfig::kcenter;
+        ana.systematicVariation = false;
     }
     // Sanity check for split jobs (if one is set the other must be set too)
     if (result.count("job_index") or result.count("nsplit_jobs"))

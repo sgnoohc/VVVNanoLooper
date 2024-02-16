@@ -12,7 +12,6 @@ void Begin()
     Begin_Common();
 
     // Then depending on the analysis mode, different "Begin" runs
-
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Begin_4LepMET(); break;
