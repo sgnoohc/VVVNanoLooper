@@ -12,7 +12,6 @@ void Begin()
     Begin_Common();
 
     // Then depending on the analysis mode, different "Begin" runs
-
     switch (ana.looperMode)
     {
         case AnalysisConfig::k4LepMET: Begin_4LepMET(); break;
@@ -122,7 +121,7 @@ void Begin()
 		rtn.push_back(qcd.at(7));
 		rtn.push_back(qcd.at(8));
 	}
-	else{
+	else if(qcd.size()==8){
 		rtn.push_back(qcd.at(0));
 		rtn.push_back(qcd.at(1));
 		rtn.push_back(qcd.at(3));
@@ -131,6 +130,9 @@ void Begin()
 		rtn.push_back(qcd.at(7));
 	}
 
+	else{
+		for(unsigned int i = 0; i < 6; ++i) rtn.push_back(1);
+	}
         //bin 34-134 for pdf weights, 135,136 for alpha_s weights
         vector<float> pdf=ana.tx.getBranchLazy<vector<float>>("Common_event_PDF");
         for (unsigned int i = 0; i < pdf.size(); ++i){
